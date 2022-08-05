@@ -20,12 +20,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
 import mvmxpert.david.giczi.pillarcoordscalculator.domain.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsCalculatorService;
+
 
 public class SteakoutControlWindow {
-
+	
 	public JFrame steakoutControlFrame;
 	public JTextField stkFileNameField;
 	public JTextField stkFilePlaceField;
@@ -35,12 +37,33 @@ public class SteakoutControlWindow {
 	public JRadioButton yesPrintRadioBtn;
 	public JRadioButton noPrintRadioBtn;
 	public JLabel savedPointsTextLabel;
+	private WeightBaseController weightBaseController;
+	private PlateBaseController plateBaseController;
 	private Color color = new Color(112,128,144);
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
 	
-	public SteakoutControlWindow(String projectPathAndName) {
+	public SteakoutControlWindow(String projectPathAndName, WeightBaseController weightBaseController) {
+		this.weightBaseController = weightBaseController;
+		steakoutControlFrame = new JFrame(projectPathAndName);
+		new FileProcess().addMVMXPertLogo(steakoutControlFrame);
+		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		steakoutControlFrame.setSize(400, 800);
+		steakoutControlFrame.setLocationRelativeTo(null);
+		steakoutControlFrame.setLocation((int) (steakoutControlFrame.getLocation().getX() + 465), 
+				(int) steakoutControlFrame.getLocation().getY());
+		steakoutControlFrame.setLayout(new FlowLayout());
+		setSteakoutFileData();
+		setSteakoutFileContentType();
+		setOutputData();
+		addOkButton();
+		steakoutControlFrame.setResizable(false);
+		steakoutControlFrame.setVisible(true);
+	}
+	
+	public SteakoutControlWindow(String projectPathAndName, PlateBaseController plateBaseController) {
+		this.plateBaseController = plateBaseController;
 		steakoutControlFrame = new JFrame(projectPathAndName);
 		new FileProcess().addMVMXPertLogo(steakoutControlFrame);
 		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -113,7 +136,7 @@ public class SteakoutControlWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.clickDeleteButtonAtSteakoutControlWindow();
+				
 				
 			}
 		});
@@ -262,7 +285,7 @@ public class SteakoutControlWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.clickOkButtonAtStakeoutControlWindow();
+				
 			}
 		});
 		panel.add(ok);

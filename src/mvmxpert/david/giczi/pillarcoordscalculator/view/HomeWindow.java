@@ -13,8 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
-import mvmxpert.david.giczi.pillarcoordscalculator.listeners.CreateSteakoutWindowListener;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsCalculatorService;
+
 
 public class HomeWindow {
 
@@ -47,7 +46,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.setProject();
+				
 			}
 		});
 		JMenuItem item12 = new JMenuItem("Új projekt létrehozása");
@@ -58,13 +57,7 @@ public class HomeWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				String projectName =  PillarCoordsCalculatorService.setProjectName();
 				
-				if( projectName != null )	{
-					PillarCoordsCalculatorService.PROJECT_NAME = projectName;
-					PillarCoordsCalculatorService.getExistedProjectInfoMessage();
-					PillarCoordsCalculatorService.destroy();
-				}
 			}
 		});
 		menu1.add(item11);
@@ -76,7 +69,7 @@ public class HomeWindow {
 		controlSteakoutMenu = new JMenu("Kitűzött pontok ellenőrzése");
 		controlSteakoutMenu.setForeground(textColor);
 		controlSteakoutMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		controlSteakoutMenu.addMenuListener(new CreateSteakoutWindowListener());
+		controlSteakoutMenu.addMenuListener(null);
 		controlSteakoutMenu.setEnabled(false);
 		JMenuBar menuBar = new JMenuBar();
 		JMenuItem item21 = new JMenuItem("Súlyalap pontjainak számítása");
@@ -86,7 +79,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.getWeightBaseInputWindow();
+				
 			}
 		});
 		JMenuItem item22 = new JMenuItem("Lemezalap pontjainak számítása");
@@ -96,7 +89,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.getPlateBaseInputWindow();
+				
 			}
 		});
 		menuBar.add(menu1);

@@ -17,17 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsCalculatorService;
-
-
 
 public class WeightBaseInputWindow {
 
+	public WeightBaseController controller;
 	public JFrame inputFrameForWeightBase;
-	private Color color = new Color(112,128,144);
-	private Font font1 = new Font("Arial", Font.PLAIN, 16);
-	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	public JTextField centerIdField;
 	public JTextField y_centerField;
 	public JTextField x_centerField;
@@ -47,8 +43,12 @@ public class WeightBaseInputWindow {
 	public JCheckBox kml;
 	public JCheckBox ms;
 	public JCheckBox all;
+	private Color color = new Color(112,128,144);
+	private Font font1 = new Font("Arial", Font.PLAIN, 16);
+	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public WeightBaseInputWindow(String projectName) {
+	public WeightBaseInputWindow(String projectName, WeightBaseController controller) {
+		this.controller = controller;
 		inputFrameForWeightBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForWeightBase);
 		inputFrameForWeightBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -335,7 +335,7 @@ public class WeightBaseInputWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.clickCountButtonAtWeightBaseInputWindow();
+				
 			}
 		});
 		panel.add(ok);

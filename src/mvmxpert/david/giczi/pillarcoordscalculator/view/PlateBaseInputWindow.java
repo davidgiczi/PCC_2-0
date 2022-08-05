@@ -17,15 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsCalculatorService;
+
 
 public class PlateBaseInputWindow {
 
+	public PlateBaseController controller;
 	public JFrame inputFrameForPlateBase;
-	private Color color = new Color(112,128,144);
-	private Font font1 = new Font("Arial", Font.PLAIN, 16);
-	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	public JTextField centerIdField;
 	public JTextField y_centerField;
 	public JTextField x_centerField;
@@ -44,8 +43,12 @@ public class PlateBaseInputWindow {
 	public JCheckBox kml;
 	public JCheckBox ms;
 	public JCheckBox all;
+	private Color color = new Color(112,128,144);
+	private Font font1 = new Font("Arial", Font.PLAIN, 16);
+	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public PlateBaseInputWindow(String projectName) {
+	public PlateBaseInputWindow(String projectName, PlateBaseController controller) {
+		this.controller = controller;
 		inputFrameForPlateBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForPlateBase);
 		inputFrameForPlateBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -324,7 +327,7 @@ public class PlateBaseInputWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PillarCoordsCalculatorService.clickCountButtonAtPlateBaseInputWindow();
+				
 			}
 		});
 		panel.add(ok);
