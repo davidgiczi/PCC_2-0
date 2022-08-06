@@ -20,7 +20,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.Point;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 
 
 public class FileProcess {
@@ -36,7 +37,7 @@ public class FileProcess {
 			return;
 		}
 
-		File file = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ "_KML.txt");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_KML.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, true))) {
@@ -57,7 +58,7 @@ public class FileProcess {
 			return;
 		}
 		
-		File file = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ "_RTK.txt");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_RTK.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, true))) {
@@ -80,7 +81,7 @@ public class FileProcess {
 			return;
 		}
 		
-		File file = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ "_TPS.txt");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_TPS.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, true))) {
@@ -103,7 +104,7 @@ public class FileProcess {
 			return;
 		}
 		
-		File file = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ "_MS.txt");
+		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME +  "_MS.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, true))) {
@@ -126,7 +127,7 @@ public class FileProcess {
 			STK_SAVED_FILE_PATH = FOLDER_PATH;
 		}
 		
-		File file = new File(STK_SAVED_FILE_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ "_kit.txt");
+		File file = new File(STK_SAVED_FILE_PATH + "/" + HomeController.PROJECT_NAME + "_kit.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(file, true))) {
@@ -304,7 +305,7 @@ public class FileProcess {
 	 double horizontalDistanceFromHole, double verticalDistanceFromHole,
 	 double rotationAngle, double rotationSec, double rotationMin) {
 		
-		File projectFile = new File(FOLDER_PATH + "/" +/*PillarCoordsCalculatorService.PROJECT_NAME*/ ".pcc");
+		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(projectFile))) {
@@ -353,7 +354,7 @@ public class FileProcess {
 			 double verticalSizeOfHoleOfPillarLeg,
 			 double rotationAngle, double rotationSec, double rotationMin) {
 		
-		File projectFile = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ ".pcc");
+		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
 		try(BufferedWriter writer = new BufferedWriter(
 				new FileWriter(projectFile))) {
@@ -404,7 +405,7 @@ public class FileProcess {
 			}
 		});
 
-		return Arrays.asList(pcc).contains(/*PillarCoordsCalculatorService.PROJECT_NAME*/ ".pcc");
+		return Arrays.asList(pcc).contains(HomeController.PROJECT_NAME + ".pcc");
 	}
 	
 	public static List<String> getProjectFileData(){
@@ -416,7 +417,7 @@ public class FileProcess {
 		}
 		else if( isProjectFileExist() ) {
 			
-		File projectFile = new File(FOLDER_PATH + "/" + /*PillarCoordsCalculatorService.PROJECT_NAME*/ ".pcc");
+		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 				
 		try(BufferedReader reader = new BufferedReader(new FileReader(projectFile))){
 			String row = reader.readLine();

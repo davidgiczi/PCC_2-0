@@ -47,8 +47,10 @@ public class PlateBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public PlateBaseInputWindow(String projectName, PlateBaseController controller) {
-		this.controller = controller;
+	
+	public PlateBaseInputWindow() {}
+	
+	public PlateBaseInputWindow(String projectName) {
 		inputFrameForPlateBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForPlateBase);
 		inputFrameForPlateBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

@@ -22,8 +22,8 @@ import javax.swing.border.TitledBorder;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 
 
 public class SteakoutControlWindow {

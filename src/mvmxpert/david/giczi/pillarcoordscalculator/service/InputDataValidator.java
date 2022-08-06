@@ -1,4 +1,4 @@
-package mvmxpert.david.giczi.pillarcoordscalculator.domain;
+package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
 
 public class InputDataValidator {

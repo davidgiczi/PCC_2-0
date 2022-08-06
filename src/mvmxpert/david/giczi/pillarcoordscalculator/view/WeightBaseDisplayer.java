@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.AzimuthAndDistance;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.Point;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.PolarPoint;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.SteakoutedCoords;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutedCoords;
 
 public class WeightBaseDisplayer extends JFrame {
 

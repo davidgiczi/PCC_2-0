@@ -2,8 +2,9 @@ package mvmxpert.david.giczi.pillarcoordscalculator.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Test;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.AzimuthAndDistance;
-import mvmxpert.david.giczi.pillarcoordscalculator.domain.Point;
+
+import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 
 public class AzimuthAndDistanceTest {
 
