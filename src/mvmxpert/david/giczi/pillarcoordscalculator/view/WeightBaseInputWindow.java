@@ -47,8 +47,6 @@ public class WeightBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public WeightBaseInputWindow() {}
-	
 	public WeightBaseInputWindow(String projectName) {
 		inputFrameForWeightBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForWeightBase);

@@ -15,25 +15,22 @@ public class WeightBaseController extends HomeController {
 	private WeightBaseDisplayer weightBaseDisplayer;
 	private SteakoutControlWindow steakoutControlWindow;
 	
-	public WeightBaseController(HomeWindow homeWindow) {
-			this.homeWindow = homeWindow;
+	public WeightBaseController() {
+			this.homeWindow = super.homeWindow;
 	}
 
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void handleCountButtonClick() {
-		// TODO Auto-generated method stub
 		
 	}
 	

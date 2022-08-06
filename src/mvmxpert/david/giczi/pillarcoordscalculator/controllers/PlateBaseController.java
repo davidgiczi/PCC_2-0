@@ -14,25 +14,22 @@ public class PlateBaseController extends HomeController {
 	private PlateBaseDisplayer plateBaseDisplayer;
 	private SteakoutControlWindow steakoutControlWindow;
 	
-	public PlateBaseController(HomeWindow homeWindow) {
-				this.homeWindow = homeWindow;
+	public PlateBaseController() {
+				this.homeWindow = super.homeWindow;
 	}
 
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void handleCountButtonClick() {
-		// TODO Auto-generated method stub
 		
 	}
 	

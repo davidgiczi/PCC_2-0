@@ -1,7 +1,5 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
-
-
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
@@ -11,9 +9,8 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseInputWindow;
 
-public abstract class HomeController {
+public class HomeController {
 
-	
 	public static String PROJECT_NAME;
 	protected HomeWindow homeWindow;
 	protected WeightBaseInputWindow weightBaseInputWindow;
@@ -24,20 +21,16 @@ public abstract class HomeController {
 	protected PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	protected PillarCoordsForPlateBase plateBaseCoordsCalculator;
 	
-	
-	protected abstract void init();
-	protected abstract void destroy();
-	protected abstract void handleCountButtonClick();
-
-	public void launch() {
+	protected void launch() {
 		homeWindow = new HomeWindow();
 	}
 	
-	public Boolean isValidInputData() {
-		return null;
-	}
-	
-	public Boolean isExistedProjectFile() {
+	protected void handleCountButtonClick() {};
+	protected void init() {};
+	protected void destroy(){};
+	protected void isValidInputData() {}
+	protected void handleOkButtonClick() {};
+	protected Boolean isExistedProjectFile() {
 		return null;
 	}
 	

@@ -12,17 +12,18 @@ public class SteakoutController extends HomeController {
 	
 	@Override
 	protected void init() {
-		// TODO Auto-generated method stub
+		
 	}
 	@Override
 	protected void destroy() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	@Override
-	protected void handleCountButtonClick() {
-		// TODO Auto-generated method stub
+	protected void handleOkButtonClick() {
 		
 	}
+	
+	
 	
 }

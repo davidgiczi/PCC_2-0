@@ -43,7 +43,6 @@ public class SteakoutControlWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	
 	public SteakoutControlWindow(String projectPathAndName, WeightBaseController weightBaseController) {
 		this.weightBaseController = weightBaseController;
 		steakoutControlFrame = new JFrame(projectPathAndName);
