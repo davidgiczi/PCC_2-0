@@ -1,28 +1,26 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
 
-public class SteakoutController extends HomeController {
+public class SteakoutController implements Controller {
 
+	private Controller homeController;
 	
-	private SteakoutControlWindow steakoutControlWindow;
-	private SteakoutControl steakoutControl;
-	
+	public SteakoutController(Controller homeController) {
+		this.homeController = homeController;
+	}
 	
 	@Override
-	protected void init() {
-		
+	public void init() {
+		// TODO Auto-generated method stub
 	}
+
 	@Override
-	protected void destroy() {
+	public void destroy() {
 		
 		
 	}
-	@Override
-	protected void handleOkButtonClick() {
-		
-	}
+
+
 	
 	
 	

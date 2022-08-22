@@ -1,37 +1,27 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseInputWindow;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
 
-public class PlateBaseController extends HomeController {
+public class PlateBaseController implements Controller  {
+
 	
-	private HomeWindow homeWindow;
-	private PillarCoordsForPlateBase pillarCoordsCalculator;
-	private PlateBaseInputWindow plateBaseInputWindow;
-	private PlateBaseDisplayer plateBaseDisplayer;
-	private SteakoutControlWindow steakoutControlWindow;
+	private Controller homeController;
 	
-	public PlateBaseController() {
-				this.homeWindow = super.homeWindow;
+	public PlateBaseController(Controller homeController) {
+		this.homeController = homeController;
 	}
-
+	
 	@Override
-	protected void init() {
+	public void init() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void destroy() {
+	public void destroy() {
+		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	protected void handleCountButtonClick() {
-		
-	}
+	
 	
 	
 }

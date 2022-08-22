@@ -12,18 +12,20 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.Controller;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 
 public class HomeWindow {
 
 	private JFrame homeFrame;
+	private Controller homeController;
 	private Color textColor = new Color(112,128,144);
 	public JMenu steakoutMenu;
 	public JMenu controlSteakoutMenu;
 	
-	public HomeWindow() {
-		
+	public HomeWindow(Controller homeController) {
+		this.homeController = homeController;
 		homeFrame = new JFrame("Nagyfeszültségű távvezeték oszlop alapjának kitűzése");
 		new FileProcess().addMVMXPertLogo(homeFrame);
 		homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
