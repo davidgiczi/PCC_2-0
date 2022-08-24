@@ -3,15 +3,10 @@ package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
 public class SteakoutController implements Controller {
 
-	private Controller homeController;
+	private HomeController homeController;
 	
-	public SteakoutController(Controller homeController) {
+	public SteakoutController(HomeController homeController) {
 		this.homeController = homeController;
-	}
-	
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

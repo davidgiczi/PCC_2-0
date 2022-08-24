@@ -12,19 +12,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.controllers.Controller;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 
 public class HomeWindow {
 
 	private JFrame homeFrame;
-	private Controller homeController;
+	private HomeController homeController;
 	private Color textColor = new Color(112,128,144);
-	public JMenu steakoutMenu;
+	public JMenu baseDataMenu;
 	public JMenu controlSteakoutMenu;
 	
-	public HomeWindow(Controller homeController) {
+	public HomeWindow(HomeController homeController) {
 		this.homeController = homeController;
 		homeFrame = new JFrame("Nagyfeszültségű távvezeték oszlop alapjának kitűzése");
 		new FileProcess().addMVMXPertLogo(homeFrame);
@@ -48,7 +48,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				homeController.openProject();
 			}
 		});
 		JMenuItem item12 = new JMenuItem("Új projekt létrehozása");
@@ -58,16 +58,15 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				homeController.openNewProject();
 			}
 		});
 		menu1.add(item11);
 		menu1.add(item12);
-		steakoutMenu = new JMenu("Alap adatainak megadása");
-		steakoutMenu.setForeground(textColor);
-		steakoutMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		steakoutMenu.setEnabled(false);
+		baseDataMenu = new JMenu("Alap adatainak megadása");
+		baseDataMenu.setForeground(textColor);
+		baseDataMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		baseDataMenu.setEnabled(false);
 		controlSteakoutMenu = new JMenu("Kitűzött pontok ellenőrzése");
 		controlSteakoutMenu.setForeground(textColor);
 		controlSteakoutMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -81,7 +80,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				homeController.getWeightBaseDisplayer();
 			}
 		});
 		JMenuItem item22 = new JMenuItem("Lemezalap pontjainak számítása");
@@ -91,13 +90,13 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				homeController.getPlateBaseDisplayer();
 			}
 		});
 		menuBar.add(menu1);
-		menuBar.add(steakoutMenu);
-		steakoutMenu.add(item21);
-		steakoutMenu.add(item22);
+		menuBar.add(baseDataMenu);
+		baseDataMenu.add(item21);
+		baseDataMenu.add(item22);
 		menuBar.add(controlSteakoutMenu);
 		homeFrame.setJMenuBar(menuBar);
 	}

@@ -193,6 +193,9 @@ public class FileProcess {
 			File selectedFile = jfc.getSelectedFile();
 			FOLDER_PATH = selectedFile.getAbsolutePath();
 		}
+		else {
+			FOLDER_PATH = null;
+		}
 	}
 	
 	public static void setFolderForSteakoutedPointFile() {

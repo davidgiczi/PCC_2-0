@@ -22,7 +22,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 public class WeightBaseInputWindow {
 
-	public WeightBaseController controller;
+	public WeightBaseController weightBaseController;
 	public JFrame inputFrameForWeightBase;
 	public JTextField centerIdField;
 	public JTextField y_centerField;
@@ -47,7 +47,8 @@ public class WeightBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public WeightBaseInputWindow(String projectName) {
+	public WeightBaseInputWindow(String projectName, WeightBaseController weightBaseController) {
+		this.weightBaseController = weightBaseController;
 		inputFrameForWeightBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForWeightBase);
 		inputFrameForWeightBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -334,7 +335,7 @@ public class WeightBaseInputWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				weightBaseController.handleCountButtonClick();
 			}
 		});
 		panel.add(ok);

@@ -23,7 +23,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 public class PlateBaseInputWindow {
 
-	public PlateBaseController controller;
+	public PlateBaseController plateBaseController;
 	public JFrame inputFrameForPlateBase;
 	public JTextField centerIdField;
 	public JTextField y_centerField;
@@ -47,7 +47,8 @@ public class PlateBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	
-	public PlateBaseInputWindow(String projectName) {
+	public PlateBaseInputWindow(String projectName, PlateBaseController plateBaseController) {
+		this.plateBaseController = plateBaseController;
 		inputFrameForPlateBase = new JFrame(projectName);
 		new FileProcess().addMVMXPertLogo(inputFrameForPlateBase);
 		inputFrameForPlateBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -326,7 +327,7 @@ public class PlateBaseInputWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				plateBaseController.handleCountButtonClick();
 			}
 		});
 		panel.add(ok);
