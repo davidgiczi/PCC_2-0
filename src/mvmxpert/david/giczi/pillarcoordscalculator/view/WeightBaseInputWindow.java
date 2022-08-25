@@ -22,7 +22,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 public class WeightBaseInputWindow {
 
-	public WeightBaseController weightBaseController;
 	public JFrame inputFrameForWeightBase;
 	public JTextField centerIdField;
 	public JTextField y_centerField;
@@ -46,6 +45,7 @@ public class WeightBaseInputWindow {
 	private Color color = new Color(112,128,144);
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
+	private WeightBaseController weightBaseController;
 	
 	public WeightBaseInputWindow(String projectName, WeightBaseController weightBaseController) {
 		this.weightBaseController = weightBaseController;

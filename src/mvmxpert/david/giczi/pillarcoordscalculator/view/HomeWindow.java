@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
@@ -58,7 +60,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				homeController.openNewProject();
+				homeController.createNewProject();
 			}
 		});
 		menu1.add(item11);
@@ -72,6 +74,23 @@ public class HomeWindow {
 		controlSteakoutMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		controlSteakoutMenu.addMenuListener(null);
 		controlSteakoutMenu.setEnabled(false);
+		controlSteakoutMenu.addMenuListener(new MenuListener() {
+			
+			@Override
+			public void menuSelected(MenuEvent e) {
+			homeController.getSteakoutControlWindow();	
+			}
+			@Override
+			public void menuDeselected(MenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void menuCanceled(MenuEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
 		JMenuBar menuBar = new JMenuBar();
 		JMenuItem item21 = new JMenuItem("Súlyalap pontjainak számítása");
 		item21.setForeground(textColor);

@@ -263,8 +263,13 @@ public class FileProcess {
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
-			FOLDER_PATH = selectedFile.getParent();	
-			projectName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
+			FOLDER_PATH = selectedFile.getParent();
+			try {
+				projectName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
+			} catch (Exception e) {
+				new HomeController().getInfoMessage("Projekt fájl választása", "*.pcc fájl választása szükséges.");
+			}
+			
 		}
 		
 		return projectName;
@@ -287,7 +292,7 @@ public class FileProcess {
 				} 
 		        return dialog;
 		    }
-		};
+		};	
 			jfc.setCurrentDirectory(STK_FILE_PATH == null ? new File(FOLDER_PATH) : new File(STK_FILE_PATH));
 			jfc.setDialogTitle("Válassz kitűzési fájlt.");
 			jfc.setAcceptAllFileFilterUsed(false);
@@ -340,6 +345,7 @@ public class FileProcess {
 				writer.write(String.valueOf(rotationMin));
 				writer.newLine();
 				writer.write(String.valueOf(rotationSec));
+				writer.newLine();
 				
 		} catch (IOException e) {
 			System.out.println( "\'"+ projectFile.getName() + "\' file cannot be created.");
@@ -391,6 +397,7 @@ public class FileProcess {
 				writer.write(String.valueOf(rotationMin));
 				writer.newLine();
 				writer.write(String.valueOf(rotationSec));
+				writer.newLine();
 				
 		} catch (IOException e) {
 			System.out.println( "\'"+ projectFile.getName() + "\' file cannot be created.");

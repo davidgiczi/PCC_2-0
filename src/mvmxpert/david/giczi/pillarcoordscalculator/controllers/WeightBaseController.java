@@ -32,14 +32,6 @@ public class WeightBaseController implements Controller {
 	}
 	
 	@Override
-	public void destroy() {
-	homeController.plateBaseInputWindow = null;
-	homeController.weightBaseDisplayer = null;
-	homeController.plateBaseDisplayer = null;
-	homeController.steakoutControlWindow = null;
-	homeController.plateBaseCoordsCalculator = null;
-	}
-
 	public void handleCountButtonClick() {
 		
 		if( !isValidInputID() ) {
@@ -60,7 +52,7 @@ public class WeightBaseController implements Controller {
 			homeController.weightBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
 			homeController.weightBaseCoordsCalculator.calculatePillarPoints();
 			 if ( saveAsProject() ) {
-			createProjectFile(centerID, centerX, centerY, 
+				 createProjectFile(centerID, centerX, centerY, 
 					  directionID, directionX, directionY,
 					  distanceOnTheAxis, 
 					  horizontalDistanceBetweenPillarLegs, 
@@ -75,7 +67,8 @@ public class WeightBaseController implements Controller {
 					 homeController.weightBaseCoordsCalculator.getAxisDirectionPoint(),
 					 homeController.weightBaseCoordsCalculator.getRadRotation(),
 					   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
-			homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
+			setVisible();
+			destroy();
 		} catch (InvalidAttributeValueException e) {
 			homeController.getInfoMessage("Bemeneti adatok megadása",
 					"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
@@ -85,40 +78,83 @@ public class WeightBaseController implements Controller {
 					"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
 			}
 		}
-	private boolean saveAsProject() {
+	
+	@Override
+	public boolean saveAsProject() {
+		
 		if( FileProcess.isProjectFileExist() ) {
 			
-		if(	homeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
-						"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?" ) == 2 ) {
-			createNewProject();
-		}
-		else {
-			return true;
+			if( homeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
+					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
+				String newProjectName = createNewProject();
+				if(newProjectName == null) {
+					return false;
+			}
 		}
 	}
-		return false;
+		return true;
 }
-
-	private void createNewProject() {
+	
+	@Override
+	public void setVisible() {
+		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
+		homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(false);
+	}
+	
+	@Override
+	public String createNewProject() {
 		String projectName = 
 				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
-		if( projectName == null ) {
-			return;
-		}
-		else if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
+		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
 			FileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
-			homeController.setVisible();
-			homeController.homeWindow.baseDataMenu.setEnabled(true);
-			destroy();
+			homeController.weightBaseInputWindow.inputFrameForWeightBase.setTitle(HomeController.PROJECT_NAME);
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
 		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
 		}
-	}	
+		
+		return projectName;
+	}
 	
+	@Override
+	public void saveCoordFiles() {
+		
+		if(homeController.weightBaseInputWindow.all.isSelected() ) {
+			FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.weightBaseInputWindow.kml.isSelected() ) {
+			FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.weightBaseInputWindow.rtk.isSelected() ) {
+			FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.weightBaseInputWindow.tps.isSelected() ) {
+			FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.weightBaseInputWindow.ms.isSelected() ) {
+			FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(),
+					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+	}
+	
+	@Override
+	public void destroy() {
+		homeController.plateBaseCoordsCalculator = null;
+	}
+
 	private boolean isValidInputID() {
 			
 			String centerID = homeController.weightBaseInputWindow.centerIdField.getText();
@@ -158,7 +194,7 @@ public class WeightBaseController implements Controller {
 			rotationSec = InputDataValidator.isValidAngleValue(homeController.weightBaseInputWindow.rotateAngularSecField.getText());
 		}
 		
-		private void createProjectFile
+	private void createProjectFile
 		(String centerID, double centerX, double centerY, 
 		 String directionID, double directionX,  double directionY,
 		 double distanceOnTheAxis, 
@@ -178,35 +214,5 @@ public class WeightBaseController implements Controller {
 		 verticalSizeOfHoleOfPillarLeg, 
 		 rotationAngle, rotationSec, rotationMin);
 	}
-	
-		private void saveCoordFiles() {
-			
-			if(homeController.weightBaseInputWindow.all.isSelected() ) {
-				FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-				FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-				FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-				FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			}
-			if( homeController.weightBaseInputWindow.kml.isSelected() ) {
-				FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			}
-			if( homeController.weightBaseInputWindow.rtk.isSelected() ) {
-				FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			}
-			if( homeController.weightBaseInputWindow.tps.isSelected() ) {
-				FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			}
-			if( homeController.weightBaseInputWindow.ms.isSelected() ) {
-				FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(),
-						homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			}
-		}
 		
 }

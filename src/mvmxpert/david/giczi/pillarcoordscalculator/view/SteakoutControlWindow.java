@@ -20,8 +20,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
-import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.SteakoutController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 
@@ -37,14 +36,13 @@ public class SteakoutControlWindow {
 	public JRadioButton yesPrintRadioBtn;
 	public JRadioButton noPrintRadioBtn;
 	public JLabel savedPointsTextLabel;
-	private WeightBaseController weightBaseController;
-	private PlateBaseController plateBaseController;
 	private Color color = new Color(112,128,144);
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
+	private SteakoutController steakoutController;
 	
-	public SteakoutControlWindow(String projectPathAndName, WeightBaseController weightBaseController) {
-		this.weightBaseController = weightBaseController;
+	public SteakoutControlWindow(String projectPathAndName, SteakoutController steakoutController) {
+		this.steakoutController = steakoutController;
 		steakoutControlFrame = new JFrame(projectPathAndName);
 		new FileProcess().addMVMXPertLogo(steakoutControlFrame);
 		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -61,25 +59,6 @@ public class SteakoutControlWindow {
 		steakoutControlFrame.setVisible(true);
 	}
 	
-	public SteakoutControlWindow(String projectPathAndName, PlateBaseController plateBaseController) {
-		this.plateBaseController = plateBaseController;
-		steakoutControlFrame = new JFrame(projectPathAndName);
-		new FileProcess().addMVMXPertLogo(steakoutControlFrame);
-		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		steakoutControlFrame.setSize(400, 800);
-		steakoutControlFrame.setLocationRelativeTo(null);
-		steakoutControlFrame.setLocation((int) (steakoutControlFrame.getLocation().getX() + 465), 
-				(int) steakoutControlFrame.getLocation().getY());
-		steakoutControlFrame.setLayout(new FlowLayout());
-		setSteakoutFileData();
-		setSteakoutFileContentType();
-		setOutputData();
-		addOkButton();
-		steakoutControlFrame.setResizable(false);
-		steakoutControlFrame.setVisible(true);
-	}
-	
-
 	private void setSteakoutFileData() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -135,8 +114,7 @@ public class SteakoutControlWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				steakoutController.handleDeleteButtonClick();
 			}
 		});
 		panel.add(delBtn);
@@ -162,7 +140,6 @@ public class SteakoutControlWindow {
 		prePostFixCombo.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		prePostFixCombo.addActionListener(new ActionListener() {
 
-				
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
@@ -284,7 +261,7 @@ public class SteakoutControlWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				steakoutController.handleOkButtonClick();
 			}
 		});
 		panel.add(ok);

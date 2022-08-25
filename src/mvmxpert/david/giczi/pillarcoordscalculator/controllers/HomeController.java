@@ -8,6 +8,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseInputWindow;
@@ -15,7 +16,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseInputWindow;
 
-public class HomeController implements Controller {
+public class HomeController {
 
 	public static String PROJECT_NAME;
 	HomeWindow homeWindow;
@@ -26,15 +27,15 @@ public class HomeController implements Controller {
 	SteakoutControlWindow steakoutControlWindow;
 	PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	PillarCoordsForPlateBase plateBaseCoordsCalculator;
+	SteakoutControl steakoutControl;
 	WeightBaseController weightBaseController;
 	PlateBaseController plateBaseController;
-	
+	SteakoutController steakoutController;
 	
 	public HomeController() {
 		this.homeWindow = new HomeWindow(this);
 	}
-	
-	@Override
+
 	public void destroy() {
 		weightBaseInputWindow = null;
 		plateBaseInputWindow = null;
@@ -43,8 +44,10 @@ public class HomeController implements Controller {
 		steakoutControlWindow = null;
 		weightBaseCoordsCalculator = null;
 		plateBaseCoordsCalculator = null;
+		steakoutControl = null;
 		weightBaseController = null;
 		plateBaseController = null;
+		steakoutController = null;
 	}
 	
 	public void getWeightBaseDisplayer() {
@@ -67,7 +70,17 @@ public class HomeController implements Controller {
 			}
 	}
 	
-	public void setVisible() {
+	public void getSteakoutControlWindow() {
+		if( steakoutControlWindow == null ) {
+			steakoutController = new SteakoutController(this);
+			steakoutControlWindow = new SteakoutControlWindow(PROJECT_NAME, steakoutController);
+		}
+		else {
+			steakoutControlWindow.steakoutControlFrame.setVisible(true);
+		}
+	}
+
+	private void setVisible() {
 		if( weightBaseInputWindow != null ) {
 			weightBaseInputWindow.inputFrameForWeightBase.setVisible(false);
 		}
@@ -85,14 +98,23 @@ public class HomeController implements Controller {
 		}
 	}
 	
-	public void getInfoMessage(String title, String message) {
-		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+	public String createNewProject() {
+		String projectName = JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
+		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
+			FileProcess.setFolder();
+			if( FileProcess.FOLDER_PATH != null ) {
+			PROJECT_NAME = projectName;
+			setVisible();
+			destroy();
+			homeWindow.baseDataMenu.setEnabled(true);
+		}
 	}
-
-	public int getWarningMessage(String title, String message) {
-		return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
+		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
+			getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		}
+		return projectName;
 	}
-
+	
 	public void openProject() {
 		String projectName = FileProcess.setProject();
 		if( projectName == null ) {
@@ -109,39 +131,6 @@ public class HomeController implements Controller {
 		}
 	}
 	
-	public void openNewProject() {
-		String projectName = JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
-		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
-			FileProcess.setFolder();
-			if( FileProcess.FOLDER_PATH != null ) {
-			PROJECT_NAME = projectName;
-			setVisible();
-			destroy();
-			homeWindow.baseDataMenu.setEnabled(true);
-		}
-	}
-		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
-			getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
-		}
-	}
-	
-	public boolean saveAsProject() {
-		if( FileProcess.isProjectFileExist() ) {
-			
-		if(	getWarningMessage("\"" + PROJECT_NAME + ".pcc\"", 
-						"Létező " + getBaseType() + " projekt fájl, biztos, hogy felülírod?" ) == 2 ) {
-			openNewProject();
-			if( FileProcess.FOLDER_PATH != null ) {
-				getExistedProjectInfoMessage();
-			}
-			else {
-				return false;
-			}
-		}	
-	}
-		return true;
-}
-	
 	public String getBaseType() {
 		String baseType = "#WeightBase".equals(FileProcess.getProjectFileData().get(0)) ? "súlyalap" : 
 			"#PlateBase".equals(FileProcess.getProjectFileData().get(0)) ? "lemezalap" : "";
@@ -153,6 +142,14 @@ public class HomeController implements Controller {
 			getInfoMessage("\"" + PROJECT_NAME + "\"" + " projekt",
 					"Létező " + getBaseType() +" projekt.");
 		}
+	}
+	
+	public void getInfoMessage(String title, String message) {
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public int getWarningMessage(String title, String message) {
+		return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
 	}
 	
 	private void getProjectFileDataFromFile() {

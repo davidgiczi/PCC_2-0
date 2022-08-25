@@ -23,7 +23,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 public class PlateBaseInputWindow {
 
-	public PlateBaseController plateBaseController;
 	public JFrame inputFrameForPlateBase;
 	public JTextField centerIdField;
 	public JTextField y_centerField;
@@ -46,6 +45,7 @@ public class PlateBaseInputWindow {
 	private Color color = new Color(112,128,144);
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
+	private PlateBaseController plateBaseController;
 	
 	public PlateBaseInputWindow(String projectName, PlateBaseController plateBaseController) {
 		this.plateBaseController = plateBaseController;

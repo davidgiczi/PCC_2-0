@@ -1,10 +1,13 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
 import javax.management.InvalidAttributeValueException;
+import javax.swing.JOptionPane;
 
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
+import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 
 public class PlateBaseController implements Controller  {
 
@@ -29,11 +32,6 @@ public class PlateBaseController implements Controller  {
 	}
 	
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void handleCountButtonClick() {
 		
 	if( !isValidInputID() ) {
@@ -53,11 +51,22 @@ public class PlateBaseController implements Controller  {
 		homeController.plateBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
 		homeController.plateBaseCoordsCalculator.calculatePillarPoints();
 		
-		if( homeController.saveAsProject() ) {
-			
-			
+		if( saveAsProject() ) {
+			createProjectFile(
+					centerID, centerX, centerY, 
+					directionID, directionX, directionY,
+					horizontalSizeOfHole, verticalSizeOfHole,
+					horizontalDistanceFromHole, verticalDistanceFromHole,
+					rotationAngle, rotationSec, rotationMin);
 		}
 		
+		saveCoordFiles();
+		new PlateBaseDisplayer(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+				homeController.plateBaseCoordsCalculator.getAxisDirectionPoint(),
+				homeController.plateBaseCoordsCalculator.getRadRotation(),
+				   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
+		setVisible();
+		destroy();
 	} catch (InvalidAttributeValueException e) {
 		homeController.getInfoMessage("Bemeneti adatok megadása",
 				"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
@@ -68,6 +77,83 @@ public class PlateBaseController implements Controller  {
 		}
 	}
 	
+	@Override
+	public boolean saveAsProject() {
+		
+		if( FileProcess.isProjectFileExist() ) {
+			
+			if( homeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
+					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
+				String newProjectName = createNewProject();
+				if(newProjectName == null) {
+					return false;
+			}
+		}
+	}
+		return true;
+	}
+	
+	@Override
+	public void setVisible() {
+		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
+		homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(false);
+	}
+	
+	@Override
+	public String createNewProject() {
+		
+		String projectName = 
+				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
+		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
+			FileProcess.setFolder();
+			if( FileProcess.FOLDER_PATH != null ) {
+			HomeController.PROJECT_NAME = projectName;
+			homeController.plateBaseInputWindow.inputFrameForPlateBase.setTitle(HomeController.PROJECT_NAME);
+		}
+	}
+		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
+		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		}
+		
+		return projectName;
+	}
+	
+	@Override
+	public void saveCoordFiles() {
+		
+		if(homeController.plateBaseInputWindow.all.isSelected() ) {
+			FileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+			FileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.plateBaseInputWindow.kml.isSelected() ) {
+			FileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.plateBaseInputWindow.rtk.isSelected() ) {
+			FileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.plateBaseInputWindow.tps.isSelected() ) {
+			FileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+		if( homeController.plateBaseInputWindow.ms.isSelected() ) {
+			FileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(),
+					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
+		}
+}
+
+	@Override
+	public void destroy() {
+		homeController.weightBaseCoordsCalculator = null;
+	}
+
 	private boolean isValidInputID() {
 		
 		String centerID = homeController.plateBaseInputWindow.centerIdField.getText();
@@ -105,4 +191,18 @@ public class PlateBaseController implements Controller  {
 		rotationSec = InputDataValidator.isValidAngleValue(homeController.plateBaseInputWindow.rotateAngularSecField.getText());
 	}
 	
+	private void createProjectFile(
+			String centerID, double centerX, double centerY, 
+			String directionID, double directionX,  double directionY,
+			double horizontalSizeOfHole, double verticalSizeOfHole,
+			double horizontalDistanceFromHole, double verticalDistanceFromHole,
+			double rotationAngle, double rotationSec, double rotationMin) {
+			
+			FileProcess.saveProjectFileForPlatetBase
+			(centerID, centerX, centerY, 
+			 directionID, directionX, directionY, 
+			 horizontalSizeOfHole, verticalSizeOfHole, 
+			 horizontalDistanceFromHole, verticalDistanceFromHole, 
+			 rotationAngle, rotationSec, rotationMin);
+		}
 }
