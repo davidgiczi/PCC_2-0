@@ -224,7 +224,9 @@ public class FileProcess {
 			File selectedFile = jfc.getSelectedFile();
 			STK_SAVED_FILE_PATH = selectedFile.getAbsolutePath();
 		}
-		
+		else {
+			STK_SAVED_FILE_PATH = FOLDER_PATH;
+		}
 	}
 	
 	public static String setProject() {
@@ -304,6 +306,7 @@ public class FileProcess {
 				STK_FILE_PATH = selectedFile.getParent();
 				STK_FILE_NAME = selectedFile.getName();
 		}
+			
 	}
 	
 	public static void saveProjectFileForPlatetBase

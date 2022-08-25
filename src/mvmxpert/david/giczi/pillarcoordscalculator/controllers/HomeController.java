@@ -96,6 +96,8 @@ public class HomeController {
 		if( steakoutControlWindow != null ) {
 			steakoutControlWindow.steakoutControlFrame.setVisible(false);
 		}
+		homeWindow.baseDataMenu.setEnabled(false);
+		homeWindow.controlSteakoutMenu.setEnabled(false);
 	}
 	
 	public String createNewProject() {
