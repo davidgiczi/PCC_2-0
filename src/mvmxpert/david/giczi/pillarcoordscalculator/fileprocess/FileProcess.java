@@ -47,8 +47,7 @@ public class FileProcess {
 				writer.write(directionPoint.writePointForKML());
 		
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
@@ -70,8 +69,7 @@ public class FileProcess {
 			writer.write(directionPoint.writePointForRTK());
 					
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
@@ -93,8 +91,7 @@ public class FileProcess {
 			writer.write(directionPoint.writePointForTPS());
 			
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
@@ -116,8 +113,7 @@ public class FileProcess {
 			writer.write(directionPoint.writePointForMS());
 			
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
@@ -136,8 +132,7 @@ public class FileProcess {
 				writer.newLine();
 					
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 		
 	}
@@ -160,8 +155,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			System.out.println( "\'"+ file.getName() + "\' file not found.");
-			e.printStackTrace();
+			HomeController.getInfoMessage("Kitűzési fájl választása", "Nem található kitűzési fájl: \"" + file.getName() + "\"");
 		}
 		
 		return pointData;
@@ -269,7 +263,7 @@ public class FileProcess {
 			try {
 				projectName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
 			} catch (Exception e) {
-				new HomeController().getInfoMessage("Projekt fájl választása", "*.pcc fájl választása szükséges.");
+				HomeController.getInfoMessage("Projekt fájl választása", "*.pcc fájl választása szükséges.");
 			}
 			
 		}
@@ -351,8 +345,8 @@ public class FileProcess {
 				writer.newLine();
 				
 		} catch (IOException e) {
-			System.out.println( "\'"+ projectFile.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController
+			.getInfoMessage("Projekt fájl létrehozása", "Projekt fájl létrehozása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 			
 	}
@@ -403,8 +397,8 @@ public class FileProcess {
 				writer.newLine();
 				
 		} catch (IOException e) {
-			System.out.println( "\'"+ projectFile.getName() + "\' file cannot be created.");
-			e.printStackTrace();
+			HomeController
+			.getInfoMessage("Projekt fájl létrehozása", "Projekt fájl létrehozása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 	}
 	
@@ -440,8 +434,8 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			System.out.println( "\'"+ projectFile.getName() + "\' file not found.");
-			e.printStackTrace();
+			HomeController
+			.getInfoMessage("Projekt fájl beolvasása", "Projekt fájl beolvasása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 	}	
 		return projectData;

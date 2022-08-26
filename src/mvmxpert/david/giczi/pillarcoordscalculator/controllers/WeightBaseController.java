@@ -70,11 +70,11 @@ public class WeightBaseController implements Controller {
 			setVisible();
 			destroy();
 		} catch (InvalidAttributeValueException e) {
-			homeController.getInfoMessage("Bemeneti adatok megadása",
+			HomeController.getInfoMessage("Bemeneti adatok megadása",
 					"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
 		}
 		  catch (NumberFormatException e) {
-			homeController.getInfoMessage("Bemeneti adatok megadása",
+			HomeController.getInfoMessage("Bemeneti adatok megadása",
 					"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
 			}
 		}
@@ -97,8 +97,12 @@ public class WeightBaseController implements Controller {
 	
 	@Override
 	public void setVisible() {
+		homeController.homeWindow.baseDataMenu.setEnabled(true);
 		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
 		homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(false);
+		if(homeController.plateBaseDisplayer != null ) {
+			homeController.plateBaseDisplayer.setVisible(false);
+		}
 	}
 	
 	@Override
@@ -113,7 +117,7 @@ public class WeightBaseController implements Controller {
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
-		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		HomeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
 		}
 		
 		return projectName;
@@ -153,6 +157,7 @@ public class WeightBaseController implements Controller {
 	@Override
 	public void destroy() {
 		homeController.plateBaseCoordsCalculator = null;
+		homeController.plateBaseDisplayer = null;
 	}
 
 	private boolean isValidInputID() {
@@ -161,7 +166,7 @@ public class WeightBaseController implements Controller {
 			String directionID = homeController.weightBaseInputWindow.directionIdField.getText();
 			 
 			if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-				homeController.getInfoMessage("Az oszlopok nevének megadása",
+				HomeController.getInfoMessage("Az oszlopok nevének megadása",
 						"Az oszlopok neve/száma legalább egy karakter hosszúságú legyen.");
 				return false;
 		}

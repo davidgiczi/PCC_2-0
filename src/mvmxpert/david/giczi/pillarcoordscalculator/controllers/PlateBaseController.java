@@ -61,18 +61,19 @@ public class PlateBaseController implements Controller  {
 		}
 		
 		saveCoordFiles();
-		new PlateBaseDisplayer(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+				homeController.plateBaseDisplayer =	
+						new PlateBaseDisplayer(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 				homeController.plateBaseCoordsCalculator.getAxisDirectionPoint(),
 				homeController.plateBaseCoordsCalculator.getRadRotation(),
 				   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setVisible();
 		destroy();
 	} catch (InvalidAttributeValueException e) {
-		homeController.getInfoMessage("Bemeneti adatok megadása",
+		HomeController.getInfoMessage("Bemeneti adatok megadása",
 				"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
 	}
 	  catch (NumberFormatException e) {
-		homeController.getInfoMessage("Bemeneti adatok megadása",
+		HomeController.getInfoMessage("Bemeneti adatok megadása",
 				"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
 		}
 	}
@@ -95,8 +96,12 @@ public class PlateBaseController implements Controller  {
 	
 	@Override
 	public void setVisible() {
+		homeController.homeWindow.baseDataMenu.setEnabled(true);
 		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
 		homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(false);
+		if( homeController.weightBaseDisplayer != null ) {
+			homeController.weightBaseDisplayer.setVisible(false);
+		}
 	}
 	
 	@Override
@@ -112,7 +117,7 @@ public class PlateBaseController implements Controller  {
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
-		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		HomeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
 		}
 		
 		return projectName;
@@ -152,6 +157,7 @@ public class PlateBaseController implements Controller  {
 	@Override
 	public void destroy() {
 		homeController.weightBaseCoordsCalculator = null;
+		homeController.plateBaseDisplayer = null;
 	}
 
 	private boolean isValidInputID() {
@@ -160,7 +166,7 @@ public class PlateBaseController implements Controller  {
 		String directionID = homeController.plateBaseInputWindow.directionIdField.getText();
 		 
 		if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-			homeController.getInfoMessage("Az oszlopok nevének megadása",
+			HomeController.getInfoMessage("Az oszlopok nevének megadása",
 					"Az oszlopok neve/száma legalább egy karakter hosszúságú legyen.");
 			return false;
 	}

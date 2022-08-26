@@ -146,7 +146,7 @@ public class HomeController {
 		}
 	}
 	
-	public void getInfoMessage(String title, String message) {
+	public static void getInfoMessage(String title, String message) {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
