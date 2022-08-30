@@ -148,7 +148,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétõl " + pathDistance + " méterre balra";
+			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre balra";
 			break;
 		case "5":
 			id = 5;
