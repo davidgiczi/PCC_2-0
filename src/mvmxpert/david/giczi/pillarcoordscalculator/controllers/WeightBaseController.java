@@ -113,6 +113,7 @@ public class WeightBaseController implements Controller {
 			FileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
+			homeController.getExistedProjectInfoMessage();
 			homeController.weightBaseInputWindow.inputFrameForWeightBase.setTitle(HomeController.PROJECT_NAME);
 		}
 	}

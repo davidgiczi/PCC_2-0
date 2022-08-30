@@ -113,6 +113,7 @@ public class PlateBaseController implements Controller  {
 			FileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
+			homeController.getExistedProjectInfoMessage();
 			homeController.plateBaseInputWindow.inputFrameForPlateBase.setTitle(HomeController.PROJECT_NAME);
 		}
 	}

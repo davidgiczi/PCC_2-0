@@ -45,6 +45,7 @@ public class FileProcess {
 				writer.write(pillarCenter.writePointForKML());
 				writer.newLine();
 				writer.write(directionPoint.writePointForKML());
+				writer.newLine();
 		
 		} catch (IOException e) {
 			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
@@ -67,6 +68,7 @@ public class FileProcess {
 				writer.newLine();
 			}
 			writer.write(directionPoint.writePointForRTK());
+			writer.newLine();
 					
 		} catch (IOException e) {
 			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
@@ -89,6 +91,7 @@ public class FileProcess {
 				writer.newLine();
 			}
 			writer.write(directionPoint.writePointForTPS());
+			writer.newLine();
 			
 		} catch (IOException e) {
 			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
@@ -111,6 +114,7 @@ public class FileProcess {
 				writer.newLine();
 			}
 			writer.write(directionPoint.writePointForMS());
+			writer.newLine();
 			
 		} catch (IOException e) {
 			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
