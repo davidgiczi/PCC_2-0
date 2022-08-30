@@ -29,7 +29,10 @@ public class SteakoutController {
 			return;
 		}
 		delimiter = homeController.steakoutControlWindow.delimiterSelectedValue;
-		FileProcess.STK_SAVED_FILE_PATH = FileProcess.FOLDER_PATH;
+		
+		if(FileProcess.STK_SAVED_FILE_PATH == null) {
+			FileProcess.STK_SAVED_FILE_PATH = FileProcess.FOLDER_PATH;
+		}
 		
 		if( homeController.weightBaseCoordsCalculator != null ) {
 			controlSteakoutForWeightBase();
