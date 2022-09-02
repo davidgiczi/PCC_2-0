@@ -182,7 +182,12 @@ public class PlateBaseDisplayer extends JFrame{
 			Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setFont(new Font("Arial",Font.BOLD, 16));
 	 		for (int i = 0; i < pillarBasePoints.size(); i++) {
-	 			g2d.setColor(Color.BLACK);
+	 			if( i == 0) {
+	 				g2d.setColor(Color.MAGENTA);
+	 			}
+	 			else {
+	 				g2d.setColor(Color.BLACK);
+	 			}
 	 			g2d.drawString(pillarBasePoints.get(i).getPointID(), X, Y);
 	 			X += 80f;
 	 			g2d.setColor(Color.RED);
@@ -217,12 +222,14 @@ public class PlateBaseDisplayer extends JFrame{
 	 	private void writeText(Graphics g) {
 	 		Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setColor(Color.BLACK);
-	 		 
-	 		for (int i = 0; i < pillarBasePoints.size(); i++) {
+	 		
+	 		for (int i = 1; i < pillarBasePoints.size(); i++) {
 	 			g2d.drawString(pillarBasePoints.get(i).getPointID(),
 						(float)	transformedPillarBasePoints.get(i).getX_coord() + 15, (float) transformedPillarBasePoints.get(i).getY_coord() + 20);
 	 		}
 	 		g2d.setColor(Color.MAGENTA);
+	 		g2d.drawString(pillarBasePoints.get(0).getPointID(),
+					(float)	transformedPillarBasePoints.get(0).getX_coord() + 15, (float) transformedPillarBasePoints.get(0).getY_coord() + 20);
 	 		AzimuthAndDistance azimuthAndDistance = new AzimuthAndDistance(transformedPillarBasePoints.get(0), directionDisplayerPoint);
 	 		PolarPoint polarPoint = 
 	  	        		new PolarPoint(transformedPillarBasePoints.get(0), 300, 

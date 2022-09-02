@@ -211,14 +211,20 @@ public class WeightBaseDisplayer extends JFrame {
 		float Y = 80f;
 		Graphics2D g2d = (Graphics2D) g;
  		g2d.setFont(new Font("Arial",Font.BOLD, 16));
- 		for (Point pillarBasePoint : pillarBasePoints) {
+ 		for (int i = 0; i < pillarBasePoints.size(); i++) {
+ 			if( i == 0) {
+ 				g2d.setColor(Color.MAGENTA);
+ 			}
+ 			else {
+ 				g2d.setColor(Color.BLACK);
+ 			}
  			g2d.setColor(Color.BLACK);
- 			g2d.drawString(pillarBasePoint.getPointID(), X, Y);
+ 			g2d.drawString(pillarBasePoints.get(i).getPointID(), X, Y);
  			X += 80f;
  			g2d.setColor(Color.RED);
- 			g2d.drawString(String.valueOf(pillarBasePoint.getX_coord()), X, Y);
+ 			g2d.drawString(String.valueOf(pillarBasePoints.get(i).getX_coord()), X, Y);
  			X += 110f;
-			g2d.drawString(String.valueOf(pillarBasePoint.getY_coord()), X, Y);
+			g2d.drawString(String.valueOf(pillarBasePoints.get(i).getY_coord()), X, Y);
 			X = 100f;
 			Y += 30f;
 		}
@@ -257,10 +263,11 @@ public class WeightBaseDisplayer extends JFrame {
 	 	g2d.setColor(Color.BLACK);
 		g2d.drawString("1m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 290));
 		g2d.drawString("M= 1:200", (float) (displayerCenterX + 300), (float) (displayerCenterY + 260));
-		
+		g2d.setColor(Color.MAGENTA);
 		g2d.drawString(pillarBasePoints.get(0).getPointID(),
 				(float) (transformedPillarBasePoints.get(0).getX_coord()),
 				(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
+		g2d.setColor(Color.BLACK);
 		for(int i = 1; i < 5; i++) {
 			g2d.drawString(pillarBasePoints.get(i).getPointID(),
 					(float) (transformedPillarBasePoints.get(i).getX_coord() + 10),
