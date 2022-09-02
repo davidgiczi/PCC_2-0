@@ -218,7 +218,6 @@ public class WeightBaseDisplayer extends JFrame {
  			else {
  				g2d.setColor(Color.BLACK);
  			}
- 			g2d.setColor(Color.BLACK);
  			g2d.drawString(pillarBasePoints.get(i).getPointID(), X, Y);
  			X += 80f;
  			g2d.setColor(Color.RED);
