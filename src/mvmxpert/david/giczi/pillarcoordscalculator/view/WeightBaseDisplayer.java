@@ -29,6 +29,7 @@ public class WeightBaseDisplayer extends JFrame {
 	private List<SteakoutedCoords> controlledCoords = new ArrayList<>();
 	private double displayerCenterX;
 	private double displayerCenterY;
+	private Point directionPoint;
 	private Point directionDisplayerPoint;
 	private double rotation = 0;
 	private static final double SCALE = 2 * 22.5;
@@ -40,6 +41,7 @@ public class WeightBaseDisplayer extends JFrame {
 	public WeightBaseDisplayer(List<Point> pillarBasePoints, Point directionPoint, double rotation, String projectPathAndName) {
 		super(projectPathAndName);
 		new FileProcess().addMVMXPertLogo(this);
+		this.directionPoint = directionPoint;
 		this.pillarBasePoints = pillarBasePoints;
 		this.rotation = rotation;
 		getDisplayerCenterCoords();
@@ -249,6 +251,15 @@ public class WeightBaseDisplayer extends JFrame {
 		
 	}
 	
+	private void writeDistanceBetweenPillars(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+ 		DecimalFormat df = new DecimalFormat("###.###");
+ 		double distance = new AzimuthAndDistance(pillarBasePoints.get(0), directionPoint).calcDistance();
+ 		g2d.drawString(transformedPillarBasePoints.get(0).getPointID() + 
+ 				". és " + directionDisplayerPoint.getPointID() + ". oszlopok távolsága: " +
+ 				df.format(distance)+"m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 350));
+	}
+	
 	private void writeText(Graphics g) {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setColor(Color.MAGENTA);
@@ -260,6 +271,7 @@ public class WeightBaseDisplayer extends JFrame {
 	 	g2d.drawString(directionDisplayerPoint.getPointID(), (float) polarPoint.calcPolarPoint().getX_coord(),
 	 					(float) (polarPoint.calcPolarPoint().getY_coord() + 50));
 	 	g2d.setColor(Color.BLACK);
+	 	writeDistanceBetweenPillars(g2d);
 		g2d.drawString("1m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 290));
 		g2d.drawString("M= 1:200", (float) (displayerCenterX + 300), (float) (displayerCenterY + 260));
 		g2d.setColor(Color.MAGENTA);

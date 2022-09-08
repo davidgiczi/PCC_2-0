@@ -31,6 +31,7 @@ public class PlateBaseDisplayer extends JFrame{
 	private double displayerCenterX;
 	private double displayerCenterY;
 	private Point directionDisplayerPoint;
+	private Point directionPoint;
 	private double rotation = 0;
 	private static final double SCALE = 2 * 22.5;
 	
@@ -41,6 +42,7 @@ public class PlateBaseDisplayer extends JFrame{
 	public PlateBaseDisplayer(List<Point> pillarBasePoints, Point directionPoint, double rotation, String projectPathAndName) {
 		 	super(projectPathAndName);
 		 	new FileProcess().addMVMXPertLogo(this);
+		 	this.directionPoint = directionPoint;
 		 	this.pillarBasePoints = pillarBasePoints;
 		 	this.rotation = rotation;
 		 	getDisplayerCenterCoords();
@@ -219,6 +221,15 @@ public class PlateBaseDisplayer extends JFrame{
 			
 		}
 		
+		private void writeDistanceBetweenPillars(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+	 		DecimalFormat df = new DecimalFormat("###.###");
+	 		double distance = new AzimuthAndDistance(pillarBasePoints.get(0), directionPoint).calcDistance();
+	 		g2d.drawString(transformedPillarBasePoints.get(0).getPointID() + 
+	 				". és " + directionDisplayerPoint.getPointID() + ". oszlopok távolsága: " +
+	 				df.format(distance)+"m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 350));
+		}
+		
 	 	private void writeText(Graphics g) {
 	 		Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setColor(Color.BLACK);
@@ -238,8 +249,9 @@ public class PlateBaseDisplayer extends JFrame{
 	 		g2d.drawString(directionDisplayerPoint.getPointID(), (float) (polarPoint.calcPolarPoint().getX_coord() - 80), 
 	 				(float) polarPoint.calcPolarPoint().getY_coord() + 50);
 	 		g2d.setColor(Color.BLACK);
+	 		writeDistanceBetweenPillars(g2d);
 	 		g2d.drawString("1m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 290));
-	 		g2d.drawString("M= 1:200", (float) (displayerCenterX + 300), (float) (displayerCenterY + 350));
+	 		g2d.drawString("M= 1:200", (float) (displayerCenterX + 300), (float) (displayerCenterY + 260));
 	 		
 	 		AzimuthAndDistance base14 = new AzimuthAndDistance(pillarBasePoints.get(1), pillarBasePoints.get(4));
 	 		AzimuthAndDistance tr14 = new AzimuthAndDistance(transformedPillarBasePoints.get(1), transformedPillarBasePoints.get(4));
