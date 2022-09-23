@@ -208,15 +208,14 @@ public class PlateBaseDisplayer extends JFrame{
 			float Y = 80f;
 			Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setFont(new Font("Arial",Font.BOLD, 16));
-	 		DecimalFormat df = new DecimalFormat("000.000");
 	 		for (SteakoutedCoords steakoutedCoord : controlledCoords) {
 	 			g2d.setColor(Color.BLACK);
 	 			g2d.drawString(steakoutedCoord.getStkPointID(), X, Y);
 	 			X += 110f;
 	 			g2d.setColor(Color.RED);
-	 			g2d.drawString(df.format(steakoutedCoord.getDeltaX()), X, Y);
+	 			g2d.drawString(steakoutedCoord.getDeltaX(), X, Y);
 	 			X += 140f;
-				g2d.drawString(df.format(steakoutedCoord.getDeltaY()), X, Y);
+				g2d.drawString(steakoutedCoord.getDeltaY(), X, Y);
 				X = 100f;
 				Y += 30f;
 			}
