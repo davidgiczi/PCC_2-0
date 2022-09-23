@@ -44,7 +44,7 @@ public class SteakoutControl {
 	}
 
 	public void controlSteakout() {
-		DecimalFormat df = new DecimalFormat("###.##");
+		DecimalFormat df = new DecimalFormat("000.00");
 		List<String> steakoutedPointData = FileProcess.getSteakoutedPointData();
 		for (String controlData : steakoutedPointData) { 
 			String[] data = controlData.split(delimiter);
@@ -55,6 +55,8 @@ public class SteakoutControl {
 				if(baseType == BaseType.WEIGHT_BASE) {
 					steakouted.setPathDistance(
 							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(1)).calcDistance()));
+					steakouted.setCenterToHalfwayOfHolesDistance(
+							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(5)).calcDistance()));
 					}
 				else if(baseType == BaseType.PLATE_BASE) {
 					

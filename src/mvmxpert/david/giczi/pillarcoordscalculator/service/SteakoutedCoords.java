@@ -12,6 +12,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	private int rotation;
 	private BaseType baseType;
 	private String pathDistance;
+	private String centerToHalfwayOfHolesDistance;
 	private String horizontalDistanceFromSideOfHole;
 	private String verticalDistanceFromSideOfHole;
 	private double XcoordForDesignPoint;
@@ -42,6 +43,10 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	
 	public void setPathDistance(String pathDistance) {
 		this.pathDistance = pathDistance;
+	}
+	
+	public void setCenterToHalfwayOfHolesDistance(String centerToHalfwayOfHolesDistance) {
+		this.centerToHalfwayOfHolesDistance = centerToHalfwayOfHolesDistance;
 	}
 
 	public void setHorizontalDistanceFromSideOfHole(String horizontalDistanceFromSideOfHole) {
@@ -153,22 +158,22 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya a gödrök széleinél előre";
+			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre előre";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya a gödrök széleinél jobbra";
+			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre jobbra";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya a gödrök széleinél hátra";
+			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre hátra";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya a gödrök széleinél balra";
+			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre balra";
 			break;
 		case "9":
 			id = 9;
