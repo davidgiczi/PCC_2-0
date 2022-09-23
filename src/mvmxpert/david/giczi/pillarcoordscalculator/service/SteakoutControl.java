@@ -44,7 +44,7 @@ public class SteakoutControl {
 	}
 
 	public void controlSteakout() {
-		DecimalFormat df = new DecimalFormat("000.00");
+		DecimalFormat df = new DecimalFormat("###.###");
 		List<String> steakoutedPointData = FileProcess.getSteakoutedPointData();
 		for (String controlData : steakoutedPointData) { 
 			String[] data = controlData.split(delimiter);
