@@ -1,5 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
+import java.text.DecimalFormat;
+
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 
 public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
@@ -19,10 +21,12 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	private double YcoordForDesignPoint;
 	private double XcoordForSteakoutPoint;
 	private double YcoordForSteakoutPoint;
+	private DecimalFormat df;
 	
 	public SteakoutedCoords(BaseType baseType, String pointID) {
 		this.baseType = baseType;
 		this.pointID = pointID;
+		df = new DecimalFormat("0.000");
 	}
 	
 	public void setXcoordForDesignPoint(double xcoordForDesignPoint) {
@@ -82,11 +86,11 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	}
 
 	public String getDeltaX() {
-		return String.valueOf(Math.round((XcoordForDesignPoint - XcoordForSteakoutPoint) * 1000.0) / 1000.0);
+		return df.format(XcoordForDesignPoint - XcoordForSteakoutPoint);
 	}
 	
 	public String getDeltaY() {
-		return String.valueOf(Math.round((YcoordForDesignPoint - YcoordForSteakoutPoint) * 1000.0) / 1000.0);
+		return df.format(YcoordForDesignPoint - YcoordForSteakoutPoint);
 	}
 	
 	public void setRotation(int rotation) {
