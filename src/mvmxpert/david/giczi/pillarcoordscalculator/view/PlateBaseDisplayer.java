@@ -116,6 +116,14 @@ public class PlateBaseDisplayer extends JFrame{
 	        			transformedPillarBasePoints.get(8).getY_coord()));
 	         
 	        g2d.setStroke(new BasicStroke(2));
+	        g2d.setColor(Color.BLACK);
+	        g2d.drawOval((int) transformedPillarBasePoints.get(5).getX_coord(), 
+       			 (int) transformedPillarBasePoints.get(5).getY_coord(), 2, 2);
+	        g2d.drawOval((int) transformedPillarBasePoints.get(7).getX_coord(), 
+       			 (int) transformedPillarBasePoints.get(7).getY_coord(), 2, 2);
+	        g2d.drawOval((int) transformedPillarBasePoints.get(8).getX_coord(), 
+       			 (int) transformedPillarBasePoints.get(8).getY_coord(), 2, 2);
+	        
 	        g2d.setColor(Color.MAGENTA);
 	        
 	        if( rotation == 0) {
@@ -170,6 +178,10 @@ public class PlateBaseDisplayer extends JFrame{
 	        }
 	      //Scale
 	        g2d.setColor(Color.BLACK);
+	        g2d.drawOval((int) transformedPillarBasePoints.get(0).getX_coord(), 
+       			 (int) transformedPillarBasePoints.get(0).getY_coord(), 2, 2);
+	        g2d.drawOval((int) transformedPillarBasePoints.get(6).getX_coord(), 
+	       			 (int) transformedPillarBasePoints.get(6).getY_coord(), 2, 2);
 	        g2d.draw(new Line2D.Double(displayerCenterX + 300.0, displayerCenterY + 300.0,
 	        						   displayerCenterX + 322.5, displayerCenterY + 300.0));
 	        g2d.draw(new Line2D.Double(displayerCenterX + 300.0, displayerCenterY + 295.5,

@@ -146,6 +146,40 @@ public class WeightBaseDisplayer extends JFrame {
 	        			transformedPillarBasePoints.get(4).getX_coord(),
 	        			transformedPillarBasePoints.get(4).getY_coord()));
 	        g2d.setStroke(new BasicStroke(2));
+	        g2d.setColor(Color.BLACK);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(0).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(0).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(2).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(2).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(3).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(3).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(4).getX_coord(), 
+				    (int) transformedPillarBasePoints.get(4).getY_coord(),
+				    2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(5).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(5).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(6).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(6).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(7).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(7).getY_coord(),
+				   	2, 2);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(8).getX_coord(), 
+				    (int) transformedPillarBasePoints.get(8).getY_coord(),
+				    2, 2);
+	        
 	        g2d.setColor(Color.MAGENTA);
 	            
 	        if( rotation == 0) {
@@ -200,6 +234,10 @@ public class WeightBaseDisplayer extends JFrame {
 		        }
 	      //Scale
 	        g2d.setColor(Color.BLACK);
+	        g2d.drawOval(
+        			(int) transformedPillarBasePoints.get(1).getX_coord(), 
+				   	(int) transformedPillarBasePoints.get(1).getY_coord(),
+				   	2, 2);
 	        g2d.draw(new Line2D.Double(displayerCenterX + 300.0, displayerCenterY + 300.0,
 	        						   displayerCenterX + 322.5, displayerCenterY + 300.0));
 	        g2d.draw(new Line2D.Double(displayerCenterX + 300.0, displayerCenterY + 295.5,
@@ -302,16 +340,25 @@ public class WeightBaseDisplayer extends JFrame {
 		DecimalFormat df = new DecimalFormat("###.###");
 		AzimuthAndDistance distance1 = new AzimuthAndDistance(pillarBasePoints.get(0), pillarBasePoints.get(1));
 		AzimuthAndDistance distance2 = new AzimuthAndDistance(pillarBasePoints.get(0), pillarBasePoints.get(2));
+		AzimuthAndDistance distance3 = new AzimuthAndDistance(pillarBasePoints.get(0), pillarBasePoints.get(5));
+		AzimuthAndDistance distance4 = new AzimuthAndDistance(pillarBasePoints.get(0), pillarBasePoints.get(6));
 		AzimuthAndDistance tr01 = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(1));
+		AzimuthAndDistance tr05 = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(5));
 		g2d.rotate(distance2.calcAzimuth() + Math.PI,
 				transformedPillarBasePoints.get(0).getX_coord(), transformedPillarBasePoints.get(0).getY_coord());
 		g2d.drawString(df.format(distance1.calcDistance()) + "m", 
 			(float)	(transformedPillarBasePoints.get(0).getX_coord() + tr01.calcDistance() / 2), 
 			(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
+		g2d.drawString(df.format(distance3.calcDistance()) + "m", 
+				(float)	(transformedPillarBasePoints.get(0).getX_coord() + tr05.calcDistance() / 2), 
+				(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
 		g2d.rotate( 3 * Math.PI / 2,
 				transformedPillarBasePoints.get(0).getX_coord(), transformedPillarBasePoints.get(0).getY_coord());
 		g2d.drawString(df.format(distance2.calcDistance()) + "m", 
 				(float)	(transformedPillarBasePoints.get(0).getX_coord() + tr01.calcDistance() / 2), 
+				(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
+		g2d.drawString(df.format(distance4.calcDistance()) + "m", 
+				(float)	(transformedPillarBasePoints.get(0).getX_coord() + tr05.calcDistance() / 2), 
 				(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
 	}
 	
@@ -334,10 +381,16 @@ public class WeightBaseDisplayer extends JFrame {
         g2d.setStroke(stroke);
         double x = 1300;
         double y = 300;
-		g2d.draw(new Line2D.Double(x, y, x + verticalPath /2, y));
+		g2d.draw(new Line2D.Double(x, y, x + verticalPath / 2, y));
 		g2d.draw(new Line2D.Double(x, y, x - verticalPath / 2, y));
 		g2d.draw(new Line2D.Double(x, y, x, y - horizontalPath / 2));
 		g2d.draw(new Line2D.Double(x, y, x, y + horizontalPath / 2));
+		g2d.setColor(Color.BLACK);
+		g2d.drawOval((int) x, (int) y, 2, 2);
+		g2d.drawOval((int) (x + verticalPath / 2), (int) y, 2, 2);
+		g2d.drawOval((int) (x - verticalPath / 2), (int) y, 2, 2);
+		g2d.drawOval((int) x, (int) (y - horizontalPath / 2), 2, 2);
+		g2d.drawOval((int) x, (int) (y + horizontalPath / 2), 2, 2);
 		g2d.setColor(Color.BLUE);
 		g2d.setStroke(new BasicStroke(2)); //left-up hole
 		g2d.draw(new Line2D.Double(x - verticalPath / 2 + verticalHoleSize, y - horizontalPath / 2 + horizontalHoleSize,
