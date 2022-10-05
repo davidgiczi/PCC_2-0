@@ -159,7 +159,6 @@ public class WeightBaseController implements Controller {
 	public void destroy() {
 		homeController.plateBaseCoordsCalculator = null;
 		homeController.plateBaseDisplayer = null;
-		homeController.steakoutControl = null;
 	}
 
 	private boolean isValidInputID() {
