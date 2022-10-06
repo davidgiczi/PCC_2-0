@@ -48,9 +48,17 @@ public class SteakoutControl {
 		List<String> steakoutedPointData = FileProcess.getSteakoutedPointData();
 		for (String controlData : steakoutedPointData) { 
 			String[] data = controlData.split(delimiter);
-			for(Point designedCoords : designedPillarCoords) {
-				SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedCoords.getPointID());
-				if(getPointIdentifier(designedCoords.getPointID()).equals(data[0])) {
+			for(int i = 0; i < designedPillarCoords.size(); i++) {
+				SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedPillarCoords.get(i).getPointID());
+				try {
+					steakouted.setCenterPointID(Integer.parseInt(designedPillarCoords.get(0).getPointID()));
+					steakouted.setDirectionPointID(Integer.parseInt(designedPillarCoords.get(designedPillarCoords.size() - 1).getPointID()));
+				} catch (NumberFormatException e) {
+					steakouted.setCenterPointID(1);
+					steakouted.setCenterPointID(2);
+				}
+				
+				if(getPointIdentifier(designedPillarCoords.get(i).getPointID()).equals(data[0])) {
 					
 				if(baseType == BaseType.WEIGHT_BASE) {
 					steakouted.setPathDistance(
@@ -73,8 +81,8 @@ public class SteakoutControl {
 					}
 					steakouted.setStkPointID(data[0]);
 					steakouted.setRotation(rotation);
-					steakouted.setXcoordForDesignPoint(designedCoords.getX_coord());
-					steakouted.setYcoordForDesignPoint(designedCoords.getY_coord()); 
+					steakouted.setXcoordForDesignPoint(designedPillarCoords.get(i).getX_coord());
+					steakouted.setYcoordForDesignPoint(designedPillarCoords.get(i).getY_coord()); 
 					steakouted.setXcoordForSteakoutPoint(Double.parseDouble(data[1]));
 					steakouted.setYcoordForSteakoutPoint(Double.parseDouble(data[2]));
 					steakouted.setMetaData();

@@ -70,6 +70,8 @@ public class SteakoutController {
 		if( homeController.steakoutControl == null ) {
 			homeController.steakoutControl = new SteakoutControl(BaseType.WEIGHT_BASE);
 		}
+		
+		homeController.weightBaseCoordsCalculator.getPillarPoints().add(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		homeController.steakoutControl.setDesignedPillarCoords(homeController.weightBaseCoordsCalculator.getPillarPoints());
 		homeController.steakoutControl.setPointID(getPointID(prePostFixSelectedOption));
 		homeController.steakoutControl.setPointIDValue(prePostFixValue);
@@ -88,6 +90,7 @@ public class SteakoutController {
 		if(homeController.steakoutControl == null ) {
 			homeController.steakoutControl = new SteakoutControl(BaseType.PLATE_BASE);
 		}
+		homeController.plateBaseCoordsCalculator.getPillarPoints().add(homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		homeController.steakoutControl.setDesignedPillarCoords(homeController.plateBaseCoordsCalculator.getPillarPoints());
 		homeController.steakoutControl.setPointID(getPointID(prePostFixSelectedOption));
 		homeController.steakoutControl.setPointIDValue(prePostFixValue);
