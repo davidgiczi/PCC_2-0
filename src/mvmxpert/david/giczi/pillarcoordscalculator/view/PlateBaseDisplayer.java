@@ -247,7 +247,7 @@ public class PlateBaseDisplayer extends JFrame{
 	 		Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setColor(Color.BLACK);
 	 		
-	 		for (int i = 1; i < pillarBasePoints.size() - 1; i++) {
+	 		for (int i = 1; i < pillarBasePoints.size(); i++) {
 	 			g2d.drawString(pillarBasePoints.get(i).getPointID(),
 						(float)	transformedPillarBasePoints.get(i).getX_coord() + 15, (float) transformedPillarBasePoints.get(i).getY_coord() + 20);
 	 		}
