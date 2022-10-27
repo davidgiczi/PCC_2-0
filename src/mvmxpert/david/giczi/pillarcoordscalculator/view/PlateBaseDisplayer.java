@@ -9,9 +9,14 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
@@ -294,9 +299,23 @@ public class PlateBaseDisplayer extends JFrame{
 	 				(float) (transformedPillarBasePoints.get(0).getY_coord() - 10));
 	 	}
 	 	
+	 	private void drawNorthSign(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+			byte[] imageData;
+			try {
+				imageData = this.getClass()
+						.getResourceAsStream("/img/north.jpg").readAllBytes();
+				BufferedImage north = ImageIO.read(new ByteArrayInputStream(imageData));
+				g2d.drawImage(north, (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 400, 100, 150, 150, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	 	
 	 	@Override
 	    public void paint(Graphics g) {
 	        super.paint(g);
+	        drawNorthSign(g);
 	        drawBase(g);
 	        if( controlledCoords.isEmpty() ) {
 				writeCoords(g);	
@@ -305,6 +324,7 @@ public class PlateBaseDisplayer extends JFrame{
 				writeCoordDifference(g);
 			}
 	        writeText(g);
+	       
 	    }
 	
 	

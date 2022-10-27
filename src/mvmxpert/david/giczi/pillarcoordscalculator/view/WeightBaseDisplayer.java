@@ -9,10 +9,15 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
@@ -244,6 +249,7 @@ public class WeightBaseDisplayer extends JFrame {
 					   displayerCenterX + 300.0, displayerCenterY + 304.5));
 	        g2d.draw(new Line2D.Double(displayerCenterX + 322.5, displayerCenterY + 295.5,
 					   displayerCenterX + 322.5, displayerCenterY + 304.5));
+	        
 	}
 	
 	private void writeCoords(Graphics g) {
@@ -574,9 +580,23 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.setColor(Color.BLACK);
 	}
 	
+	private void drawNorthSign(Graphics g) {
+			Graphics2D g2d = (Graphics2D) g;
+			byte[] imageData;
+			try {
+				imageData = this.getClass()
+						.getResourceAsStream("/img/north.jpg").readAllBytes();
+				BufferedImage north = ImageIO.read(new ByteArrayInputStream(imageData));
+				g2d.drawImage(north, (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()  / 2 - 300, 100, 150, 150, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		drawNorthSign(g);
 		drawBase(g);
 		if( controlledCoords.isEmpty() ) {
 			writeCoords(g);	
