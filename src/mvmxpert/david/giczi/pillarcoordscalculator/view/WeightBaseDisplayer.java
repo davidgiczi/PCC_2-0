@@ -507,12 +507,12 @@ public class WeightBaseDisplayer extends JFrame {
 		double horizontalSize = horizontalPathDistance.calcDistance() - horizontalHoleDistance.calcDistance();
 		g2d.drawString(df.format(horizontalSize) + "m", (int) (x - verticalPath / 2) - 100, (int) y);
 		
-		g2d.drawString(df.format(horizontalHoleDistance.calcDistance()) + "m", 
-				(int) (x - verticalPath / 2  + verticalHoleSize / 2 - 10), (int) (y - (horizontalPath / 2 - horizontalHoleSize + 5)));
-		
-		g2d.rotate(Math.PI / 2, x, y);
 		g2d.drawString(df.format(verticalHoleDistance.calcDistance()) + "m", 
 				(int) (x - verticalPath / 2 + 10), (int) (y + horizontalPath / 2 - 5));
+		
+		g2d.rotate(Math.PI / 2, x, y);
+		g2d.drawString(df.format(horizontalHoleDistance.calcDistance()) + "m", 
+				(int) (x - verticalPath / 2  + verticalHoleSize / 2 - 10), (int) (y - (horizontalPath / 2 - horizontalHoleSize + 5)));
 		g2d.rotate(-Math.PI / 2, x, y);
 	
 	}
