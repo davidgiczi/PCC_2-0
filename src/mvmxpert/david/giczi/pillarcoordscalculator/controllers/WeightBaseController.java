@@ -26,6 +26,7 @@ public class WeightBaseController implements Controller {
 	private double rotationAngle;
 	private double rotationMin;
 	private double rotationSec;
+	private boolean nonValidProjectName;
 	
 	public WeightBaseController(HomeController homeController) {
 		this.homeController = homeController;
@@ -61,6 +62,10 @@ public class WeightBaseController implements Controller {
 					  verticalSizeOfHoleOfPillarLeg, 
 					  rotationAngle, rotationSec, rotationMin);
 			 }
+			 if( nonValidProjectName ) {
+				 nonValidProjectName = false;
+				 return;
+			 }
 			saveCoordFiles();
 			homeController.weightBaseDisplayer = new WeightBaseDisplayer
 					(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
@@ -87,9 +92,12 @@ public class WeightBaseController implements Controller {
 			if( homeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
 					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
 				String newProjectName = createNewProject();
-				if(newProjectName == null || !InputDataValidator.isValidProjectName(newProjectName)) {
+				if(newProjectName == null) 
 					return false;
-			}
+				if( !InputDataValidator.isValidProjectName(newProjectName) ) {
+					nonValidProjectName = true;
+					return false;
+				}
 		}
 	}
 		return true;
