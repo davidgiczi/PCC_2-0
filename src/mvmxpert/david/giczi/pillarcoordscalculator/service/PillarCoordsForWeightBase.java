@@ -125,6 +125,7 @@ public class PillarCoordsForWeightBase {
 		calculatePointsOfRightAndUpHole();
 		calcRadRotation();
 		rotatePillarCoords();
+		calculateMainLinePoints();
 	}
 	
 	private void calculatePointsOnAxis() {
@@ -268,5 +269,30 @@ public class PillarCoordsForWeightBase {
 	}
 }
 	
+	private void calculateMainLinePoints() {
+		
+		if( angleValueBetweenMainPath == 0 &&
+				angularMinuteValueBetweenMainPath == 0 &&
+						angularSecondValueBetweenMainPath == 0 )
+			return;
+		
+			AzimuthAndDistance azimuth = new AzimuthAndDistance(pillarCenterPoint, axisDirectionPoint);
+			PolarPoint forwardPoint = 
+					new PolarPoint(pillarCenterPoint, 20d, azimuth.calcAzimuth(), pillarCenterPoint.getPointID() + "_25");
+			
+			double backwardDirection = azimuth.calcAzimuth() +
+					Math.toRadians(angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60  +
+					angularSecondValueBetweenMainPath / 3600);
+			
+			PolarPoint backwardPoint =
+					new PolarPoint(pillarCenterPoint, 20d, backwardDirection, pillarCenterPoint.getPointID() + "_26" );
+			pillarPoints.add(new Point(forwardPoint.getNewPointID(), 
+				Math.round(forwardPoint.calcPolarPoint().getX_coord() * 1000.0) / 1000.0, 
+				Math.round(forwardPoint.calcPolarPoint().getY_coord() * 1000.0) / 1000.0));
+			pillarPoints.add(new Point(backwardPoint.getNewPointID(), 
+					Math.round(backwardPoint.calcPolarPoint().getX_coord() * 1000.0) / 1000.0, 
+					Math.round(backwardPoint.calcPolarPoint().getY_coord() * 1000.0) / 1000.0));
+		}
 	
 }

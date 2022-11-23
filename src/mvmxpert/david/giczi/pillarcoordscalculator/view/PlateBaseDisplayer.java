@@ -156,15 +156,15 @@ public class PlateBaseDisplayer extends JFrame{
         				polarPoint3.calcPolarPoint().getY_coord()));
 	  }
 	        else {
-	        	
-	        AzimuthAndDistance azimuthAndDistance = new AzimuthAndDistance(transformedPillarBasePoints.get(0), directionDisplayerPoint);
+	   //forwardDirection     	
+	        AzimuthAndDistance forwardAzimuth = new AzimuthAndDistance(transformedPillarBasePoints.get(0), directionDisplayerPoint);
 	  	    PolarPoint polarPoint = 
 	  	        		new PolarPoint(transformedPillarBasePoints.get(0), 300, 
-	  	        				azimuthAndDistance.calcAzimuth(), "baseLine");
+	  	        				forwardAzimuth.calcAzimuth(), "forwardLine");
 	  	    PolarPoint polarPoint1 = new PolarPoint(polarPoint.calcPolarPoint(), 30,
-	        		azimuthAndDistance.calcAzimuth() - 3 * Math.PI / 4, "arrow");
+	        		forwardAzimuth.calcAzimuth() - 3 * Math.PI / 4, "arrow");
 	        PolarPoint polarPoint2 = new PolarPoint(polarPoint.calcPolarPoint(), 30,
-	        		azimuthAndDistance.calcAzimuth() + 3 * Math.PI / 4, "arrow");
+	        		forwardAzimuth.calcAzimuth() + 3 * Math.PI / 4, "arrow");
 	  	    g2d.draw(new Line2D.Double(
 	  	    		transformedPillarBasePoints.get(0).getX_coord(),
 	  	    		transformedPillarBasePoints.get(0).getY_coord(),
@@ -180,6 +180,27 @@ public class PlateBaseDisplayer extends JFrame{
 	  			   polarPoint.calcPolarPoint().getY_coord(),
 	  			   polarPoint2.calcPolarPoint().getX_coord(), 
 	  			   polarPoint2.calcPolarPoint().getY_coord()));
+	  	//backwardDirection	  	   
+		  	 AzimuthAndDistance backwardAzimuth = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(10));
+		  	 PolarPoint backwardPoint = new PolarPoint(transformedPillarBasePoints.get(0), 300, backwardAzimuth.calcAzimuth(), "backwardLine");
+		  	 g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(0).getX_coord(),
+		        		transformedPillarBasePoints.get(0).getY_coord(),
+		        		backwardPoint.calcPolarPoint().getX_coord(),
+		        		backwardPoint.calcPolarPoint().getY_coord()));
+		  	 PolarPoint polarPoint3 = new PolarPoint(backwardPoint.calcPolarPoint(), 30,
+		        		backwardAzimuth.calcAzimuth() - 3 * Math.PI / 4, "arrow");
+		     PolarPoint polarPoint4 = new PolarPoint(backwardPoint.calcPolarPoint(), 30,
+		        		backwardAzimuth.calcAzimuth() + 3 * Math.PI / 4, "arrow");
+		     g2d.draw(new Line2D.Double(
+		  			   backwardPoint.calcPolarPoint().getX_coord(), 
+		  			   backwardPoint.calcPolarPoint().getY_coord(),
+		  			   polarPoint3.calcPolarPoint().getX_coord(), 
+		  			   polarPoint3.calcPolarPoint().getY_coord()));
+		  	   g2d.draw(new Line2D.Double(
+		  			   backwardPoint.calcPolarPoint().getX_coord(), 
+		  			   backwardPoint.calcPolarPoint().getY_coord(),
+		  			   polarPoint4.calcPolarPoint().getX_coord(), 
+		  			   polarPoint4.calcPolarPoint().getY_coord()));
 	        }
 	      //Scale
 	        g2d.setColor(Color.BLACK);
@@ -215,7 +236,7 @@ public class PlateBaseDisplayer extends JFrame{
 	 			X += 110f;
 				g2d.drawString(df.format(pillarBasePoints.get(i).getY_coord()), X, Y);
 				X = 100f;
-				Y += 30f;
+				Y += 25f;
 			}
 			
 		}
@@ -234,7 +255,7 @@ public class PlateBaseDisplayer extends JFrame{
 	 			X += 140f;
 				g2d.drawString(steakoutedCoord.getDeltaY(), X, Y);
 				X = 100f;
-				Y += 30f;
+				Y += 25f;
 			}
 			
 		}
@@ -252,7 +273,7 @@ public class PlateBaseDisplayer extends JFrame{
 	 		Graphics2D g2d = (Graphics2D) g;
 	 		g2d.setColor(Color.BLACK);
 	 		
-	 		for (int i = 1; i < pillarBasePoints.size(); i++) {
+	 		for (int i = 1; i < pillarBasePoints.size() - 2; i++) {
 	 			g2d.drawString(pillarBasePoints.get(i).getPointID(),
 						(float)	transformedPillarBasePoints.get(i).getX_coord() + 15, (float) transformedPillarBasePoints.get(i).getY_coord() + 20);
 	 		}
@@ -263,9 +284,23 @@ public class PlateBaseDisplayer extends JFrame{
 	 		PolarPoint polarPoint = 
 	  	        		new PolarPoint(transformedPillarBasePoints.get(0), 300, 
 	  	        				azimuthAndDistance.calcAzimuth(), "baseLine");
-	 		
 	 		g2d.drawString(directionDisplayerPoint.getPointID(), (float) (polarPoint.calcPolarPoint().getX_coord() - 80), 
 	 				(float) polarPoint.calcPolarPoint().getY_coord() + 50);
+	 		
+	 		String backwardPointID;
+		 	try {
+		 		
+		 		int forwardPointID =  Integer.parseInt(directionPoint.getPointID());
+		 		int centerPointID = Integer.parseInt(pillarBasePoints.get(0).getPointID());
+		 		backwardPointID = forwardPointID > centerPointID ? String.valueOf(centerPointID - 1) : String.valueOf(centerPointID + 1);	
+			} catch (Exception e) {
+				backwardPointID =  pillarBasePoints.get(0).getPointID() + "-1";
+			}
+		 	AzimuthAndDistance backwardAzimuth = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(10));
+		  	PolarPoint backwardPoint = new PolarPoint(transformedPillarBasePoints.get(0), 300, backwardAzimuth.calcAzimuth(), "backward");
+		 	g2d.drawString(backwardPointID, (float) backwardPoint.calcPolarPoint().getX_coord(),
+						(float) (backwardPoint.calcPolarPoint().getY_coord() + 50));
+	 		
 	 		g2d.setColor(Color.BLACK);
 	 		writeDistanceBetweenPillars(g2d);
 	 		g2d.drawString("1m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 290));
