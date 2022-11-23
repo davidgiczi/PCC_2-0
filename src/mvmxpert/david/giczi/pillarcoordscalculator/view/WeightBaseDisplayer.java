@@ -312,7 +312,7 @@ public class WeightBaseDisplayer extends JFrame {
  			X += 140f;
 			g2d.drawString(steakoutedCoord.getDeltaY(), X, Y);
 			X = 100f;
-			Y += 30f;
+			Y += 25f;
 		}
 		
 	}
