@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +62,7 @@ public class FileProcess {
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_RTK.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
 			
 			for (Point point : points) {
 				writer.write(point.writePointForRTK());
@@ -84,7 +85,7 @@ public class FileProcess {
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + "_TPS.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
 			
 			for (Point point : points) {
 				writer.write(point.writePointForTPS());
@@ -107,7 +108,7 @@ public class FileProcess {
 		File file = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME +  "_MS.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
 			
 			for (Point point : points) {
 				writer.write(point.writePointForMS());
@@ -130,7 +131,7 @@ public class FileProcess {
 		File file = new File(STK_SAVED_FILE_PATH + "/" + HomeController.PROJECT_NAME + "_kit.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8, true))) {
 			
 				writer.write(pointData);
 				writer.newLine();
@@ -150,7 +151,7 @@ public class FileProcess {
 		}
 		File file = new File(STK_FILE_PATH + "/" + STK_FILE_NAME);
 		
-		try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+		try(BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))){
 			
 			String row = reader.readLine();
 			while(row != null) { 
@@ -317,7 +318,7 @@ public class FileProcess {
 		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(projectFile))) {
+				new FileWriter(projectFile, StandardCharsets.UTF_8))) {
 			
 				writer.write("#PlateBase");
 				writer.newLine();
@@ -367,7 +368,7 @@ public class FileProcess {
 		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(projectFile))) {
+				new FileWriter(projectFile, StandardCharsets.UTF_8))) {
 			
 				writer.write("#WeightBase");
 				writer.newLine();
@@ -430,7 +431,7 @@ public class FileProcess {
 			
 		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 				
-		try(BufferedReader reader = new BufferedReader(new FileReader(projectFile))){
+		try(BufferedReader reader = new BufferedReader(new FileReader(projectFile, StandardCharsets.UTF_8))){
 			String row = reader.readLine();
 			while(row != null) { 
 			projectData.add(row);

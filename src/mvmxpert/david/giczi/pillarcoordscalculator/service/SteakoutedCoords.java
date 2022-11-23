@@ -487,9 +487,24 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			id = 24;
 			sign = "karó";
 			comment ="az oszlop láb gödör széle";
+		case "25" :
+			id = 25;
+			sign = "karó";
+			comment = directionPointID + ". számú oszlop iránya 20 méterre";
+			break;
+		case "26" :
+			id = 26;
+			sign = "karó";
+			String backwardPointID;
+			try {
+			backwardPointID =  directionPointID > centerPointID ? 
+					String.valueOf(Integer.valueOf(centerPointID - 1)) : 
+					String.valueOf(Integer.valueOf(centerPointID + 1));
+			} catch (Exception e) {
+				backwardPointID = centerPointID + "-1";
+			}
+			comment = backwardPointID + ". számú oszlop iránya 20 méterre";
 		}
-		
-		
 	}
 	
 	private void setMetaDataForRotatedPlateBaseControlledPoint() {
@@ -549,6 +564,23 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " + (centerPointID < directionPointID ?  "hátra" : "előre")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
+		case "9":
+			id = 9;
+			sign = "karó";
+			comment = directionPointID + ". számú oszlop iránya 20 méterre";
+			break;
+		case "10":
+			id = 10;
+			sign = "karó";
+			String backwardPointID;
+			try {
+			backwardPointID =  directionPointID > centerPointID ? 
+					String.valueOf(Integer.valueOf(centerPointID - 1)) : 
+					String.valueOf(Integer.valueOf(centerPointID + 1));
+			} catch (Exception e) {
+				backwardPointID = centerPointID + "-1";
+			}
+			comment = backwardPointID + ". számú oszlop iránya 20 méterre";
 		}
 		
 	}

@@ -286,7 +286,7 @@ public class PlateBaseDisplayer extends JFrame{
 	  	        				azimuthAndDistance.calcAzimuth(), "baseLine");
 	 		g2d.drawString(directionDisplayerPoint.getPointID(), (float) (polarPoint.calcPolarPoint().getX_coord() - 80), 
 	 				(float) polarPoint.calcPolarPoint().getY_coord() + 50);
-	 		
+	 		 if( rotation != 0)	{	
 	 		String backwardPointID;
 		 	try {
 		 		
@@ -300,7 +300,7 @@ public class PlateBaseDisplayer extends JFrame{
 		  	PolarPoint backwardPoint = new PolarPoint(transformedPillarBasePoints.get(0), 300, backwardAzimuth.calcAzimuth(), "backward");
 		 	g2d.drawString(backwardPointID, (float) backwardPoint.calcPolarPoint().getX_coord(),
 						(float) (backwardPoint.calcPolarPoint().getY_coord() + 50));
-	 		
+	 	}	
 	 		g2d.setColor(Color.BLACK);
 	 		writeDistanceBetweenPillars(g2d);
 	 		g2d.drawString("1m", (float) (displayerCenterX + 300), (float) (displayerCenterY + 290));

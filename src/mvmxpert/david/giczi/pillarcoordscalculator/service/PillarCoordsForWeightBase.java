@@ -271,7 +271,7 @@ public class PillarCoordsForWeightBase {
 	
 	private void calculateMainLinePoints() {
 		
-		if( angleValueBetweenMainPath == 0 &&
+		if( angleValueBetweenMainPath == 180 &&
 				angularMinuteValueBetweenMainPath == 0 &&
 						angularSecondValueBetweenMainPath == 0 )
 			return;
