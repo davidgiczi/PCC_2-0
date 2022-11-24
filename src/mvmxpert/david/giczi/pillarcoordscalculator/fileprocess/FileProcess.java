@@ -23,6 +23,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutedCoords;
 
 
 public class FileProcess {
@@ -122,7 +123,7 @@ public class FileProcess {
 		}
 	}
 	
-	public static void saveSteakoutPoint(String pointData) {
+	public static void saveSteakoutedPoints(List<SteakoutedCoords> steakoutedPoints) {
 		
 		if(STK_SAVED_FILE_PATH == null) {
 			STK_SAVED_FILE_PATH = FOLDER_PATH;
@@ -131,11 +132,13 @@ public class FileProcess {
 		File file = new File(STK_SAVED_FILE_PATH + "/" + HomeController.PROJECT_NAME + "_kit.txt");
 		
 		try(BufferedWriter writer = new BufferedWriter(
-				new FileWriter(file, StandardCharsets.UTF_8, true))) {
+				new FileWriter(file, StandardCharsets.UTF_8))) {
 			
-				writer.write(pointData);
+			for (SteakoutedCoords steakoutedPoint : steakoutedPoints) {
+				writer.write(steakoutedPoint.getSteakoutedPointData());
 				writer.newLine();
-					
+			}
+			
 		} catch (IOException e) {
 			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}

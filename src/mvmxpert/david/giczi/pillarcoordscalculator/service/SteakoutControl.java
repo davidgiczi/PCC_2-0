@@ -11,6 +11,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
 public class SteakoutControl {
 
 	private List<Point> designedPillarCoords;
+	private Point directionPoint;
 	private BaseType baseType;
 	private PointID pointID;
 	private String pointIDValue;
@@ -25,6 +26,14 @@ public class SteakoutControl {
 
 	public void setDesignedPillarCoords(List<Point> designedPillarCoords) {
 		this.designedPillarCoords = designedPillarCoords;
+	}
+
+	public void setDirectionPoint(Point directionPoint) {
+		this.directionPoint = directionPoint;
+	}
+
+	public void setControlledCoords(List<SteakoutedCoords> controlledCoords) {
+		this.controlledCoords = controlledCoords;
 	}
 
 	public void setPointID(PointID pointID) {
@@ -50,12 +59,12 @@ public class SteakoutControl {
 			String[] data = controlData.split(delimiter);
 			for(int i = 0; i < designedPillarCoords.size(); i++) {
 				SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedPillarCoords.get(i).getPointID());
+				steakouted.setDirectionPoint(directionPoint);
+				
 				try {
 					steakouted.setCenterPointID(Integer.parseInt(designedPillarCoords.get(0).getPointID()));
-					steakouted.setDirectionPointID(Integer.parseInt(designedPillarCoords.get(designedPillarCoords.size() - 1).getPointID()));
 				} catch (NumberFormatException e) {
 					steakouted.setCenterPointID(1);
-					steakouted.setCenterPointID(2);
 				}
 				
 				if(getPointIdentifier(designedPillarCoords.get(i).getPointID()).equals(data[0])) {
@@ -111,9 +120,12 @@ public class SteakoutControl {
 		return controlledCoords;
 	}
 	
-	public void printControlledCoords() {
-		controlledCoords.forEach(c -> FileProcess.saveSteakoutPoint(c.getSteakoutedPointData()));
+	public List<Point> getDesignedPillarCoords() {
+		return designedPillarCoords;
 	}
-	
+
+	public void printControlledPoints() {
+		FileProcess.saveSteakoutedPoints(controlledCoords);
+	}
 	
 }

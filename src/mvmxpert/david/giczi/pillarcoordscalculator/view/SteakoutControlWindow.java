@@ -214,10 +214,10 @@ public class SteakoutControlWindow {
 		panel.add(Box.createVerticalStrut(30));
 		panel.add(Box.createHorizontalStrut(100));
 		ButtonGroup group = new ButtonGroup();
-		yesPrintRadioBtn = new JRadioButton("Igen", true);
+		yesPrintRadioBtn = new JRadioButton("Igen");
 		yesPrintRadioBtn.setBackground(Color.WHITE);
 		panel.add(yesPrintRadioBtn);
-		noPrintRadioBtn = new JRadioButton("Nem");
+		noPrintRadioBtn = new JRadioButton("Nem", true);
 		noPrintRadioBtn.setBackground(Color.WHITE);
 		group.add(yesPrintRadioBtn);
 		group.add(noPrintRadioBtn);
