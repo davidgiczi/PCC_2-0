@@ -60,13 +60,7 @@ public class SteakoutControl {
 			for(int i = 0; i < designedPillarCoords.size(); i++) {
 				SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedPillarCoords.get(i).getPointID());
 				steakouted.setDirectionPoint(directionPoint);
-				
-				try {
-					steakouted.setCenterPointID(Integer.parseInt(designedPillarCoords.get(0).getPointID()));
-				} catch (NumberFormatException e) {
-					steakouted.setCenterPointID(1);
-				}
-				
+				steakouted.setCenterPoint(designedPillarCoords.get(0));
 				if(getPointIdentifier(designedPillarCoords.get(i).getPointID()).equals(data[0])) {
 					
 				if(baseType == BaseType.WEIGHT_BASE) {

@@ -7,7 +7,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 
 	private int id;
-	private int centerPointID;
+	private Point centerPoint;
 	private Point directionPoint;
 	private String pointID;
 	private String stkPointID;
@@ -31,8 +31,8 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		df = new DecimalFormat("0.000");
 	}
 	
-	public void setCenterPointID(int centerPointID) {
-		this.centerPointID = centerPointID;
+	public void setCenterPoint(Point centerPoint) {
+		this.centerPoint = centerPoint;
 	}
 	
 	public void setDirectionPoint(Point directionPoint) {
@@ -139,16 +139,20 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		}
 	}
 	
-	private int getDirectionPointID() {
-		int id;
+	private int getPointIntegerID(Point point) {
+		int id = 0;
 		try {
-			id = Integer.parseInt(directionPoint.getPointID());
+			id = Integer.parseInt(point.getPointID());
 		} catch (Exception e) {
-			id = 2;
+			
+			if( point.equals(centerPoint) )
+				id = 1;
+			else if( point.equals(directionPoint) )
+				id = 2;
 		}
 		return id;
 	}
-	
+
 	private void setMetaDataForWeightBaseControlledPoint() {
 		
 		String[] pointIDComponents = pointID.split("_");
@@ -163,49 +167,49 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			id = 1;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az oszlop közepétől " + pathDistance + " méterre " + 
-			(centerPointID < getDirectionPointID() ?  "előre" : "hátra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "jobbra" : "balra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "hátra" : "előre");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "balra" : "jobbra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "előre" : "hátra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
 			break;
 		case "6": 
 			id = 6;
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "jobbra" : "balra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "hátra" : "előre");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "balra" : "jobbra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "9":
 			id = 9;
@@ -326,28 +330,28 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az alap gödrének szélétől " 
 			+ verticalDistanceFromSideOfHole + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "balra" : "jobbra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "előre" : "hátra");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "a nyomvonalra merőleges tengely iránya az alap gödrének szélétől " 
 			+ verticalDistanceFromSideOfHole + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "jobbra" : "balra");;
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");;
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "a nyomvonal iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " +
-			(centerPointID < getDirectionPointID() ?  "hátra" : "előre");
+			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
 		}
 		
 	}
@@ -366,56 +370,56 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			id = 1;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(centerPointID < getDirectionPointID() ?  "előre" : "hátra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(centerPointID < getDirectionPointID() ?  "jobbra" : "balra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ "(a merőleges tengely a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(centerPointID < getDirectionPointID() ?  "hátra" : "előre")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(centerPointID < getDirectionPointID() ?  "balra" : "jobbra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (a merőleges tengely a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
-					(centerPointID < getDirectionPointID() ?  "előre" : "hátra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya a gödrök széleinél " +
-					(centerPointID < getDirectionPointID() ?  "jobbra" : "balra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (a merőleges tengely a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
-					(centerPointID < getDirectionPointID() ?  "hátra" : "előre")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya a gödrök széleinél " +
-					(centerPointID < getDirectionPointID() ?  "balra" : "jobbra")
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (a merőleges tengely a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "9":
@@ -501,20 +505,17 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "25" :
 			id = 25;
 			sign = "karó";
-			comment = getDirectionPointID() + ". számú oszlop iránya 20 méterre";
+			comment = centerPoint.getPointID() + ". számú oszlop iránya 20 méterre";
 			break;
 		case "26" :
 			id = 26;
 			sign = "karó";
-			String backwardPointID;
-			try {
-			backwardPointID =  getDirectionPointID() > centerPointID ? 
-					String.valueOf(centerPointID - 1) : 
-					String.valueOf(centerPointID + 1);
-			} catch (Exception e) {
-				backwardPointID = centerPointID + "-1";
-			}
-			comment = backwardPointID + ". számú oszlop iránya 20 méterre";
+			if( getPointIntegerID(directionPoint) == 2 ) 
+			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
+			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
+			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";		
 		}
 	}
 	
@@ -552,47 +553,48 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			id = 5;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " + (centerPointID < getDirectionPointID() ?  "balra" : "jobbra")
+			+ verticalDistanceFromSideOfHole + " méterre " + 
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (a merőleges tengely a nyomvonallal " + (90  + (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " + (centerPointID < getDirectionPointID() ?  "előre" : "hátra")
+			+ horizontalDistanceFromSideOfHole + " méterre " + 
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " + (centerPointID < getDirectionPointID() ?  "jobbra" : "balra")
+			+ verticalDistanceFromSideOfHole + " méterre " + 
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (a merőleges tengely a nyomvonallal " + (90 + (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " + (centerPointID < getDirectionPointID() ?  "hátra" : "előre")
+			+ horizontalDistanceFromSideOfHole + " méterre " + 
+					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
 					+ " (az oszlop tengelye a nyomvonallal " + ((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "9":
 			id = 9;
 			sign = "karó";
-			comment = getDirectionPointID() + ". számú oszlop iránya 20 méterre";
+			comment = getPointIntegerID(centerPoint) + ". számú oszlop iránya 20 méterre";
 			break;
 		case "10":
 			id = 10;
 			sign = "karó";
-			String backwardPointID;
-			try {
-			backwardPointID =  getDirectionPointID() > centerPointID ? 
-					String.valueOf(centerPointID - 1) : 
-					String.valueOf(centerPointID + 1);
-			} catch (Exception e) {
-				backwardPointID = centerPointID + "-1";
-			}
-			comment = backwardPointID + ". számú oszlop iránya 20 méterre";
+			if( getPointIntegerID(directionPoint) == 2 ) 
+			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
+			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
+			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";	
 		}
 		
 	}

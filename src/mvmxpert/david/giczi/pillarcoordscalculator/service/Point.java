@@ -1,5 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
+import java.util.Objects;
+
 public class Point {
 
 	private String pointID;
@@ -54,7 +56,26 @@ public class Point {
 	public String writePointForMS() {
 		return this.pointID + " " + this.x_coord + " " + this.y_coord + " 0";
 	}
-	
-	
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(pointID, x_coord, y_coord);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		return Objects.equals(pointID, other.pointID)
+				&& Double.doubleToLongBits(x_coord) == Double.doubleToLongBits(other.x_coord)
+				&& Double.doubleToLongBits(y_coord) == Double.doubleToLongBits(other.y_coord);
+	}
 	
 }

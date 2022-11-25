@@ -289,12 +289,11 @@ public class PlateBaseDisplayer extends JFrame{
 	 		 if( rotation != 0)	{	
 	 		String backwardPointID;
 		 	try {
-		 		
 		 		int forwardPointID =  Integer.parseInt(directionPoint.getPointID());
 		 		int centerPointID = Integer.parseInt(pillarBasePoints.get(0).getPointID());
 		 		backwardPointID = forwardPointID > centerPointID ? String.valueOf(centerPointID - 1) : String.valueOf(centerPointID + 1);	
 			} catch (Exception e) {
-				backwardPointID =  pillarBasePoints.get(0).getPointID() + "-1";
+				backwardPointID =  pillarBasePoints.get(0).getPointID() + "_2";
 			}
 		 	AzimuthAndDistance backwardAzimuth = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(10));
 		  	PolarPoint backwardPoint = new PolarPoint(transformedPillarBasePoints.get(0), 300, backwardAzimuth.calcAzimuth(), "backward");

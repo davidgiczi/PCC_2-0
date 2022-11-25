@@ -252,7 +252,7 @@ public class WeightBaseDisplayer extends JFrame {
 		  			   backwardPoint.calcPolarPoint().getY_coord(),
 		  			   polarPoint3.calcPolarPoint().getX_coord(), 
 		  			   polarPoint3.calcPolarPoint().getY_coord()));
-		  	   g2d.draw(new Line2D.Double(
+		  	 g2d.draw(new Line2D.Double(
 		  			   backwardPoint.calcPolarPoint().getX_coord(), 
 		  			   backwardPoint.calcPolarPoint().getY_coord(),
 		  			   polarPoint4.calcPolarPoint().getX_coord(), 
@@ -338,12 +338,11 @@ public class WeightBaseDisplayer extends JFrame {
 	 if( rotation != 0)	{
 	 	String backwardPointID;
 	 	try {
-	 		
 	 		int forwardPointID =  Integer.parseInt(directionPoint.getPointID());
 	 		int centerPointID = Integer.parseInt(pillarBasePoints.get(0).getPointID());
 	 		backwardPointID = forwardPointID > centerPointID ? String.valueOf(centerPointID - 1) : String.valueOf(centerPointID + 1);	
 		} catch (Exception e) {
-			backwardPointID =  pillarBasePoints.get(0).getPointID() + "-1";
+			backwardPointID =  pillarBasePoints.get(0).getPointID() + "_2";
 		}
 	 	AzimuthAndDistance backwardAzimuth = new AzimuthAndDistance(transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(26));
 	  	PolarPoint backwardPoint = new PolarPoint(transformedPillarBasePoints.get(0), 300, backwardAzimuth.calcAzimuth(), "backward");
