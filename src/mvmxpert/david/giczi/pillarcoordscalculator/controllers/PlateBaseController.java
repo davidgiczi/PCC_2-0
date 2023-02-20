@@ -185,21 +185,21 @@ public class PlateBaseController implements Controller  {
 	
 	private void isValidInputData() throws NumberFormatException {
 		centerX = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.x_centerField.getText().replace(',' , '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.x_centerField.getText().replace(',' , '.'));
 		centerY = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.y_centerField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.y_centerField.getText().replace(',', '.'));
 		directionX = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.x_directionField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.x_directionField.getText().replace(',', '.'));
 		directionY = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.y_directionField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.y_directionField.getText().replace(',', '.'));
 		horizontalSizeOfHole = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.horizontalSizeOfHoleField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.horizontalSizeOfHoleField.getText().replace(',', '.'));
 		verticalSizeOfHole = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.verticalSizeOfHoleField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.verticalSizeOfHoleField.getText().replace(',', '.'));
 		horizontalDistanceFromHole = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.horizontalDistanceFromHoleSideField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.horizontalDistanceFromHoleSideField.getText().replace(',', '.'));
 		verticalDistanceFromHole = InputDataValidator
-				.isValidInputNumberValue(homeController.plateBaseInputWindow.verticalDistanceFromHoleSideField.getText().replace(',', '.'));
+				.isValidInputDoubleValue(homeController.plateBaseInputWindow.verticalDistanceFromHoleSideField.getText().replace(',', '.'));
 		rotationAngle = InputDataValidator.isValidAngleValue(homeController.plateBaseInputWindow.rotateAngularField.getText());
 		rotationMin = InputDataValidator.isValidAngleValue(homeController.plateBaseInputWindow.rotateAngularMinField.getText());
 		rotationSec = InputDataValidator.isValidAngleValue(homeController.plateBaseInputWindow.rotateAngularSecField.getText());

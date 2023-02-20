@@ -92,6 +92,16 @@ public class HomeWindow {
 		});
 		
 		JMenuBar menuBar = new JMenuBar();
+		JMenuItem item20 = new JMenuItem("Oszlop lábak távolságának számítása");
+		item20.setForeground(textColor);
+		item20.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		item20.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				homeController.getCalculateDistanceBetweenPillarLegsWindow();
+			}
+		});
 		JMenuItem item21 = new JMenuItem("Súlyalap pontjainak számítása");
 		item21.setForeground(textColor);
 		item21.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -114,6 +124,8 @@ public class HomeWindow {
 		});
 		menuBar.add(menu1);
 		menuBar.add(baseDataMenu);
+		baseDataMenu.add(item20);
+		baseDataMenu.addSeparator();
 		baseDataMenu.add(item21);
 		baseDataMenu.add(item22);
 		menuBar.add(controlSteakoutMenu);

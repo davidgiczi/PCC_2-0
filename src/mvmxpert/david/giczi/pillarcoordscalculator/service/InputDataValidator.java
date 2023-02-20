@@ -12,11 +12,29 @@ public class InputDataValidator {
 		return !value.isBlank() && !value.isEmpty();
 		}	
 	
-	public static double isValidInputNumberValue(String inputNumber) throws NumberFormatException {
+	public static double isValidInputDoubleValue(String inputNumber) throws NumberFormatException {
 		
 	Double number = Double.parseDouble(inputNumber);
 	
 	return number;
+	}
+	
+	public static Double isValidInputPositiveDoubleValue(String inputNumber) throws NumberFormatException {
+		Double	positiveDouble = Double.parseDouble(inputNumber);
+		
+			if( 0 > positiveDouble ) 
+				throw new NumberFormatException();
+			
+		return positiveDouble;
+	}
+	
+	public static Integer isValidInputPositiveIntegerValue(String inputNumber) throws NumberFormatException {
+		Integer	positiveInteger = Integer.parseInt(inputNumber);
+		
+			if( 0 > positiveInteger ) 
+				throw new NumberFormatException();
+			
+		return positiveInteger;
 	}
 	
 	public static int isValidAngleValue(String angleValue) throws NumberFormatException {

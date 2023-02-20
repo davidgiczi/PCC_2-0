@@ -9,6 +9,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
+import mvmxpert.david.giczi.pillarcoordscalculator.view.CalculateDistanceBetweenPillarLegsWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseInputWindow;
@@ -31,6 +32,7 @@ public class HomeController {
 	WeightBaseController weightBaseController;
 	PlateBaseController plateBaseController;
 	SteakoutController steakoutController;
+	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
 	
 	public HomeController() {
 		this.homeWindow = new HomeWindow(this);
@@ -77,6 +79,15 @@ public class HomeController {
 		}
 		else {
 			steakoutControlWindow.steakoutControlFrame.setVisible(true);
+		}
+	}
+	
+	public void getCalculateDistanceBetweenPillarLegsWindow() {
+		if( calculateDistanceBetweenPillarLegsWindow == null ) {
+			calculateDistanceBetweenPillarLegsWindow = new CalculateDistanceBetweenPillarLegsWindow();
+		}
+		else {
+			calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(true);
 		}
 	}
 
@@ -150,7 +161,7 @@ public class HomeController {
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public int getWarningMessage(String title, String message) {
+	public static int getWarningMessage(String title, String message) {
 		return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
 	}
 	

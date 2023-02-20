@@ -186,23 +186,23 @@ public class WeightBaseController implements Controller {
 	
 		private void isValidInputData() throws NumberFormatException {
 			centerX = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.x_centerField.getText().replace(',' , '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.x_centerField.getText().replace(',' , '.'));
 			centerY = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.y_centerField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.y_centerField.getText().replace(',', '.'));
 			directionX = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.x_directionField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.x_directionField.getText().replace(',', '.'));
 			directionY = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.y_directionField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.y_directionField.getText().replace(',', '.'));
 			distanceOnTheAxis = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.directionSizeField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.directionSizeField.getText().replace(',', '.'));
 			horizontalDistanceBetweenPillarLegs = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.getText().replace(',', '.'));
 			verticalDistanceBetweenPillarLegs = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.verticalSizeForPillarLegField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.verticalSizeForPillarLegField.getText().replace(',', '.'));
 			horizontalSizeOfHoleOfPillarLeg = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.horizontalSizeForHoleField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.horizontalSizeForHoleField.getText().replace(',', '.'));
 			verticalSizeOfHoleOfPillarLeg = InputDataValidator
-					.isValidInputNumberValue(homeController.weightBaseInputWindow.verticalSizeForHoleField.getText().replace(',', '.'));
+					.isValidInputDoubleValue(homeController.weightBaseInputWindow.verticalSizeForHoleField.getText().replace(',', '.'));
 			rotationAngle = InputDataValidator.isValidAngleValue(homeController.weightBaseInputWindow.rotateAngularField.getText());
 			rotationMin = InputDataValidator.isValidAngleValue(homeController.weightBaseInputWindow.rotateAngularMinField.getText());
 			rotationSec = InputDataValidator.isValidAngleValue(homeController.weightBaseInputWindow.rotateAngularSecField.getText());
