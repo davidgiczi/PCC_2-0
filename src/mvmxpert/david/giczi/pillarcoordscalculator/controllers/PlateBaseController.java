@@ -87,7 +87,7 @@ public class PlateBaseController implements Controller  {
 		
 		if( FileProcess.isProjectFileExist() ) {
 			
-			if( homeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
+			if( HomeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
 					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
 				String newProjectName = createNewProject();
 				if(newProjectName == null)
