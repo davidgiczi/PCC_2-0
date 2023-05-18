@@ -32,8 +32,13 @@ public class FileProcess {
 	public static String STK_FILE_PATH;
 	public static String STK_FILE_NAME;
 	public static String STK_SAVED_FILE_PATH;
+	private HomeController homeController;
 	
-	public static void saveDataForKML(Point pillarCenter,  Point directionPoint) {
+	public FileProcess(HomeController homeController) {
+		this.homeController = homeController;
+	}
+
+	public void saveDataForKML(Point pillarCenter,  Point directionPoint) {
 		
 		if(FOLDER_PATH == null) {
 			return;
@@ -50,11 +55,11 @@ public class FileProcess {
 				writer.newLine();
 		
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
-	public static void saveDataForRTK(List<Point> points, Point directionPoint) {
+	public void saveDataForRTK(List<Point> points, Point directionPoint) {
 		
 		if(FOLDER_PATH == null) {
 			return;
@@ -73,11 +78,11 @@ public class FileProcess {
 			writer.newLine();
 					
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
-	public static void saveDataForTPS(List<Point> points, Point directionPoint) {
+	public void saveDataForTPS(List<Point> points, Point directionPoint) {
 		
 		if(FOLDER_PATH == null) {
 			return;
@@ -96,11 +101,11 @@ public class FileProcess {
 			writer.newLine();
 			
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
-	public static void saveDataForMS(List<Point> points, Point directionPoint) {
+	public void saveDataForMS(List<Point> points, Point directionPoint) {
 		
 		if(FOLDER_PATH == null) {
 			return;
@@ -119,11 +124,11 @@ public class FileProcess {
 			writer.newLine();
 			
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 	}
 	
-	public static void saveSteakoutedPoints(List<SteakoutedCoords> steakoutedPoints) {
+	public void saveSteakoutedPoints(List<SteakoutedCoords> steakoutedPoints) {
 		
 		if(STK_SAVED_FILE_PATH == null) {
 			STK_SAVED_FILE_PATH = FOLDER_PATH;
@@ -140,12 +145,12 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl létrehozása", "Kitűzési fájl létrehozása sikertelen: \"" + file.getName() + "\"");
 		}
 		
 	}
 	
-	public static List<String> getSteakoutedPointData(){
+	public List<String> getSteakoutedPointData(){
 		
 		List<String> pointData = new ArrayList<>();
 		
@@ -163,13 +168,13 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController.getInfoMessage("Kitűzési fájl választása", "Nem található kitűzési fájl: \"" + file.getName() + "\"");
+			homeController.getInfoMessage("Kitűzési fájl választása", "Nem található kitűzési fájl: \"" + file.getName() + "\"");
 		}
 		
 		return pointData;
 	}
 	
-	public static void setFolder() {
+	public void setFolder() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -177,6 +182,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
+		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
@@ -200,7 +206,7 @@ public class FileProcess {
 		}
 	}
 	
-	public static void setFolderForSteakoutedPointFile() {
+	public void setFolderForSteakoutedPointFile() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -208,6 +214,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
+		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
@@ -231,7 +238,7 @@ public class FileProcess {
 		}
 	}
 	
-	public static String setProject() {
+	public String setProject() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -239,6 +246,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
+		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
@@ -271,7 +279,7 @@ public class FileProcess {
 			try {
 				projectName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
 			} catch (Exception e) {
-				HomeController.getInfoMessage("Projekt fájl választása", "*.pcc fájl választása szükséges.");
+				homeController.getInfoMessage("Projekt fájl választása", "*.pcc fájl választása szükséges.");
 			}
 			
 		}
@@ -279,7 +287,7 @@ public class FileProcess {
 		return projectName;
 	}
 	
-	public static void setSteakoutFile() {
+	public void setSteakoutFile() {
 		JFileChooser jfc = new JFileChooser(){
 		    
 			private static final long serialVersionUID = 1L;
@@ -287,6 +295,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
+		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
@@ -311,7 +320,7 @@ public class FileProcess {
 			
 	}
 	
-	public static void saveProjectFileForPlatetBase
+	public void saveProjectFileForPlatetBase
 	(String centerID, double centerX, double centerY, 
 	 String directionID, double directionX,  double directionY,
 	 double horizontalSizeOfHole, double verticalSizeOfHole,
@@ -353,13 +362,13 @@ public class FileProcess {
 				writer.newLine();
 				
 		} catch (IOException e) {
-			HomeController
+			homeController
 			.getInfoMessage("Projekt fájl létrehozása", "Projekt fájl létrehozása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 			
 	}
 	
-	public static void saveProjectFileForWeightBase(String centerID, double centerX, double centerY, 
+	public void saveProjectFileForWeightBase(String centerID, double centerX, double centerY, 
 			 String directionID, double directionX,  double directionY,
 			 double distanceOnTheAxis, 
 			 double horizontalDistanceBetweenPillarLegs,
@@ -405,7 +414,7 @@ public class FileProcess {
 				writer.newLine();
 				
 		} catch (IOException e) {
-			HomeController
+			homeController
 			.getInfoMessage("Projekt fájl létrehozása", "Projekt fájl létrehozása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 	}
@@ -423,7 +432,7 @@ public class FileProcess {
 		return Arrays.asList(pcc).contains(HomeController.PROJECT_NAME + ".pcc");
 	}
 	
-	public static List<String> getProjectFileData(){
+	public List<String> getProjectFileData(){
 		
 		List<String> projectData = new ArrayList<>();
 		
@@ -442,7 +451,7 @@ public class FileProcess {
 			}
 			
 		} catch (IOException e) {
-			HomeController
+			homeController
 			.getInfoMessage("Projekt fájl beolvasása", "Projekt fájl beolvasása sikertelen: \"" + projectFile.getName() + "\"");
 		}
 	}	

@@ -15,12 +15,11 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 
 public class HomeWindow {
 
-	private JFrame homeFrame;
+	public JFrame homeFrame;
 	private HomeController homeController;
 	private Color textColor = new Color(112,128,144);
 	public JMenu baseDataMenu;
@@ -29,7 +28,7 @@ public class HomeWindow {
 	public HomeWindow(HomeController homeController) {
 		this.homeController = homeController;
 		homeFrame = new JFrame("Nagyfeszültségű távvezeték oszlop alapjának kitűzése");
-		new FileProcess().addMVMXPertLogo(homeFrame);
+		homeController.fileProcess.addMVMXPertLogo(homeFrame);
 		homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		homeFrame.setSize(550, 800);
 		homeFrame.setLocationRelativeTo(null);
@@ -63,8 +62,25 @@ public class HomeWindow {
 				homeController.createNewProject();
 			}
 		});
+		JMenuItem item13 = new JMenuItem("Program bezárása");
+		item13.setForeground(textColor);
+		item13.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		item13.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if( homeController.getYesNoMessage("Program bezárása", 
+						"Biztos, hogy kilépsz a programból?") == 0 ) {
+					System.exit(0);
+				}
+				
+			}
+		});
 		menu1.add(item11);
 		menu1.add(item12);
+		menu1.addSeparator();
+		menu1.add(item13);
 		baseDataMenu = new JMenu("Alap adatainak megadása");
 		baseDataMenu.setForeground(textColor);
 		baseDataMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));

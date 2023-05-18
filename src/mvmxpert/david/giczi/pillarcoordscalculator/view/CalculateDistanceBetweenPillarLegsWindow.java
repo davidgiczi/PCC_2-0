@@ -33,13 +33,15 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 	public JTextField resultField;
 	private Font font = new Font("Arial", Font.BOLD, 13);
 	private Color color = new Color(112,128,144);
+	private HomeController homeController;
 	
-	public CalculateDistanceBetweenPillarLegsWindow() {
+	public CalculateDistanceBetweenPillarLegsWindow(HomeController homeController) {
+		this.homeController = homeController;
 		inputFrame = new JFrame("Oszloplábak távolságának számítása");
-		new FileProcess().addMVMXPertLogo(inputFrame);
+		this.homeController.fileProcess.addMVMXPertLogo(inputFrame);
 		inputFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrame.setSize(400, 240);
-		inputFrame.setLocationRelativeTo(null);
+		inputFrame.setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		inputFrame.setLayout(new FlowLayout());
 		setInputData();
 		addOkButton();
@@ -115,7 +117,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					distanceOfLegsValue = InputDataValidator.isValidInputPositiveIntegerValue(distanceOfLegsField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					HomeController.getWarningMessage("Nem megfelelő a lábtávolság értéke", 
+					homeController.getYesNoMessage("Nem megfelelő a lábtávolság értéke", 
 							"A lábtávolság értéke csak pozitív egész szám lehet.");
 					return;
 				}
@@ -123,7 +125,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					illesztesiSikValue = InputDataValidator.isValidInputPositiveIntegerValue(illesztesiSikField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					HomeController.getWarningMessage("Nem megfelelő az illesztesi sík értéke", 
+					homeController.getYesNoMessage("Nem megfelelő az illesztesi sík értéke", 
 							"Az illesztési sík értéke csak pozitív egész szám lehet.");
 					return;
 				}
@@ -131,7 +133,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					sudarasodasValue = InputDataValidator.isValidInputPositiveDoubleValue(sudarasodasField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					HomeController.getWarningMessage("Nem megfelelő a sudarasodás értéke", 
+					homeController.getYesNoMessage("Nem megfelelő a sudarasodás értéke", 
 							"A sudarasodás értéke csak pozitív szám lehet.");
 					return;
 				}

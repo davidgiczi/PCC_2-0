@@ -9,7 +9,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 
 public class SteakoutController {
 
-	private HomeController homeController;
+	public HomeController homeController;
 	private String delimiter;
 	private String prePostFixValue;
 	private String prePostFixSelectedOption;
@@ -49,15 +49,15 @@ public class SteakoutController {
 		
 		if(homeController.steakoutControlWindow.stkFileNameField.getText().isEmpty() || 
 			homeController.steakoutControlWindow.stkFilePlaceField.getText().isEmpty()) {
-			HomeController.getInfoMessage("Kitűzési fájl nevének/helyének megadása", "Kitűzési fájl választása szükséges.");
+			homeController.getInfoMessage("Kitűzési fájl nevének/helyének megadása", "Kitűzési fájl választása szükséges.");
 			return false;
 		}
 		if( prePostFixValue != null && prePostFixValue.isEmpty() && "előtag".equals(prePostFixSelectedOption)) {
-			HomeController.getInfoMessage("Pontszám előtag megadása", "Pontszám előtag értékének megadása szükséges.");
+			homeController.getInfoMessage("Pontszám előtag megadása", "Pontszám előtag értékének megadása szükséges.");
 			return false;
 		}
 		else if(prePostFixValue != null && prePostFixValue.isEmpty() && "utótag".equals(prePostFixSelectedOption)) {
-			HomeController.getInfoMessage("Pontszám utótag megadása", "Pontszám utótag értékének megadása szükséges.");
+			homeController.getInfoMessage("Pontszám utótag megadása", "Pontszám utótag értékének megadása szükséges.");
 			return false;
 		}
 		prePostFixValue = homeController.steakoutControlWindow.prePostFixValue;
@@ -68,7 +68,7 @@ public class SteakoutController {
 	private void controlSteakoutForWeightBase() {
 		
 		if( homeController.steakoutControl == null ) {
-			homeController.steakoutControl = new SteakoutControl(BaseType.WEIGHT_BASE);
+			homeController.steakoutControl = new SteakoutControl(homeController, BaseType.WEIGHT_BASE);
 		}
 		homeController.steakoutControl.setDirectionPoint(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		homeController.steakoutControl.setDesignedPillarCoords(homeController.weightBaseCoordsCalculator.getPillarPoints());
@@ -77,9 +77,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.weightBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
-		homeController.weightBaseDisplayer = new WeightBaseDisplayer(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-				homeController.weightBaseCoordsCalculator.getAxisDirectionPoint(), 
-				homeController.weightBaseCoordsCalculator.getRadRotation(),
+		homeController.weightBaseDisplayer = new WeightBaseDisplayer(homeController,
 				FileProcess.STK_SAVED_FILE_PATH + "\\" + HomeController.PROJECT_NAME + "_kit.txt");
 		homeController.weightBaseDisplayer.setControlledCoords(homeController.steakoutControl.getControlledCoords());
 	}
@@ -87,7 +85,7 @@ public class SteakoutController {
 	private void controlSteakoutForPlateBase() {
 		
 		if(homeController.steakoutControl == null ) {
-			homeController.steakoutControl = new SteakoutControl(BaseType.PLATE_BASE);
+			homeController.steakoutControl = new SteakoutControl(homeController, BaseType.PLATE_BASE);
 		}
 		homeController.steakoutControl.setDirectionPoint(homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		homeController.steakoutControl.setDesignedPillarCoords(homeController.plateBaseCoordsCalculator.getPillarPoints());
@@ -96,10 +94,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.plateBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
-		homeController.plateBaseDisplayer =	new PlateBaseDisplayer
-				(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
-				 homeController.plateBaseCoordsCalculator.getAxisDirectionPoint(), 
-				 homeController.plateBaseCoordsCalculator.getRadRotation(),
+		homeController.plateBaseDisplayer =	new PlateBaseDisplayer(homeController,
 				 FileProcess.STK_SAVED_FILE_PATH + "\\" + HomeController.PROJECT_NAME + "_kit.txt");
 		homeController.plateBaseDisplayer.setControlledCoords(homeController.steakoutControl.getControlledCoords());
 	}

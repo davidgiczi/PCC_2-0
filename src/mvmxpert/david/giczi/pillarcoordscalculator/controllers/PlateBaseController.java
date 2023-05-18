@@ -12,7 +12,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 public class PlateBaseController implements Controller  {
 
 	
-	private HomeController homeController;
+	public HomeController homeController;
 	private String centerID;
 	private String directionID;
 	private double centerX;
@@ -66,18 +66,16 @@ public class PlateBaseController implements Controller  {
 		 }
 		saveCoordFiles();
 				homeController.plateBaseDisplayer =	
-						new PlateBaseDisplayer(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
-				homeController.plateBaseCoordsCalculator.getAxisDirectionPoint(),
-				homeController.plateBaseCoordsCalculator.getRadRotation(),
+						new PlateBaseDisplayer(homeController, 
 				   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setVisible();
 		destroy();
 	} catch (InvalidAttributeValueException e) {
-		HomeController.getInfoMessage("Bemeneti adatok megadása",
+		homeController.getInfoMessage("Bemeneti adatok megadása",
 				"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
 	}
 	  catch (NumberFormatException e) {
-		HomeController.getInfoMessage("Bemeneti adatok megadása",
+		homeController.getInfoMessage("Bemeneti adatok megadása",
 				"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
 		}
 	}
@@ -87,7 +85,7 @@ public class PlateBaseController implements Controller  {
 		
 		if( FileProcess.isProjectFileExist() ) {
 			
-			if( HomeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
+			if( homeController.getYesNoMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
 					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
 				String newProjectName = createNewProject();
 				if(newProjectName == null)
@@ -117,7 +115,7 @@ public class PlateBaseController implements Controller  {
 		String projectName = 
 				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
-			FileProcess.setFolder();
+		homeController.fileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
 			homeController.getExistedProjectInfoMessage();
@@ -125,7 +123,7 @@ public class PlateBaseController implements Controller  {
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
-		HomeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
 		}
 		
 		return projectName;
@@ -135,29 +133,29 @@ public class PlateBaseController implements Controller  {
 	public void saveCoordFiles() {
 		
 		if(homeController.plateBaseInputWindow.all.isSelected() ) {
-			FileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
+			homeController.fileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.plateBaseInputWindow.kml.isSelected() ) {
-			FileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
+			homeController.fileProcess.saveDataForKML(homeController.plateBaseCoordsCalculator.getPillarCenterPoint(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.plateBaseInputWindow.rtk.isSelected() ) {
-			FileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForRTK(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.plateBaseInputWindow.tps.isSelected() ) {
-			FileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForTPS(homeController.plateBaseCoordsCalculator.getPillarPoints(), 
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.plateBaseInputWindow.ms.isSelected() ) {
-			FileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(),
+			homeController.fileProcess.saveDataForMS(homeController.plateBaseCoordsCalculator.getPillarPoints(),
 					homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 }
@@ -174,7 +172,7 @@ public class PlateBaseController implements Controller  {
 		String directionID = homeController.plateBaseInputWindow.directionIdField.getText();
 		 
 		if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-			HomeController.getInfoMessage("Az oszlopok nevének megadása",
+			homeController.getInfoMessage("Az oszlopok nevének megadása",
 					"Az oszlopok neve/száma legalább egy karakter hosszúságú legyen.");
 			return false;
 	}
@@ -212,7 +210,7 @@ public class PlateBaseController implements Controller  {
 			double horizontalDistanceFromHole, double verticalDistanceFromHole,
 			double rotationAngle, double rotationSec, double rotationMin) {
 			
-			FileProcess.saveProjectFileForPlatetBase
+		homeController.fileProcess.saveProjectFileForPlatetBase
 			(centerID, centerX, centerY, 
 			 directionID, directionX, directionY, 
 			 horizontalSizeOfHole, verticalSizeOfHole, 

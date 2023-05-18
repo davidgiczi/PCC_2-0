@@ -20,14 +20,15 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseInputWindow;
 public class HomeController {
 
 	public static String PROJECT_NAME;
-	HomeWindow homeWindow;
+	public HomeWindow homeWindow;
+	public FileProcess fileProcess;
 	WeightBaseInputWindow weightBaseInputWindow;
 	PlateBaseInputWindow plateBaseInputWindow;
 	WeightBaseDisplayer weightBaseDisplayer;
 	PlateBaseDisplayer plateBaseDisplayer;
 	SteakoutControlWindow steakoutControlWindow;
-	PillarCoordsForWeightBase weightBaseCoordsCalculator;
-	PillarCoordsForPlateBase plateBaseCoordsCalculator;
+	public PillarCoordsForWeightBase weightBaseCoordsCalculator;
+	public PillarCoordsForPlateBase plateBaseCoordsCalculator;
 	SteakoutControl steakoutControl;
 	WeightBaseController weightBaseController;
 	PlateBaseController plateBaseController;
@@ -35,6 +36,7 @@ public class HomeController {
 	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
 	
 	public HomeController() {
+		this.fileProcess = new FileProcess(this);
 		this.homeWindow = new HomeWindow(this);
 	}
 
@@ -84,7 +86,7 @@ public class HomeController {
 	
 	public void getCalculateDistanceBetweenPillarLegsWindow() {
 		if( calculateDistanceBetweenPillarLegsWindow == null ) {
-			calculateDistanceBetweenPillarLegsWindow = new CalculateDistanceBetweenPillarLegsWindow();
+			calculateDistanceBetweenPillarLegsWindow = new CalculateDistanceBetweenPillarLegsWindow(this);
 		}
 		else {
 			calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(true);
@@ -114,7 +116,7 @@ public class HomeController {
 	public String createNewProject() {
 		String projectName = JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
-			FileProcess.setFolder();
+			fileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			PROJECT_NAME = projectName;
 			setVisible();
@@ -129,7 +131,7 @@ public class HomeController {
 	}
 	
 	public void openProject() {
-		String projectName = FileProcess.setProject();
+		String projectName = fileProcess.setProject();
 		if( projectName == null ) {
 			return;
 		}
@@ -145,8 +147,8 @@ public class HomeController {
 	}
 	
 	public String getBaseType() {
-		String baseType = "#WeightBase".equals(FileProcess.getProjectFileData().get(0)) ? "súlyalap" : 
-			"#PlateBase".equals(FileProcess.getProjectFileData().get(0)) ? "lemezalap" : "";
+		String baseType = "#WeightBase".equals(fileProcess.getProjectFileData().get(0)) ? "súlyalap" : 
+			"#PlateBase".equals(fileProcess.getProjectFileData().get(0)) ? "lemezalap" : "";
 		return baseType;
 	}
 	
@@ -157,17 +159,19 @@ public class HomeController {
 		}
 	}
 	
-	public static void getInfoMessage(String title, String message) {
-		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+	public void getInfoMessage(String title, String message) {
+		JOptionPane.showMessageDialog(homeWindow.homeFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public static int getWarningMessage(String title, String message) {
-		return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.WARNING_MESSAGE);
+	public int getYesNoMessage(String title, String message) {
+		Object[] options = {"Igen", "Nem"};
+		return JOptionPane.showOptionDialog(homeWindow.homeFrame, message, title, JOptionPane.YES_NO_OPTION, 
+				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 	}
 	
 	private void getProjectFileDataFromFile() {
 		
-		List<String> projectFileData = FileProcess.getProjectFileData();
+		List<String> projectFileData = fileProcess.getProjectFileData();
 	
 		if( !projectFileData.isEmpty() && "#PlateBase".equals(projectFileData.get(0)) ) {
 			plateBaseController = new PlateBaseController(this);

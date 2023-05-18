@@ -44,10 +44,10 @@ public class SteakoutControlWindow {
 	public SteakoutControlWindow(String projectPathAndName, SteakoutController steakoutController) {
 		this.steakoutController = steakoutController;
 		steakoutControlFrame = new JFrame(projectPathAndName);
-		new FileProcess().addMVMXPertLogo(steakoutControlFrame);
+		steakoutController.homeController.fileProcess.addMVMXPertLogo(steakoutControlFrame);
 		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		steakoutControlFrame.setSize(400, 800);
-		steakoutControlFrame.setLocationRelativeTo(null);
+		steakoutControlFrame.setLocationRelativeTo(steakoutController.homeController.homeWindow.homeFrame);
 		steakoutControlFrame.setLocation((int) (steakoutControlFrame.getLocation().getX() + 465), 
 				(int) steakoutControlFrame.getLocation().getY());
 		steakoutControlFrame.setLayout(new FlowLayout());
@@ -80,7 +80,7 @@ public class SteakoutControlWindow {
 			public void actionPerformed(ActionEvent e) {
 				stkFileNameField.setText(null);
 				stkFilePlaceField.setText(null);
-				FileProcess.setSteakoutFile();
+				steakoutController.homeController.fileProcess.setSteakoutFile();
 				stkFileNameField.setText(FileProcess.STK_FILE_NAME);
 				stkFilePlaceField.setText(FileProcess.STK_FILE_PATH);
 			}
@@ -244,7 +244,7 @@ public class SteakoutControlWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				saveStkFileField.setText(null);
-				FileProcess.setFolderForSteakoutedPointFile();
+				steakoutController.homeController.fileProcess.setFolderForSteakoutedPointFile();
 				saveStkFileField.setText(FileProcess.STK_SAVED_FILE_PATH);
 			}
 		});

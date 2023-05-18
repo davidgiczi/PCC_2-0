@@ -11,7 +11,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 
 public class WeightBaseController implements Controller {
 
-	private HomeController homeController;
+	public HomeController homeController;
 	private String centerID;
 	private String directionID;
 	private double centerX;
@@ -67,19 +67,16 @@ public class WeightBaseController implements Controller {
 				 return;
 			 }
 			saveCoordFiles();
-			homeController.weightBaseDisplayer = new WeightBaseDisplayer
-					(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
-					 homeController.weightBaseCoordsCalculator.getAxisDirectionPoint(),
-					 homeController.weightBaseCoordsCalculator.getRadRotation(),
+			homeController.weightBaseDisplayer = new WeightBaseDisplayer(homeController,
 					   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 			setVisible();
 			destroy();
 		} catch (InvalidAttributeValueException e) {
-			HomeController.getInfoMessage("Bemeneti adatok megadása",
+			homeController.getInfoMessage("Bemeneti adatok megadása",
 					"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
 		}
 		  catch (NumberFormatException e) {
-			HomeController.getInfoMessage("Bemeneti adatok megadása",
+			homeController.getInfoMessage("Bemeneti adatok megadása",
 					"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
 			}
 		}
@@ -89,7 +86,7 @@ public class WeightBaseController implements Controller {
 		
 		if( FileProcess.isProjectFileExist() ) {
 			
-			if( HomeController.getWarningMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
+			if( homeController.getYesNoMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
 					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 2 ) {
 				String newProjectName = createNewProject();
 				if(newProjectName == null) 
@@ -118,7 +115,7 @@ public class WeightBaseController implements Controller {
 		String projectName = 
 				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
-			FileProcess.setFolder();
+			homeController.fileProcess.setFolder();
 			if( FileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
 			homeController.getExistedProjectInfoMessage();
@@ -126,7 +123,7 @@ public class WeightBaseController implements Controller {
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
-		HomeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
+		homeController.getInfoMessage("Projekt név megadása", "A projekt neve legalább 3 karakter hosszúságú és betűvel kezdődő lehet.");
 		}
 		
 		return projectName;
@@ -136,29 +133,29 @@ public class WeightBaseController implements Controller {
 	public void saveCoordFiles() {
 		
 		if(homeController.weightBaseInputWindow.all.isSelected() ) {
-			FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
+			homeController.fileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-			FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.weightBaseInputWindow.kml.isSelected() ) {
-			FileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
+			homeController.fileProcess.saveDataForKML(homeController.weightBaseCoordsCalculator.getPillarCenterPoint(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.weightBaseInputWindow.rtk.isSelected() ) {
-			FileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForRTK(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.weightBaseInputWindow.tps.isSelected() ) {
-			FileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
+			homeController.fileProcess.saveDataForTPS(homeController.weightBaseCoordsCalculator.getPillarPoints(), 
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 		if( homeController.weightBaseInputWindow.ms.isSelected() ) {
-			FileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(),
+			homeController.fileProcess.saveDataForMS(homeController.weightBaseCoordsCalculator.getPillarPoints(),
 					homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		}
 	}
@@ -175,7 +172,7 @@ public class WeightBaseController implements Controller {
 			String directionID = homeController.weightBaseInputWindow.directionIdField.getText();
 			 
 			if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-				HomeController.getInfoMessage("Az oszlopok nevének megadása",
+				homeController.getInfoMessage("Az oszlopok nevének megadása",
 						"Az oszlopok neve/száma legalább egy karakter hosszúságú legyen.");
 				return false;
 		}
@@ -218,7 +215,7 @@ public class WeightBaseController implements Controller {
 		 double verticalSizeOfHoleOfPillarLeg,
 		 double rotationAngle, double rotationSec, double rotationMin) {
 		
-		FileProcess.saveProjectFileForWeightBase
+		homeController.fileProcess.saveProjectFileForWeightBase
 		(centerID, centerX, centerY, 
 		 directionID, directionX, directionY, 
 		 distanceOnTheAxis, 

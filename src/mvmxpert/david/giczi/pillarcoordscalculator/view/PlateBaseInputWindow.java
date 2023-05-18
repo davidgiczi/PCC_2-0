@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 
 public class PlateBaseInputWindow {
@@ -50,10 +49,10 @@ public class PlateBaseInputWindow {
 	public PlateBaseInputWindow(String projectName, PlateBaseController plateBaseController) {
 		this.plateBaseController = plateBaseController;
 		inputFrameForPlateBase = new JFrame(projectName);
-		new FileProcess().addMVMXPertLogo(inputFrameForPlateBase);
+		plateBaseController.homeController.fileProcess.addMVMXPertLogo(inputFrameForPlateBase);
 		inputFrameForPlateBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrameForPlateBase.setSize(400, 800);
-		inputFrameForPlateBase.setLocationRelativeTo(null);
+		inputFrameForPlateBase.setLocationRelativeTo(plateBaseController.homeController.homeWindow.homeFrame);
 		inputFrameForPlateBase.setLocation(
 				(int) (inputFrameForPlateBase.getLocation().getX() - 100), 
 				(int) inputFrameForPlateBase.getLocation().getY());

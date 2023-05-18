@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
 
@@ -18,8 +19,10 @@ public class SteakoutControl {
 	private String delimiter;
 	private int rotation;
 	private List<SteakoutedCoords> controlledCoords;
+	private HomeController homeController;
 	
-	public SteakoutControl(BaseType baseType) {
+	public SteakoutControl(HomeController homeController, BaseType baseType) {
+		this.homeController = homeController;
 		this.baseType = baseType;
 		controlledCoords = new ArrayList<>();
 	}
@@ -54,7 +57,7 @@ public class SteakoutControl {
 
 	public void controlSteakout() {
 		DecimalFormat df = new DecimalFormat("###.###");
-		List<String> steakoutedPointData = FileProcess.getSteakoutedPointData();
+		List<String> steakoutedPointData = homeController.fileProcess.getSteakoutedPointData();
 		for (String controlData : steakoutedPointData) { 
 			String[] data = controlData.split(delimiter);
 			for(int i = 0; i < designedPillarCoords.size(); i++) {
@@ -119,7 +122,7 @@ public class SteakoutControl {
 	}
 
 	public void printControlledPoints() {
-		FileProcess.saveSteakoutedPoints(controlledCoords);
+		homeController.fileProcess.saveSteakoutedPoints(controlledCoords);
 	}
 	
 }

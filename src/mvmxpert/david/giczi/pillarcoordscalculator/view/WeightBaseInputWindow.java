@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 
 public class WeightBaseInputWindow {
 
@@ -50,10 +49,10 @@ public class WeightBaseInputWindow {
 	public WeightBaseInputWindow(String projectName, WeightBaseController weightBaseController) {
 		this.weightBaseController = weightBaseController;
 		inputFrameForWeightBase = new JFrame(projectName);
-		new FileProcess().addMVMXPertLogo(inputFrameForWeightBase);
+		weightBaseController.homeController.fileProcess.addMVMXPertLogo(inputFrameForWeightBase);
 		inputFrameForWeightBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrameForWeightBase.setSize(400, 800);
-		inputFrameForWeightBase.setLocationRelativeTo(null);
+		inputFrameForWeightBase.setLocationRelativeTo(weightBaseController.homeController.homeWindow.homeFrame);
 		inputFrameForWeightBase.setLocation((int) (inputFrameForWeightBase.getLocation().getX() - 100), 
 				(int) inputFrameForWeightBase.getLocation().getY());
 		inputFrameForWeightBase.setLayout(new FlowLayout());

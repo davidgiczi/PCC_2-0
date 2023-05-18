@@ -19,7 +19,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
@@ -30,6 +30,7 @@ public class PlateBaseDisplayer extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private HomeController homeController;
 	private List<Point> pillarBasePoints;
 	private List<Point> transformedPillarBasePoints;
 	private List<SteakoutedCoords> controlledCoords = new ArrayList<>();
@@ -44,12 +45,13 @@ public class PlateBaseDisplayer extends JFrame{
 		this.controlledCoords = controlledCoords;
 	}
 
-	public PlateBaseDisplayer(List<Point> pillarBasePoints, Point directionPoint, double rotation, String projectPathAndName) {
+	public PlateBaseDisplayer(HomeController homeController, String projectPathAndName) {
 		 	super(projectPathAndName);
-		 	new FileProcess().addMVMXPertLogo(this);
-		 	this.directionPoint = directionPoint;
-		 	this.pillarBasePoints = pillarBasePoints;
-		 	this.rotation = rotation;
+		 	this.homeController = homeController;
+		 	homeController.fileProcess.addMVMXPertLogo(this);
+		 	this.directionPoint = homeController.plateBaseCoordsCalculator.getAxisDirectionPoint();
+		 	this.pillarBasePoints = homeController.plateBaseCoordsCalculator.getPillarPoints();
+		 	this.rotation = homeController.plateBaseCoordsCalculator.getRadRotation();
 		 	getDisplayerCenterCoords();
 		 	this.directionDisplayerPoint = new Point(directionPoint.getPointID(), 
 		 			displayerCenterX + Math.round((directionPoint.getX_coord() - pillarBasePoints.get(0).getX_coord()) * 1000.0) / SCALE,
@@ -58,7 +60,7 @@ public class PlateBaseDisplayer extends JFrame{
 		 	setExtendedState(JFrame.MAXIMIZED_BOTH);
 	        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	        getContentPane().setBackground(Color.WHITE);
-	        setLocationRelativeTo(null);
+	        setLocationRelativeTo(homeController.homeWindow.homeFrame);
 	        setVisible(true);
 	}
 		
@@ -346,6 +348,10 @@ public class PlateBaseDisplayer extends JFrame{
 			}
 	}
 	 	
+	 	private void writePillarLegsName(Graphics g) {
+			
+		}
+	 	
 	 	@Override
 	    public void paint(Graphics g) {
 	        super.paint(g);
@@ -358,7 +364,7 @@ public class PlateBaseDisplayer extends JFrame{
 				writeCoordDifference(g);
 			}
 	        writeText(g);
-	       
+	        writePillarLegsName(g);
 	    }
 	
 	

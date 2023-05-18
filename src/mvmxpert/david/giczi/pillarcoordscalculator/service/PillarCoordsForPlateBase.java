@@ -6,8 +6,8 @@ import javax.management.InvalidAttributeValueException;
 
 public class PillarCoordsForPlateBase {
 
-	private Point pillarCenterPoint;
-	private Point axisDirectionPoint;
+	public Point pillarCenterPoint;
+	public Point axisDirectionPoint;
 	private double horizontalSizeOfHole;
 	private double verticalSizeOfHole;
 	private double horizontalDistanceFromTheSideOfHole;

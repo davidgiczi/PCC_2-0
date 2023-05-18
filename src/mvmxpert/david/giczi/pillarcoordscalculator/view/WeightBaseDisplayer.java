@@ -18,8 +18,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
@@ -29,6 +28,7 @@ public class WeightBaseDisplayer extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private HomeController homeController;
 	private List<Point> pillarBasePoints;
 	private List<Point> transformedPillarBasePoints;
 	private List<SteakoutedCoords> controlledCoords = new ArrayList<>();
@@ -43,12 +43,13 @@ public class WeightBaseDisplayer extends JFrame {
 		this.controlledCoords = controlledCoords;
 	}
 
-	public WeightBaseDisplayer(List<Point> pillarBasePoints, Point directionPoint, double rotation, String projectPathAndName) {
+	public WeightBaseDisplayer(HomeController homeController, String projectPathAndName) {
 		super(projectPathAndName);
-		new FileProcess().addMVMXPertLogo(this);
-		this.directionPoint = directionPoint;
-		this.pillarBasePoints = pillarBasePoints;
-		this.rotation = rotation;
+		this.homeController = homeController;
+		homeController.fileProcess.addMVMXPertLogo(this);
+		this.directionPoint = homeController.weightBaseCoordsCalculator.getAxisDirectionPoint();
+		this.pillarBasePoints = homeController.weightBaseCoordsCalculator.getPillarPoints();
+		this.rotation = homeController.weightBaseCoordsCalculator.getRadRotation();
 		getDisplayerCenterCoords();
 	 	this.directionDisplayerPoint = new Point(directionPoint.getPointID(), 
 	 			displayerCenterX + Math.round((directionPoint.getX_coord() - pillarBasePoints.get(0).getX_coord()) * 1000.0) / SCALE,
@@ -56,8 +57,8 @@ public class WeightBaseDisplayer extends JFrame {
 		transformPillarCoordsForDisplayer();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		getContentPane().setBackground(Color.WHITE);
-		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
@@ -95,7 +96,8 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(12).getX_coord(),
 				transformedPillarBasePoints.get(12).getY_coord(), transformedPillarBasePoints.get(9).getX_coord(),
 				transformedPillarBasePoints.get(9).getY_coord()));
-
+		writeALegName(g2d);
+		
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(13).getX_coord(),
 				transformedPillarBasePoints.get(13).getY_coord(), transformedPillarBasePoints.get(14).getX_coord(),
 				transformedPillarBasePoints.get(14).getY_coord()));
@@ -108,6 +110,7 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(16).getX_coord(),
 				transformedPillarBasePoints.get(16).getY_coord(), transformedPillarBasePoints.get(13).getX_coord(),
 				transformedPillarBasePoints.get(13).getY_coord()));
+		writeDLegName(g2d);
 		
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(17).getX_coord(),
 				transformedPillarBasePoints.get(17).getY_coord(), transformedPillarBasePoints.get(18).getX_coord(),
@@ -121,6 +124,7 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(20).getX_coord(),
 				transformedPillarBasePoints.get(20).getY_coord(), transformedPillarBasePoints.get(17).getX_coord(),
 				transformedPillarBasePoints.get(17).getY_coord()));
+		writeCLegName(g2d);
 		
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(21).getX_coord(),
 				transformedPillarBasePoints.get(21).getY_coord(), transformedPillarBasePoints.get(22).getX_coord(),
@@ -134,6 +138,7 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(24).getX_coord(),
 				transformedPillarBasePoints.get(24).getY_coord(), transformedPillarBasePoints.get(21).getX_coord(),
 				transformedPillarBasePoints.get(21).getY_coord()));
+		writeBLegName(g2d);
 		
 	        g2d.setColor(Color.RED);
 	        float[] dashingPattern1 = {10f, 10f};
@@ -625,6 +630,102 @@ public class WeightBaseDisplayer extends JFrame {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	private void writeALegName(Graphics g) {
+		int pillarID = 0;
+		int directionID = 1;
+		try {
+			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
+			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
+		if( pillarID == directionID )
+			throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+		}
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
+		if( pillarID < directionID ) {
+			g2d.drawString("A", (int) transformedPillarBasePoints.get(9).getX_coord(), 
+					(int) transformedPillarBasePoints.get(9).getY_coord());
+		}
+		else {
+			g2d.drawString("A", (int) transformedPillarBasePoints.get(18).getX_coord(), 
+					(int) transformedPillarBasePoints.get(18).getY_coord());
+		}
+		g2d.setColor(Color.BLUE);
+	}
+	
+	private void writeBLegName(Graphics g) {
+		int pillarID = 0;
+		int directionID = 1;
+		try {
+			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
+			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
+		if( pillarID == directionID )
+			throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+		}
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
+		if( pillarID < directionID ) {
+			g2d.drawString("B", (int) transformedPillarBasePoints.get(22).getX_coord(), 
+					(int) transformedPillarBasePoints.get(22).getY_coord());
+		}
+		else {
+			g2d.drawString("B", (int) transformedPillarBasePoints.get(14).getX_coord(), 
+					(int) transformedPillarBasePoints.get(14).getY_coord());
+		}
+		g2d.setColor(Color.BLUE);
+	}
+	
+	private void writeCLegName(Graphics g) {
+		int pillarID = 0;
+		int directionID = 1;
+		try {
+			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
+			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
+		if( pillarID == directionID )
+			throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+		}
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
+		if( pillarID < directionID ) {
+			g2d.drawString("C", (int) transformedPillarBasePoints.get(18).getX_coord(), 
+					(int) transformedPillarBasePoints.get(18).getY_coord());
+		}
+		else {
+			g2d.drawString("C", (int) transformedPillarBasePoints.get(9).getX_coord(), 
+					(int) transformedPillarBasePoints.get(9).getY_coord());
+		}
+		g2d.setColor(Color.BLUE);
+	}
+	
+	private void writeDLegName(Graphics g) {
+		int pillarID = 0;
+		int directionID = 1;
+		try {
+			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
+			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
+		if( pillarID == directionID )
+			throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+		}
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
+		if( pillarID < directionID ) {
+			g2d.drawString("D", (int) transformedPillarBasePoints.get(14).getX_coord(), 
+					(int) transformedPillarBasePoints.get(14).getY_coord());
+		}
+		else {
+			g2d.drawString("D", (int) transformedPillarBasePoints.get(22).getX_coord(), 
+					(int) transformedPillarBasePoints.get(22).getY_coord());
+		}
+		g2d.setColor(Color.BLUE);
 	}
 	
 	@Override

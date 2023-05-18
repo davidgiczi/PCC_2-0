@@ -6,8 +6,8 @@ import javax.management.InvalidAttributeValueException;
 
 public class PillarCoordsForWeightBase {
 
-	private Point pillarCenterPoint;
-	private Point axisDirectionPoint;
+	public Point pillarCenterPoint;
+	public Point axisDirectionPoint;
 	private double horizontalDistanceBetweenPillarLegs;
 	private double verticalDistanceBetweenPillarLegs;
 	private double horizontalSizeOfHoleOfPillarLeg;
