@@ -20,7 +20,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 
 public class CalculateDistanceBetweenPillarLegsWindow {

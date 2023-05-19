@@ -633,97 +633,125 @@ public class WeightBaseDisplayer extends JFrame {
 	}
 	
 	private void writeALegName(Graphics g) {
-		int pillarID = 0;
-		int directionID = 1;
+		int pillarID;
+		int directionID;
 		try {
 			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
 			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
 		if( pillarID == directionID )
 			throw new NumberFormatException();
 		} catch (NumberFormatException e) {
+			return;
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
 		if( pillarID < directionID ) {
-			g2d.drawString("A", (int) transformedPillarBasePoints.get(9).getX_coord(), 
-					(int) transformedPillarBasePoints.get(9).getY_coord());
+			AzimuthAndDistance dataA = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(9), transformedPillarBasePoints.get(11));
+			PolarPoint posA = new PolarPoint(transformedPillarBasePoints.get(9), dataA.calcDistance() / 2, dataA.calcAzimuth(), "A");
+			g2d.drawString("A", (int) posA.calcPolarPoint().getX_coord(), 
+					(int) posA.calcPolarPoint().getY_coord());
 		}
 		else {
-			g2d.drawString("A", (int) transformedPillarBasePoints.get(18).getX_coord(), 
-					(int) transformedPillarBasePoints.get(18).getY_coord());
+			AzimuthAndDistance dataA = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(18), transformedPillarBasePoints.get(20));
+			PolarPoint posA = new PolarPoint(transformedPillarBasePoints.get(18), dataA.calcDistance() / 2, dataA.calcAzimuth(), "A");
+			g2d.drawString("A", (int) posA.calcPolarPoint().getX_coord(), 
+					(int) posA.calcPolarPoint().getY_coord());
 		}
 		g2d.setColor(Color.BLUE);
 	}
 	
 	private void writeBLegName(Graphics g) {
-		int pillarID = 0;
-		int directionID = 1;
+		int pillarID;
+		int directionID;
 		try {
 			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
 			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
 		if( pillarID == directionID )
 			throw new NumberFormatException();
 		} catch (NumberFormatException e) {
+			return;
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
 		if( pillarID < directionID ) {
-			g2d.drawString("B", (int) transformedPillarBasePoints.get(22).getX_coord(), 
-					(int) transformedPillarBasePoints.get(22).getY_coord());
+			AzimuthAndDistance dataB = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(22), transformedPillarBasePoints.get(24));
+			PolarPoint posB = new PolarPoint(transformedPillarBasePoints.get(22), dataB.calcDistance() / 2, dataB.calcAzimuth(), "B");
+			g2d.drawString("B", (int) posB.calcPolarPoint().getX_coord(), 
+					(int) posB.calcPolarPoint().getY_coord());
 		}
 		else {
-			g2d.drawString("B", (int) transformedPillarBasePoints.get(14).getX_coord(), 
-					(int) transformedPillarBasePoints.get(14).getY_coord());
+			AzimuthAndDistance dataB = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(14), transformedPillarBasePoints.get(16));
+			PolarPoint posB = new PolarPoint(transformedPillarBasePoints.get(14), dataB.calcDistance() / 2, dataB.calcAzimuth(), "B");
+			g2d.drawString("B", (int) posB.calcPolarPoint().getX_coord(), 
+					(int) posB.calcPolarPoint().getY_coord());
 		}
 		g2d.setColor(Color.BLUE);
 	}
 	
 	private void writeCLegName(Graphics g) {
-		int pillarID = 0;
-		int directionID = 1;
+		int pillarID;
+		int directionID;
 		try {
 			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
 			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
 		if( pillarID == directionID )
 			throw new NumberFormatException();
 		} catch (NumberFormatException e) {
+			return;
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
 		if( pillarID < directionID ) {
-			g2d.drawString("C", (int) transformedPillarBasePoints.get(18).getX_coord(), 
-					(int) transformedPillarBasePoints.get(18).getY_coord());
+			AzimuthAndDistance dataC = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(18), transformedPillarBasePoints.get(20));
+			PolarPoint posC = new PolarPoint(transformedPillarBasePoints.get(18), dataC.calcDistance() / 2, dataC.calcAzimuth(), "C");
+			g2d.drawString("C", (int) posC.calcPolarPoint().getX_coord(), 
+					(int) posC.calcPolarPoint().getY_coord());
 		}
 		else {
-			g2d.drawString("C", (int) transformedPillarBasePoints.get(9).getX_coord(), 
-					(int) transformedPillarBasePoints.get(9).getY_coord());
+			AzimuthAndDistance dataC = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(9), transformedPillarBasePoints.get(11));
+			PolarPoint posC = new PolarPoint(transformedPillarBasePoints.get(9), dataC.calcDistance() / 2, dataC.calcAzimuth(), "C");
+			g2d.drawString("C", (int) posC.calcPolarPoint().getX_coord(), 
+					(int) posC.calcPolarPoint().getY_coord());
 		}
 		g2d.setColor(Color.BLUE);
 	}
 	
 	private void writeDLegName(Graphics g) {
-		int pillarID = 0;
-		int directionID = 1;
+		int pillarID;
+		int directionID;
 		try {
 			pillarID = Integer.parseInt(homeController.weightBaseCoordsCalculator.pillarCenterPoint.getPointID());
 			directionID = Integer.parseInt(homeController.weightBaseCoordsCalculator.axisDirectionPoint.getPointID());
 		if( pillarID == directionID )
 			throw new NumberFormatException();
 		} catch (NumberFormatException e) {
+			return;
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font(g2d.getFont().getFontName(), Font.BOLD, 50));
 		if( pillarID < directionID ) {
-			g2d.drawString("D", (int) transformedPillarBasePoints.get(14).getX_coord(), 
-					(int) transformedPillarBasePoints.get(14).getY_coord());
+			AzimuthAndDistance dataD = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(14), transformedPillarBasePoints.get(16));
+			PolarPoint posD = new PolarPoint(transformedPillarBasePoints.get(14), dataD.calcDistance() / 2, dataD.calcAzimuth(), "D");
+			g2d.drawString("D", (int) posD.calcPolarPoint().getX_coord(), 
+					(int) posD.calcPolarPoint().getY_coord());
 		}
 		else {
-			g2d.drawString("D", (int) transformedPillarBasePoints.get(22).getX_coord(), 
-					(int) transformedPillarBasePoints.get(22).getY_coord());
+			AzimuthAndDistance dataD = 
+					new AzimuthAndDistance(transformedPillarBasePoints.get(22), transformedPillarBasePoints.get(24));
+			PolarPoint posD = new PolarPoint(transformedPillarBasePoints.get(22), dataD.calcDistance() / 2, dataD.calcAzimuth(), "D");
+			g2d.drawString("D", (int) posD.calcPolarPoint().getX_coord(), 
+					(int) posD.calcPolarPoint().getY_coord());
 		}
 		g2d.setColor(Color.BLUE);
 	}

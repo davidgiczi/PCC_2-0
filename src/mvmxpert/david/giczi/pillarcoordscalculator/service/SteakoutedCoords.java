@@ -143,7 +143,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		int id = 0;
 		try {
 			id = Integer.parseInt(point.getPointID());
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			
 			if( point.equals(centerPoint) )
 				id = 1;
