@@ -116,7 +116,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					distanceOfLegsValue = InputDataValidator.isValidInputPositiveIntegerValue(distanceOfLegsField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					homeController.getYesNoMessage("Nem megfelelő a lábtávolság értéke", 
+					homeController.getInfoMessage("Nem megfelelő a lábtávolság értéke", 
 							"A lábtávolság értéke csak pozitív egész szám lehet.");
 					return;
 				}
@@ -124,7 +124,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					illesztesiSikValue = InputDataValidator.isValidInputPositiveIntegerValue(illesztesiSikField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					homeController.getYesNoMessage("Nem megfelelő az illesztesi sík értéke", 
+					homeController.getInfoMessage("Nem megfelelő az illesztesi sík értéke", 
 							"Az illesztési sík értéke csak pozitív egész szám lehet.");
 					return;
 				}
@@ -132,7 +132,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				try {
 					sudarasodasValue = InputDataValidator.isValidInputPositiveDoubleValue(sudarasodasField.getText().replace(',', '.'));
 				} catch (Exception e2) {
-					homeController.getYesNoMessage("Nem megfelelő a sudarasodás értéke", 
+					homeController.getInfoMessage("Nem megfelelő a sudarasodás értéke", 
 							"A sudarasodás értéke csak pozitív szám lehet.");
 					return;
 				}
