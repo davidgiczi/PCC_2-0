@@ -59,6 +59,7 @@ public class WeightBaseDisplayer extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setLocationRelativeTo(homeController.homeWindow.homeFrame);
 		getContentPane().setBackground(Color.WHITE);
+		setMinimumSize(new Dimension(450, 800));
 		setVisible(true);
 	}
 
