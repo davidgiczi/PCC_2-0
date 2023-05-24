@@ -39,7 +39,7 @@ public class HomeWindow {
 	}
 	
 	private void addMenu() {
-		JMenu menu1 = new JMenu("Projekt létrehozása/megnyitása");
+		JMenu menu1 = new JMenu("Projekt műveletek");
 		menu1.setForeground(textColor);
 		menu1.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		JMenuItem item11 = new JMenuItem("Projekt megnyitása");

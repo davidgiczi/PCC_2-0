@@ -53,6 +53,7 @@ public class PlateBaseDisplayer extends JFrame{
 		 	this.pillarBasePoints = homeController.plateBaseCoordsCalculator.getPillarPoints();
 		 	this.rotation = homeController.plateBaseCoordsCalculator.getRadRotation();
 		 	getDisplayerCenterCoords();
+		 	setMinimumSize(new Dimension(1050, 750));
 		 	this.directionDisplayerPoint = new Point(directionPoint.getPointID(), 
 		 			displayerCenterX + Math.round((directionPoint.getX_coord() - pillarBasePoints.get(0).getX_coord()) * 1000.0) / SCALE,
 		 			displayerCenterY - Math.round((directionPoint.getY_coord() - pillarBasePoints.get(0).getY_coord()) * 1000.0) / SCALE);
