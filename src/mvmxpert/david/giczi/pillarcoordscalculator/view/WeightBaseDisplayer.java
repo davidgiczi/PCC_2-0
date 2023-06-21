@@ -111,7 +111,7 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(16).getX_coord(),
 				transformedPillarBasePoints.get(16).getY_coord(), transformedPillarBasePoints.get(13).getX_coord(),
 				transformedPillarBasePoints.get(13).getY_coord()));
-		writeDLegName(g2d);
+		writeBLegName(g2d);
 		
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(17).getX_coord(),
 				transformedPillarBasePoints.get(17).getY_coord(), transformedPillarBasePoints.get(18).getX_coord(),
@@ -139,7 +139,7 @@ public class WeightBaseDisplayer extends JFrame {
 		g2d.draw(new Line2D.Double(transformedPillarBasePoints.get(24).getX_coord(),
 				transformedPillarBasePoints.get(24).getY_coord(), transformedPillarBasePoints.get(21).getX_coord(),
 				transformedPillarBasePoints.get(21).getY_coord()));
-		writeBLegName(g2d);
+		writeDLegName(g2d);
 		
 	        g2d.setColor(Color.RED);
 	        float[] dashingPattern1 = {10f, 10f};

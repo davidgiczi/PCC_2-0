@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import javafx.application.Platform;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
@@ -12,9 +15,9 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.CalculateDistanceBetweenPillarLegsWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
+import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseInputWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseInputWindow;
 
 public class HomeController {
@@ -34,10 +37,12 @@ public class HomeController {
 	PlateBaseController plateBaseController;
 	SteakoutController steakoutController;
 	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
+	WeightBaseFXDisplayer weightBaseFXDisplayer;
 	
 	public HomeController() {
 		this.fileProcess = new FileProcess(this);
-		this.homeWindow = new HomeWindow(this);
+		FXHomeWindow.setHomeController(this);
+		FXHomeWindow.main(null);
 	}
 
 	public void destroy() {
@@ -54,7 +59,7 @@ public class HomeController {
 		steakoutController = null;
 	}
 	
-	public void getWeightBaseDisplayer() {
+	public void getWeightBaseInputWindow() {
 		if( weightBaseInputWindow == null ) {
 			weightBaseController = new WeightBaseController(this);
 			weightBaseInputWindow = new WeightBaseInputWindow(PROJECT_NAME, weightBaseController);
@@ -64,7 +69,7 @@ public class HomeController {
 			}
 	}
 	
-	public void getPlateBaseDisplayer() {
+	public void getPlateBaseInputWindow() {
 		if( plateBaseInputWindow == null ) {
 			plateBaseController = new PlateBaseController(this);
 			plateBaseInputWindow = new PlateBaseInputWindow(PROJECT_NAME, plateBaseController);
@@ -92,7 +97,21 @@ public class HomeController {
 			calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(true);
 		}
 	}
-
+	
+	public void getWeightBaseFXDisplayer() {
+		
+		WeightBaseFXDisplayer.setHomeController(this);
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				weightBaseFXDisplayer = new WeightBaseFXDisplayer();
+			}
+		});
+		
+ }
+	
 	private void setVisible() {
 		if( weightBaseInputWindow != null ) {
 			weightBaseInputWindow.inputFrameForWeightBase.setVisible(false);
@@ -109,8 +128,8 @@ public class HomeController {
 		if( steakoutControlWindow != null ) {
 			steakoutControlWindow.steakoutControlFrame.setVisible(false);
 		}
-		homeWindow.baseDataMenu.setEnabled(false);
-		homeWindow.controlSteakoutMenu.setEnabled(false);
+		FXHomeWindow.setBaseData.setDisable(true);
+		FXHomeWindow.controlSteakoutedPoint.setDisable(true);
 	}
 	
 	public String createNewProject() {
@@ -121,7 +140,7 @@ public class HomeController {
 			PROJECT_NAME = projectName;
 			setVisible();
 			destroy();
-			homeWindow.baseDataMenu.setEnabled(true);
+			FXHomeWindow.setBaseData.setDisable(false);
 		}
 	}
 		else if( projectName != null && !InputDataValidator.isValidProjectName(projectName) ) {
@@ -136,7 +155,7 @@ public class HomeController {
 			return;
 		}
 		PROJECT_NAME = projectName;
-		homeWindow.baseDataMenu.setEnabled(true);
+		FXHomeWindow.setBaseData.setDisable(false);
 		if( FileProcess.isProjectFileExist() ) {
 			setVisible();
 			destroy();
@@ -160,12 +179,12 @@ public class HomeController {
 	}
 	
 	public void getInfoMessage(String title, String message) {
-		JOptionPane.showMessageDialog(homeWindow.homeFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public int getYesNoMessage(String title, String message) {
 		Object[] options = {"Igen", "Nem"};
-		return JOptionPane.showOptionDialog(homeWindow.homeFrame, message, title, JOptionPane.YES_NO_OPTION, 
+		return JOptionPane.showOptionDialog(null, message, title, JOptionPane.YES_NO_OPTION, 
 				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 	}
 	

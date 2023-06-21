@@ -40,7 +40,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 		this.homeController.fileProcess.addMVMXPertLogo(inputFrame);
 		inputFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrame.setSize(400, 240);
-		inputFrame.setLocationRelativeTo(homeController.homeWindow.homeFrame);
+		inputFrame.setLocationRelativeTo(null);
 		inputFrame.setLayout(new FlowLayout());
 		setInputData();
 		addOkButton();

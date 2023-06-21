@@ -52,7 +52,7 @@ public class PlateBaseInputWindow {
 		plateBaseController.homeController.fileProcess.addMVMXPertLogo(inputFrameForPlateBase);
 		inputFrameForPlateBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrameForPlateBase.setSize(400, 800);
-		inputFrameForPlateBase.setLocationRelativeTo(plateBaseController.homeController.homeWindow.homeFrame);
+		inputFrameForPlateBase.setLocationRelativeTo(null);
 		inputFrameForPlateBase.setLocation(
 				(int) (inputFrameForPlateBase.getLocation().getX() - 100), 
 				(int) inputFrameForPlateBase.getLocation().getY());

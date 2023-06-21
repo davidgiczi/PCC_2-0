@@ -1,5 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class Point {
@@ -7,6 +8,7 @@ public class Point {
 	private String pointID;
 	private double x_coord;
 	private double y_coord;
+	private DecimalFormat df = new DecimalFormat("0.000");
 	
 	
 	public Point(String pointID, double x_coord, double y_coord) {
@@ -78,4 +80,9 @@ public class Point {
 				&& Double.doubleToLongBits(y_coord) == Double.doubleToLongBits(other.y_coord);
 	}
 	
+	@Override
+	public String toString() {
+		return  df.format(x_coord).replace(",", ".") + "\t"
+				+ df.format(y_coord).replace(",", ".");
+	}
 }

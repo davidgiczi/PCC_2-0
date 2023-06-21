@@ -2,12 +2,11 @@ package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
 import javax.management.InvalidAttributeValueException;
 import javax.swing.JOptionPane;
-
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 
 public class WeightBaseController implements Controller {
 
@@ -67,8 +66,9 @@ public class WeightBaseController implements Controller {
 				 return;
 			 }
 			saveCoordFiles();
-			homeController.weightBaseDisplayer = new WeightBaseDisplayer(homeController,
-					   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
+			
+			homeController.getWeightBaseFXDisplayer();
+			 
 			setVisible();
 			destroy();
 		} catch (InvalidAttributeValueException e) {
@@ -102,8 +102,8 @@ public class WeightBaseController implements Controller {
 	
 	@Override
 	public void setVisible() {
-		homeController.homeWindow.baseDataMenu.setEnabled(true);
-		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
+		FXHomeWindow.setBaseData.setDisable(false);
+		FXHomeWindow.controlSteakoutedPoint.setDisable(false);
 		homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(false);
 		if(homeController.plateBaseDisplayer != null ) {
 			homeController.plateBaseDisplayer.setVisible(false);

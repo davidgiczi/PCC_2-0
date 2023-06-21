@@ -52,7 +52,7 @@ public class WeightBaseInputWindow {
 		weightBaseController.homeController.fileProcess.addMVMXPertLogo(inputFrameForWeightBase);
 		inputFrameForWeightBase.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrameForWeightBase.setSize(400, 800);
-		inputFrameForWeightBase.setLocationRelativeTo(weightBaseController.homeController.homeWindow.homeFrame);
+		inputFrameForWeightBase.setLocationRelativeTo(null);
 		inputFrameForWeightBase.setLocation((int) (inputFrameForWeightBase.getLocation().getX() - 100), 
 				(int) inputFrameForWeightBase.getLocation().getY());
 		inputFrameForWeightBase.setLayout(new FlowLayout());

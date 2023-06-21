@@ -125,7 +125,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				homeController.getWeightBaseDisplayer();
+				homeController.getWeightBaseInputWindow();
 			}
 		});
 		JMenuItem item22 = new JMenuItem("Lemezalap pontjainak számítása");
@@ -135,7 +135,7 @@ public class HomeWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				homeController.getPlateBaseDisplayer();
+				homeController.getPlateBaseInputWindow();
 			}
 		});
 		menuBar.add(menu1);

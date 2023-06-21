@@ -182,7 +182,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
-		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
+		        dialog.setLocationRelativeTo(null);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
@@ -246,7 +246,7 @@ public class FileProcess {
 			@Override
 		    protected JDialog createDialog( Component parent ) throws HeadlessException {
 		        JDialog dialog = super.createDialog( parent );
-		        dialog.setLocationRelativeTo(homeController.homeWindow.homeFrame);
+		        dialog.setLocationRelativeTo(null);
 		        try {
 					byte[] imageSource = this.getClass()
 							.getResourceAsStream("/img/MVM.jpg").readAllBytes();
