@@ -1,2 +1,2 @@
 # PCC
-It's a Pillar Coordinates Calculator app.
+My PCC app with new displayers for base of pillars.
