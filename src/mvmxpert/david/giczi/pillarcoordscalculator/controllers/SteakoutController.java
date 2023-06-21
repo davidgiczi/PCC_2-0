@@ -77,9 +77,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.weightBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
-		homeController.weightBaseDisplayer = new WeightBaseDisplayer(homeController,
-				FileProcess.STK_SAVED_FILE_PATH + "\\" + HomeController.PROJECT_NAME + "_kit.txt");
-		homeController.weightBaseDisplayer.setControlledCoords(homeController.steakoutControl.getControlledCoords());
+		homeController.getWeightBaseFXDisplayer();
 	}
 	
 	private void controlSteakoutForPlateBase() {

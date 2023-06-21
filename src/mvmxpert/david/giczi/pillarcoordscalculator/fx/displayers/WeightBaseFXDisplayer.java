@@ -26,6 +26,8 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutedCoords;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,15 +37,17 @@ public class WeightBaseFXDisplayer {
 	
 	private static HomeController homeController;
     private static List<Point> PILLAR_BASE_POINTS;
+    private static List<SteakoutedCoords> STK_PILLAR_BASE_POINTS;
     private static String TITLE;
     private static Point DIRECTION_POINT;
     private static final double MILLIMETER = 1000.0 / 225.0; // 1mm = 1000/225 JavaUnit
     private static double SCALE;
     private final AnchorPane pane = new AnchorPane();
     private List<Point> transformedPillarBasePoints;
-    private int circeID;
+    private List<Point> stk_transformedPillarBasePoints;
     private  ComboBox<String> scaleComboBox;
     private List<Point> distancePointList;
+    private List<SteakoutedCoords> stk_distancePointList;
     private double nextRowValue;
     
 	public static void setHomeController(HomeController homeController) {
@@ -61,15 +65,21 @@ public class WeightBaseFXDisplayer {
 	public static void setDIRECTION_POINT(Point dIRECTION_POINT) {
 		DIRECTION_POINT = dIRECTION_POINT;
 	}
+	
+	public static void setSTK_PILLAR_BASE_POINTS(List<SteakoutedCoords> sTK_PILLAR_BASE_POINTS) {
+		STK_PILLAR_BASE_POINTS = sTK_PILLAR_BASE_POINTS;
+	}
 
 	public void setNextRowValue(double nextRowValue) {
 		this.nextRowValue = nextRowValue;
 	}
-	
+		
 	public WeightBaseFXDisplayer() {
 		setTITLE(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".ewe");
 		setPILLAR_BASE_POINTS(homeController.weightBaseCoordsCalculator.getPillarPoints());
 		setDIRECTION_POINT(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		setSTK_PILLAR_BASE_POINTS(homeController.steakoutControl != null ?  
+				homeController.steakoutControl.getControlledCoords() : null);
 		Stage stage = new Stage();
 		SCALE = 200;
         pane.setStyle("-fx-background-color: white");
@@ -99,7 +109,10 @@ public class WeightBaseFXDisplayer {
         distancePointList = new ArrayList<>();
         nextRowValue  = 5 * MILLIMETER;
         addNorthSign();
+        if( STK_PILLAR_BASE_POINTS == null )
         addPointCoordsData();
+        else
+        addSTKPointCoordsData();
         addPillarMainAxes();
         addHoleA();
         addHoleB();
@@ -108,7 +121,10 @@ public class WeightBaseFXDisplayer {
         addNameTextsForHoles();
         addTextsForBase();
         addInformation();
+        if( STK_PILLAR_BASE_POINTS == null )
         addCircleForPoint();
+        else
+        addCircleForSTKPoint();
         addPreviousAndNextPillarDirections();
         addComboBoxForScaleValue();
     }
@@ -154,26 +170,72 @@ public class WeightBaseFXDisplayer {
         }
         addDirectionPointCoords(row);
     }
+    
+    private void addSTKPointCoordsData() {
+    	double row = 15 * MILLIMETER;
+        for (SteakoutedCoords stk_coords : STK_PILLAR_BASE_POINTS){
+            String[] pointIdValues = stk_coords.getPointID().split("_");
+            Text pointID = new Text(stk_coords.getStkPointID());
+            if( pointIdValues.length == 1)
+                pointID.setFill(Color.MAGENTA);
+            pointID.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+            pointID.setCursor(Cursor.HAND);
+            pointID.xProperty().bind(pane.widthProperty().divide(10).subtract(30 * MILLIMETER));
+            pointID.setY(row);
+            pointID.setId(stk_coords.getPointID());
+            if( pointIdValues.length ==  2 ) {
+                pointID.setOnMouseEntered(e -> onMouseEnteredEvent(pointID));
+                pointID.setOnMouseExited(e -> onMouseExitedEventForSTKPoint(pointID));
+            }
+            Text coords = new Text(stk_coords.toString());
+            coords.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+            coords.setFill(Color.RED);
+            coords.setCursor(Cursor.HAND);
+            coords.xProperty().bind(pane.widthProperty().divide(10).subtract(10 * MILLIMETER));
+            coords.setY(row);
+            coords.setId(stk_coords.getPointID());
+            if( pointIdValues.length ==  2 ) {
+                coords.setOnMouseEntered(e -> onMouseEnteredEvent(coords));
+                coords.setOnMouseExited(e -> onMouseExitedEventForSTKPoint(coords));
+            }
+            row += 6 * MILLIMETER;
+            pane.getChildren().addAll(pointID, coords);
+        }
+    }
 
     private void onMouseEnteredEvent(Text text){
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 17));
-        String[] textIDValues = text.getId().split("_");
-        if( textIDValues.length == 1 )
+        if( text.getId().split("_").length == 1)
             return;
-        Circle circle = (Circle) pane.lookup("#c_" + textIDValues[1]);
+        if( pane.lookup("#" + text.getId()) instanceof Circle ){
+        Circle circle = (Circle) pane.lookup("#" + text.getId());
         circle.setStroke(null);
         circle.setRadius(10);
         circle.setFill(Color.RED);
+        }
     }
     private void onMouseExitedEvent(Text text){
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-            for(int id = 1; id < circeID; id++) {
-                Circle circle = (Circle) pane.lookup("#c_" + id);
+            for(int id = 1; id < PILLAR_BASE_POINTS.size(); id++) {
+            	if( pane.lookup("#" + PILLAR_BASE_POINTS.get(id).getPointID()) instanceof Circle ) {
+                Circle circle = (Circle) pane.lookup("#" + PILLAR_BASE_POINTS.get(id).getPointID());
                 circle.setStroke(Color.FIREBRICK);
                 circle.setStrokeWidth(2);
                 circle.setFill(Color.TRANSPARENT);
                 circle.setRadius(5);
+            	}
             }
+    }
+    
+    private void onMouseExitedEventForSTKPoint(Text text) {
+    	text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+    	for(int i = 1; i < stk_transformedPillarBasePoints.size(); i++ ) {
+    		Circle circle = (Circle) pane.lookup("#c_" + stk_transformedPillarBasePoints.get(i).getPointID().split("_")[1]);
+            circle.setStroke(Color.FIREBRICK);
+            circle.setStrokeWidth(2);
+            circle.setFill(Color.TRANSPARENT);
+            circle.setRadius(5);
+    	}
     }
 
     private void addDirectionPointCoords(double row){
@@ -190,7 +252,7 @@ public class WeightBaseFXDisplayer {
         pane.getChildren().addAll(pointID, coords);
     }
     private void addPillarMainAxes(){
-        getTransformPillarCoordsForDisplayer();
+        getTransformedPillarBaseCoordsForDisplayer();
         Line mainAxis = new Line();
         mainAxis.setStroke(Color.RED);
         mainAxis.setStrokeWidth(2);
@@ -484,7 +546,6 @@ public class WeightBaseFXDisplayer {
     }
 
     private void addCircleForPoint(){
-        circeID = 0;
         for (Point point: transformedPillarBasePoints) {
             Circle circle = new Circle();
             circle.setRadius(5);
@@ -496,8 +557,7 @@ public class WeightBaseFXDisplayer {
             circle.setStrokeWidth(2);
             circle.setFill(Color.TRANSPARENT);
             circle.setCursor(Cursor.HAND);
-            circle.setId("c_" + circeID);
-            circeID++;
+            circle.setId(point.getPointID());
             circle.setOnMouseClicked(e -> setOnMouseClickEvent(circle));
             Tooltip tooltip = new Tooltip(point.getPointID());
             Tooltip.install(circle, tooltip);
@@ -511,6 +571,47 @@ public class WeightBaseFXDisplayer {
 
     }
 
+    private void addCircleForSTKPoint() {
+    	getTransformedStkPillarBaseCoordsForDisplayer();
+        for (Point point: stk_transformedPillarBasePoints) {
+            Circle circle = new Circle();
+            circle.setRadius(5);
+            circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
+                    .add(point.getX_coord()));
+            circle.centerYProperty().bind(pane.heightProperty().divide(2)
+                    .subtract(point.getY_coord()));
+            circle.setStroke(Color.FIREBRICK);
+            circle.setStrokeWidth(2);
+            circle.setFill(Color.TRANSPARENT); 
+            circle.setCursor(Cursor.HAND);
+            String[] idValues =  point.getPointID().split("_");
+            circle.setId("c_" + (idValues.length == 2 ? idValues[1] : "0"));
+            circle.setOnMouseClicked(e -> setOnMouseClickEventForSTKPoint(circle));
+            Tooltip tooltip = new Tooltip(point.getPointID());
+            Tooltip.install(circle, tooltip);
+            if( point.getPointID().split("_").length == 1){
+            	circle.setStroke(Color.MAGENTA);
+            	circle.setStrokeWidth(3);
+            	circle.setRadius(10);
+                circle.setFill(Color.TRANSPARENT);
+            }
+            pane.getChildren().add(circle);
+        }
+    }
+    
+    private void setOnMouseClickEventForSTKPoint(Circle circle) {
+    	int index = Integer.parseInt(circle.getId().split("_")[1]);
+    	System.out.println(index);
+        Point transformedPoint = stk_transformedPillarBasePoints.get(index);
+        circle.setStroke(null);
+        circle.setRadius(10);
+        circle.setFill(Color.RED);
+        if( transformedPoint.getPointID().split("_").length == 2) {
+            setText(transformedPoint.getPointID(), transformedPoint, Color.BLACK, 16);
+        }
+    }
+    
+    
     private void setOnMouseClickEvent(Circle circle){
     	int index = Integer.parseInt(circle.getId().split("_")[1]);
         Point transformedPoint = transformedPillarBasePoints.get(index);
@@ -811,7 +912,7 @@ public class WeightBaseFXDisplayer {
         return scroller;
     }
 
-    private void getTransformPillarCoordsForDisplayer() {
+    private void getTransformedPillarBaseCoordsForDisplayer() {
         transformedPillarBasePoints = new ArrayList<>();
         double X = PILLAR_BASE_POINTS.get(0).getX_coord();
         double Y = PILLAR_BASE_POINTS.get(0).getY_coord();
@@ -820,6 +921,18 @@ public class WeightBaseFXDisplayer {
                     Math.round((pillarBasePoint.getX_coord() - X) * 1000.0) * MILLIMETER / SCALE,
                     Math.round((pillarBasePoint.getY_coord() - Y) * 1000.0) * MILLIMETER / SCALE);
             transformedPillarBasePoints.add(point);
+        }
+    }
+    
+    private void getTransformedStkPillarBaseCoordsForDisplayer() {
+        stk_transformedPillarBasePoints = new ArrayList<>();
+        double X = PILLAR_BASE_POINTS.get(0).getX_coord();
+        double Y = PILLAR_BASE_POINTS.get(0).getY_coord();
+        for (SteakoutedCoords stk_pillarBasePoint : STK_PILLAR_BASE_POINTS) {
+            Point point = new Point(stk_pillarBasePoint.getPointID(),
+                    Math.round((stk_pillarBasePoint.getXcoordForSteakoutPoint() - X) * 1000.0) * MILLIMETER / SCALE,
+                    Math.round((stk_pillarBasePoint.getYcoordForSteakoutPoint() - Y) * 1000.0) * MILLIMETER / SCALE);
+            stk_transformedPillarBasePoints.add(point);
         }
     }
  

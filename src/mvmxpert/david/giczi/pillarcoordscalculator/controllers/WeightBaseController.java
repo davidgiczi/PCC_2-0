@@ -66,7 +66,6 @@ public class WeightBaseController implements Controller {
 				 return;
 			 }
 			saveCoordFiles();
-			
 			homeController.getWeightBaseFXDisplayer();
 			 
 			setVisible();

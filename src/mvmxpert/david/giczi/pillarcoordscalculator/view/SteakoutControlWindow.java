@@ -47,7 +47,7 @@ public class SteakoutControlWindow {
 		steakoutController.homeController.fileProcess.addMVMXPertLogo(steakoutControlFrame);
 		steakoutControlFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		steakoutControlFrame.setSize(400, 800);
-		steakoutControlFrame.setLocationRelativeTo(steakoutController.homeController.homeWindow.homeFrame);
+		steakoutControlFrame.setLocationRelativeTo(null);
 		steakoutControlFrame.setLocation((int) (steakoutControlFrame.getLocation().getX() + 465), 
 				(int) steakoutControlFrame.getLocation().getY());
 		steakoutControlFrame.setLayout(new FlowLayout());

@@ -79,6 +79,22 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		this.stkPointID = stkPointID;
 	}
 	
+	public double getXcoordForDesignPoint() {
+		return XcoordForDesignPoint;
+	}
+
+	public double getYcoordForDesignPoint() {
+		return YcoordForDesignPoint;
+	}
+
+	public double getXcoordForSteakoutPoint() {
+		return XcoordForSteakoutPoint;
+	}
+
+	public double getYcoordForSteakoutPoint() {
+		return YcoordForSteakoutPoint;
+	}
+
 	public String getSteakoutedPointData() {
 		return pointID + 
 				"\t" + comment +
@@ -609,5 +625,12 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	public int compareTo(SteakoutedCoords o) {
 		return this.id > o.id ?  1 : this.id == o.id ? 0 : - 1;
 	}
+
+	@Override
+	public String toString() {
+		return getDeltaX().replace(",", ".") + "\t" + getDeltaY().replace(",", ".");
+	}
+	
+	
 }
  

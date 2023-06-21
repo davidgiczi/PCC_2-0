@@ -32,7 +32,7 @@ public class HomeController {
 	SteakoutControlWindow steakoutControlWindow;
 	public PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	public PillarCoordsForPlateBase plateBaseCoordsCalculator;
-	SteakoutControl steakoutControl;
+	public SteakoutControl steakoutControl;
 	WeightBaseController weightBaseController;
 	PlateBaseController plateBaseController;
 	SteakoutController steakoutController;
@@ -101,7 +101,7 @@ public class HomeController {
 	public void getWeightBaseFXDisplayer() {
 		
 		WeightBaseFXDisplayer.setHomeController(this);
-		
+			
 		Platform.runLater(new Runnable() {
 			
 			@Override

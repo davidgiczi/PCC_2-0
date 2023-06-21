@@ -95,8 +95,11 @@ public class FXHomeWindow extends Application {
 		calcPlateBasePoints.setOnAction(e -> homeController.getPlateBaseInputWindow());
 		setBaseData.getItems().addAll(calcDistanceBetweenLegs, 
 				new SeparatorMenuItem(), calcWeightBasePoints, calcPlateBasePoints);
-		controlSteakoutedPoint = new Menu("Kitűzött pontok ellenőrzése");
+		controlSteakoutedPoint = new Menu("Kitűzés vizsgálata");
 		controlSteakoutedPoint.setDisable(true);
+		MenuItem controll = new MenuItem("Kitűzött pontok ellenőrzése");
+		controlSteakoutedPoint.getItems().add(controll);
+		controll.setOnAction(e -> homeController.getSteakoutControlWindow());
 		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);
