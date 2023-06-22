@@ -28,8 +28,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutedCoords;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +35,9 @@ import java.util.List;
 
 public class WeightBaseFXDisplayer {
 	
+	private List<SteakoutedCoords> STK_PILLAR_BASE_POINTS;
 	private static HomeController homeController;
     private List<Point> PILLAR_BASE_POINTS;
-    private List<SteakoutedCoords> STK_PILLAR_BASE_POINTS;
     private String TITLE;
     private Point DIRECTION_POINT;
     private static final double MILLIMETER = 1000.0 / 225.0; // 1mm = 1000/225 JavaUnit
@@ -61,11 +59,11 @@ public class WeightBaseFXDisplayer {
 	public void setPILLAR_BASE_POINTS(List<Point> pILLAR_BASE_POINTS) {
 		PILLAR_BASE_POINTS = pILLAR_BASE_POINTS;
 	}
-
+	
 	public void setSTK_PILLAR_BASE_POINTS(List<SteakoutedCoords> sTK_PILLAR_BASE_POINTS) {
 		STK_PILLAR_BASE_POINTS = sTK_PILLAR_BASE_POINTS;
 	}
-	
+
 	public void setTITLE(String tITLE) {
 		TITLE = tITLE;
 	}
@@ -93,6 +91,7 @@ public class WeightBaseFXDisplayer {
             public void handle(MouseEvent mouseEvent) {
                 if( mouseEvent.getButton() == MouseButton.SECONDARY ){
                    distancePointList.clear();
+                   stk_distancePointList.clear();
                    nextRowValue += 10 * MILLIMETER;
                 }
             }
@@ -111,6 +110,7 @@ public class WeightBaseFXDisplayer {
 	
     private void getContent(){
         distancePointList = new ArrayList<>();
+        stk_distancePointList = new ArrayList<>();
         nextRowValue  = 5 * MILLIMETER;
         addNorthSign();
         if( STK_PILLAR_BASE_POINTS == null ) {
@@ -222,14 +222,12 @@ public class WeightBaseFXDisplayer {
     
     private void onMouseExitedEvent(Text text){
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-            for(int id = 1; id < pointID; id++) {
-                Circle circle = (Circle) pane.lookup("#c_" + id);
-                circle.setStroke(Color.FIREBRICK);
-                circle.setStrokeWidth(2);
-                circle.setFill(Color.TRANSPARENT);
-                circle.setRadius(5);
-            	}
-            }
+         Circle circle = (Circle) pane.lookup("#c_" + text.getId().split("_")[1]);
+         circle.setStroke(Color.FIREBRICK);
+         circle.setStrokeWidth(2);
+         circle.setFill(Color.TRANSPARENT);
+         circle.setRadius(5);            	
+}
     
     private void onMouseEnteredEventForSTKPoint(Text text){
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 17));
@@ -329,17 +327,19 @@ public class WeightBaseFXDisplayer {
     }
     
     private void setOnMouseClickEventForSTKPoint(Circle circle) {
-        Point transformedPoint = getSTKPointById(circle.getId());
+        Point transformedPoint = getTransformedPointById(circle.getId());
         circle.setStroke(null);
         circle.setRadius(10);
         circle.setFill(Color.RED);
         if( transformedPoint.getPointID().split("_").length == 2) {
             setText(transformedPoint.getPointID(), transformedPoint, Color.BLACK, 16);
         }
+        SteakoutedCoords steakoutedPoint = getSTKPointById(circle.getId());
+        stk_distancePointList.add(steakoutedPoint);
         addDistanceInformationBySTKBasePoints();
     }
     
-    private Point getSTKPointById(String id) {
+    private Point getTransformedPointById(String id) {
     	if( "c_0".equals(id) ) {
     		return stk_transformedPillarBasePoints.get(0);
     	}
@@ -352,6 +352,20 @@ public class WeightBaseFXDisplayer {
     }
     	return null;
  }
+
+    private SteakoutedCoords getSTKPointById(String id){
+    	if( "c_0".equals(id) ) {
+    		return STK_PILLAR_BASE_POINTS.get(0);
+    	}
+    	String[] idValues = id.split("_");
+    	for (SteakoutedCoords stk_point : STK_PILLAR_BASE_POINTS) {
+    		String[] stk_idValues = stk_point.getPointID().split("_");
+    		if( stk_idValues.length == 2 && idValues[1].equals(stk_idValues[1]) ) {
+    			return stk_point;
+    		} 			
+    }
+    	return null; 	
+   }
     
     private void setOnMouseClickEvent(Circle circle){
     	int index = Integer.parseInt(circle.getId().split("_")[1]);
@@ -718,7 +732,69 @@ public class WeightBaseFXDisplayer {
     }
 
     private void addDistanceInformationBySTKBasePoints() {
-    	
+    	 if( stk_distancePointList.size() == 1 ){
+             return;
+         }
+    	 double calcedDistance =
+                 new AzimuthAndDistance(new Point("calc",  
+                		 stk_distancePointList.get(stk_distancePointList.size() - 2).getXcoordForDesignPoint(), 
+                		 stk_distancePointList.get(stk_distancePointList.size() - 2).getYcoordForDesignPoint()),
+                		 new Point("calc",  
+                		 stk_distancePointList.get(stk_distancePointList.size() - 1).getXcoordForDesignPoint(), 
+                         stk_distancePointList.get(stk_distancePointList.size() - 1).getYcoordForDesignPoint())).calcDistance();
+    	 double measuredDistance =
+                 new AzimuthAndDistance(new Point("meas",  
+                		 stk_distancePointList.get(stk_distancePointList.size() - 2).getXcoordForSteakoutPoint(), 
+                		 stk_distancePointList.get(stk_distancePointList.size() - 2).getYcoordForSteakoutPoint()),
+                		 new Point("meas",  
+                		 stk_distancePointList.get(stk_distancePointList.size() - 1).getXcoordForSteakoutPoint(), 
+                         stk_distancePointList.get(stk_distancePointList.size() - 1).getYcoordForSteakoutPoint())).calcDistance();
+    	 Text title = new Text("Távolság:\tSzámított\tMért\t\tΔ");
+         title.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
+         Text distanceInfo =
+                 new Text(stk_distancePointList.get(stk_distancePointList.size() - 2).getPointID()
+                         + " → " + stk_distancePointList.get(stk_distancePointList.size() - 1).getPointID() + ":"
+                         + String.format("%10.3fm %10.3fm %10.3fm", calcedDistance, measuredDistance, 
+                        		 (calcedDistance - measuredDistance)).replace(",", "."));
+         distanceInfo.setFont(Font.font("Book-Antique", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
+         if( stk_distancePointList.size() == 2 ){
+             title.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
+             title.yProperty().bind((pane.heightProperty().divide(10).multiply(2)));
+             
+             distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
+             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             pane.getChildren().addAll(title, distanceInfo);
+          }
+         else {
+        	 nextRowValue += 5 * MILLIMETER;
+             distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
+             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             double summaCalcDistance = 0;
+             double summaMeasDistance = 0;
+             for(int i = 0; i < stk_distancePointList.size() - 1; i++) {
+                 summaCalcDistance +=  new AzimuthAndDistance(new Point("sumCalc",  
+                		 stk_distancePointList.get(i).getXcoordForDesignPoint(), 
+                		 stk_distancePointList.get(i).getYcoordForDesignPoint()),
+                		 new Point("calc",  
+                		 stk_distancePointList.get(i + 1).getXcoordForDesignPoint(), 
+                         stk_distancePointList.get(i + 1).getYcoordForDesignPoint())).calcDistance();
+                 summaMeasDistance += new AzimuthAndDistance(new Point("meas",  
+                		 stk_distancePointList.get(i).getXcoordForSteakoutPoint(), 
+                		 stk_distancePointList.get(i).getYcoordForSteakoutPoint()),
+                		 new Point("meas",  
+                		 stk_distancePointList.get(i + 1).getXcoordForSteakoutPoint(), 
+                         stk_distancePointList.get(i + 1).getYcoordForSteakoutPoint())).calcDistance();
+             }
+             nextRowValue += 5 * MILLIMETER;
+             Text sumDistance =
+                     new Text("Összesen:\t"
+                             + String.format("%10.3fm %10.3fm", 
+                            		 summaCalcDistance, summaMeasDistance).replace(",", "."));
+             sumDistance.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
+             sumDistance.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
+             sumDistance.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             pane.getChildren().addAll(distanceInfo, sumDistance);
+         }
     }
     
 

@@ -5,7 +5,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 
 public class SteakoutController {
 

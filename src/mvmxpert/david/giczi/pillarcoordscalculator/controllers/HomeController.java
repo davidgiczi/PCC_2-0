@@ -99,9 +99,9 @@ public class HomeController {
 	}
 	
 	public void getWeightBaseFXDisplayer() {
-		
+	
 		WeightBaseFXDisplayer.setHomeController(this);
-			
+		
 		Platform.runLater(new Runnable() {
 			
 			@Override
