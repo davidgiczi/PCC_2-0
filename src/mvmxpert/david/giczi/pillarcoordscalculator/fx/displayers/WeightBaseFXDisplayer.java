@@ -701,19 +701,19 @@ public class WeightBaseFXDisplayer {
         Text distanceInfo =
                 new Text(distancePointList.get(distancePointList.size() - 2).getPointID()
                         + " → " + distancePointList.get(distancePointList.size() - 1).getPointID() + ":"
-                        + String.format("%10.2f", distance).replace(",", ".") + "m");
+                        + String.format("%19.2f", distance).replace(",", ".") + "m");
         distanceInfo.setFont(Font.font("Book-Antique", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
        if( distancePointList.size() == 2 ){
            title.xProperty().bind(pane.widthProperty().divide(11).multiply(9));
-           title.yProperty().bind((pane.heightProperty().divide(10).multiply(2)));
+           title.yProperty().bind((pane.heightProperty().divide(10).multiply(1)));
            distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(9));
-           distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+           distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
            pane.getChildren().addAll(title, distanceInfo);
         }
        else {
            nextRowValue += 5 * MILLIMETER;
            distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(9));
-           distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+           distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
            double summaDistance = 0;
            for(int i = 0; i < distancePointList.size() - 1; i++) {
                summaDistance +=
@@ -722,11 +722,10 @@ public class WeightBaseFXDisplayer {
            }
            nextRowValue += 5 * MILLIMETER;
            Text sumDistance =
-                   new Text("Összesen távolság:\t"
-                           + String.format("%10.2f", summaDistance).replace(",", ".") + "m");
+                   new Text(String.format("Összesen távolság: %13.2f", summaDistance).replace(",", ".") + "m");
            sumDistance.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
            sumDistance.xProperty().bind(pane.widthProperty().divide(11).multiply(9));
-           sumDistance.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+           sumDistance.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
            pane.getChildren().addAll(distanceInfo, sumDistance);
        }
     }
@@ -749,7 +748,7 @@ public class WeightBaseFXDisplayer {
                 		 new Point("meas",  
                 		 stk_distancePointList.get(stk_distancePointList.size() - 1).getXcoordForSteakoutPoint(), 
                          stk_distancePointList.get(stk_distancePointList.size() - 1).getYcoordForSteakoutPoint())).calcDistance();
-    	 Text title = new Text("Távolság:\tSzámított\tMért\t\tΔ");
+    	 Text title = new Text( String.format("%10s %15s %8s %12s", "Távolság:", "Számított", "Mért", "Δ"));
          title.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
          Text distanceInfo =
                  new Text(stk_distancePointList.get(stk_distancePointList.size() - 2).getPointID()
@@ -759,16 +758,16 @@ public class WeightBaseFXDisplayer {
          distanceInfo.setFont(Font.font("Book-Antique", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
          if( stk_distancePointList.size() == 2 ){
              title.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
-             title.yProperty().bind((pane.heightProperty().divide(10).multiply(2)));
+             title.yProperty().bind((pane.heightProperty().divide(10).multiply(1)));
              
              distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
-             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
              pane.getChildren().addAll(title, distanceInfo);
           }
          else {
         	 nextRowValue += 5 * MILLIMETER;
              distanceInfo.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
-             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             distanceInfo.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
              double summaCalcDistance = 0;
              double summaMeasDistance = 0;
              for(int i = 0; i < stk_distancePointList.size() - 1; i++) {
@@ -787,12 +786,11 @@ public class WeightBaseFXDisplayer {
              }
              nextRowValue += 5 * MILLIMETER;
              Text sumDistance =
-                     new Text("Összesen:\t"
-                             + String.format("%10.3fm %10.3fm", 
+                     new Text(String.format("%10s %10.3fm %10.3fm", "Összesen:",
                             		 summaCalcDistance, summaMeasDistance).replace(",", "."));
              sumDistance.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
              sumDistance.xProperty().bind(pane.widthProperty().divide(11).multiply(8));
-             sumDistance.yProperty().bind((pane.heightProperty().divide(10).multiply(2)).add(nextRowValue));
+             sumDistance.yProperty().bind((pane.heightProperty().divide(10).multiply(1)).add(nextRowValue));
              pane.getChildren().addAll(distanceInfo, sumDistance);
          }
     }

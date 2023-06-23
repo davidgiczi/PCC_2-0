@@ -66,9 +66,9 @@ public class WeightBaseController implements Controller {
 				 return;
 			 }
 			saveCoordFiles();
-			homeController.getWeightBaseFXDisplayer();
 			setVisible();
 			destroy();
+			homeController.getWeightBaseFXDisplayer();
 		} catch (InvalidAttributeValueException e) {
 			homeController.getInfoMessage("Bemeneti adatok megadása",
 					"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
@@ -160,6 +160,7 @@ public class WeightBaseController implements Controller {
 	
 	@Override
 	public void destroy() {
+		homeController.steakoutControl = null;
 		homeController.plateBaseCoordsCalculator = null;
 		homeController.plateBaseDisplayer = null;
 	}
