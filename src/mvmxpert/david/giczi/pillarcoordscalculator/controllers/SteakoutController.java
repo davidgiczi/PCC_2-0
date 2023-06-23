@@ -4,7 +4,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 
 public class SteakoutController {
 
@@ -91,9 +90,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.plateBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
-		homeController.plateBaseDisplayer =	new PlateBaseDisplayer(homeController,
-				 FileProcess.STK_SAVED_FILE_PATH + "\\" + HomeController.PROJECT_NAME + "_kit.txt");
-		homeController.plateBaseDisplayer.setControlledCoords(homeController.steakoutControl.getControlledCoords());
+		homeController.getPlateBaseFXDisplayer();
 	}
 	
 	private void setControlledPointsNumberValue() {

@@ -4,10 +4,10 @@ import javax.management.InvalidAttributeValueException;
 import javax.swing.JOptionPane;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 
 public class PlateBaseController implements Controller  {
 
@@ -65,11 +65,9 @@ public class PlateBaseController implements Controller  {
 			 return;
 		 }
 		saveCoordFiles();
-				homeController.plateBaseDisplayer =	
-						new PlateBaseDisplayer(homeController, 
-				   FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setVisible();
 		destroy();
+		homeController.getPlateBaseFXDisplayer();
 	} catch (InvalidAttributeValueException e) {
 		homeController.getInfoMessage("Bemeneti adatok megadása",
 				"Az oszlopok megadott koordinátái alapján irányszög nem számítható.");
@@ -101,8 +99,8 @@ public class PlateBaseController implements Controller  {
 	
 	@Override
 	public void setVisible() {
-		homeController.homeWindow.baseDataMenu.setEnabled(true);
-		homeController.homeWindow.controlSteakoutMenu.setEnabled(true);
+		FXHomeWindow.setBaseData.setDisable(false);
+		FXHomeWindow.controlSteakoutedPoint.setDisable(false);
 		homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(false);
 		if( homeController.weightBaseDisplayer != null ) {
 			homeController.weightBaseDisplayer.setVisible(false);
@@ -162,6 +160,7 @@ public class PlateBaseController implements Controller  {
 
 	@Override
 	public void destroy() {
+		homeController.steakoutControl = null;
 		homeController.weightBaseCoordsCalculator = null;
 		homeController.plateBaseDisplayer = null;
 	}

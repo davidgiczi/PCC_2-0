@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javafx.application.Platform;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
@@ -38,6 +39,7 @@ public class HomeController {
 	SteakoutController steakoutController;
 	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
 	WeightBaseFXDisplayer weightBaseFXDisplayer;
+	PlateBaseFXDisplayer plateBaseFXDisplayer;
 	
 	public HomeController() {
 		this.fileProcess = new FileProcess(this);
@@ -107,6 +109,20 @@ public class HomeController {
 			@Override
 			public void run() {
 				weightBaseFXDisplayer = new WeightBaseFXDisplayer();
+			}
+		});
+		
+ }
+	
+	public void getPlateBaseFXDisplayer() {
+		
+		PlateBaseFXDisplayer.setHomeController(this);
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				plateBaseFXDisplayer = new PlateBaseFXDisplayer();
 			}
 		});
 		

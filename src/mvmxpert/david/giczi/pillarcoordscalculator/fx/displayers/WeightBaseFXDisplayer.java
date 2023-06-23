@@ -56,31 +56,31 @@ public class WeightBaseFXDisplayer {
 	}
 
 	
-	public void setPILLAR_BASE_POINTS(List<Point> pILLAR_BASE_POINTS) {
-		PILLAR_BASE_POINTS = pILLAR_BASE_POINTS;
-	}
-	
-	public void setSTK_PILLAR_BASE_POINTS(List<SteakoutedCoords> sTK_PILLAR_BASE_POINTS) {
-		STK_PILLAR_BASE_POINTS = sTK_PILLAR_BASE_POINTS;
-	}
+	public void setStkPillarBasePoints(List<SteakoutedCoords> stkPillarBasePoints) {
+        STK_PILLAR_BASE_POINTS = stkPillarBasePoints;
+    }
 
-	public void setTITLE(String tITLE) {
-		TITLE = tITLE;
-	}
+    public void setPillarBasePoints(List<Point> pillarBasePoints) {
+        PILLAR_BASE_POINTS = pillarBasePoints;
+    }
 
-	public void setDIRECTION_POINT(Point dIRECTION_POINT) {
-		DIRECTION_POINT = dIRECTION_POINT;
-	}
+    public void setTitle(String title) {
+        TITLE = title;
+    }
+
+    public void setDirectionPoint(Point directionPoint) {
+        DIRECTION_POINT = directionPoint;
+    }
 
 	public void setNextRowValue(double nextRowValue) {
 		this.nextRowValue = nextRowValue;
 	}
 		
 	public WeightBaseFXDisplayer() {
-		setTITLE(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".ewe");
-		setPILLAR_BASE_POINTS(homeController.weightBaseCoordsCalculator.getPillarPoints());
-		setDIRECTION_POINT(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
-		setSTK_PILLAR_BASE_POINTS(homeController.steakoutControl != null ?  
+		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".ewe");
+		setPillarBasePoints(homeController.weightBaseCoordsCalculator.getPillarPoints());
+		setDirectionPoint(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
+		setStkPillarBasePoints(homeController.steakoutControl != null ?  
 				homeController.steakoutControl.getControlledCoords() : null);
 		Stage stage = new Stage();
 		SCALE = 200;

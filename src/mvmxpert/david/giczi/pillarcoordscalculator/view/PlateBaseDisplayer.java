@@ -61,7 +61,7 @@ public class PlateBaseDisplayer extends JFrame{
 		 	setExtendedState(JFrame.MAXIMIZED_BOTH);
 	        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	        getContentPane().setBackground(Color.WHITE);
-	        setLocationRelativeTo(homeController.homeWindow.homeFrame);
+	        setLocationRelativeTo(null);
 	        setMinimumSize(new Dimension(450, 800));
 	        setVisible(true);
 	}
