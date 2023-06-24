@@ -138,7 +138,7 @@ public class WeightBaseFXDisplayer {
     }
 
     private void addNorthSign(){
-        ImageView northSign = new ImageView(new Image("file:images/north.jpg"));
+        ImageView northSign = new ImageView(new Image("/img/north.jpg"));
         northSign.setFitWidth(40 * MILLIMETER);
         northSign.setFitHeight(40 * MILLIMETER);
         northSign.xProperty().bind(pane.widthProperty().divide(10).add(50 * MILLIMETER));
