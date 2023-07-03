@@ -120,7 +120,7 @@ public class PlateBaseFXDisplayer {
         stk_distancePointList = new ArrayList<>();
         nextRowValue  = 5 * MILLIMETER;
         addNorthSign();
-        if( STK_PILLAR_BASE_POINTS == null ) {
+        if( isDisplayPillarBaseCoords ) {
         	addPointCoordsData();
         }
         else {
@@ -131,7 +131,7 @@ public class PlateBaseFXDisplayer {
         addNameTextsForHole();
         addTextsForBase();
         addInformation();
-        if( STK_PILLAR_BASE_POINTS == null ) {
+        if( isDisplayPillarBaseCoords ) {
         	addCircleForPoint();
         }
         else {
