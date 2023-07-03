@@ -54,9 +54,10 @@ public class PlateBaseFXDisplayer {
     private double nextRowValue;
     private int pointID;
     public static boolean isDisplayPillarBaseCoords;
+    public static Stage stage;
 
     public static void setDisplayPillarBaseCoords(boolean isDisplayPillarBaseCoords) {
-		WeightBaseFXDisplayer.isDisplayPillarBaseCoords = isDisplayPillarBaseCoords;
+		PlateBaseFXDisplayer.isDisplayPillarBaseCoords = isDisplayPillarBaseCoords;
 	}
     
     public static void setHomeController(HomeController homeController) {
@@ -89,7 +90,7 @@ public class PlateBaseFXDisplayer {
 		setDirectionPoint(homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  
 				homeController.steakoutControl.getControlledCoords() : null);
-		Stage stage = new Stage();
+		stage = new Stage();
 		SCALE = 200;
         pane.setStyle("-fx-background-color: white");
         getContent();   
@@ -124,7 +125,7 @@ public class PlateBaseFXDisplayer {
         	addPointCoordsData();
         }
         else {
-        	 addSTKPointCoordsData();
+        	addSTKPointCoordsData();
         }
         addPillarMainAxes();
         addHole();

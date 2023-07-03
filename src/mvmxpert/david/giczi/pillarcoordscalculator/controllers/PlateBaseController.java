@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
@@ -163,7 +164,8 @@ public class PlateBaseController implements Controller  {
 	@Override
 	public void destroy() {
 		homeController.weightBaseCoordsCalculator = null;
-		homeController.plateBaseDisplayer = null;
+		if( WeightBaseFXDisplayer.stage != null )
+			WeightBaseFXDisplayer.stage.hide();
 	}
 
 	private boolean isValidInputID() {
