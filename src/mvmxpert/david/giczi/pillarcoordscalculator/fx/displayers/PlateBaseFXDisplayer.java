@@ -53,7 +53,11 @@ public class PlateBaseFXDisplayer {
     private List<SteakoutedCoords> stk_distancePointList;
     private double nextRowValue;
     private int pointID;
+    public static boolean isDisplayPillarBaseCoords;
 
+    public static void setDisplayPillarBaseCoords(boolean isDisplayPillarBaseCoords) {
+		WeightBaseFXDisplayer.isDisplayPillarBaseCoords = isDisplayPillarBaseCoords;
+	}
     
     public static void setHomeController(HomeController homeController) {
 		PlateBaseFXDisplayer.homeController = homeController;

@@ -4,6 +4,7 @@ import javax.management.InvalidAttributeValueException;
 import javax.swing.JOptionPane;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForWeightBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
@@ -68,6 +69,7 @@ public class WeightBaseController implements Controller {
 			saveCoordFiles();
 			setVisible();
 			destroy();
+			WeightBaseFXDisplayer.setDisplayPillarBaseCoords(true);
 			homeController.getWeightBaseFXDisplayer();
 		} catch (InvalidAttributeValueException e) {
 			homeController.getInfoMessage("Bemeneti adatok megadása",
@@ -160,7 +162,6 @@ public class WeightBaseController implements Controller {
 	
 	@Override
 	public void destroy() {
-		homeController.steakoutControl = null;
 		homeController.plateBaseCoordsCalculator = null;
 		homeController.plateBaseDisplayer = null;
 	}

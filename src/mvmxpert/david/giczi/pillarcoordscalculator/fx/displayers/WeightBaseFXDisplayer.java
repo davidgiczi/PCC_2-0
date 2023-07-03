@@ -50,7 +50,13 @@ public class WeightBaseFXDisplayer {
     private List<SteakoutedCoords> stk_distancePointList;
     private double nextRowValue;
     private int pointID;
+    public static boolean isDisplayPillarBaseCoords;
     
+	public static void setDisplayPillarBaseCoords(boolean isDisplayPillarBaseCoords) {
+		WeightBaseFXDisplayer.isDisplayPillarBaseCoords = isDisplayPillarBaseCoords;
+	}
+
+
 	public static void setHomeController(HomeController homeController) {
 		WeightBaseFXDisplayer.homeController = homeController;
 	}
@@ -113,11 +119,11 @@ public class WeightBaseFXDisplayer {
         stk_distancePointList = new ArrayList<>();
         nextRowValue  = 5 * MILLIMETER;
         addNorthSign();
-        if( STK_PILLAR_BASE_POINTS == null ) {
+        if( isDisplayPillarBaseCoords ) {
         	addPointCoordsData();
         }
         else {
-        	 addSTKPointCoordsData();
+        	addSTKPointCoordsData();
         }
         addPillarMainAxes();
         addHoleA();
@@ -127,7 +133,7 @@ public class WeightBaseFXDisplayer {
         addNameTextsForHoles();
         addTextsForBase();
         addInformation();
-        if( STK_PILLAR_BASE_POINTS == null ) {
+        if( isDisplayPillarBaseCoords ) {
         	addCircleForPoint();
         }
         else {

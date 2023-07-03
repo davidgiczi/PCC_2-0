@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PillarCoordsForPlateBase;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
@@ -67,6 +68,7 @@ public class PlateBaseController implements Controller  {
 		saveCoordFiles();
 		setVisible();
 		destroy();
+		PlateBaseFXDisplayer.setDisplayPillarBaseCoords(true);
 		homeController.getPlateBaseFXDisplayer();
 	} catch (InvalidAttributeValueException e) {
 		homeController.getInfoMessage("Bemeneti adatok megadása",
@@ -160,7 +162,6 @@ public class PlateBaseController implements Controller  {
 
 	@Override
 	public void destroy() {
-		homeController.steakoutControl = null;
 		homeController.weightBaseCoordsCalculator = null;
 		homeController.plateBaseDisplayer = null;
 	}

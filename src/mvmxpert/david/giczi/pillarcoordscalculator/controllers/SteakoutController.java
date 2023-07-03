@@ -1,6 +1,8 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
@@ -75,6 +77,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.weightBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
+		WeightBaseFXDisplayer.setDisplayPillarBaseCoords(false);
 		homeController.getWeightBaseFXDisplayer();
 	}
 	
@@ -90,6 +93,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.plateBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
+		PlateBaseFXDisplayer.setDisplayPillarBaseCoords(false);
 		homeController.getPlateBaseFXDisplayer();
 	}
 	
