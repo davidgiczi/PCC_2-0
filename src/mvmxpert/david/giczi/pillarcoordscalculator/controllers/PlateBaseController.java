@@ -3,6 +3,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 import javax.management.InvalidAttributeValueException;
 import javax.swing.JOptionPane;
 
+import javafx.application.Platform;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
@@ -164,8 +165,15 @@ public class PlateBaseController implements Controller  {
 	@Override
 	public void destroy() {
 		homeController.weightBaseCoordsCalculator = null;
-		if( WeightBaseFXDisplayer.stage != null )
-			WeightBaseFXDisplayer.stage.hide();
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				if( WeightBaseFXDisplayer.stage != null )
+					WeightBaseFXDisplayer.stage.hide();
+			}
+		});
 	}
 
 	private boolean isValidInputID() {
