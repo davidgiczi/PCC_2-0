@@ -85,7 +85,7 @@ public class PlateBaseFXDisplayer {
     }
 
 	public PlateBaseFXDisplayer() {
-		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".ewe");
+		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setPillarBasePoints(homeController.plateBaseCoordsCalculator.getPillarPoints());
 		setDirectionPoint(homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  

@@ -84,7 +84,7 @@ public class WeightBaseFXDisplayer {
 	}
 		
 	public WeightBaseFXDisplayer() {
-		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".ewe");
+		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setPillarBasePoints(homeController.weightBaseCoordsCalculator.getPillarPoints());
 		setDirectionPoint(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  
