@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.SteakoutController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 
 
@@ -81,8 +81,8 @@ public class SteakoutControlWindow {
 				stkFileNameField.setText(null);
 				stkFilePlaceField.setText(null);
 				steakoutController.homeController.fileProcess.setSteakoutFile();
-				stkFileNameField.setText(FileProcess.STK_FILE_NAME);
-				stkFilePlaceField.setText(FileProcess.STK_FILE_PATH);
+				stkFileNameField.setText(PCCFileProcess.STK_FILE_NAME);
+				stkFilePlaceField.setText(PCCFileProcess.STK_FILE_PATH);
 			}
 		});
 		panel.add(Box.createHorizontalStrut(100));
@@ -236,7 +236,7 @@ public class SteakoutControlWindow {
 		JTextField saveStkFileField = new JTextField(32);
 		saveStkFileField.setFont(font2);
 		saveStkFileField.setForeground(color);
-		saveStkFileField.setText(FileProcess.FOLDER_PATH);
+		saveStkFileField.setText(PCCFileProcess.FOLDER_PATH);
 		saveStkFileField.setEditable(false);
 		panel.add(saveStkFileField);
 		browseBtn.addActionListener(new ActionListener() {
@@ -245,7 +245,7 @@ public class SteakoutControlWindow {
 			public void actionPerformed(ActionEvent e) {
 				saveStkFileField.setText(null);
 				steakoutController.homeController.fileProcess.setFolderForSteakoutedPointFile();
-				saveStkFileField.setText(FileProcess.STK_SAVED_FILE_PATH);
+				saveStkFileField.setText(PCCFileProcess.STK_SAVED_FILE_PATH);
 			}
 		});
 		steakoutControlFrame.add(panel);

@@ -5,7 +5,7 @@ public class InputDataValidator {
 
 
 	public static boolean isValidProjectName(String projectName) {
-	return !projectName.isBlank() && projectName.length() > 2 && !Character.isDigit(projectName.charAt(0));		
+	return !projectName.trim().isBlank() && projectName.length() > 2 && !Character.isDigit(projectName.charAt(0));
 	}	
 	
 	public static boolean isValidPrePostFixValue(String value) {
@@ -20,7 +20,7 @@ public class InputDataValidator {
 	}
 	
 	public static Double isValidInputPositiveDoubleValue(String inputNumber) throws NumberFormatException {
-		Double	positiveDouble = Double.parseDouble(inputNumber);
+		Double positiveDouble = Double.parseDouble(inputNumber);
 		
 			if( 0 > positiveDouble ) 
 				throw new NumberFormatException();
@@ -40,8 +40,25 @@ public class InputDataValidator {
 	public static int isValidAngleValue(String angleValue) throws NumberFormatException {
 		
 		int angle = Integer.parseInt(angleValue);
-		
+
+		if( 0 > angle && -360 < angle ){
+			angle += 360;
+		}
+		else if(-360 > angle || 360 < angle ){
+			throw new NumberFormatException();
+		}
+
 		return angle;
+	}
+
+	public static int isValidMinSecValue(String minSecValue) throws NumberFormatException {
+
+		int minSec = Integer.parseInt(minSecValue);
+
+		 if( 59 < minSec ){
+			throw new NumberFormatException();
+		}
+		return minSec;
 	}
 	
 	public static boolean isValidID(String id) {

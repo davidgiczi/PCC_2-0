@@ -4,7 +4,7 @@ import javax.management.InvalidAttributeValueException;
 import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
@@ -87,7 +87,7 @@ public class WeightBaseController implements Controller {
 	@Override
 	public boolean saveAsProject() {
 		
-		if( FileProcess.isProjectFileExist() ) {
+		if( PCCFileProcess.isProjectFileExist() ) {
 			
 			if( homeController.getYesNoMessage("\"" + HomeController.PROJECT_NAME + ".pcc\"", 
 					"Létező " + homeController.getBaseType() + " projekt fájl, biztos, hogy felülírod?") == 1 ) {
@@ -119,7 +119,7 @@ public class WeightBaseController implements Controller {
 				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
 			homeController.fileProcess.setFolder();
-			if( FileProcess.FOLDER_PATH != null ) {
+			if( PCCFileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
 			homeController.getExistedProjectInfoMessage();
 			homeController.weightBaseInputWindow.inputFrameForWeightBase.setTitle(HomeController.PROJECT_NAME);

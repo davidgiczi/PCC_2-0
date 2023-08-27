@@ -16,10 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 
 public class FXHomeWindow extends Application {
 
 	private AnchorPane pane;
+	public Stage homeStage;
 	private static HomeController homeController;
 	public static Menu setBaseData;
 	public static Menu controlSteakoutedPoint;
@@ -35,6 +37,8 @@ public class FXHomeWindow extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		homeController.measuredPillarDataController = new MeasuredPillarDataController(this);
+		homeStage = stage;
 		pane = new AnchorPane();
 		addBackgroundImage();
 		addMenu();
@@ -100,7 +104,19 @@ public class FXHomeWindow extends Application {
 		MenuItem controll = new MenuItem("Kitűzött pontok ellenőrzése");
 		controlSteakoutedPoint.getItems().add(controll);
 		controll.setOnAction(e -> homeController.getSteakoutControlWindow());
-		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint);
+		Menu pillarProject = new Menu("Oszlop bemérés");
+		MenuItem openPillarProject = new MenuItem("Projekt megnyitása");
+
+		openPillarProject.setOnAction(e -> {
+		homeController.measuredPillarDataController.openProject();
+		});
+
+		MenuItem createPillarProject = new MenuItem("Új projekt létrehozása");
+		createPillarProject.setOnAction(e -> {
+		homeController.measuredPillarDataController.openMeasuredData();
+		});
+		pillarProject.getItems().addAll(openPillarProject,createPillarProject);
+		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint, pillarProject);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);
 		pane.getChildren().add(vBox);

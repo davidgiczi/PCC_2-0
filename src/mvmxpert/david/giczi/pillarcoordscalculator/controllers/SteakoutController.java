@@ -1,6 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutControl;
@@ -30,8 +30,8 @@ public class SteakoutController {
 		}
 		delimiter = homeController.steakoutControlWindow.delimiterSelectedValue;
 		
-		if(FileProcess.STK_SAVED_FILE_PATH == null) {
-			FileProcess.STK_SAVED_FILE_PATH = FileProcess.FOLDER_PATH;
+		if(PCCFileProcess.STK_SAVED_FILE_PATH == null) {
+			PCCFileProcess.STK_SAVED_FILE_PATH = PCCFileProcess.FOLDER_PATH;
 		}
 		
 		if( homeController.weightBaseCoordsCalculator != null ) {

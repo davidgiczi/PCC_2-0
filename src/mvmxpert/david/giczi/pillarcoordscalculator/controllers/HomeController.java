@@ -5,7 +5,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import javafx.application.Platform;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PlateBaseFXDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.WeightBaseFXDisplayer;
@@ -25,7 +25,7 @@ public class HomeController {
 
 	public static String PROJECT_NAME;
 	public HomeWindow homeWindow;
-	public FileProcess fileProcess;
+	public PCCFileProcess fileProcess;
 	WeightBaseInputWindow weightBaseInputWindow;
 	PlateBaseInputWindow plateBaseInputWindow;
 	WeightBaseDisplayer weightBaseDisplayer;
@@ -37,12 +37,13 @@ public class HomeController {
 	WeightBaseController weightBaseController;
 	PlateBaseController plateBaseController;
 	SteakoutController steakoutController;
+	public MeasuredPillarDataController measuredPillarDataController;
 	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
 	WeightBaseFXDisplayer weightBaseFXDisplayer;
 	PlateBaseFXDisplayer plateBaseFXDisplayer;
 	
 	public HomeController() {
-		this.fileProcess = new FileProcess(this);
+		this.fileProcess = new PCCFileProcess(this);
 		FXHomeWindow.setHomeController(this);
 		FXHomeWindow.main(null);
 	}
@@ -152,7 +153,7 @@ public class HomeController {
 		String projectName = JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
 			fileProcess.setFolder();
-			if( FileProcess.FOLDER_PATH != null ) {
+			if( PCCFileProcess.FOLDER_PATH != null ) {
 			PROJECT_NAME = projectName;
 			setVisible();
 			destroy();
@@ -172,7 +173,7 @@ public class HomeController {
 		}
 		PROJECT_NAME = projectName;
 		FXHomeWindow.setBaseData.setDisable(false);
-		if( FileProcess.isProjectFileExist() ) {
+		if( PCCFileProcess.isProjectFileExist() ) {
 			setVisible();
 			destroy();
 			getInfoMessage("\"" + PROJECT_NAME + "\"" + " projekt",
@@ -188,7 +189,7 @@ public class HomeController {
 	}
 	
 	public void getExistedProjectInfoMessage() {
-		if( FileProcess.isProjectFileExist() ) {
+		if( PCCFileProcess.isProjectFileExist() ) {
 			getInfoMessage("\"" + PROJECT_NAME + "\"" + " projekt",
 					"Létező " + getBaseType() +" projekt.");
 		}

@@ -2,7 +2,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.SteakoutedCoords;
@@ -85,7 +85,7 @@ public class PlateBaseFXDisplayer {
     }
 
 	public PlateBaseFXDisplayer() {
-		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
+		setTitle(PCCFileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setPillarBasePoints(homeController.plateBaseCoordsCalculator.getPillarPoints());
 		setDirectionPoint(homeController.plateBaseCoordsCalculator.getAxisDirectionPoint());
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  

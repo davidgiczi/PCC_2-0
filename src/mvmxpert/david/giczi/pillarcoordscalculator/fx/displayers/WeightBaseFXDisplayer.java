@@ -22,7 +22,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
-import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.FileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PCCFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
@@ -84,7 +84,7 @@ public class WeightBaseFXDisplayer {
 	}
 		
 	public WeightBaseFXDisplayer() {
-		setTitle(FileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
+		setTitle(PCCFileProcess.FOLDER_PATH + "\\" + HomeController.PROJECT_NAME + ".pcc");
 		setPillarBasePoints(homeController.weightBaseCoordsCalculator.getPillarPoints());
 		setDirectionPoint(homeController.weightBaseCoordsCalculator.getAxisDirectionPoint());
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  
