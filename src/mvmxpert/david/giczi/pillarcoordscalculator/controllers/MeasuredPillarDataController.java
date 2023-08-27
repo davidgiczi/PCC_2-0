@@ -30,12 +30,22 @@ public class MeasuredPillarDataController {
     public InputPillarDataWindow inputPillarDataWindow;
     public FXHomeWindow fxHomeWindow;
     public List<String> projectFileData;
-    public boolean isBasedOnInputProject;
+    private boolean isCreatedInputPillarDataWindow;
 
-    public MeasuredPillarDataController(FXHomeWindow fxHomeWindow){
+    
+    public boolean isCreatedInputPillarDataWindow() {
+		return isCreatedInputPillarDataWindow;
+	}
+
+	public void setCreatedInputPillarDataWindow(boolean isCreatedInputPillarDataWindow) {
+		this.isCreatedInputPillarDataWindow = isCreatedInputPillarDataWindow;
+	}
+
+	public MeasuredPillarDataController(FXHomeWindow fxHomeWindow){
     	this.fxHomeWindow = fxHomeWindow;
         this.fileProcess = new PLRFileProcess(this);
         this.measuredPillarData = new MeasuredPillarData(this);
+        setCreatedInputPillarDataWindow(true);
     }
 
     public void init(){
@@ -91,7 +101,7 @@ public class MeasuredPillarDataController {
         measuredPointListDisplayer.parseDisplayerData();
         measuredPillarData.calcPillarLegsPoint();
         measuredPillarData.calcPillarTopPoints();
-        if( !isBasedOnInputProject ){
+        if( isCreatedInputPillarDataWindow ){
             this.inputPillarDataWindow = new InputPillarDataWindow(this);
         }
     }

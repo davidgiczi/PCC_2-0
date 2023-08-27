@@ -11,10 +11,10 @@ public class MeasPoint  {
     private final double z_coord;
     private double azimuth;
     private int groupID;
-    private final Enum pointType;
+    private final Enum<?> pointType;
     private boolean isUsed;
   
-    public MeasPoint(String pointID, double x_coord, double y_coord, double z_coord, Enum pointType) {
+    public MeasPoint(String pointID, double x_coord, double y_coord, double z_coord, Enum<?> pointType) {
 
         this.pointID = pointID;
         this.x_coord = x_coord;
@@ -59,7 +59,7 @@ public class MeasPoint  {
         this.groupID = groupID;
     }
 
-    public Enum getPointType() {
+    public Enum<?> getPointType() {
         return pointType;
     }
 
