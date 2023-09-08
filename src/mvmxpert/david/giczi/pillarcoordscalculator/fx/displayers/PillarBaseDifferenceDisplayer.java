@@ -136,9 +136,9 @@ public class PillarBaseDifferenceDisplayer {
                                 (measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord()))
                         .replace(",", ".") + "\t" +
-                String.format("%.1f", 100 * measuredPillarDataController
+                String.format("%+.1f", 100 * measuredPillarDataController
                         .measuredPillarData.getXDifferenceOnMainLine()).replace(",", ".") + "\t" +
-                String.format("%.1f", 100 * measuredPillarDataController
+                String.format("%+.1f", 100 * measuredPillarDataController
                         .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
     }
 
