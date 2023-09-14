@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -16,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.PlainDocument;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
 
@@ -67,6 +71,48 @@ public class PlateBaseInputWindow {
 	
 	private void setPillarPointsData() {
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if( e.getButton() == MouseEvent.BUTTON3 ) {
+					
+			if(plateBaseController.homeController.getYesNoMessage("Szeretnéd megcserélni az adatokat?", 
+					"A kitűzendő-, és az előző/következő oszlop adatainak cseréje.") == 0) {
+				exchangePillarData();
+			}
+					
+				}
+				
+			}
+				
+		});
+	
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(Box.createVerticalStrut(10));
 		panel.setBackground(Color.WHITE);
@@ -94,6 +140,22 @@ public class PlateBaseInputWindow {
 		panel.add(centerYText);
 		panel.add(Box.createHorizontalStrut(30));
 		x_centerField = new JTextField(15);
+		x_centerField.setDocument(new PlainDocument() {
+
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
+				
+				if( chng.getOffset() < 3 && Character.isDigit(x_centerField.getText().charAt(0))) {
+					x_directionField.setText(x_centerField.getText());
+				}
+				
+				super.insertUpdate(chng, attr);
+			}
+			
+		});
 		x_centerField.setFont(font2);
 		x_centerField.setForeground(color);
 		panel.add(x_centerField);
@@ -104,6 +166,22 @@ public class PlateBaseInputWindow {
 		panel.add(centerXText);
 		panel.add(Box.createHorizontalStrut(30));
 		y_centerField = new JTextField(15);
+		y_centerField.setDocument(new PlainDocument() {
+
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
+				
+				if( chng.getOffset() < 3 && Character.isDigit(y_centerField.getText().charAt(0))) {
+					y_directionField.setText(y_centerField.getText());
+				}
+				
+				super.insertUpdate(chng, attr);
+			}
+			
+		});
 		y_centerField.setFont(font2);
 		y_centerField.setForeground(color);
 		panel.add(y_centerField);
@@ -331,6 +409,19 @@ public class PlateBaseInputWindow {
 		});
 		panel.add(ok);
 		inputFrameForPlateBase.add(panel);
+	}
+	
+	private void exchangePillarData() {
+		String centerPillarId = centerIdField.getText();
+		String centerPillarX = x_centerField.getText();
+		String centerPillarY = y_centerField.getText();
+		centerIdField.setText(directionIdField.getText());
+		x_centerField.setText(x_directionField.getText());
+		y_centerField.setText(y_directionField.getText());
+		directionIdField.setText(centerPillarId);
+		x_directionField.setText(centerPillarX);
+		y_directionField.setText(centerPillarY);
+		
 	}
 	
 }

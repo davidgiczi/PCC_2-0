@@ -108,14 +108,23 @@ public class FXHomeWindow extends Application {
 		MenuItem openPillarProject = new MenuItem("Projekt megnyitása");
 
 		openPillarProject.setOnAction(e -> {
-		homeController.measuredPillarDataController.openProject();
+		homeController.measuredPillarDataController.openPillarBaseProject();
 		});
 
 		MenuItem createPillarProject = new MenuItem("Új projekt létrehozása");
 		createPillarProject.setOnAction(e -> {
 		homeController.measuredPillarDataController.openMeasuredData();
 		});
-		pillarProject.getItems().addAll(openPillarProject,createPillarProject);
+		MenuItem createIntersection = new MenuItem("Előmetszés létrehozása");
+		createIntersection.setOnAction( e -> {
+		homeController.measuredPillarDataController.openIntersectionInputDataWindow();
+		});
+		MenuItem openIntersection = new MenuItem("Előmetszés megnyitása");
+		openIntersection.setOnAction(e -> {
+		homeController.measuredPillarDataController.openIntersectionProject();
+		});
+		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 
+				new SeparatorMenuItem(), createIntersection, openIntersection);
 		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint, pillarProject);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);
