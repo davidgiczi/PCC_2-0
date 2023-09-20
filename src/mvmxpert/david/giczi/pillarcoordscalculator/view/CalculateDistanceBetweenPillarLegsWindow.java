@@ -75,7 +75,7 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 		illesztesiSikField.setFont(font);
 		illesztesiSikField.setForeground(color);
 		panel.add(illesztesiSikField);
-		panel.add(new JLabel("mm"));
+		panel.add(new JLabel("cm"));
 		panel.add(Box.createVerticalStrut(30));
 		
 		JLabel sudarasodasLabel = new JLabel("Sudarasodás értéke:");
