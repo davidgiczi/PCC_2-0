@@ -521,13 +521,17 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "25" :
 			id = 25;
 			sign = "karó";
-			comment = centerPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			comment = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";
 			break;
 		case "26" :
 			id = 26;
 			sign = "karó";
-			if( getPointIntegerID(directionPoint) == 2 ) 
-			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			if( centerPoint.getPointID().equals("1") )
+			comment = "Az előző oszlop iránya 20 méterre";
+			else if( getPointIntegerID(centerPoint) == 2 )
+			comment = "1. számú oszlop iránya 20 méterre";
+			else if( getPointIntegerID(directionPoint) == 2 ) 
+			comment = directionPoint.getPointID()  + ". számú oszlop iránya 20 méterre";
 			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
 			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
@@ -600,12 +604,16 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "9":
 			id = 9;
 			sign = "karó";
-			comment = getPointIntegerID(centerPoint) + ". számú oszlop iránya 20 méterre";
+			comment = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";
 			break;
 		case "10":
 			id = 10;
 			sign = "karó";
-			if( getPointIntegerID(directionPoint) == 2 ) 
+			if( centerPoint.getPointID().equals("1") )
+				comment = "Az előző oszlop iránya 20 méterre";
+			else if( getPointIntegerID(centerPoint) == 2 )
+				comment = "1. számú oszlop iránya 20 méterre";
+			else if( getPointIntegerID(directionPoint) == 2 ) 
 			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
 			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
