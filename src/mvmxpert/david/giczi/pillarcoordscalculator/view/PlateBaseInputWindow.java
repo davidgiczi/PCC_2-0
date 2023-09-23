@@ -9,10 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,6 +51,7 @@ public class PlateBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	private PlateBaseController plateBaseController;
+	public JComboBox<String> sideComboBox;
 	
 	public PlateBaseInputWindow(String projectName, PlateBaseController plateBaseController) {
 		this.plateBaseController = plateBaseController;
@@ -285,12 +288,20 @@ public class PlateBaseInputWindow {
 		panel.add(verticalDistanceFromHoleSideField);
 		panel.add(new JLabel("m"));
 		
-		JLabel angularText = new JLabel("A nyomvonal által bezárt jobb oldali szög");
+		sideComboBox = new JComboBox<>();
+		sideComboBox.addItem("jobb");
+		sideComboBox.addItem("bal");
+		sideComboBox.setFont(font2);
+		JLabel angularText = new JLabel("A nyomvonal által bezárt");
 		angularText.setFont(font2);
-		panel.add(Box.createHorizontalStrut(60));
+		panel.add(Box.createHorizontalStrut(50));
 		panel.add(angularText);
-		
+		panel.add(sideComboBox);
+		JLabel restAngularText = new JLabel("oldali szög.");
+		restAngularText.setFont(font2);
+		panel.add(restAngularText);
 		panel.add(Box.createHorizontalStrut(45));
+		
 		rotateAngularField = new JTextField(5);
 		rotateAngularField.setForeground(color);
 		rotateAngularField.setText("180");

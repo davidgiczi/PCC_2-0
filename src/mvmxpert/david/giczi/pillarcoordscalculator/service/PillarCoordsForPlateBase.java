@@ -19,6 +19,7 @@ public class PillarCoordsForPlateBase {
 	private double radRotation;
 	private List<Point> pillarPoints;
 	private double azimuth;
+	private boolean sideOfAngle;
 	
 	
 	public PillarCoordsForPlateBase(Point pillarCenterPoint, Point axisDirectionPoint) throws InvalidAttributeValueException {
@@ -139,6 +140,11 @@ public class PillarCoordsForPlateBase {
 	public double getRadRotation() {
 		return radRotation;
 	}
+	
+	
+	public void setSideOfAngle(boolean sideOfAngle) {
+		this.sideOfAngle = sideOfAngle;
+	}
 
 
 	public void calculatePillarPoints() {
@@ -195,17 +201,29 @@ public class PillarCoordsForPlateBase {
 					angularMinuteValueBetweenMainPath != 0 || 
 							angularSecondValueBetweenMainPath != 0) {
 				
-			radRotation = Math.toRadians((180 - (angleValueBetweenMainPath + 
-								angularMinuteValueBetweenMainPath / 60 + 
-								angularSecondValueBetweenMainPath / 3600)) / 2);
+			 radRotation = sideOfAngle ? 
+					Math.toRadians((180 - (angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60 + 
+					angularSecondValueBetweenMainPath / 3600)) / 2) :
+					2 * Math.PI - 
+					Math.toRadians((180 - (angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60 + 
+					angularSecondValueBetweenMainPath / 3600)) / 2);	
+			
+			double rotationValue = sideOfAngle ? 
+					angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60 + 
+					angularSecondValueBetweenMainPath / 3600 : 
+					360 - (angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60 + 
+					angularSecondValueBetweenMainPath / 3600);
 			
 			rotation =  ( angleValueBetweenMainPath == 180 && 
 						angularMinuteValueBetweenMainPath == 0 &&
-						angularSecondValueBetweenMainPath == 0 ) ? 0 : angleValueBetweenMainPath + 
-						angularMinuteValueBetweenMainPath / 60 + 
-						angularSecondValueBetweenMainPath / 3600;
-		}
+						angularSecondValueBetweenMainPath == 0 ) ? 0 : rotationValue;
+		
 	}
+}
 	
 	private void rotatePillarCoords() {
 		
@@ -246,5 +264,6 @@ public class PillarCoordsForPlateBase {
 						Math.round(backwardPoint.calcPolarPoint().getX_coord() * 1000.0) / 1000.0, 
 						Math.round(backwardPoint.calcPolarPoint().getY_coord() * 1000.0) / 1000.0));
 		}
+	
 		
 }

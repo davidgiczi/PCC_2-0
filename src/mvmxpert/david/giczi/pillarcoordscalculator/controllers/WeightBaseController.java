@@ -54,6 +54,8 @@ public class WeightBaseController implements Controller {
 			homeController.weightBaseCoordsCalculator.setAngleValueBetweenMainPath(rotationAngle);
 			homeController.weightBaseCoordsCalculator.setAngularMinuteValueBetweenMainPath(rotationMin);
 			homeController.weightBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
+			homeController.weightBaseCoordsCalculator
+			.setSideOfAngle(homeController.weightBaseInputWindow.sideComboBox.getSelectedIndex() == 0 ? true : false);
 			homeController.weightBaseCoordsCalculator.calculatePillarPoints();
 			 if ( saveAsProject() ) {
 				 createProjectFile(centerID, centerX, centerY, 

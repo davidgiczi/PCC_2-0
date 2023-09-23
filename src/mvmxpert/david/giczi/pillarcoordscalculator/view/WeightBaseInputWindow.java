@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,6 +50,7 @@ public class WeightBaseInputWindow {
 	private Font font1 = new Font("Arial", Font.PLAIN, 16);
 	private Font font2 = new Font("Arial", Font.BOLD, 13);
 	private WeightBaseController weightBaseController;
+	public JComboBox<String> sideComboBox;
 	
 	public WeightBaseInputWindow(String projectName, WeightBaseController weightBaseController) {
 		this.weightBaseController = weightBaseController;
@@ -226,9 +228,8 @@ public class WeightBaseInputWindow {
 	private void setPillarSizeData() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panel.add(Box.createVerticalStrut(10));
 		panel.setBackground(Color.WHITE);
-		panel.setPreferredSize(new Dimension(380, 330));
+		panel.setPreferredSize(new Dimension(380, 335));
 		panel.setBorder(BorderFactory
 				.createTitledBorder(BorderFactory.createEtchedBorder(),
 						"Az alap geomteriai adatainak megadása", TitledBorder.CENTER, TitledBorder.TOP, font1, color));
@@ -293,10 +294,21 @@ public class WeightBaseInputWindow {
 		panel.add(verticalSizeForHoleField);
 		panel.add(new JLabel("m"));
 		
-		JLabel angularText = new JLabel("A nyomvonal által bezárt jobb oldali szög");
+		JLabel angularText = new JLabel("A nyomvonal által bezárt");
 		angularText.setFont(font2);
-		panel.add(Box.createHorizontalStrut(60));
+		panel.add(Box.createHorizontalStrut(50));
 		panel.add(angularText);
+		sideComboBox = new JComboBox<>();
+		sideComboBox.addItem("jobb");
+		sideComboBox.addItem("bal");
+		sideComboBox.setFont(font2);
+		angularText.setFont(font2);
+		panel.add(angularText);
+		panel.add(sideComboBox);
+		JLabel restAngularText = new JLabel("oldali szög.");
+		restAngularText.setFont(font2);
+		panel.add(restAngularText);
+		panel.add(Box.createHorizontalStrut(45));
 		
 		panel.add(Box.createHorizontalStrut(45));
 		rotateAngularField = new JTextField(5);

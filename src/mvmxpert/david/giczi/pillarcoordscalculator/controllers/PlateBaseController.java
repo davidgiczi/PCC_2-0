@@ -53,6 +53,8 @@ public class PlateBaseController implements Controller  {
 		homeController.plateBaseCoordsCalculator.setAngleValueBetweenMainPath(rotationAngle);
 		homeController.plateBaseCoordsCalculator.setAngularMinuteValueBetweenMainPath(rotationMin);
 		homeController.plateBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
+		homeController.plateBaseCoordsCalculator
+		.setSideOfAngle(homeController.plateBaseInputWindow.sideComboBox.getSelectedIndex() == 0 ? true : false);
 		homeController.plateBaseCoordsCalculator.calculatePillarPoints();
 		
 		if( saveAsProject() ) {
