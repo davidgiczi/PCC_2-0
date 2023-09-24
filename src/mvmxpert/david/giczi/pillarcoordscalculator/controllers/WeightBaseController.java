@@ -54,8 +54,9 @@ public class WeightBaseController implements Controller {
 			homeController.weightBaseCoordsCalculator.setAngleValueBetweenMainPath(rotationAngle);
 			homeController.weightBaseCoordsCalculator.setAngularMinuteValueBetweenMainPath(rotationMin);
 			homeController.weightBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
+			int angleSideIndex = homeController.weightBaseInputWindow.sideComboBox.getSelectedIndex();
 			homeController.weightBaseCoordsCalculator
-			.setSideOfAngle(homeController.weightBaseInputWindow.sideComboBox.getSelectedIndex() == 0 ? true : false);
+			.setSideOfAngle(angleSideIndex == 0 ? true : false);
 			homeController.weightBaseCoordsCalculator.calculatePillarPoints();
 			 if ( saveAsProject() ) {
 				 createProjectFile(centerID, centerX, centerY, 
@@ -65,7 +66,7 @@ public class WeightBaseController implements Controller {
 					  verticalDistanceBetweenPillarLegs, 
 					  horizontalSizeOfHoleOfPillarLeg, 
 					  verticalSizeOfHoleOfPillarLeg, 
-					  rotationAngle, rotationSec, rotationMin);
+					  rotationAngle, rotationSec, rotationMin, angleSideIndex);
 			 }
 			 if( nonValidProjectName ) {
 				 nonValidProjectName = false;
@@ -228,7 +229,7 @@ public class WeightBaseController implements Controller {
 		 double verticalDistanceBetweenPillarLegs, 
 		 double horizontalSizeOfHoleOfPillarLeg,
 		 double verticalSizeOfHoleOfPillarLeg,
-		 double rotationAngle, double rotationSec, double rotationMin) {
+		 double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
 		
 		homeController.fileProcess.saveProjectFileForWeightBase
 		(centerID, centerX, centerY, 
@@ -238,7 +239,7 @@ public class WeightBaseController implements Controller {
 		 verticalDistanceBetweenPillarLegs, 
 		 horizontalSizeOfHoleOfPillarLeg, 
 		 verticalSizeOfHoleOfPillarLeg, 
-		 rotationAngle, rotationSec, rotationMin);
+		 rotationAngle, rotationSec, rotationMin, angleSideIndex);
 	}
 		
 }

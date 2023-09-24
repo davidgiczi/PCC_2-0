@@ -251,10 +251,9 @@ public class PillarCoordsForWeightBase {
 					Math.toRadians((180 - (angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60 + 
 					angularSecondValueBetweenMainPath / 3600)) / 2) :
-					2 * Math.PI - 
-					Math.toRadians((180 - (angleValueBetweenMainPath + 
+					Math.toRadians((180 - (360 - (angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60 + 
-					angularSecondValueBetweenMainPath / 3600)) / 2);		
+					angularSecondValueBetweenMainPath / 3600))) / 2);		
 			
 			double rotationValue = sideOfAngle ? 
 					angleValueBetweenMainPath + 
@@ -297,10 +296,13 @@ public class PillarCoordsForWeightBase {
 			PolarPoint forwardPoint = 
 					new PolarPoint(pillarCenterPoint, 20d, azimuth.calcAzimuth(), pillarCenterPoint.getPointID() + "_25");
 			
-			double backwardDirection = azimuth.calcAzimuth() +
+			double backwardDirection = azimuth.calcAzimuth() + (sideOfAngle ?
 					Math.toRadians(angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60  +
-					angularSecondValueBetweenMainPath / 3600);
+					angularSecondValueBetweenMainPath / 3600) : 
+					Math.toRadians(360 - (angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60  +
+					angularSecondValueBetweenMainPath / 3600)));
 			
 			PolarPoint backwardPoint =
 					new PolarPoint(pillarCenterPoint, 20d, backwardDirection, pillarCenterPoint.getPointID() + "_26" );

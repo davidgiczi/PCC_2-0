@@ -204,11 +204,10 @@ public class PillarCoordsForPlateBase {
 			 radRotation = sideOfAngle ? 
 					Math.toRadians((180 - (angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60 + 
-					angularSecondValueBetweenMainPath / 3600)) / 2) :
-					2 * Math.PI - 
-					Math.toRadians((180 - (angleValueBetweenMainPath + 
+					angularSecondValueBetweenMainPath / 3600)) / 2) : 
+					Math.toRadians((180 - (360 - (angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60 + 
-					angularSecondValueBetweenMainPath / 3600)) / 2);	
+					angularSecondValueBetweenMainPath / 3600))) / 2);	
 			
 			double rotationValue = sideOfAngle ? 
 					angleValueBetweenMainPath + 
@@ -250,10 +249,13 @@ public class PillarCoordsForPlateBase {
 			PolarPoint forwardPoint = 
 					new PolarPoint(pillarCenterPoint, 20d, azimuth.calcAzimuth(), pillarCenterPoint.getPointID() + "_9");
 			
-			double backwardDirection = azimuth.calcAzimuth() +
+			double backwardDirection = azimuth.calcAzimuth() + (sideOfAngle ?
 					Math.toRadians(angleValueBetweenMainPath + 
 					angularMinuteValueBetweenMainPath / 60  +
-					angularSecondValueBetweenMainPath / 3600);
+					angularSecondValueBetweenMainPath / 3600) : 
+					Math.toRadians(360 - (angleValueBetweenMainPath + 
+					angularMinuteValueBetweenMainPath / 60  +
+					angularSecondValueBetweenMainPath / 3600)));
 			
 			PolarPoint backwardPoint =
 					new PolarPoint(pillarCenterPoint, 20d, backwardDirection, pillarCenterPoint.getPointID() + "_10" );

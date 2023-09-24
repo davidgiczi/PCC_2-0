@@ -325,7 +325,7 @@ public class PCCFileProcess {
 	 String directionID, double directionX,  double directionY,
 	 double horizontalSizeOfHole, double verticalSizeOfHole,
 	 double horizontalDistanceFromHole, double verticalDistanceFromHole,
-	 double rotationAngle, double rotationSec, double rotationMin) {
+	 double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
 		
 		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
@@ -360,6 +360,8 @@ public class PCCFileProcess {
 				writer.newLine();
 				writer.write(String.valueOf(rotationSec));
 				writer.newLine();
+				writer.write(String.valueOf(angleSideIndex));
+				writer.newLine();
 				
 		} catch (IOException e) {
 			homeController
@@ -375,7 +377,7 @@ public class PCCFileProcess {
 			 double verticalDistanceBetweenPillarLegs, 
 			 double horizontalSizeOfHoleOfPillarLeg,
 			 double verticalSizeOfHoleOfPillarLeg,
-			 double rotationAngle, double rotationSec, double rotationMin) {
+			 double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
 		
 		File projectFile = new File(FOLDER_PATH + "/" + HomeController.PROJECT_NAME + ".pcc");
 		
@@ -411,6 +413,8 @@ public class PCCFileProcess {
 				writer.write(String.valueOf(rotationMin));
 				writer.newLine();
 				writer.write(String.valueOf(rotationSec));
+				writer.newLine();
+				writer.write(String.valueOf(angleSideIndex));
 				writer.newLine();
 				
 		} catch (IOException e) {

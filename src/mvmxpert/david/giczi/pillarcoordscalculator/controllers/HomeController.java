@@ -26,8 +26,8 @@ public class HomeController {
 	public static String PROJECT_NAME;
 	public HomeWindow homeWindow;
 	public PCCFileProcess fileProcess;
-	WeightBaseInputWindow weightBaseInputWindow;
-	PlateBaseInputWindow plateBaseInputWindow;
+	public WeightBaseInputWindow weightBaseInputWindow;
+	public PlateBaseInputWindow plateBaseInputWindow;
 	WeightBaseDisplayer weightBaseDisplayer;
 	PlateBaseDisplayer plateBaseDisplayer;
 	SteakoutControlWindow steakoutControlWindow;
@@ -229,7 +229,9 @@ public class HomeController {
 			.setText(projectFileData.get(12).substring(0, projectFileData.get(12).indexOf('.')));
 			plateBaseInputWindow.rotateAngularSecField
 			.setText(projectFileData.get(13).substring(0, projectFileData.get(13).indexOf('.')));
-		
+			if( projectFileData.size() == 15 ) {
+			plateBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(14)));
+			}
 		}
 		else if( !projectFileData.isEmpty() && "#WeightBase".equals(projectFileData.get(0)) ) {
 			weightBaseController = new WeightBaseController(this);
@@ -252,6 +254,9 @@ public class HomeController {
 			.setText(projectFileData.get(13).substring(0, projectFileData.get(13).indexOf('.')));
 			weightBaseInputWindow.rotateAngularSecField
 			.setText(projectFileData.get(14).substring(0, projectFileData.get(14).indexOf('.')));
+			if( projectFileData.size() == 16 ) {
+			weightBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(15)));
+			}
 		}
 	}
 	

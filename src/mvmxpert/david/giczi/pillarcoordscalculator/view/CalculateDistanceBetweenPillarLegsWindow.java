@@ -139,6 +139,14 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				DecimalFormat df = new DecimalFormat("0.000");
 				double distance = distanceOfLegsValue / 1000.0  + (2 * sudarasodasValue * illesztesiSikValue / 100.0) / 1000.0;
 				resultField.setText(df.format(distance).replace(',', '.'));
+				
+				if( homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.getText().isEmpty() ) {
+					homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.setText(df.format(distance).replace(',', '.'));
+				}
+				if( homeController.weightBaseInputWindow.verticalSizeForPillarLegField.getText().isEmpty() ) {
+					homeController.weightBaseInputWindow.verticalSizeForPillarLegField.setText(df.format(distance).replace(',', '.'));
+				}
+				
 			}
 		});
 	 

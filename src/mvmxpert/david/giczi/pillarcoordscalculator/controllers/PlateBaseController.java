@@ -53,8 +53,9 @@ public class PlateBaseController implements Controller  {
 		homeController.plateBaseCoordsCalculator.setAngleValueBetweenMainPath(rotationAngle);
 		homeController.plateBaseCoordsCalculator.setAngularMinuteValueBetweenMainPath(rotationMin);
 		homeController.plateBaseCoordsCalculator.setAngularSecondValueBetweenMainPath(rotationSec);
+		int angleSideIndex = homeController.plateBaseInputWindow.sideComboBox.getSelectedIndex();
 		homeController.plateBaseCoordsCalculator
-		.setSideOfAngle(homeController.plateBaseInputWindow.sideComboBox.getSelectedIndex() == 0 ? true : false);
+		.setSideOfAngle(angleSideIndex == 0 ? true : false);
 		homeController.plateBaseCoordsCalculator.calculatePillarPoints();
 		
 		if( saveAsProject() ) {
@@ -63,7 +64,7 @@ public class PlateBaseController implements Controller  {
 					directionID, directionX, directionY,
 					horizontalSizeOfHole, verticalSizeOfHole,
 					horizontalDistanceFromHole, verticalDistanceFromHole,
-					rotationAngle, rotationSec, rotationMin);
+					rotationAngle, rotationSec, rotationMin, angleSideIndex);
 		}
 		if( nonValidProjectName ) {
 			 nonValidProjectName = false;
@@ -220,13 +221,13 @@ public class PlateBaseController implements Controller  {
 			String directionID, double directionX,  double directionY,
 			double horizontalSizeOfHole, double verticalSizeOfHole,
 			double horizontalDistanceFromHole, double verticalDistanceFromHole,
-			double rotationAngle, double rotationSec, double rotationMin) {
+			double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
 			
 		homeController.fileProcess.saveProjectFileForPlatetBase
 			(centerID, centerX, centerY, 
 			 directionID, directionX, directionY, 
 			 horizontalSizeOfHole, verticalSizeOfHole, 
 			 horizontalDistanceFromHole, verticalDistanceFromHole, 
-			 rotationAngle, rotationSec, rotationMin);
+			 rotationAngle, rotationSec, rotationMin, angleSideIndex);
 		}
 }
