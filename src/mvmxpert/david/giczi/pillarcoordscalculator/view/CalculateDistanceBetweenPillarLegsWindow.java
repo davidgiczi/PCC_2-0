@@ -140,6 +140,10 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 				double distance = distanceOfLegsValue / 1000.0  + (2 * sudarasodasValue * illesztesiSikValue / 100.0) / 1000.0;
 				resultField.setText(df.format(distance).replace(',', '.'));
 				
+				if( homeController.weightBaseInputWindow == null ) {
+					homeController.getWeightBaseInputWindow();
+				}
+				
 				if( homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.getText().isEmpty() ) {
 					homeController.weightBaseInputWindow.horizontalSizeForPillarLegField.setText(df.format(distance).replace(',', '.'));
 				}

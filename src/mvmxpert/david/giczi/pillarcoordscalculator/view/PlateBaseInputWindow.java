@@ -292,15 +292,14 @@ public class PlateBaseInputWindow {
 		sideComboBox.addItem("jobb");
 		sideComboBox.addItem("bal");
 		sideComboBox.setFont(font2);
-		JLabel angularText = new JLabel("A nyomvonal által bezárt");
+		JLabel angularText = new JLabel("A nyomvonal által közbezárt");
 		angularText.setFont(font2);
-		panel.add(Box.createHorizontalStrut(50));
 		panel.add(angularText);
 		panel.add(sideComboBox);
 		JLabel restAngularText = new JLabel("oldali szög.");
 		restAngularText.setFont(font2);
 		panel.add(restAngularText);
-		panel.add(Box.createHorizontalStrut(45));
+		panel.add(Box.createHorizontalStrut(55));
 		
 		rotateAngularField = new JTextField(5);
 		rotateAngularField.setForeground(color);

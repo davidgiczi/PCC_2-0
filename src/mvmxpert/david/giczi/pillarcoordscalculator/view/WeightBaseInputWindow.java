@@ -294,9 +294,8 @@ public class WeightBaseInputWindow {
 		panel.add(verticalSizeForHoleField);
 		panel.add(new JLabel("m"));
 		
-		JLabel angularText = new JLabel("A nyomvonal által bezárt");
+		JLabel angularText = new JLabel("A nyomvonal által közbezárt");
 		angularText.setFont(font2);
-		panel.add(Box.createHorizontalStrut(50));
 		panel.add(angularText);
 		sideComboBox = new JComboBox<>();
 		sideComboBox.addItem("jobb");
