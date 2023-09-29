@@ -408,7 +408,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyére merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (a merőleges tengely a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (a merőleges tengely a nyomvonallal " + (90 + (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "5":
 			id = 5;
