@@ -18,6 +18,7 @@ public class SteakoutControl {
 	private String pointIDValue;
 	private String delimiter;
 	private int rotation;
+	private boolean sideOfRotation;
 	private List<SteakoutedCoords> controlledCoords;
 	private HomeController homeController;
 	
@@ -54,6 +55,10 @@ public class SteakoutControl {
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 	}
+	
+	public void setSideOfRotation(boolean sideOfRotation) {
+		this.sideOfRotation = sideOfRotation;
+	}
 
 	public void controlSteakout() {
 		DecimalFormat df = new DecimalFormat("###.###");
@@ -87,6 +92,7 @@ public class SteakoutControl {
 					}
 					steakouted.setStkPointID(data[0]);
 					steakouted.setRotation(rotation);
+					steakouted.setSideOfAngel(sideOfRotation);
 					steakouted.setXcoordForDesignPoint(designedPillarCoords.get(i).getX_coord());
 					steakouted.setYcoordForDesignPoint(designedPillarCoords.get(i).getY_coord()); 
 					steakouted.setXcoordForSteakoutPoint(Double.parseDouble(data[1]));

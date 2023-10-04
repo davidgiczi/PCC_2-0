@@ -399,7 +399,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ "(az oszlop karja a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "3":
 			id = 3;
@@ -581,7 +581,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? 90 + Math.abs(180 - rotation) / 2 : (180 - rotation) / 2) + "°-os szöget zár be)";
+					(sideOfAngel ? (90  + Math.abs(180 - rotation) / 2) : rotation / 2)  + "°-os szöget zár be)";  	
 			break;
 		case "6":
 			id = 6;
@@ -589,7 +589,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " +  Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "7":
 			id = 7;
@@ -598,7 +598,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? (180 - rotation) / 2 : 90  + Math.abs(180 - rotation) / 2) + "°-os szöget zár be)";
+					(sideOfAngel ? rotation / 2 : 90  + Math.abs(180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;

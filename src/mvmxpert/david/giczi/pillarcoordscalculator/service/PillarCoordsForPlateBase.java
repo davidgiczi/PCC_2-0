@@ -145,6 +145,11 @@ public class PillarCoordsForPlateBase {
 	public void setSideOfAngle(boolean sideOfAngle) {
 		this.sideOfAngle = sideOfAngle;
 	}
+	
+	
+	public boolean isSideOfAngle() {
+		return sideOfAngle;
+	}
 
 
 	public void calculatePillarPoints() {

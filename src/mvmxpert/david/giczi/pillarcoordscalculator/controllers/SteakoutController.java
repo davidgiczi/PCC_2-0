@@ -92,6 +92,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setPointIDValue(prePostFixValue);
 		homeController.steakoutControl.setDelimiter(delimiter);
 		homeController.steakoutControl.setRotation((int) homeController.plateBaseCoordsCalculator.getRotation());
+		homeController.steakoutControl.setSideOfRotation(homeController.plateBaseCoordsCalculator.isSideOfAngle());
 		homeController.steakoutControl.controlSteakout();
 		PlateBaseFXDisplayer.setDisplayPillarBaseCoords(false);
 		homeController.getPlateBaseFXDisplayer();
