@@ -8,7 +8,7 @@ public class MeasPoint  {
     private String pointID;
     private final double x_coord;
     private final double y_coord;
-    private final double z_coord;
+    private double z_coord;
     private double azimuth;
     private int groupID;
     private final Enum<?> pointType;
@@ -42,8 +42,12 @@ public class MeasPoint  {
     public double getZ_coord() {
         return z_coord;
     }
+   
+    public void setZ_coord(double z_coord) {
+		this.z_coord = z_coord;
+	}
 
-    public double getAzimuth() {
+	public double getAzimuth() {
         return azimuth;
     }
     public void setAzimuth(Point azimuthFrom) {
