@@ -296,7 +296,7 @@ public class PlateBaseInputWindow {
 		angularText.setFont(font2);
 		panel.add(angularText);
 		panel.add(sideComboBox);
-		JLabel restAngularText = new JLabel("oldali szög.");
+		JLabel restAngularText = new JLabel("oldali szög");
 		restAngularText.setFont(font2);
 		panel.add(restAngularText);
 		panel.add(Box.createHorizontalStrut(55));
