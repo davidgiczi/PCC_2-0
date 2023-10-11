@@ -193,7 +193,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
 			break;
 		case "3":
@@ -205,7 +205,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + pathDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "5":
@@ -217,7 +217,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "6": 
 			id = 6;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
 			break;
 		case "7":
@@ -229,7 +229,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "9":
@@ -349,7 +349,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az alap gödrének szélétől " 
+			comment = "az oszlopkar iránya az alap gödrének szélétől " 
 			+ verticalDistanceFromSideOfHole + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
@@ -363,7 +363,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "a nyomvonalra merőleges tengely iránya az alap gödrének szélétől " 
+			comment = "az oszlopkar iránya az alap gödrének szélétől " 
 			+ verticalDistanceFromSideOfHole + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");;
 			break;
@@ -581,7 +581,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? (90  + Math.abs(180 - rotation) / 2) : rotation / 2)  + "°-os szöget zár be)";  	
+					(sideOfAngel ? (90  + Math.abs(180 - rotation) / 2) : (rotation / 2))  + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
@@ -598,7 +598,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? rotation / 2 : 90  + Math.abs(180 - rotation) / 2) + "°-os szöget zár be)";
+					(sideOfAngel ? (rotation / 2) : 90  + Math.abs(180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;
