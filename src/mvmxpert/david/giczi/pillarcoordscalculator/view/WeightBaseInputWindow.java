@@ -246,7 +246,7 @@ public class WeightBaseInputWindow {
 		panel.add(directionSizeField);
 		panel.add(new JLabel("m"));
 		
-		JLabel titleForHorizontalSizeForPillarLeg = new JLabel("Az oszloplábak távolsága a nyomvonallal párhuzamosan");
+		JLabel titleForHorizontalSizeForPillarLeg = new JLabel("Az oszloplábak távolsága az oszlopkarra merőlegesen");
 		titleForHorizontalSizeForPillarLeg.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(titleForHorizontalSizeForPillarLeg);
@@ -258,7 +258,7 @@ public class WeightBaseInputWindow {
 		panel.add(horizontalSizeForPillarLegField);
 		panel.add(new JLabel("m"));
 		
-		JLabel titleForVerticalSizeForPillarLeg = new JLabel("Az oszloplábak távolsága a nyomvonalra merőlegesen");
+		JLabel titleForVerticalSizeForPillarLeg = new JLabel("Az oszloplábak távolsága az oszlopkarral párhuzamosan");
 		titleForVerticalSizeForPillarLeg.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(titleForVerticalSizeForPillarLeg);
@@ -270,7 +270,7 @@ public class WeightBaseInputWindow {
 		panel.add(verticalSizeForPillarLegField);
 		panel.add(new JLabel("m"));
 		
-		JLabel horizontalSizeForHoleText = new JLabel("A lábak gödrének mérete a nyomvonallal párhuzamosan");
+		JLabel horizontalSizeForHoleText = new JLabel("A lábak gödrének mérete az oszlopkarra merőlegesen");
 		horizontalSizeForHoleText.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(horizontalSizeForHoleText);
@@ -282,7 +282,7 @@ public class WeightBaseInputWindow {
 		panel.add(horizontalSizeForHoleField);
 		panel.add(new JLabel("m"));
 		
-		JLabel verticalSizeForHoleText = new JLabel("A lábak gödrének mérete a nyomvonalra merőlegesen");
+		JLabel verticalSizeForHoleText = new JLabel("A lábak gödrének mérete az oszlopkarral párhuzamosan");
 		verticalSizeForHoleText.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(verticalSizeForHoleText);

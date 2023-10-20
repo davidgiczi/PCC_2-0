@@ -74,8 +74,10 @@ public class SteakoutControl {
 				if(baseType == BaseType.WEIGHT_BASE) {
 					steakouted.setPathDistance(
 							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(1)).calcDistance()));
-					steakouted.setCenterToHalfwayOfHolesDistance(
+					steakouted.setCenterToForwardBackwardDistance(
 							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(5)).calcDistance()));
+					steakouted.setCenterToLeftRightDistance(
+							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(6)).calcDistance()));
 					}
 				else if(baseType == BaseType.PLATE_BASE) {
 					

@@ -17,7 +17,8 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	private boolean sideOfAngel;
 	private BaseType baseType;
 	private String pathDistance;
-	private String centerToHalfwayOfHolesDistance;
+	private String centerToForwardBackwardDistance;
+	private String centerToLeftRightDistance;
 	private String horizontalDistanceFromSideOfHole;
 	private String verticalDistanceFromSideOfHole;
 	private double XcoordForDesignPoint;
@@ -60,8 +61,13 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		this.pathDistance = pathDistance;
 	}
 	
-	public void setCenterToHalfwayOfHolesDistance(String centerToHalfwayOfHolesDistance) {
-		this.centerToHalfwayOfHolesDistance = centerToHalfwayOfHolesDistance;
+	
+	public void setCenterToForwardBackwardDistance(String centerToForwardBackwardDistance) {
+		this.centerToForwardBackwardDistance = centerToForwardBackwardDistance;
+	}
+	
+	public void setCenterToLeftRightDistance(String centerToLeftRightDistance) {
+		this.centerToLeftRightDistance = centerToLeftRightDistance;
 	}
 
 	public void setHorizontalDistanceFromSideOfHole(String horizontalDistanceFromSideOfHole) {
@@ -211,25 +217,25 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "a nyomvonal iránya az oszlop közepétől " + centerToForwardBackwardDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
 			break;
 		case "6": 
 			id = 6;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + centerToLeftRightDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "a nyomvonal iránya az oszlop közepétől " + centerToForwardBackwardDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + centerToHalfwayOfHolesDistance + " méterre " +
+			comment = "az oszlopkar iránya az oszlop közepétől " + centerToLeftRightDistance + " méterre " +
 			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
 			break;
 		case "9":
