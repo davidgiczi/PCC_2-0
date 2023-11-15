@@ -587,7 +587,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? (90  + Math.abs(180 - rotation) / 2) : (rotation / 2))  + "°-os szöget zár be)";
+					(sideOfAngel ? (90  - Math.abs(180 - rotation) / 2) : (90  + Math.abs(180 - rotation) / 2))  + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
