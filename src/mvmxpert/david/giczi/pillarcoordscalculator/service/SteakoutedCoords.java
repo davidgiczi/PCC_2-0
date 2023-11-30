@@ -537,7 +537,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "26" :
 			id = 26;
 			sign = "karó";
-			if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			if( centerPoint.getPointID().equals("1") || centerPoint.getPointID().equals("T1"))
+			comment = "Az előző oszlop iránya 20 méterre";
+			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
 			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";		
@@ -616,7 +618,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "10":
 			id = 10;
 			sign = "karó";
-			if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			if( centerPoint.getPointID().equals("1") || centerPoint.getPointID().equals("T1"))
+			comment = "Az előző oszlop iránya 20 méterre";
+			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
 			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";	
