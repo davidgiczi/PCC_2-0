@@ -173,9 +173,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		} catch (NumberFormatException e) {
 			
 			if( point.equals(centerPoint) )
-				id = 1;
+				id = 0;
 			else if( point.equals(directionPoint) )
-				id = 2;
+				id = 1;
 		}
 		return id;
 	}
@@ -532,18 +532,12 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "25" :
 			id = 25;
 			sign = "karó";
-			comment = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";
+			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
 			break;
 		case "26" :
 			id = 26;
 			sign = "karó";
-			if( centerPoint.getPointID().equals("1") )
-			comment = "Az előző oszlop iránya 20 méterre";
-			else if( getPointIntegerID(centerPoint) == 2 )
-			comment = "1. számú oszlop iránya 20 méterre";
-			else if( getPointIntegerID(directionPoint) == 2 ) 
-			comment = directionPoint.getPointID()  + ". számú oszlop iránya 20 méterre";
-			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
 			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";		
@@ -617,18 +611,12 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "9":
 			id = 9;
 			sign = "karó";
-			comment = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";
+			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
 			break;
 		case "10":
 			id = 10;
 			sign = "karó";
-			if( centerPoint.getPointID().equals("1") )
-				comment = "Az előző oszlop iránya 20 méterre";
-			else if( getPointIntegerID(centerPoint) == 2 )
-				comment = "1. számú oszlop iránya 20 méterre";
-			else if( getPointIntegerID(directionPoint) == 2 ) 
-			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
-			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
+			if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
 			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
 			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";	
