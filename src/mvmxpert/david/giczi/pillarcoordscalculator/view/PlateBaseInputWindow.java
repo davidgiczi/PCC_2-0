@@ -239,7 +239,7 @@ public class PlateBaseInputWindow {
 				.createTitledBorder(BorderFactory.createEtchedBorder(),
 						"Az alap geomteriai adatainak megadása", TitledBorder.CENTER, TitledBorder.TOP, font1, color));
 		
-		JLabel horizontalSizeForHoleText = new JLabel("Az alap gödrének mérete a nyomvonallal párhuzamosan");
+		JLabel horizontalSizeForHoleText = new JLabel("Az alap gödrének mérete az oszlopkarra merőlegesen");
 		horizontalSizeForHoleText.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(horizontalSizeForHoleText);
@@ -251,7 +251,7 @@ public class PlateBaseInputWindow {
 		panel.add(horizontalSizeOfHoleField);
 		panel.add(new JLabel("m"));
 		
-		JLabel verticalSizeForHoleText = new JLabel("Az alap gödrének mérete a nyomvonalra merőlegesen");
+		JLabel verticalSizeForHoleText = new JLabel("Az alap gödrének mérete az oszlopkarral párhuzamosan");
 		verticalSizeForHoleText.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(verticalSizeForHoleText);
@@ -264,7 +264,7 @@ public class PlateBaseInputWindow {
 		panel.add(new JLabel("m"));
 		
 			
-		JLabel titleForHorizontalDistanceFromHole = new JLabel("A gödörtől vett távolság a nyomvonallal párhuzamosan");
+		JLabel titleForHorizontalDistanceFromHole = new JLabel("A gödörtől vett távolság az oszlopkarra merőlegesen");
 		titleForHorizontalDistanceFromHole.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(titleForHorizontalDistanceFromHole);
@@ -276,7 +276,7 @@ public class PlateBaseInputWindow {
 		panel.add(horizontalDistanceFromHoleSideField);
 		panel.add(new JLabel("m"));
 		
-		JLabel titleForVerticalSizeForPillarLeg = new JLabel("A gödörtől vett távolság a nyomvonalra merőlegesen");
+		JLabel titleForVerticalSizeForPillarLeg = new JLabel("A gödörtől vett távolság az oszlopkarral párhuzamosan");
 		titleForVerticalSizeForPillarLeg.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));
 		panel.add(titleForVerticalSizeForPillarLeg);

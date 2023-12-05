@@ -18,7 +18,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.view.HomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.PlateBaseInputWindow;
-import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControlWindow;
+import mvmxpert.david.giczi.pillarcoordscalculator.view.SteakoutControllWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.view.WeightBaseInputWindow;
 
 public class HomeController {
@@ -30,7 +30,7 @@ public class HomeController {
 	public PlateBaseInputWindow plateBaseInputWindow;
 	WeightBaseDisplayer weightBaseDisplayer;
 	PlateBaseDisplayer plateBaseDisplayer;
-	SteakoutControlWindow steakoutControlWindow;
+	SteakoutControllWindow steakoutControlWindow;
 	public PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	public PillarCoordsForPlateBase plateBaseCoordsCalculator;
 	public SteakoutControl steakoutControl;
@@ -85,7 +85,7 @@ public class HomeController {
 	public void getSteakoutControlWindow() {
 		if( steakoutControlWindow == null ) {
 			steakoutController = new SteakoutController(this);
-			steakoutControlWindow = new SteakoutControlWindow(PROJECT_NAME, steakoutController);
+			steakoutControlWindow = new SteakoutControllWindow(PROJECT_NAME, steakoutController);
 		}
 		else {
 			steakoutControlWindow.steakoutControlFrame.setVisible(true);
