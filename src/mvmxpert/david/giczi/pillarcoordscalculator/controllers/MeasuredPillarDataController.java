@@ -688,13 +688,13 @@ public class MeasuredPillarDataController {
                 standingPointA_X, standingPointA_Y, standingPointA_Z, null);
         MeasPoint standingPointB = new MeasPoint(standingBPointId,
                 standingPointB_X, standingPointB_Y, standingPointB_Z, null);
-        intersection = new Intersection();
+        if( intersection == null ) {
+        	intersection = new Intersection();
+        }
         intersection.setStandingPointA(standingPointA);
         intersection.setStandingPointB(standingPointB);
-        if( startPoint != null ){
-            intersection.setLineStartPoint(startPoint);
-            intersection.setLineEndPoint(endPoint);
-        }
+        intersection.setLineStartPoint(startPoint);
+        intersection.setLineEndPoint(endPoint);
         intersection.setAzimuthAngleA(standingAPointHzAngle);
         intersection.setAzimuthMinuteA(standingAPointHzMin);
         intersection.setAzimuthSecA(standingAPointHzSec);
@@ -722,7 +722,8 @@ public class MeasuredPillarDataController {
         }
         openIntersectionInputDataWindow();
         intersectionInputDataWindow.stage.setTitle(PLRFileProcess.PROJECT_FILE_NAME + ".ins");
-         if( intersectionProjectFileData.size() == 21){
+        intersection = new Intersection();
+         if( intersectionProjectFileData.size() == 23){
             intersectionInputDataWindow.newPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.standingAIdField.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.standingAPointField_X.setText(intersectionProjectFileData.get(2));
@@ -744,6 +745,8 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationAngleField.setText(intersectionProjectFileData.get(18));
             intersectionInputDataWindow.standingBPointElevationMinField.setText(intersectionProjectFileData.get(19));
             intersectionInputDataWindow.standingBPointElevationSecField.setText(intersectionProjectFileData.get(20));
+            intersection.setTheoreticalPoint(new Point("TheoreticalPoint", Double.parseDouble(intersectionProjectFileData.get(21)), 
+            		Double.parseDouble(intersectionProjectFileData.get(22))));
         }
         else if( intersectionProjectFileData.size() == 27 ){
             intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));

@@ -7,11 +7,11 @@ import  mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 public class Intersection {
 
     private MeasPoint intersectionPoint;
-
     private MeasPoint intersectionPointFromA;
     private MeasPoint intersectionPointFromB;
     private MeasPoint standingPointA;
     private MeasPoint standingPointB;
+    private Point theoreticalPoint;
     private Point lineStartPoint;
     private Point lineEndPoint;
     private double alfa;
@@ -32,9 +32,9 @@ public class Intersection {
     public String deltaAzimuthAtStandingPointA;
     public double distanceBetweenStandingPointAAndIntersectionPointFromA;
     public double distanceBetweenStandingPointBAndIntersectionPointFromB;
-    public double distanceBetweenIntersectionPointAndHalfLinePoint;
-    public double distanceBetweenStandingPointAAndHalfLinePoint;
-    public double distanceBetweenStandingPointBAndHalfLinePoint;
+    public double distanceBetweenIntersectionPointAndTheoreticalPoint;
+    public double distanceBetweenStandingPointAAndTheoreticalPoint;
+    public double distanceBetweenStandingPointBAndTheoreticalPoint;
     public double distanceBetweenStartWireAndIntersectionPoint;
     public double distanceBetweenEndWireAndIntersectionPoint;
 
@@ -104,7 +104,7 @@ public class Intersection {
                 polarPointB.calcPolarPoint().getY_coord(),
                 intersectionElevationB,
                 PointType.INTERSECTION);
-
+        
         intersectionPoint = new MeasPoint("Intersection",
                 ( polarPointA.calcPolarPoint().getX_coord() +
                         polarPointB.calcPolarPoint(). getX_coord() ) / 2.0,
@@ -114,6 +114,7 @@ public class Intersection {
                         intersectionElevationB *  Math.pow(Math.pow(distanceB, 2), -1)) /
                         (Math.pow(Math.pow(distanceA, 2), -1) + Math.pow(Math.pow(distanceB, 2), -1)),
                 PointType.INTERSECTION);
+        
         calcData();
     }
 
@@ -143,18 +144,26 @@ public class Intersection {
              gammaSecValue + "\"";
     }
 
-    public Point getHalfLinePointData(){
+    public Point getTheoreticalPointData(){
+    	
         if( lineStartPoint == null || lineEndPoint == null){
-            return null;
+           
+        	if( theoreticalPoint == null ){
+        			return null;
+        	}
         }
-        AzimuthAndDistance lineData =
-                new AzimuthAndDistance(lineStartPoint, lineEndPoint);
+        	
+        if( theoreticalPoint != null ) {
+        	return theoreticalPoint;
+        }
+        
+        AzimuthAndDistance lineData =  new AzimuthAndDistance(lineStartPoint, lineEndPoint);
         PolarPoint halfLinePoint = new PolarPoint(lineStartPoint,
                 lineData.calcDistance() / 2.0,
                 lineData.calcAzimuth(), "halfLinePoint");
         return halfLinePoint.calcPolarPoint();
     }
-
+        
     private void calcData(){
 
         AzimuthAndDistance pointAAndFromPointAData =
@@ -173,27 +182,27 @@ public class Intersection {
                                 intersectionPointFromB.getX_coord(),
                                 intersectionPointFromB.getY_coord()));
         distanceBetweenStandingPointBAndIntersectionPointFromB = pointBAndFromPointBData.calcDistance();
-        if( getHalfLinePointData() == null ){
+        if( getTheoreticalPointData() == null ){
             return;
         }
         AzimuthAndDistance intersectionAndHalfLinePointData =
-                new AzimuthAndDistance(getHalfLinePointData(),
+                new AzimuthAndDistance(getTheoreticalPointData(),
                         new Point("IntersectionPoint",
                                 intersectionPoint.getX_coord(),
                                 intersectionPoint.getY_coord()));
-        distanceBetweenIntersectionPointAndHalfLinePoint = intersectionAndHalfLinePointData.calcDistance();
+        distanceBetweenIntersectionPointAndTheoreticalPoint = intersectionAndHalfLinePointData.calcDistance();
         AzimuthAndDistance standingPointAAndHalfPointData =
                 new AzimuthAndDistance(new Point("PointA",
                         standingPointA.getX_coord(),
                         standingPointA.getY_coord()),
-                        getHalfLinePointData());
-        distanceBetweenStandingPointAAndHalfLinePoint = standingPointAAndHalfPointData.calcDistance();
+                        getTheoreticalPointData());
+        distanceBetweenStandingPointAAndTheoreticalPoint = standingPointAAndHalfPointData.calcDistance();
         AzimuthAndDistance standingPointBAndHalfPointData =
-                new AzimuthAndDistance(new Point("PointA",
+                new AzimuthAndDistance(new Point("PointB",
                         standingPointB.getX_coord(),
                         standingPointB.getY_coord()),
-                        getHalfLinePointData());
-        distanceBetweenStandingPointBAndHalfLinePoint = standingPointBAndHalfPointData.calcDistance();
+                        getTheoreticalPointData());
+        distanceBetweenStandingPointBAndTheoreticalPoint = standingPointBAndHalfPointData.calcDistance();
    deltaAzimuthAtStandingPointA =
            getSecValue(Math.toDegrees(pointAAndFromPointAData.calcAzimuth() -
                    standingPointAAndHalfPointData.calcAzimuth())) < 0 ?
@@ -224,15 +233,29 @@ public class Intersection {
                                    standingPointBAndHalfPointData.calcAzimuth()))) + "' " +
              Math.abs(getSecValue(Math.toDegrees(pointBAndFromPointBData.calcAzimuth() -
                                    standingPointBAndHalfPointData.calcAzimuth()))) + "\"";
-   distanceBetweenStartWireAndIntersectionPoint = new AzimuthAndDistance(lineStartPoint,
+   if( lineStartPoint != null) {
+	    distanceBetweenStartWireAndIntersectionPoint = new AzimuthAndDistance(lineStartPoint,
            new Point("IntersectionPoint", intersectionPoint.getX_coord(),
                    intersectionPoint.getY_coord())).calcDistance();
-   distanceBetweenEndWireAndIntersectionPoint = new AzimuthAndDistance(lineEndPoint,
+   }
+  
+   if( lineEndPoint != null) {
+	   distanceBetweenEndWireAndIntersectionPoint = new AzimuthAndDistance(lineEndPoint,
                 new Point("IntersectionPoint", intersectionPoint.getX_coord(),
                         intersectionPoint.getY_coord())).calcDistance();
+   }
+   
     }
+    
+    public Point getTheoreticalPoint() {
+		return theoreticalPoint;
+	}
 
-    public MeasPoint getIntersectionPoint() {
+	public void setTheoreticalPoint(Point theoreticalPoint) {
+		this.theoreticalPoint = theoreticalPoint;
+	}
+
+	public MeasPoint getIntersectionPoint() {
         return intersectionPoint;
     }
 

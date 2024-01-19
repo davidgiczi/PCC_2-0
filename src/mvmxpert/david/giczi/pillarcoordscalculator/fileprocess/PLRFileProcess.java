@@ -4,7 +4,9 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fileprocess;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Intersection;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -153,7 +155,14 @@ public class PLRFileProcess {
 			String row = reader.readLine();
 			while (row != null) {
 				String[] rowData = row.split(delimiter);
-				if(!measuredPillarDataController
+				if( 5 >= rowData.length && 
+						rowData[0].equalsIgnoreCase(measuredPillarDataController.intersectionInputDataWindow.newPointIdField.getText())) {
+					measuredPillarDataController.intersection = new Intersection();
+					measuredPillarDataController
+					.intersection
+					.setTheoreticalPoint(new Point("Theoretical", Double.parseDouble(rowData[1]), Double.parseDouble(rowData[2])));
+				}
+				if( rowData.length > 5 && !measuredPillarDataController
 						.intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
 						rowData[5].equalsIgnoreCase(measuredPillarDataController
 						.intersectionInputDataWindow.startPointIdField.getText().trim())) {
@@ -161,7 +170,7 @@ public class PLRFileProcess {
 				measuredPillarDataController.intersectionInputDataWindow.startField_X.setText(rowData[7]);
 				measuredPillarDataController.intersectionInputDataWindow.startField_Y.setText(rowData[8]);
 				}
-				if(!measuredPillarDataController
+				if( rowData.length > 5 && !measuredPillarDataController
 						.intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
 						rowData[5].equalsIgnoreCase(measuredPillarDataController
 						.intersectionInputDataWindow.endPointIdField.getText().trim())) {
@@ -169,7 +178,7 @@ public class PLRFileProcess {
 					measuredPillarDataController.intersectionInputDataWindow.endField_Y.setText(rowData[8]);
 				}
 
-					if(!measuredPillarDataController
+					if( rowData.length > 5 && !measuredPillarDataController
 							.intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
 							rowData[0].equalsIgnoreCase(measuredPillarDataController
 									.intersectionInputDataWindow.standingAIdField.getText().trim())) {
@@ -180,7 +189,7 @@ public class PLRFileProcess {
 						measuredPillarDataController.intersectionInputDataWindow
 								.standingAPointField_Z.setText(rowData[3]);
 					}
-						if(!measuredPillarDataController
+						if( rowData.length > 5 && !measuredPillarDataController
 								.intersectionInputDataWindow.standingBIdField.getText().isEmpty() &&
 								rowData[0].equalsIgnoreCase(measuredPillarDataController
 										.intersectionInputDataWindow.standingBIdField.getText().trim())) {
@@ -191,7 +200,7 @@ public class PLRFileProcess {
 							measuredPillarDataController.intersectionInputDataWindow
 									.standingBPointField_Z.setText(rowData[3]);
 					}
-						if(!measuredPillarDataController
+						if( rowData.length > 5 && !measuredPillarDataController
 								.intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
 						rowData[0].equalsIgnoreCase(measuredPillarDataController.
 								intersectionInputDataWindow.standingAIdField.getText()) &&
@@ -218,7 +227,7 @@ public class PLRFileProcess {
 									.intersectionInputDataWindow
 									.standingAPointElevationSecField.setText(elevationData[1].substring(2, 4));
 						}
-				if(!measuredPillarDataController
+				if( rowData.length > 5 && !measuredPillarDataController
 						.intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
 						rowData[0].equalsIgnoreCase(measuredPillarDataController.
 								intersectionInputDataWindow.standingBIdField.getText()) &&
@@ -245,13 +254,14 @@ public class PLRFileProcess {
 							.intersectionInputDataWindow
 							.standingBPointElevationSecField.setText(elevationData[1].substring(2, 4));
 				}
+			
 				row = reader.readLine();
 			}
 		}
 		catch (IOException e) {
 		}
 	}
-
+	
 	public void getPillarBaseMeasureFileData() {
 		FileChooser projectFileChooser = new FileChooser();
 		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ?
@@ -404,6 +414,15 @@ public class PLRFileProcess {
 			writer.newLine();
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationSecField.getText());
 			writer.newLine();
+			if( measuredPillarDataController.intersection != null && 
+					measuredPillarDataController.intersection.getLineStartPoint() == null &&
+							measuredPillarDataController.intersection.getLineEndPoint() == null &&
+								measuredPillarDataController.intersection.getTheoreticalPoint() != null) {
+				writer.write(String.valueOf(measuredPillarDataController.intersection.getTheoreticalPoint().getX_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.intersection.getTheoreticalPoint().getY_coord()));
+				writer.newLine();
+			}
 		}
 		catch (IOException e){
 		}
