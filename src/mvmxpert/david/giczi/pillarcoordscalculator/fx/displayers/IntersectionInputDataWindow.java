@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -55,6 +56,7 @@ public class IntersectionInputDataWindow {
     public TextField standingBPointElevationAngleField;
     public TextField standingBPointElevationMinField;
     public TextField standingBPointElevationSecField;
+    public CheckBox elevationMeasureCheckbox;
 
     public IntersectionInputDataWindow(MeasuredPillarDataController measuredPillarDataController){
         this.measuredPillarDataController = measuredPillarDataController;
@@ -409,13 +411,13 @@ public class IntersectionInputDataWindow {
         standingAPointAzimuthSecField.setFont(normalFont);
         standingAPointAzimuthSecField.setCursor(Cursor.HAND);
         standingAPointAzimuthSecField.setPrefColumnCount(3);
-        HBox staningPointAAzimuthHbox = new HBox();
-        staningPointAAzimuthHbox.setAlignment(Pos.CENTER);
-        staningPointAAzimuthHbox.setSpacing(5);
-        staningPointAAzimuthHbox.setPadding(new Insets(10,10,10,10));
-        staningPointAAzimuthHbox.getChildren().addAll(horizontalText, standingAPointAzimuthAngleField,
+        HBox standingPointAAzimuthHbox = new HBox();
+        standingPointAAzimuthHbox.setAlignment(Pos.CENTER);
+        standingPointAAzimuthHbox.setSpacing(5);
+        standingPointAAzimuthHbox.setPadding(new Insets(5,5,5,5));
+        standingPointAAzimuthHbox.getChildren().addAll(horizontalText, standingAPointAzimuthAngleField,
                 angleHzText, standingAPointAzimuthMinField, minHzText, standingAPointAzimuthSecField, secHzText);
-        vBox.getChildren().addAll(staningPointAAzimuthHbox);
+        vBox.getChildren().addAll(standingPointAAzimuthHbox);
 
         Text verticalText = new Text("\tVz:         ");
         verticalText.setFont(boldFont);
@@ -449,11 +451,16 @@ public class IntersectionInputDataWindow {
         HBox standingPointAElevationHbox = new HBox();
         standingPointAElevationHbox.setAlignment(Pos.CENTER);
         standingPointAElevationHbox.setSpacing(5);
-        standingPointAElevationHbox.setPadding(new Insets(10,10,10,10));
+        standingPointAElevationHbox.setPadding(new Insets(5,5,5,5));
         standingPointAElevationHbox.getChildren().addAll(verticalText, standingAPointElevationAngleField,
                 angleVzText, standingAPointElevationMinField, minVzText,
                 standingAPointElevationSecField, secVzText);
-        vBox.getChildren().addAll(standingPointAElevationHbox);
+        elevationMeasureCheckbox = new CheckBox("Csak magasságmérés");
+        elevationMeasureCheckbox.setCursor(Cursor.HAND);
+        elevationMeasureCheckbox.setFont(boldFont);
+        HBox elevationMeasureHbox = new HBox(elevationMeasureCheckbox);
+        elevationMeasureHbox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(standingPointAElevationHbox, elevationMeasureHbox);
 
     }
 
@@ -494,12 +501,13 @@ public class IntersectionInputDataWindow {
         standingBPointDataText.setFont(normalFont);
         standingBPointDataText.setFill(color);
         HBox standingBPointTextHbox = new HBox();
+        standingBPointTextHbox.setPadding(new Insets(5,5,5,5));
         standingBPointTextHbox.setAlignment(Pos.CENTER);
         standingBPointTextHbox.getChildren().add(standingBPointDataText);
         vBox.getChildren().add(standingBPointTextHbox);
 
         HBox standingBPointIdTextHbox = new HBox();
-        standingBPointIdTextHbox.setPadding(new Insets(5,5,5,5));
+        standingBPointIdTextHbox.setPadding(new Insets(1,5,5,5));
         standingBPointIdTextHbox.setAlignment(Pos.CENTER);
         standingBPointIdTextHbox.setSpacing(45);
         Text standingBPointIdText = new Text("A 2. pont azonosítója:");
@@ -639,7 +647,13 @@ public class IntersectionInputDataWindow {
     }
     private void addCalcButton(){
         Button calcButton = new Button("Adatok beolvasása");
-        calcButton.setOnMouseClicked(e -> measuredPillarDataController.onClickCountButtonForIntersectionProcess());
+        calcButton.setOnMouseClicked(e -> {
+        if( elevationMeasureCheckbox.isSelected() ) {
+        	measuredPillarDataController.onClickCountButtonForElevationMeasureOnly();
+        }
+        else {
+        	measuredPillarDataController.onClickCountButtonForIntersectionProcess();
+        }});
         calcButton.setCursor(Cursor.HAND);
         calcButton.setFont(boldFont);
         HBox calcButtonHbox = new HBox();

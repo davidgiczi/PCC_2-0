@@ -142,7 +142,12 @@ public class PLRFileProcess {
 		projectFileChooser.getExtensionFilters().add(projectFileFilter);
 		File selectedFile = projectFileChooser.showOpenDialog(measuredPillarDataController.fxHomeWindow.homeStage);
 		if ( selectedFile != null ) {
-			setIntersectionData(selectedFile);
+			if( MeasuredPillarDataController.ELEVATION_MEAS_ONLY ) {
+				setIntersectionDataForElevationMeasureOnly(selectedFile);
+			}
+			else {
+				setIntersectionData(selectedFile);
+			}
 			FOLDER_PATH = selectedFile.getParent();
 		}
 	}
@@ -255,6 +260,83 @@ public class PLRFileProcess {
 							.standingBPointElevationSecField.setText(elevationData[1].substring(2, 4));
 				}
 			
+				row = reader.readLine();
+			}
+		}
+		catch (IOException e) {
+		}
+	}
+	
+	private void setIntersectionDataForElevationMeasureOnly(File selectedFile) {
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(selectedFile, StandardCharsets.UTF_8))) {
+
+			String row = reader.readLine();
+			while (row != null) {
+				String[] rowData = row.split(delimiter);
+				if( 5 >= rowData.length && 
+						rowData[0].equalsIgnoreCase(measuredPillarDataController.intersectionInputDataWindow.newPointIdField.getText())) {
+					measuredPillarDataController.intersection = new Intersection();
+					measuredPillarDataController
+					.intersection
+					.setTheoreticalPoint(new Point("Theoretical", Double.parseDouble(rowData[1]), Double.parseDouble(rowData[2])));
+				}
+				if( rowData.length > 5 && !measuredPillarDataController
+						.intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
+						rowData[5].equalsIgnoreCase(measuredPillarDataController
+						.intersectionInputDataWindow.startPointIdField.getText().trim())) {
+
+				measuredPillarDataController.intersectionInputDataWindow.startField_X.setText(rowData[7]);
+				measuredPillarDataController.intersectionInputDataWindow.startField_Y.setText(rowData[8]);
+				}
+				if( rowData.length > 5 && !measuredPillarDataController
+						.intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
+						rowData[5].equalsIgnoreCase(measuredPillarDataController
+						.intersectionInputDataWindow.endPointIdField.getText().trim())) {
+					measuredPillarDataController.intersectionInputDataWindow.endField_X.setText(rowData[7]);
+					measuredPillarDataController.intersectionInputDataWindow.endField_Y.setText(rowData[8]);
+				}
+
+					if( rowData.length > 5 && !measuredPillarDataController
+							.intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
+							rowData[0].equalsIgnoreCase(measuredPillarDataController
+									.intersectionInputDataWindow.standingAIdField.getText().trim())) {
+						measuredPillarDataController.intersectionInputDataWindow
+								.standingAPointField_X.setText(rowData[1]);
+						measuredPillarDataController.intersectionInputDataWindow
+								.standingAPointField_Y.setText(rowData[2]);
+						measuredPillarDataController.intersectionInputDataWindow
+								.standingAPointField_Z.setText(rowData[3]);
+					}
+						
+						if( rowData.length > 5 && !measuredPillarDataController
+								.intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
+						rowData[0].equalsIgnoreCase(measuredPillarDataController.
+								intersectionInputDataWindow.standingAIdField.getText()) &&
+						rowData[6].equalsIgnoreCase(measuredPillarDataController
+								.intersectionInputDataWindow.newPointIdField.getText())){
+							String[] azimuthData = rowData[10].split("\\.");
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointAzimuthAngleField.setText(azimuthData[0]);
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointAzimuthMinField.setText(azimuthData[1].substring(0, 2));
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointAzimuthSecField.setText(azimuthData[1].substring(2, 4));
+							String[] elevationData = rowData[11].split("\\.");
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointElevationAngleField.setText(elevationData[0]);
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointElevationMinField.setText(elevationData[1].substring(0, 2));
+							measuredPillarDataController
+									.intersectionInputDataWindow
+									.standingAPointElevationSecField.setText(elevationData[1].substring(2, 4));
+						}
+		
 				row = reader.readLine();
 			}
 		}
