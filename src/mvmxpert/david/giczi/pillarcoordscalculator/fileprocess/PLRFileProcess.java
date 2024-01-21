@@ -476,26 +476,46 @@ public class PLRFileProcess {
 			writer.newLine();
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingAPointElevationSecField.getText());
 			writer.newLine();
-			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBIdField.getText().toUpperCase());
-			writer.newLine();
-			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointField_X.getText());
-			writer.newLine();
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBIdField.getText().isEmpty() ) {
+				writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBIdField.getText().toUpperCase());
+				writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointField_X.getText().isEmpty() ) {
+				writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointField_X.getText());
+				writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointField_Y.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointField_Y.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointField_Z.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointField_Z.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthAngleField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthAngleField.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthMinField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthMinField.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthSecField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointAzimuthSecField.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationAngleField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationAngleField.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationMinField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationMinField.getText());
 			writer.newLine();
+			}
+			if( !measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationSecField.getText().isEmpty() ) {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationSecField.getText());
 			writer.newLine();
+			}
 			if( measuredPillarDataController.intersection != null && 
 					measuredPillarDataController.intersection.getLineStartPoint() == null &&
 							measuredPillarDataController.intersection.getLineEndPoint() == null &&

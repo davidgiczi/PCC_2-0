@@ -72,11 +72,16 @@ public class IntersectionDisplayer {
     private void addContent(){
         addNorthSign();
         addComboBoxForScaleValue();
+        if( MeasuredPillarDataController.ELEVATION_MEAS_ONLY ) {
+        	
+        }
+        else {
         addIntersectionData();
         addCalculatedAndMeasuredIntersectionPoints();
         addPointsDistanceLine();
         addCoordsDifferencesAndDistance();
         addStandingPoints();
+       }
     }
 
     private void addNorthSign(){
