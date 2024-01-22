@@ -458,6 +458,12 @@ public class IntersectionInputDataWindow {
         elevationMeasureCheckbox = new CheckBox("Csak magasságmérés");
         elevationMeasureCheckbox.setCursor(Cursor.HAND);
         elevationMeasureCheckbox.setFont(boldFont);
+        if( MeasuredPillarDataController.ELEVATION_MEAS_ONLY ) {
+        	elevationMeasureCheckbox.setSelected(true);
+        }
+        else {
+        	elevationMeasureCheckbox.setSelected(false);
+        }
         HBox elevationMeasureHbox = new HBox(elevationMeasureCheckbox);
         elevationMeasureHbox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(standingPointAElevationHbox, elevationMeasureHbox);

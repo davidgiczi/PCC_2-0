@@ -40,34 +40,16 @@ public class Intersection {
     
     public void calcElevationOnly() {
     	
-    	Point halfLinePoint = null;
-    	
-    	if( lineStartPoint != null && lineEndPoint != null ) {
-    		halfLinePoint = new Point("halfLinePoint", 
-    				(lineStartPoint.getX_coord() + lineEndPoint.getX_coord()) / 2.0, 
-    				(lineStartPoint.getY_coord() + lineEndPoint.getY_coord()) / 2.0);
-    	}
-    	
     	Point standingPoint = new Point("standingAPoint", standingPointA.getX_coord(), standingPointA.getY_coord());
-    	double elevationA = Math.toRadians(elevationAngleA + elevationMinuteA / 60.0 +
-                elevationSecA / 3600.0);
-    	double distance;
-    	
-    	if( halfLinePoint == null ) {
-    		distance = new AzimuthAndDistance(standingPoint, theoreticalPoint).calcDistance();
-    	}
-    	else {
-    		distance = new AzimuthAndDistance(standingPoint, halfLinePoint).calcDistance();
-    	}
-    	
+    	double elevationA = Math.toRadians(elevationAngleA + elevationMinuteA / 60.0 + elevationSecA / 3600.0);
+    	double distance = new AzimuthAndDistance(standingPoint, getTheoreticalPointData()).calcDistance();  
     	double correction = 0.87 * Math.pow(distance, 2) / (2 * 6378000);
 		double elevation = standingPointA.getZ_coord() + 
 				distance * Math.pow(Math.tan(elevationA), -1) + correction;
-			
 		intersectionPoint = new MeasPoint(null, 
 				theoreticalPoint.getX_coord(),
 				theoreticalPoint.getY_coord(), elevation, PointType.INTERSECTION);
-		
+		distanceBetweenStandingPointAAndIntersectionPointFromA = distance;
     }
 
     public void calcIntersectionPoint(){

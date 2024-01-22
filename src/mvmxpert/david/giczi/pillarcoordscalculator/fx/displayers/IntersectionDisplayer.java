@@ -73,7 +73,11 @@ public class IntersectionDisplayer {
         addNorthSign();
         addComboBoxForScaleValue();
         if( MeasuredPillarDataController.ELEVATION_MEAS_ONLY ) {
-        	
+        	addDataForElevationMeasureOnly();
+        	addTheoreticalPoint();
+        	addDistanceBetweenStandingAndTheoreticalPoint();
+        	addDistanceBetweenStartAndEndWireLinePoint();
+        	addStandingPointForElevationMeasureOnly();
         }
         else {
         addIntersectionData();
@@ -136,6 +140,31 @@ public class IntersectionDisplayer {
         addContent();
         scaleComboBox.setValue(selectedScale);
     }
+    
+    private void addTheoreticalPoint() {
+    	  Circle theoreticalPointCircle = new Circle();
+          theoreticalPointCircle.setRadius(5);
+          theoreticalPointCircle.setStroke(Color.RED);
+          theoreticalPointCircle.setStrokeWidth(2);
+          theoreticalPointCircle.setFill(Color.TRANSPARENT);
+          theoreticalPointCircle.setCursor(Cursor.HAND);
+          theoreticalPointCircle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5));
+          theoreticalPointCircle.centerYProperty().bind(pane.heightProperty().divide(2));
+          Tooltip theoreticalPointTooltip =
+                  new Tooltip(measuredPillarDataController.intersection
+                          .getIntersectionPoint().getPointID().toUpperCase() +
+           "\tY=" + String.format("%.3f",
+                          measuredPillarDataController.intersection.getIntersectionPoint().getX_coord())
+                          .replace(",",".") + "m\tX=" +
+           String.format("%.3f",
+                          measuredPillarDataController.intersection.getIntersectionPoint().getY_coord())
+                                  .replace(",",".") + "m\th=" +
+          String.format("%.3f",
+                           measuredPillarDataController.intersection.getIntersectionPoint().getZ_coord())
+                                  .replace(",",".") + "m");
+          Tooltip.install(theoreticalPointCircle, theoreticalPointTooltip);
+          pane.getChildren().add(theoreticalPointCircle);
+    }
 
     private void addCalculatedAndMeasuredIntersectionPoints(){
         Circle intersectionPointCircle = new Circle();
@@ -187,6 +216,41 @@ public class IntersectionDisplayer {
         Tooltip.install(wireLineHalfPointCircle, wireLineHalfPointTooltip);
         pane.getChildren().add(wireLineHalfPointCircle);
     }
+    
+    
+    private void addStandingPointForElevationMeasureOnly() {
+    	if( SCALE < 100){
+            return;
+        }
+        Circle standDingAPointCircle = new Circle();
+        standDingAPointCircle.setRadius(5);
+        standDingAPointCircle.setStroke(Color.LIMEGREEN);
+        standDingAPointCircle.setStrokeWidth(2);
+        standDingAPointCircle.setFill(Color.TRANSPARENT);
+        standDingAPointCircle.setCursor(Cursor.HAND);
+        standDingAPointCircle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+                .add(Math.round((measuredPillarDataController.intersection.getStandingPointA().getX_coord() -
+                        measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000)
+                        * MILLIMETER / SCALE));
+        standDingAPointCircle.centerYProperty().bind(pane.heightProperty().divide(2)
+                .subtract(Math.round((measuredPillarDataController.intersection.getStandingPointA().getY_coord() -
+                        measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000)
+                        * MILLIMETER / SCALE));
+        Tooltip standingAPointTooltip =
+                new Tooltip(measuredPillarDataController.intersection.getStandingPointA().getPointID().toUpperCase() +
+                        "\tY=" + String.format("%.3f",
+                                measuredPillarDataController.intersection.getStandingPointA().getX_coord())
+                        .replace(",",".") + "m\tX=" +
+                        String.format("%.3f",
+                                        measuredPillarDataController.intersection.getStandingPointA().getY_coord())
+                                .replace(",",".") + "m\th=" +
+                        String.format("%.3f",
+                                        measuredPillarDataController.intersection.getStandingPointA().getZ_coord())
+                                .replace(",",".") + "m");
+        Tooltip.install(standDingAPointCircle, standingAPointTooltip);
+        pane.getChildren().addAll(standDingAPointCircle);
+    }
+    
     private void addStandingPoints(){
         if( SCALE < 100){
             return;
@@ -245,7 +309,108 @@ public class IntersectionDisplayer {
         Tooltip.install(standDingBPointCircle, standingBPointTooltip);
         pane.getChildren().addAll(standDingAPointCircle, standDingBPointCircle);
     }
+    
+    private void addDistanceBetweenStandingAndTheoreticalPoint() {
+    	if( SCALE < 100){
+            return;
+        }
 
+        Line distanceBetweenStandingAAndIntersectionPointLine = new Line();
+        distanceBetweenStandingAAndIntersectionPointLine.setStroke(Color.RED);
+        distanceBetweenStandingAAndIntersectionPointLine.getStrokeDashArray().addAll(10d);
+        distanceBetweenStandingAAndIntersectionPointLine.setStrokeWidth(2);
+        distanceBetweenStandingAAndIntersectionPointLine.setCursor(Cursor.CLOSED_HAND);
+        distanceBetweenStandingAAndIntersectionPointLine.startXProperty()
+                .bind(pane.widthProperty().divide(10).multiply(5)
+                        .add(Math.round((measuredPillarDataController.intersection.getStandingPointA().getX_coord() -
+                                measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000)
+                                * MILLIMETER / SCALE));
+        distanceBetweenStandingAAndIntersectionPointLine.startYProperty()
+                .bind(pane.heightProperty().divide(2)
+                        .subtract(Math.round((measuredPillarDataController.intersection.getStandingPointA().getY_coord() -
+                                measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000)
+                                * MILLIMETER / SCALE));
+        distanceBetweenStandingAAndIntersectionPointLine.endXProperty()
+                .bind(pane.widthProperty().divide(10).multiply(5));
+        distanceBetweenStandingAAndIntersectionPointLine.endYProperty()
+                .bind(pane.heightProperty().divide(2));
+        Tooltip betweenStandingAAndIntersectionPointDistanceTooltip = new Tooltip(String.format("%.2fm",
+                        measuredPillarDataController.intersection.distanceBetweenStandingPointAAndIntersectionPointFromA)
+                .replace(",", "."));
+        Tooltip.install(distanceBetweenStandingAAndIntersectionPointLine,
+                betweenStandingAAndIntersectionPointDistanceTooltip);
+        pane.getChildren().add(distanceBetweenStandingAAndIntersectionPointLine);
+    }
+
+    private void addDistanceBetweenStartAndEndWireLinePoint() {
+    	
+    	 if( measuredPillarDataController.intersection.getLineStartPoint() == null || 
+         		measuredPillarDataController.intersection.getLineEndPoint() == null  ){
+             return;
+         }
+         Point startPoint =
+                 new Point("WireLineStartPoint",
+ Math.round((measuredPillarDataController.intersection.getLineStartPoint().getX_coord() -
+  measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000.0) * MILLIMETER / SCALE,
+ Math.round((measuredPillarDataController.intersection.getLineStartPoint().getY_coord() -
+ measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000.0) * MILLIMETER / SCALE);
+         Point endPoint =
+ new Point("WireLineEndPoint",
+ Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coord() -
+ measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000.0) * MILLIMETER / SCALE,
+ Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() -
+ measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000.0) * MILLIMETER / SCALE);
+        Line wireLine = new Line();
+        wireLine.setStroke(Color.MAGENTA);
+        wireLine.setStrokeWidth(2);
+        wireLine.setCursor(Cursor.CLOSED_HAND);
+        wireLine.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
+        wireLine.startYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
+        wireLine.endXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(endPoint.getX_coord()));
+        wireLine.endYProperty().bind(pane.heightProperty().divide(2).subtract(endPoint.getY_coord()));
+         AzimuthAndDistance wireLineDistance =
+                 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
+                         measuredPillarDataController.intersection.getLineEndPoint());
+        Tooltip wireLineTooltip = new Tooltip(String.format("%.2fm",
+                wireLineDistance.calcDistance()).replace(",", "."));
+        Tooltip.install(wireLine, wireLineTooltip);
+         Circle wireStartPoint = new Circle();
+         wireStartPoint.setRadius(5);
+         wireStartPoint.setStroke(Color.MAGENTA);
+         wireStartPoint.setStrokeWidth(2);
+         wireStartPoint.setFill(Color.TRANSPARENT);
+         wireStartPoint.setCursor(Cursor.HAND);
+         wireStartPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
+         wireStartPoint.centerYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
+         Tooltip wireStartPointTooltip =
+                 new Tooltip(measuredPillarDataController.intersection.getLineStartPoint().getPointID().toUpperCase() +
+                         "\tY=" + String.format("%.3f",
+                                 measuredPillarDataController.intersection.getLineStartPoint().getX_coord())
+                         .replace(",",".") + "m\tX=" +
+                         String.format("%.3f",
+                                         measuredPillarDataController.intersection.getLineStartPoint().getY_coord())
+                                 .replace(",",".") + "m");
+         Tooltip.install(wireStartPoint, wireStartPointTooltip);
+         Circle wireEndPoint = new Circle();
+         wireEndPoint.setRadius(5);
+         wireEndPoint.setStroke(Color.MAGENTA);
+         wireEndPoint.setStrokeWidth(2);
+         wireEndPoint.setFill(Color.TRANSPARENT);
+         wireEndPoint.setCursor(Cursor.HAND);
+         wireEndPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(endPoint.getX_coord()));
+         wireEndPoint.centerYProperty().bind(pane.heightProperty().divide(2).subtract(endPoint.getY_coord()));
+         Tooltip wireEndPointTooltip =
+                 new Tooltip(measuredPillarDataController.intersection.getLineEndPoint().getPointID().toUpperCase() +
+                         "\tY=" + String.format("%.3f",
+                                 measuredPillarDataController.intersection.getLineEndPoint().getX_coord())
+                         .replace(",",".") + "m\tX=" +
+                         String.format("%.3f",
+                                         measuredPillarDataController.intersection.getLineEndPoint().getY_coord())
+                                 .replace(",",".") + "m");
+         Tooltip.install(wireEndPoint, wireEndPointTooltip);
+         pane.getChildren().addAll(wireLine, wireStartPoint, wireEndPoint);
+    }
+    
     private void addPointsDistanceLine(){
         if( SCALE < 100){
             return;
@@ -431,6 +596,52 @@ measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) *
     pane.getChildren().addAll(deltaXLine, deltaYLine, distanceLine);
  }
 
+ 	private void addDataForElevationMeasureOnly() {
+ 		Text newPointIdText = new Text(measuredPillarDataController
+                .intersection.getIntersectionPoint().getPointID().toUpperCase());
+        newPointIdText.xProperty().bind(pane.widthProperty().divide(22).multiply(4));
+        newPointIdText.setY(10 * MILLIMETER);
+        newPointIdText.setFont(boldFont);
+        newPointIdText.setFill(Color.RED);
+        Text newPointXText = new Text("Y (mért)[m]");
+        newPointXText.setFont(boldFont);
+        newPointXText.xProperty().bind(pane.widthProperty().divide(21).multiply(6));
+        newPointXText.setY(5 * MILLIMETER);
+        Text newPointX = new Text(String.format("%20.3f", measuredPillarDataController
+                .intersection.getIntersectionPoint().getX_coord()).replace(",", "."));
+        newPointX.xProperty().bind(pane.widthProperty().divide(22).multiply(6));
+        newPointX.setY(10 * MILLIMETER);
+        newPointX.setFont(normalFont);
+        Text newPointYText = new Text("X (mért)[m]");
+        newPointYText.setFont(boldFont);
+        newPointYText.xProperty().bind(pane.widthProperty().divide(21).multiply(8));
+        newPointYText.setY(5 * MILLIMETER);
+        Text newPointY = new Text(String.format("%20.3f", measuredPillarDataController
+                .intersection.getIntersectionPoint().getY_coord()).replace(",", "."));
+        newPointY.setFont(normalFont);
+        newPointY.xProperty().bind(pane.widthProperty().divide(22).multiply(8));
+        newPointY.setY(10 * MILLIMETER);
+        Text newPointZText = new Text("h (mért)[m]");
+        newPointZText.setFont(boldFont);
+        newPointZText.xProperty().bind(pane.widthProperty().divide(21).multiply(10));
+        newPointZText.setY(5 * MILLIMETER);
+        Text newPointZ = new Text(String.format("%20.3f", measuredPillarDataController
+                .intersection.getIntersectionPoint().getZ_coord()).replace(",", "."));
+        newPointZ.setFont(normalFont);
+        newPointZ.xProperty().bind(pane.widthProperty().divide(22).multiply(10));
+        newPointZ.setY(10 * MILLIMETER);
+        pane.getChildren().addAll(newPointIdText, newPointXText, newPointX,
+                newPointYText, newPointY, newPointZText, newPointZ);
+       copyText(measuredPillarDataController
+               .intersection.getIntersectionPoint().getPointID() + " " +
+       String.format("%9.3f",measuredPillarDataController.intersection.getIntersectionPoint().getX_coord())
+               .replace(",", ".") + " " +
+       String.format("%9.3f", measuredPillarDataController.intersection.getIntersectionPoint().getY_coord())
+               .replace(",", ".")+ " " +
+       String.format("%6.3f", measuredPillarDataController.intersection.getIntersectionPoint().getZ_coord())
+               .replace(",", "."));
+ 	}
+ 
     private void addIntersectionData(){
         Text newPointIdText = new Text(measuredPillarDataController
                 .intersection.getIntersectionPoint().getPointID().toUpperCase());
