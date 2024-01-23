@@ -76,7 +76,7 @@ public class IntersectionDisplayer {
         	addDataForElevationMeasureOnly();
         	addTheoreticalPoint();
         	addDistanceBetweenStandingAndTheoreticalPoint();
-        	addDistanceBetweenStartAndEndWireLinePoint();
+        	addDistancesBetweenStartAndTheoreticalAndEndPoint();
         	addStandingPointForElevationMeasureOnly();
         }
         else {
@@ -342,46 +342,79 @@ public class IntersectionDisplayer {
         pane.getChildren().add(distanceBetweenStandingAAndIntersectionPointLine);
     }
 
-    private void addDistanceBetweenStartAndEndWireLinePoint() {
-    	
+    private void addDistancesBetweenStartAndTheoreticalAndEndPoint() {	
     	 if( measuredPillarDataController.intersection.getLineStartPoint() == null || 
          		measuredPillarDataController.intersection.getLineEndPoint() == null  ){
              return;
          }
-         Point startPoint =
-                 new Point("WireLineStartPoint",
- Math.round((measuredPillarDataController.intersection.getLineStartPoint().getX_coord() -
-  measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000.0) * MILLIMETER / SCALE,
- Math.round((measuredPillarDataController.intersection.getLineStartPoint().getY_coord() -
- measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000.0) * MILLIMETER / SCALE);
-         Point endPoint =
- new Point("WireLineEndPoint",
- Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coord() -
- measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000.0) * MILLIMETER / SCALE,
- Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() -
- measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000.0) * MILLIMETER / SCALE);
-        Line wireLine = new Line();
-        wireLine.setStroke(Color.MAGENTA);
-        wireLine.setStrokeWidth(2);
-        wireLine.setCursor(Cursor.CLOSED_HAND);
-        wireLine.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
-        wireLine.startYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
-        wireLine.endXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(endPoint.getX_coord()));
-        wireLine.endYProperty().bind(pane.heightProperty().divide(2).subtract(endPoint.getY_coord()));
-         AzimuthAndDistance wireLineDistance =
+    	 if( SCALE < 100){
+             return;
+         }
+    	 AzimuthAndDistance distanceBetweenStartAndEndPoint = 
+    			 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(), 
+    					 measuredPillarDataController.intersection.getLineEndPoint());
+        Line wireLineBetweenStartAndTheoreticalPoint = new Line();
+        wireLineBetweenStartAndTheoreticalPoint.setStroke(Color.MAGENTA);
+        wireLineBetweenStartAndTheoreticalPoint.setStrokeWidth(2);
+        wireLineBetweenStartAndTheoreticalPoint.setCursor(Cursor.CLOSED_HAND);
+        wireLineBetweenStartAndTheoreticalPoint.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).
+        		add(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getX_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenStartAndTheoreticalPoint.startYProperty().bind(pane.heightProperty().divide(2)
+        		.subtract(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getY_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenStartAndTheoreticalPoint.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        		.add(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getX_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenStartAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
+        		.subtract(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getY_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+         AzimuthAndDistance wireLineDistanceBetweenStartAndTheoreticalPoint =
                  new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
-                         measuredPillarDataController.intersection.getLineEndPoint());
-        Tooltip wireLineTooltip = new Tooltip(String.format("%.2fm",
-                wireLineDistance.calcDistance()).replace(",", "."));
-        Tooltip.install(wireLine, wireLineTooltip);
+                         measuredPillarDataController.intersection.getTheoreticalPointData());
+        Tooltip wireLineBetweenStartAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
+                wireLineDistanceBetweenStartAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+        		String.format("%.2fm",
+                        distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
+        Tooltip.install(wireLineBetweenStartAndTheoreticalPoint, wireLineBetweenStartAndTheoreticalPointTooltip);
+        
+        Line wireLineBetweenEndAndTheoreticalPoint = new Line();
+        wireLineBetweenEndAndTheoreticalPoint.setStroke(Color.MAGENTA);
+        wireLineBetweenEndAndTheoreticalPoint.setStrokeWidth(2);
+        wireLineBetweenEndAndTheoreticalPoint.setCursor(Cursor.CLOSED_HAND);
+        wireLineBetweenEndAndTheoreticalPoint.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).
+        		add(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenEndAndTheoreticalPoint.startYProperty().bind(pane.heightProperty().divide(2)
+        		.subtract(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenEndAndTheoreticalPoint.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        		.add(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getX_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireLineBetweenEndAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
+        		.subtract(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getY_coord() - 
+        				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+         AzimuthAndDistance wireLineDistanceBetweenEndAndTheoreticalPoint =
+                 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineEndPoint(),
+                         measuredPillarDataController.intersection.getTheoreticalPointData());
+        Tooltip wireLineBetweenEndAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
+                wireLineDistanceBetweenEndAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+        		String.format("%.2fm",
+                        distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
+        Tooltip.install(wireLineBetweenEndAndTheoreticalPoint, wireLineBetweenEndAndTheoreticalPointTooltip);
+    
          Circle wireStartPoint = new Circle();
          wireStartPoint.setRadius(5);
          wireStartPoint.setStroke(Color.MAGENTA);
          wireStartPoint.setStrokeWidth(2);
          wireStartPoint.setFill(Color.TRANSPARENT);
          wireStartPoint.setCursor(Cursor.HAND);
-         wireStartPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
-         wireStartPoint.centerYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
+         wireStartPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        		 .add(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getX_coord() - 
+         				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+         wireStartPoint.centerYProperty().bind(pane.heightProperty().divide(2)
+        		 .subtract(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getY_coord() - 
+         				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
          Tooltip wireStartPointTooltip =
                  new Tooltip(measuredPillarDataController.intersection.getLineStartPoint().getPointID().toUpperCase() +
                          "\tY=" + String.format("%.3f",
@@ -397,8 +430,12 @@ public class IntersectionDisplayer {
          wireEndPoint.setStrokeWidth(2);
          wireEndPoint.setFill(Color.TRANSPARENT);
          wireEndPoint.setCursor(Cursor.HAND);
-         wireEndPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(endPoint.getX_coord()));
-         wireEndPoint.centerYProperty().bind(pane.heightProperty().divide(2).subtract(endPoint.getY_coord()));
+         wireEndPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        		 .add(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coord() - 
+         				measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+         wireEndPoint.centerYProperty().bind(pane.heightProperty().divide(2)
+        		 .subtract(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() - 
+         				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
          Tooltip wireEndPointTooltip =
                  new Tooltip(measuredPillarDataController.intersection.getLineEndPoint().getPointID().toUpperCase() +
                          "\tY=" + String.format("%.3f",
@@ -408,7 +445,8 @@ public class IntersectionDisplayer {
                                          measuredPillarDataController.intersection.getLineEndPoint().getY_coord())
                                  .replace(",",".") + "m");
          Tooltip.install(wireEndPoint, wireEndPointTooltip);
-         pane.getChildren().addAll(wireLine, wireStartPoint, wireEndPoint);
+         pane.getChildren().addAll(wireLineBetweenStartAndTheoreticalPoint, 
+        		 wireLineBetweenEndAndTheoreticalPoint, wireStartPoint, wireEndPoint);
     }
     
     private void addPointsDistanceLine(){
@@ -482,20 +520,49 @@ Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coo
 measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000.0) * MILLIMETER / SCALE,
 Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() -
 measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000.0) * MILLIMETER / SCALE);
-       Line wireLine = new Line();
-       wireLine.setStroke(Color.MAGENTA);
-       wireLine.setStrokeWidth(2);
-       wireLine.setCursor(Cursor.CLOSED_HAND);
-       wireLine.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
-       wireLine.startYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
-       wireLine.endXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(endPoint.getX_coord()));
-       wireLine.endYProperty().bind(pane.heightProperty().divide(2).subtract(endPoint.getY_coord()));
-        AzimuthAndDistance wireLineDistance =
+        AzimuthAndDistance distanceBetweenStartAndEndPoint =
                 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
                         measuredPillarDataController.intersection.getLineEndPoint());
-       Tooltip wireLineTooltip = new Tooltip(String.format("%.2fm",
-               wireLineDistance.calcDistance()).replace(",", "."));
-       Tooltip.install(wireLine, wireLineTooltip);
+       Line wireLineBetweenStartAndTheoreticalPoint = new Line();
+       wireLineBetweenStartAndTheoreticalPoint.setStroke(Color.MAGENTA);
+       wireLineBetweenStartAndTheoreticalPoint.setStrokeWidth(2);
+       wireLineBetweenStartAndTheoreticalPoint.setCursor(Cursor.CLOSED_HAND);
+       wireLineBetweenStartAndTheoreticalPoint.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
+       wireLineBetweenStartAndTheoreticalPoint.startYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
+       wireLineBetweenStartAndTheoreticalPoint.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+    		   .add(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getX_coord() - 
+    				   measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+       wireLineBetweenStartAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
+    		   .subtract(Math.round((measuredPillarDataController.intersection.getLineStartPoint().getY_coord() - 
+    				   measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+       AzimuthAndDistance distanceBetweenStartAndTheoreticalPoint =
+               new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
+                       measuredPillarDataController.intersection.getTheoreticalPointData());
+       Tooltip wireLineBetweenStartAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
+    		   distanceBetweenStartAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+               String.format("%.2fm", distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
+       Tooltip.install(wireLineBetweenStartAndTheoreticalPoint, wireLineBetweenStartAndTheoreticalPointTooltip);
+       
+       Line wireLineBetweenEndAndTheoreticalPoint = new Line();
+       wireLineBetweenEndAndTheoreticalPoint.setStroke(Color.MAGENTA);
+       wireLineBetweenEndAndTheoreticalPoint.setStrokeWidth(2);
+       wireLineBetweenEndAndTheoreticalPoint.setCursor(Cursor.CLOSED_HAND);
+       wireLineBetweenEndAndTheoreticalPoint.startXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(startPoint.getX_coord()));
+       wireLineBetweenEndAndTheoreticalPoint.startYProperty().bind(pane.heightProperty().divide(2).subtract(startPoint.getY_coord()));
+       wireLineBetweenEndAndTheoreticalPoint.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+    		   .add(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getX_coord() - 
+    				   measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+       wireLineBetweenEndAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
+    		   .subtract(Math.round((measuredPillarDataController.intersection.getLineEndPoint().getY_coord() - 
+    				   measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+       AzimuthAndDistance distanceBetweenEndAndTheoreticalPoint =
+               new AzimuthAndDistance(measuredPillarDataController.intersection.getLineEndPoint(),
+                       measuredPillarDataController.intersection.getTheoreticalPointData());
+       Tooltip wireLineBetweenEndAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
+    		   distanceBetweenEndAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+                                   String.format("%.2fm", distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
+       Tooltip.install(wireLineBetweenEndAndTheoreticalPoint, wireLineBetweenEndAndTheoreticalPointTooltip);
+       
         Circle wireStartPoint = new Circle();
         wireStartPoint.setRadius(5);
         wireStartPoint.setStroke(Color.MAGENTA);
@@ -530,7 +597,8 @@ measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) *
                                         measuredPillarDataController.intersection.getLineEndPoint().getY_coord())
                                 .replace(",",".") + "m");
         Tooltip.install(wireEndPoint, wireEndPointTooltip);
-        pane.getChildren().addAll(wireLine, wireStartPoint, wireEndPoint);
+       pane.getChildren().addAll(wireLineBetweenStartAndTheoreticalPoint, 
+    		   wireLineBetweenEndAndTheoreticalPoint, wireStartPoint, wireEndPoint);
  }
 
 

@@ -47,8 +47,8 @@ public class Intersection {
 		double elevation = standingPointA.getZ_coord() + 
 				distance * Math.pow(Math.tan(elevationA), -1) + correction;
 		intersectionPoint = new MeasPoint(null, 
-				theoreticalPoint.getX_coord(),
-				theoreticalPoint.getY_coord(), elevation, PointType.INTERSECTION);
+				getTheoreticalPointData().getX_coord(),
+				getTheoreticalPointData().getY_coord(), elevation, PointType.INTERSECTION);
 		distanceBetweenStandingPointAAndIntersectionPointFromA = distance;
     }
 

@@ -551,28 +551,6 @@ public class MeasuredPillarDataController {
          return;
      }
      
-     fileProcess.setFolder();
-     if( PLRFileProcess.FOLDER_PATH == null ) {
-     	return;
-     }
-     PLRFileProcess.PROJECT_FILE_NAME = intersectionInputDataWindow.standingAIdField.getText().toUpperCase() +
-             "-" + intersectionInputDataWindow.standingBIdField.getText().toUpperCase() + "_" +
-             intersectionInputDataWindow.newPointIdField.getText().toUpperCase() + "_METSZES";
-
-     if( PLRFileProcess.isExistedProjectFile("ins") ){
-         if( getConfirmationAlert( "Létező projekt fájl, felülírod?",
-                 PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.PROJECT_FILE_NAME + ".ins") ){
-             fileProcess.saveIntersectionData();
-         }
-         else {
-             intersectionInputDataWindow.stage.show();
-             return;
-         }
-     }
-     else {
-         fileProcess.saveIntersectionData();
-     }
-     intersectionInputDataWindow.stage.hide();
      Point startPoint = null;
      Point endPoint = null;
 
@@ -599,6 +577,29 @@ public class MeasuredPillarDataController {
      intersection.setElevationSecA(standingAPointElevationSec);
      intersection.calcElevationOnly();
      intersection.getIntersectionPoint().setPointID(newPointId);
+     
+     fileProcess.setFolder();
+     if( PLRFileProcess.FOLDER_PATH == null ) {
+     	return;
+     }
+     PLRFileProcess.PROJECT_FILE_NAME = intersectionInputDataWindow.standingAIdField.getText().toUpperCase() +
+             "-" + intersectionInputDataWindow.standingBIdField.getText().toUpperCase() + "_" +
+             intersectionInputDataWindow.newPointIdField.getText().toUpperCase() + "_METSZES";
+
+     if( PLRFileProcess.isExistedProjectFile("ins") ){
+         if( getConfirmationAlert( "Létező projekt fájl, felülírod?",
+                 PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.PROJECT_FILE_NAME + ".ins") ){
+             fileProcess.saveIntersectionData();
+         }
+         else {
+             intersectionInputDataWindow.stage.show();
+             return;
+         }
+     }
+     else {
+         fileProcess.saveIntersectionData();
+     }
+     intersectionInputDataWindow.stage.hide();
      new IntersectionDisplayer(this);		
     }
     
@@ -918,29 +919,7 @@ public class MeasuredPillarDataController {
                     "A magassági szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
             return;
         }
-
-        fileProcess.setFolder();
-        if( PLRFileProcess.FOLDER_PATH == null ) {
-        	return;
-        }
-        PLRFileProcess.PROJECT_FILE_NAME = intersectionInputDataWindow.standingAIdField.getText().toUpperCase() +
-                "-" + intersectionInputDataWindow.standingBIdField.getText().toUpperCase() + "_" +
-                intersectionInputDataWindow.newPointIdField.getText().toUpperCase() + "_METSZES";
-
-        if( PLRFileProcess.isExistedProjectFile("ins") ){
-            if( getConfirmationAlert( "Létező projekt fájl, felülírod?",
-                    PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.PROJECT_FILE_NAME + ".ins") ){
-                fileProcess.saveIntersectionData();
-            }
-            else {
-                intersectionInputDataWindow.stage.show();
-                return;
-            }
-        }
-        else {
-            fileProcess.saveIntersectionData();
-        }
-        intersectionInputDataWindow.stage.hide();
+        
         Point startPoint = null;
         Point endPoint = null;
 
@@ -975,10 +954,33 @@ public class MeasuredPillarDataController {
         intersection.setElevationSecB(standingBPointElevationSec);
         intersection.calcIntersectionPoint();
         intersection.getIntersectionPoint().setPointID(newPointId);
+        fileProcess.setFolder();
+   
+        if( PLRFileProcess.FOLDER_PATH == null ) {
+        	return;
+        }
+        PLRFileProcess.PROJECT_FILE_NAME = intersectionInputDataWindow.standingAIdField.getText().toUpperCase() +
+                "-" + intersectionInputDataWindow.standingBIdField.getText().toUpperCase() + "_" +
+                intersectionInputDataWindow.newPointIdField.getText().toUpperCase() + "_METSZES";
+
+        if( PLRFileProcess.isExistedProjectFile("ins") ){
+            if( getConfirmationAlert( "Létező projekt fájl, felülírod?",
+                    PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.PROJECT_FILE_NAME + ".ins") ){
+                fileProcess.saveIntersectionData();
+            }
+            else {
+                intersectionInputDataWindow.stage.show();
+                return;
+            }
+        }
+        else {
+            fileProcess.saveIntersectionData();
+        }
+        intersectionInputDataWindow.stage.hide();
+        
         new IntersectionDisplayer(this);
     }
     
-   
     public void openIntersectionProject(){
         List<String>  intersectionProjectFileData = fileProcess.openIntersectionProject();
        if( PLRFileProcess.PROJECT_FILE_NAME == null ) {
@@ -986,6 +988,9 @@ public class MeasuredPillarDataController {
        }
         if( intersectionProjectFileData.isEmpty() ){
             return;
+        }
+        else if( intersectionProjectFileData.size() == 13 || intersectionProjectFileData.size() == 17 ) {
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = true;
         }
         openIntersectionInputDataWindow();
         intersectionInputDataWindow.stage.setTitle(PLRFileProcess.PROJECT_FILE_NAME + ".ins");
@@ -1025,6 +1030,7 @@ public class MeasuredPillarDataController {
              intersectionInputDataWindow.standingAPointElevationSecField.setText(intersectionProjectFileData.get(16));
         }
         else if( intersectionProjectFileData.size() == 23){
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
             intersectionInputDataWindow.newPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.standingAIdField.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.standingAPointField_X.setText(intersectionProjectFileData.get(2));
@@ -1050,6 +1056,7 @@ public class MeasuredPillarDataController {
             		Double.parseDouble(intersectionProjectFileData.get(22))));
         }
         else if( intersectionProjectFileData.size() == 27 ){
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
             intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.startField_X.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.startField_Y.setText(intersectionProjectFileData.get(2));

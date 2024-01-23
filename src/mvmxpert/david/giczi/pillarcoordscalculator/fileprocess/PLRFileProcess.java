@@ -516,6 +516,7 @@ public class PLRFileProcess {
 			writer.write(measuredPillarDataController.intersectionInputDataWindow.standingBPointElevationSecField.getText());
 			writer.newLine();
 			}
+			
 			if( measuredPillarDataController.intersection != null && 
 					measuredPillarDataController.intersection.getLineStartPoint() == null &&
 							measuredPillarDataController.intersection.getLineEndPoint() == null &&
