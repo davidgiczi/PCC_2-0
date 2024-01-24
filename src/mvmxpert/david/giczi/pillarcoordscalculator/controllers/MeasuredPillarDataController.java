@@ -1085,6 +1085,38 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationMinField.setText(intersectionProjectFileData.get(25));
             intersectionInputDataWindow.standingBPointElevationSecField.setText(intersectionProjectFileData.get(26));
         }
+        else if( intersectionProjectFileData.size() == 29 ){
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
+            intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));
+            intersectionInputDataWindow.startField_X.setText(intersectionProjectFileData.get(1));
+            intersectionInputDataWindow.startField_Y.setText(intersectionProjectFileData.get(2));
+            intersectionInputDataWindow.endPointIdField.setText(intersectionProjectFileData.get(3));
+            intersectionInputDataWindow.endField_X.setText(intersectionProjectFileData.get(4));
+            intersectionInputDataWindow.endField_Y.setText(intersectionProjectFileData.get(5));
+            intersectionInputDataWindow.newPointIdField.setText(intersectionProjectFileData.get(6));
+            intersectionInputDataWindow.standingAIdField.setText(intersectionProjectFileData.get(7));
+            intersectionInputDataWindow.standingAPointField_X.setText(intersectionProjectFileData.get(8));
+            intersectionInputDataWindow.standingAPointField_Y.setText(intersectionProjectFileData.get(9));
+            intersectionInputDataWindow.standingAPointField_Z.setText(intersectionProjectFileData.get(10));
+            intersectionInputDataWindow.standingAPointAzimuthAngleField.setText(intersectionProjectFileData.get(11));
+            intersectionInputDataWindow.standingAPointAzimuthMinField.setText(intersectionProjectFileData.get(12));
+            intersectionInputDataWindow.standingAPointAzimuthSecField.setText(intersectionProjectFileData.get(13));
+            intersectionInputDataWindow.standingAPointElevationAngleField.setText(intersectionProjectFileData.get(14));
+            intersectionInputDataWindow.standingAPointElevationMinField.setText(intersectionProjectFileData.get(15));
+            intersectionInputDataWindow.standingAPointElevationSecField.setText(intersectionProjectFileData.get(16));
+            intersectionInputDataWindow.standingBIdField.setText(intersectionProjectFileData.get(17));
+            intersectionInputDataWindow.standingBPointField_X.setText(intersectionProjectFileData.get(18));
+            intersectionInputDataWindow.standingBPointField_Y.setText(intersectionProjectFileData.get(19));
+            intersectionInputDataWindow.standingBPointField_Z.setText(intersectionProjectFileData.get(20));
+            intersectionInputDataWindow.standingBPointAzimuthAngleField.setText(intersectionProjectFileData.get(21));
+            intersectionInputDataWindow.standingBPointAzimuthMinField.setText(intersectionProjectFileData.get(22));
+            intersectionInputDataWindow.standingBPointAzimuthSecField.setText(intersectionProjectFileData.get(23));
+            intersectionInputDataWindow.standingBPointElevationAngleField.setText(intersectionProjectFileData.get(24));
+            intersectionInputDataWindow.standingBPointElevationMinField.setText(intersectionProjectFileData.get(25));
+            intersectionInputDataWindow.standingBPointElevationSecField.setText(intersectionProjectFileData.get(26));
+            intersection.setTheoreticalPoint(new Point("TheoreticalPoint", Double.parseDouble(intersectionProjectFileData.get(27)), 
+            		Double.parseDouble(intersectionProjectFileData.get(28))));
+        }
     }
 
 }

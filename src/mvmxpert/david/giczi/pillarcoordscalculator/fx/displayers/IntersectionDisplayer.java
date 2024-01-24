@@ -369,11 +369,8 @@ public class IntersectionDisplayer {
         wireLineBetweenStartAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
         		.subtract(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getY_coord() - 
         				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
-         AzimuthAndDistance wireLineDistanceBetweenStartAndTheoreticalPoint =
-                 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
-                         measuredPillarDataController.intersection.getTheoreticalPointData());
         Tooltip wireLineBetweenStartAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
-                wireLineDistanceBetweenStartAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+        		 measuredPillarDataController.intersection.distanceBetweenStartWireAndIntersectionPoint).replace(",", ".") + "\t[" +
         		String.format("%.2fm",
                         distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
         Tooltip.install(wireLineBetweenStartAndTheoreticalPoint, wireLineBetweenStartAndTheoreticalPointTooltip);
@@ -394,11 +391,8 @@ public class IntersectionDisplayer {
         wireLineBetweenEndAndTheoreticalPoint.endYProperty().bind(pane.heightProperty().divide(2)
         		.subtract(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getY_coord() - 
         				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
-         AzimuthAndDistance wireLineDistanceBetweenEndAndTheoreticalPoint =
-                 new AzimuthAndDistance(measuredPillarDataController.intersection.getLineEndPoint(),
-                         measuredPillarDataController.intersection.getTheoreticalPointData());
         Tooltip wireLineBetweenEndAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
-                wireLineDistanceBetweenEndAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +
+        		 measuredPillarDataController.intersection.distanceBetweenEndWireAndIntersectionPoint).replace(",", ".") + "\t[" +
         		String.format("%.2fm",
                         distanceBetweenStartAndEndPoint.calcDistance()).replace(",", ".") + "]");
         Tooltip.install(wireLineBetweenEndAndTheoreticalPoint, wireLineBetweenEndAndTheoreticalPointTooltip);

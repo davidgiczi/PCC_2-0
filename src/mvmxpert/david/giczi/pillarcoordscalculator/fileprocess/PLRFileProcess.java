@@ -518,9 +518,7 @@ public class PLRFileProcess {
 			}
 			
 			if( measuredPillarDataController.intersection != null && 
-					measuredPillarDataController.intersection.getLineStartPoint() == null &&
-							measuredPillarDataController.intersection.getLineEndPoint() == null &&
-								measuredPillarDataController.intersection.getTheoreticalPoint() != null) {
+					measuredPillarDataController.intersection.getTheoreticalPoint() != null) {
 				writer.write(String.valueOf(measuredPillarDataController.intersection.getTheoreticalPoint().getX_coord()));
 				writer.newLine();
 				writer.write(String.valueOf(measuredPillarDataController.intersection.getTheoreticalPoint().getY_coord()));
