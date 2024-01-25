@@ -395,7 +395,7 @@ public class IntersectionDisplayer {
         		.subtract(Math.round((measuredPillarDataController.intersection.getTheoreticalPointData().getY_coord() - 
         				measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
         AzimuthAndDistance distanceBetweenEndAndTheoreticalPoint =
-                new AzimuthAndDistance(measuredPillarDataController.intersection.getLineStartPoint(),
+                new AzimuthAndDistance(measuredPillarDataController.intersection.getLineEndPoint(),
                         measuredPillarDataController.intersection.getTheoreticalPointData());
         Tooltip wireLineBetweenEndAndTheoreticalPointTooltip = new Tooltip(String.format("%.2fm",
         		 distanceBetweenEndAndTheoreticalPoint.calcDistance()).replace(",", ".") + "\t[" +

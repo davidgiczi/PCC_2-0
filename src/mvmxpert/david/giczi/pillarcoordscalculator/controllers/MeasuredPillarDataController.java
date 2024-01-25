@@ -319,7 +319,7 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationAngleField.setText("");
             intersectionInputDataWindow.standingBPointElevationMinField.setText("");
             intersectionInputDataWindow.standingBPointElevationSecField.setText("");
-            intersectionInputDataWindow.elevationMeasureCheckbox.setSelected(false);
+            intersectionInputDataWindow.elevationMeasureCheckbox.setSelected(ELEVATION_MEAS_ONLY);
             intersectionInputDataWindow.stage.show();
         }
     }
@@ -989,8 +989,13 @@ public class MeasuredPillarDataController {
         if( intersectionProjectFileData.isEmpty() ){
             return;
         }
-        else if( intersectionProjectFileData.size() == 13 || intersectionProjectFileData.size() == 17 ) {
+        else if( intersectionProjectFileData.size() == 13 || 
+        		 intersectionProjectFileData.size() == 17 || 
+        		 intersectionProjectFileData.size() == 19) {
         	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = true;
+        }
+        else {
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
         }
         openIntersectionInputDataWindow();
         intersectionInputDataWindow.stage.setTitle(PLRFileProcess.PROJECT_FILE_NAME + ".ins");
@@ -1029,8 +1034,28 @@ public class MeasuredPillarDataController {
              intersectionInputDataWindow.standingAPointElevationMinField.setText(intersectionProjectFileData.get(15));
              intersectionInputDataWindow.standingAPointElevationSecField.setText(intersectionProjectFileData.get(16));
         }
+        else if( intersectionProjectFileData.size() == 19 ) {
+       	 	intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));
+            intersectionInputDataWindow.startField_X.setText(intersectionProjectFileData.get(1));
+            intersectionInputDataWindow.startField_Y.setText(intersectionProjectFileData.get(2));
+            intersectionInputDataWindow.endPointIdField.setText(intersectionProjectFileData.get(3));
+            intersectionInputDataWindow.endField_X.setText(intersectionProjectFileData.get(4));
+            intersectionInputDataWindow.endField_Y.setText(intersectionProjectFileData.get(5));
+            intersectionInputDataWindow.newPointIdField.setText(intersectionProjectFileData.get(6));
+            intersectionInputDataWindow.standingAIdField.setText(intersectionProjectFileData.get(7));
+            intersectionInputDataWindow.standingAPointField_X.setText(intersectionProjectFileData.get(8));
+            intersectionInputDataWindow.standingAPointField_Y.setText(intersectionProjectFileData.get(9));
+            intersectionInputDataWindow.standingAPointField_Z.setText(intersectionProjectFileData.get(10));
+            intersectionInputDataWindow.standingAPointAzimuthAngleField.setText(intersectionProjectFileData.get(11));
+            intersectionInputDataWindow.standingAPointAzimuthMinField.setText(intersectionProjectFileData.get(12));
+            intersectionInputDataWindow.standingAPointAzimuthSecField.setText(intersectionProjectFileData.get(13));
+            intersectionInputDataWindow.standingAPointElevationAngleField.setText(intersectionProjectFileData.get(14));
+            intersectionInputDataWindow.standingAPointElevationMinField.setText(intersectionProjectFileData.get(15));
+            intersectionInputDataWindow.standingAPointElevationSecField.setText(intersectionProjectFileData.get(16));
+            intersection.setTheoreticalPoint(new Point("TheoreticalPoint", Double.parseDouble(intersectionProjectFileData.get(17)), 
+            		Double.parseDouble(intersectionProjectFileData.get(18))));
+       }
         else if( intersectionProjectFileData.size() == 23){
-        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
             intersectionInputDataWindow.newPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.standingAIdField.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.standingAPointField_X.setText(intersectionProjectFileData.get(2));
@@ -1056,7 +1081,6 @@ public class MeasuredPillarDataController {
             		Double.parseDouble(intersectionProjectFileData.get(22))));
         }
         else if( intersectionProjectFileData.size() == 27 ){
-        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
             intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.startField_X.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.startField_Y.setText(intersectionProjectFileData.get(2));
@@ -1086,7 +1110,6 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationSecField.setText(intersectionProjectFileData.get(26));
         }
         else if( intersectionProjectFileData.size() == 29 ){
-        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
             intersectionInputDataWindow.startPointIdField.setText(intersectionProjectFileData.get(0));
             intersectionInputDataWindow.startField_X.setText(intersectionProjectFileData.get(1));
             intersectionInputDataWindow.startField_Y.setText(intersectionProjectFileData.get(2));
