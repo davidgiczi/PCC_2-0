@@ -36,6 +36,7 @@ public class MeasuredPillarDataController {
     public IntersectionInputDataWindow intersectionInputDataWindow;
     public FXHomeWindow fxHomeWindow;
     public List<String> pillarBaseProjectFileData;
+    public List<String> measurmentData;
     public Intersection intersection;
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
@@ -984,11 +985,11 @@ public class MeasuredPillarDataController {
     }
     
     public void openMeasurmentFXDisplayer() {
-    	List<String>  measFileData = fileProcess.openMeasurmentFileData();
+    	measurmentData = fileProcess.openMeasurmentFileData();
         if( PLRFileProcess.MEAS_FILE_NAME == null ) {
      	   return;
         }
-         if( measFileData.isEmpty() ){
+         if( measurmentData.isEmpty() ){
              return;
          }
 		new MeasurmentDataDisplayer(this);
