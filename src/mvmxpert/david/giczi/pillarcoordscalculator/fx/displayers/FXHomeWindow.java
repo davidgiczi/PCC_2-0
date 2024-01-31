@@ -104,16 +104,20 @@ public class FXHomeWindow extends Application {
 		MenuItem controll = new MenuItem("Kitűzött pontok ellenőrzése");
 		controlSteakoutedPoint.getItems().add(controll);
 		controll.setOnAction(e -> homeController.getSteakoutControlWindow());
-		Menu pillarProject = new Menu("Oszlop bemérés");
-		MenuItem openPillarProject = new MenuItem("Projekt megnyitása");
+		Menu pillarProject = new Menu("Alap/Sodrony mérés");
+		MenuItem openPillarProject = new MenuItem("Oszlop alap projekt megnyitása");
 
 		openPillarProject.setOnAction(e -> {
 		homeController.measuredPillarDataController.openPillarBaseProject();
 		});
 
-		MenuItem createPillarProject = new MenuItem("Új projekt létrehozása");
+		MenuItem createPillarProject = new MenuItem("Oszlop alap projekt létrehozása");
 		createPillarProject.setOnAction(e -> {
 		homeController.measuredPillarDataController.openMeasuredData();
+		});
+		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
+		openMeasurment.setOnAction(e ->{
+			homeController.measuredPillarDataController.openMeasurmentFXDisplayer();
 		});
 		MenuItem createIntersection = new MenuItem("Előmetszés létrehozása");
 		createIntersection.setOnAction( e -> {
@@ -124,7 +128,7 @@ public class FXHomeWindow extends Application {
 		homeController.measuredPillarDataController.openIntersectionProject();
 		});
 		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 
-				new SeparatorMenuItem(), createIntersection, openIntersection);
+				new SeparatorMenuItem(), createIntersection, openIntersection, openMeasurment);
 		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint, pillarProject);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);

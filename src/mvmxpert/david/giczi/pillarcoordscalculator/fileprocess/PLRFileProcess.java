@@ -151,6 +151,48 @@ public class PLRFileProcess {
 			FOLDER_PATH = selectedFile.getParent();
 		}
 	}
+	
+	public List<String> openMeasurmentFileData() {
+		FileChooser projectFileChooser = new FileChooser();
+		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ?
+				new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
+		projectFileChooser.setTitle("Válassz mérési fájlt");
+		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Mérési fájlok (*.txt)", "*.txt");
+		projectFileChooser.getExtensionFilters().add(projectFileFilter);
+		File selectedFile = projectFileChooser.showOpenDialog(measuredPillarDataController.fxHomeWindow.homeStage);
+		if ( selectedFile != null ) {
+			FOLDER_PATH = selectedFile.getParent();
+			MEAS_FILE_NAME = selectedFile.getName();
+		}
+		
+		return getMeasurmentFileData();
+	}
+	
+	private List<String> getMeasurmentFileData(){
+
+		List<String> measData = new ArrayList<>();
+
+		if(MEAS_FILE_NAME == null || FOLDER_PATH == null)
+			return measData;
+
+		File file = new File(FOLDER_PATH + "/" + MEAS_FILE_NAME);
+		
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(file, StandardCharsets.UTF_8))) {
+
+			String row = reader.readLine();
+			while( row != null ) {
+				measData.add(row);
+				row = reader.readLine();
+			}
+		}
+		catch (IOException e) {
+
+		}
+
+		return measData;
+	}
+	
 
 	private void setIntersectionData(File selectedFile){
 

@@ -6,6 +6,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.InputPillarData
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.IntersectionDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.IntersectionInputDataWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.MeasPointListDisplayer;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.MeasurmentDataDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PillarBaseDifferenceDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PillarBaseDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
@@ -86,7 +87,7 @@ public class MeasuredPillarDataController {
         Optional<ButtonType> option = alert.showAndWait();
         return option.orElse(no) == yes;
     }
-
+    
     public void openMeasuredData(){
     	init();
         fileProcess.getPillarBaseMeasureFileData();;
@@ -285,7 +286,8 @@ public class MeasuredPillarDataController {
         }
         inputPillarDataWindow = new InputPillarDataWindow(this);
     }
-
+    
+   
     public void openIntersectionInputDataWindow(){
         if( intersectionInputDataWindow == null ){
             intersectionInputDataWindow = new IntersectionInputDataWindow(this);
@@ -980,6 +982,17 @@ public class MeasuredPillarDataController {
         
         new IntersectionDisplayer(this);
     }
+    
+    public void openMeasurmentFXDisplayer() {
+    	List<String>  measFileData = fileProcess.openMeasurmentFileData();
+        if( PLRFileProcess.MEAS_FILE_NAME == null ) {
+     	   return;
+        }
+         if( measFileData.isEmpty() ){
+             return;
+         }
+		new MeasurmentDataDisplayer(this);
+	}
     
     public void openIntersectionProject(){
         List<String>  intersectionProjectFileData = fileProcess.openIntersectionProject();
