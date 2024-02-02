@@ -1,6 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -16,15 +17,15 @@ public class MeasDataRow extends HBox {
 	private TextField standingPointXField;
 	private TextField standingPointZField;
 	private TextField totalStationHeightField;
-	private TextField directionPointNameField;
-	private TextField directionPointYField;
-	private TextField directionPointXField;
-	private TextField directionPointZField;
-	private TextField directionPointSignField;
+	private TextField measuredPointNameField;
+	private TextField measuredPointYField;
+	private TextField measuredPointXField;
+	private TextField measuredPointZField;
+	private TextField measuredPointSignField;
 	private TextField horizontalAngleField;
 	private TextField verticalAngleField;
 	private TextField horizontalDistanceField;
-	private TextField directionPointSignHeightField;
+	private TextField measuredPointSignHeightField;
 	private TextField dateTimeField;
 	private TextField theoreticalPointNameField;
 	private TextField theoreticalPointXField;
@@ -33,6 +34,7 @@ public class MeasDataRow extends HBox {
 	private TextField theoreticalPointSignNameField;
 	private static final double MILLIMETER = 1000.0 / 225.0;
 	private static final Font NORMAL = Font.font("Book Antiqua", FontWeight.NORMAL, 14);
+	private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
 	
 	
 	public MeasDataRow(boolean...isVisible) {
@@ -42,127 +44,131 @@ public class MeasDataRow extends HBox {
 	
 	private void createRow() {
 		rowNumber = new TextField();
-   	 	rowNumber.setMaxWidth(11 * MILLIMETER);
+   	 	rowNumber.setPrefWidth(11 * MILLIMETER);
    	 	HBox.setHgrow(rowNumber, Priority.ALWAYS);
-        rowNumber.setFont(NORMAL);
+        rowNumber.setFont(BOLD);
         rowNumber.setAlignment(Pos.CENTER);
+        rowNumber.setEditable(false);
         this.getChildren().add(rowNumber);
         standingPointNameField = new TextField();
-        standingPointNameField.setMaxWidth(21 * MILLIMETER);
+        standingPointNameField.setPrefWidth(21 * MILLIMETER);
    	 	HBox.setHgrow(standingPointNameField, Priority.ALWAYS);
-        standingPointNameField.setFont(NORMAL);
+        standingPointNameField.setFont(BOLD);
+        standingPointNameField.setStyle("-fx-text-fill: blue;"); 
         standingPointNameField.setAlignment(Pos.CENTER);
         this.getChildren().add(standingPointNameField);
         standingPointYField = new TextField();
-        standingPointYField.setMaxWidth(20 * MILLIMETER);
+        standingPointYField.setPrefWidth(20 * MILLIMETER);
         HBox.setHgrow(standingPointYField, Priority.ALWAYS);
         standingPointYField.setFont(NORMAL);
         standingPointYField.setAlignment(Pos.CENTER);
         this.getChildren().add(standingPointYField);
         standingPointXField = new TextField();
-        standingPointXField.setMaxWidth(20 * MILLIMETER);
+        standingPointXField.setPrefWidth(20 * MILLIMETER);
    	 	HBox.setHgrow(standingPointXField, Priority.ALWAYS);
         standingPointXField.setFont(NORMAL);
         standingPointXField.setAlignment(Pos.CENTER);
         this.getChildren().add(standingPointXField);
         standingPointZField = new TextField();
-        standingPointZField.setMaxWidth(15 * MILLIMETER);
+        standingPointZField.setPrefWidth(15 * MILLIMETER);
         HBox.setHgrow(standingPointZField, Priority.ALWAYS);
         standingPointZField.setFont(NORMAL);
         standingPointZField.setAlignment(Pos.CENTER);
         this.getChildren().add(standingPointZField);
         totalStationHeightField = new TextField();
-        totalStationHeightField.setMaxWidth(16 * MILLIMETER);
+        totalStationHeightField.setPrefWidth(16 * MILLIMETER);
         HBox.setHgrow(totalStationHeightField, Priority.ALWAYS);
         totalStationHeightField.setFont(NORMAL);
         totalStationHeightField.setAlignment(Pos.CENTER);
         this.getChildren().add(totalStationHeightField);
-        directionPointNameField = new TextField();
-        directionPointNameField.setMaxWidth(15 * MILLIMETER);
-        HBox.setHgrow(directionPointNameField, Priority.ALWAYS);
-        directionPointNameField.setFont(NORMAL);
-        directionPointNameField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointNameField);
-        directionPointYField = new TextField();
-        directionPointYField.setMaxWidth(20 * MILLIMETER);
-        HBox.setHgrow(directionPointYField, Priority.ALWAYS);
-        directionPointYField.setFont(NORMAL);
-        directionPointYField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointYField);
-        directionPointXField = new TextField();
-        directionPointXField.setMaxWidth(20 * MILLIMETER);
-        HBox.setHgrow(directionPointXField, Priority.ALWAYS);
-        directionPointXField.setFont(NORMAL);
-        directionPointXField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointXField);
-        directionPointZField = new TextField();
-        directionPointZField.setMaxWidth(15 * MILLIMETER);
-        HBox.setHgrow(directionPointZField, Priority.ALWAYS);
-        directionPointZField.setFont(NORMAL);
-        directionPointZField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointZField);
-        directionPointSignField = new TextField();  
-        directionPointSignField.setMaxWidth(40 * MILLIMETER);
-   	 	HBox.setHgrow(directionPointSignField, Priority.ALWAYS);
-        directionPointSignField.setFont(NORMAL);
-        directionPointSignField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointSignField);
+        measuredPointNameField = new TextField();
+        measuredPointNameField.setPrefWidth(15 * MILLIMETER);
+        HBox.setHgrow(measuredPointNameField, Priority.ALWAYS);
+        measuredPointNameField.setFont(NORMAL);
+        measuredPointNameField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointNameField);
+        measuredPointYField = new TextField();
+        measuredPointYField.setPrefWidth(20 * MILLIMETER);
+        HBox.setHgrow(measuredPointYField, Priority.ALWAYS);
+        measuredPointYField.setFont(NORMAL);
+        measuredPointYField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointYField);
+        measuredPointXField = new TextField();
+        measuredPointXField.setPrefWidth(20 * MILLIMETER);
+        HBox.setHgrow(measuredPointXField, Priority.ALWAYS);
+        measuredPointXField.setFont(NORMAL);
+        measuredPointXField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointXField);
+        measuredPointZField = new TextField();
+        measuredPointZField.setPrefWidth(15 * MILLIMETER);
+        HBox.setHgrow(measuredPointZField, Priority.ALWAYS);
+        measuredPointZField.setFont(NORMAL);
+        measuredPointZField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointZField);
+        measuredPointSignField = new TextField();  
+        measuredPointSignField.setPrefWidth(40 * MILLIMETER);
+   	 	HBox.setHgrow(measuredPointSignField, Priority.ALWAYS);
+        measuredPointSignField.setFont(NORMAL);
+        measuredPointSignField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointSignField);
         horizontalAngleField = new TextField();
-        horizontalAngleField.setMaxWidth(25 * MILLIMETER);
+        horizontalAngleField.setPrefWidth(25 * MILLIMETER);
    	 	HBox.setHgrow(horizontalAngleField, Priority.ALWAYS);
         horizontalAngleField.setFont(NORMAL);
         horizontalAngleField.setAlignment(Pos.CENTER);
         this.getChildren().add(horizontalAngleField);
         verticalAngleField = new TextField();
-        verticalAngleField.setMaxWidth(25 * MILLIMETER);
+        verticalAngleField.setPrefWidth(25 * MILLIMETER);
         HBox.setHgrow(verticalAngleField, Priority.ALWAYS);
         verticalAngleField.setFont(NORMAL);
         verticalAngleField.setAlignment(Pos.CENTER);
         this.getChildren().add(verticalAngleField);
         horizontalDistanceField = new TextField();
-        horizontalDistanceField.setMaxWidth(20 * MILLIMETER);
+        horizontalDistanceField.setPrefWidth(20 * MILLIMETER);
    	 	HBox.setHgrow(horizontalDistanceField, Priority.ALWAYS);
         horizontalDistanceField.setFont(NORMAL);
         horizontalDistanceField.setAlignment(Pos.CENTER);
         this.getChildren().add(horizontalDistanceField);
-        directionPointSignHeightField = new TextField();
-        directionPointSignHeightField.setMaxWidth(16 * MILLIMETER);
-   	 	HBox.setHgrow(directionPointSignHeightField, Priority.ALWAYS);
-        directionPointSignHeightField.setFont(NORMAL);
-        directionPointSignHeightField.setAlignment(Pos.CENTER);
-        this.getChildren().add(directionPointSignHeightField);
+        measuredPointSignHeightField = new TextField();
+        measuredPointSignHeightField.setPrefWidth(16 * MILLIMETER);
+   	 	HBox.setHgrow(measuredPointSignHeightField, Priority.ALWAYS);
+        measuredPointSignHeightField.setFont(NORMAL);
+        measuredPointSignHeightField.setAlignment(Pos.CENTER);
+        this.getChildren().add(measuredPointSignHeightField);
         dateTimeField = new TextField();
-        dateTimeField.setMaxWidth(20 * MILLIMETER);
+        dateTimeField.setPrefWidth(20 * MILLIMETER);
    	 	HBox.setHgrow(dateTimeField, Priority.ALWAYS);
         dateTimeField.setFont(NORMAL);
         dateTimeField.setAlignment(Pos.CENTER);
+        dateTimeField.setEditable(false);
+        dateTimeField.setCursor(Cursor.CLOSED_HAND);
         this.getChildren().add(dateTimeField);
         theoreticalPointNameField = new TextField();
-        theoreticalPointNameField.setMaxWidth(40 * MILLIMETER);
+        theoreticalPointNameField.setPrefWidth(40 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointNameField, Priority.ALWAYS);
         theoreticalPointNameField.setFont(NORMAL);
         theoreticalPointNameField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointNameField);
         theoreticalPointYField = new TextField();
-        theoreticalPointYField.setMaxWidth(20 * MILLIMETER);
+        theoreticalPointYField.setPrefWidth(20 * MILLIMETER);
         HBox.setHgrow(theoreticalPointYField, Priority.ALWAYS);
         theoreticalPointYField.setFont(NORMAL);
         theoreticalPointYField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointYField);
         theoreticalPointXField = new TextField();
-        theoreticalPointXField.setMaxWidth(20 * MILLIMETER);
+        theoreticalPointXField.setPrefWidth(20 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointXField, Priority.ALWAYS);
         theoreticalPointXField.setFont(NORMAL);
         theoreticalPointXField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointXField);
         theoreticalPointZField = new TextField();
-        theoreticalPointZField.setMaxWidth(15 * MILLIMETER);
+        theoreticalPointZField.setPrefWidth(15 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointZField, Priority.ALWAYS);
         theoreticalPointZField.setFont(NORMAL);
         theoreticalPointZField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointZField);
         theoreticalPointSignNameField = new TextField();
-        theoreticalPointSignNameField.setMaxWidth(20 * MILLIMETER);
+        theoreticalPointSignNameField.setPrefWidth(20 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointSignNameField, Priority.ALWAYS);
         theoreticalPointSignNameField.setFont(NORMAL);
         theoreticalPointSignNameField.setAlignment(Pos.CENTER);
@@ -206,23 +212,23 @@ public class MeasDataRow extends HBox {
 			}
 			else if( i == 6 && !visible[6] ) {
 				
-				directionPointNameField.setVisible(false);
+				measuredPointNameField.setVisible(false);
 			}
 			else if( i == 7 && !visible[7] ) {
 				
-				directionPointYField.setVisible(false);	
+				measuredPointYField.setVisible(false);	
 			}
 			else if( i == 8 && !visible[8] ) {
 				
-				directionPointXField.setVisible(false);
+				measuredPointXField.setVisible(false);
 			}
 			else if( i == 9 && !visible[9] ) {
 				
-				directionPointZField.setVisible(false);
+				measuredPointZField.setVisible(false);
 			}
 			else if( i == 10 && !visible[10] ) {
 				
-				directionPointSignField.setVisible(false);
+				measuredPointSignField.setVisible(false);
 			}
 			else if( i == 11 && !visible[11] ) {
 				
@@ -238,7 +244,7 @@ public class MeasDataRow extends HBox {
 			}
 			else if( i == 14 && !visible[14] ) {
 				
-				directionPointSignHeightField.setVisible(false);
+				measuredPointSignHeightField.setVisible(false);
 			}
 			else if( i == 15 && !visible[15] ) {
 				
@@ -295,24 +301,36 @@ public class MeasDataRow extends HBox {
 		return totalStationHeightField;
 	}
 
-	public TextField getDirectionPointNameField() {
-		return directionPointNameField;
+	public TextField getMeasuredPointNameField() {
+		return measuredPointNameField;
 	}
 
-	public TextField getDirectionPointYField() {
-		return directionPointYField;
+	public TextField getMeasuredPointYField() {
+		return measuredPointYField;
 	}
 
-	public TextField getDirectionPointXField() {
-		return directionPointXField;
+	public TextField getMeasuredPointXField() {
+		return measuredPointXField;
 	}
 
-	public TextField getDirectionPointZField() {
-		return directionPointZField;
+	public TextField getMeasuredPointZField() {
+		return measuredPointZField;
 	}
 
-	public TextField getDirectionPointSignField() {
-		return directionPointSignField;
+	public TextField getMeasuredPointSignField() {
+		return measuredPointSignField;
+	}
+
+	public static double getMillimeter() {
+		return MILLIMETER;
+	}
+
+	public static Font getNormal() {
+		return NORMAL;
+	}
+
+	public static Font getBold() {
+		return BOLD;
 	}
 
 	public TextField getHorizontalAngleField() {
@@ -327,8 +345,8 @@ public class MeasDataRow extends HBox {
 		return horizontalDistanceField;
 	}
 
-	public TextField getDirectionPointSignHeightField() {
-		return directionPointSignHeightField;
+	public TextField getMeasuredPointSignHeightField() {
+		return measuredPointSignHeightField;
 	}
 
 	public TextField getDateTimeField() {

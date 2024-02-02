@@ -1,9 +1,13 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -14,6 +18,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PLRFileProcess;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
+import mvmxpert.david.giczi.pillarcoordscalculator.utils.RowType;
 
 public class MeasurmentDataDisplayer {
 
@@ -23,6 +30,9 @@ public class MeasurmentDataDisplayer {
 	    private static final double MILLIMETER = 1000.0 / 225.0;
 	    private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 16);
 	    private VBox ROWS;
+	    private List<RowData> standingPointDataStore;
+	    private List<RowData> measuredPointDataStore;
+	    private List<TheoreticalPointData> theoreticalPointDataStore;
 	    
 	    public MeasurmentDataDisplayer(MeasuredPillarDataController measuredPillarDataController){
 	        this.measuredPillarDataController = measuredPillarDataController;
@@ -41,17 +51,18 @@ public class MeasurmentDataDisplayer {
 	        	
 	        });
 	        pane.setStyle("-fx-background-color: white");
+	        addContent();
 	        ScrollPane scrollPane = getScrollPane(pane);
 	        Scene scene = new Scene(scrollPane);
 	        stage.setTitle(PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.MEAS_FILE_NAME);
 	        stage.getIcons().add(new Image("/img/MVM.jpg"));
-	        addContent();
 	        stage.setMinWidth(1050);
 	        stage.setMinHeight(750);
 	        stage.setResizable(true);
 	        stage.setMaximized(true);
 	        stage.setScene(scene);
 	        stage.show();
+	        
 	    }
 	    private ScrollPane getScrollPane(AnchorPane content){
 	        ScrollPane scroller = new ScrollPane(content);
@@ -71,33 +82,138 @@ public class MeasurmentDataDisplayer {
 	    
 	    
 	    private void addMeasurmentDataRow() {
-	    for (String rowData : measuredPillarDataController.measurmentData) {
-	    	String[] data = rowData.split(";");
-	    	MeasDataRow row = new MeasDataRow(true);
-	    	row.getRowNumber().setText(String.valueOf((measuredPillarDataController.measurmentData.indexOf(rowData) + 1)));
-	    	if( data.length == 17 ) {
-	    		row.getStandingPointNameField().setText(data[0]);
-	    		row.getStandingPointYField().setText(data[1]);
-	    		row.getStandingPointXField().setText(data[2]);
-	    		row.getStandingPointZField().setText(data[3]);
-	    		row.getTotalStationHeightField().setText(data[4]);
-	    		row.getDirectionPointNameField().setText(data[5]);
-	    		row.getDirectionPointSignField().setText(data[6]);
-	    		row.getDirectionPointYField().setText(data[7]);
-	    		row.getDirectionPointXField().setText(data[8]);
-	    		row.getDirectionPointZField().setText(data[9]);
-	    		row.getHorizontalAngleField().setText(data[10]);
-	    		row.getVerticalAngleField().setText(data[11]);
-	    		row.getHorizontalDistanceField().setText(data[12]);
-	    		row.getDirectionPointSignHeightField().setText(data[13]);
-	    		row.getDateTimeField().setText(data[15]);
-	    	}
-	    	else if( data.length == 5) {
+	    	
+	    	createRowDataStore();
+	    	setRowNumber();
+	    	for (RowData standingPointData : standingPointDataStore) {
+	    		MeasDataRow standingPointRow = new MeasDataRow(true, true, true, true, true, 
+	    				true, false, false, false, false, false, false, false, false, false,
+	    				false, false, false, false, false, false);
+	    		standingPointRow.getRowNumber().setText(standingPointData.getRowNumber());
+	    		standingPointRow.getStandingPointNameField().setText(standingPointData.getStandingPointName());
+	    		standingPointRow.getStandingPointYField().setText(standingPointData.getStandingPointY());
+	    		standingPointRow.getStandingPointXField().setText(standingPointData.getStandingPointX());
+	    		standingPointRow.getStandingPointZField().setText(standingPointData.getStandingPointZ());
+	    		standingPointRow.getTotalStationHeightField().setText(standingPointData.getTotalStationHeight());
+	    		standingPointRow.setStyle("-fx-background-color:#ffefea");
+	    		ROWS.getChildren().add(standingPointRow);
 	    		
+	    		for (RowData measuredPointData : measuredPointDataStore) {
+	    			
+	    			if( standingPointData.getStandingPointName().equals(measuredPointData.getStandingPointName())) {
+	    				
+	    			MeasDataRow measuredPointRow = new MeasDataRow(true, false, false, false, false, 
+		    				false, true, true, true, true, true, true, true, true, true,
+		    				true, true, true, true, true, true);
+	    			measuredPointRow.getRowNumber().setText(measuredPointData.getRowNumber());
+	    			measuredPointRow.getMeasuredPointNameField().setText(measuredPointData.getMeasuredPointName());
+	    			measuredPointRow.getMeasuredPointYField().setText(measuredPointData.getMeasuredPointY());
+	    			measuredPointRow.getMeasuredPointXField().setText(measuredPointData.getMeasuredPointX());
+	    			measuredPointRow.getMeasuredPointZField().setText(measuredPointData.getMeasuredPointZ());
+	    			measuredPointRow.getMeasuredPointSignField().setText(measuredPointData.getMeasuredPointSign());
+	    			measuredPointRow.getHorizontalAngleField().setText(measuredPointData.getHorizontalAngle());
+	    			measuredPointRow.getVerticalAngleField().setText(measuredPointData.getVerticalAngle());
+	    			measuredPointRow.getHorizontalDistanceField().setText(measuredPointData.getHorizontalDistance());
+	    			measuredPointRow.getMeasuredPointSignHeightField().setText(measuredPointData.getMeasuredPointSignHeight());
+	    			measuredPointRow.getDateTimeField().setText(measuredPointData.getDate());
+	    			Tooltip time = new Tooltip(measuredPointData.getDate() + " " + measuredPointData.getTime());
+	    			Tooltip.install(measuredPointRow.getDateTimeField(), time);
+	    			ROWS.getChildren().add(measuredPointRow);
+	    			}
+				}
 	    	}
-	    	ROWS.getChildren().add(row);
 		}	
-}
+	    
+	    private void createRowDataStore() {
+	    	
+	    	List<String> measData = measuredPillarDataController.measurmentData;
+	    	String[] rowData =  measData.get(0).split(";");
+	    	if( rowData.length != 17 && rowData.length != 5 ) {
+	    		return;
+	    	}
+	    	String standingPointId = rowData[0];
+	    	standingPointDataStore = new ArrayList<>();
+	    	RowData standingPointRow = new RowData();
+	    	standingPointRow.setType(RowType.STANDING_POINT_ROW_DATA);
+	    	standingPointRow.setStandingPointName(rowData[0]);
+	    	standingPointRow.setStandingPointY(rowData[1]);
+	    	standingPointRow.setStandingPointX(rowData[2]);
+	    	standingPointRow.setStandingPointZ(rowData[3]);
+	    	standingPointRow.setTotalStationHeight(rowData[4]);
+	    	standingPointDataStore.add(standingPointRow);
+	    	measuredPointDataStore = new ArrayList<>();
+	    	RowData measuredPointRow = new RowData();
+	    		 
+	    	for (String row : measData) {
+				rowData = row.split(";");
+				
+				if( rowData.length == 17 && standingPointId.equals(rowData[0]) ) {
+					measuredPointRow = new RowData();
+			    	measuredPointRow.setType(RowType.MEAS_POINT_ROW_DATA);
+			    	measuredPointRow.setStandingPointName(standingPointId);
+			    	measuredPointRow.setMeasuredPointName(rowData[5]);
+			    	measuredPointRow.setMeasuredPointSign(rowData[6]);
+			    	measuredPointRow.setMeasuredPointY(rowData[7]);
+			    	measuredPointRow.setMeasuredPointX(rowData[8]);
+			    	measuredPointRow.setMeasuredPointZ(rowData[9]);
+			    	measuredPointRow.setHorizontalAngle(rowData[10]);
+			    	measuredPointRow.setVerticalAngle(rowData[11]);
+			    	measuredPointRow.setHorizontalDistance(rowData[12]);
+			    	measuredPointRow.setMeasuredPointSignHeight(rowData[13]);
+			    	measuredPointRow.setDate(rowData[15]);
+			    	measuredPointRow.setTime(rowData[16]);
+			    	measuredPointDataStore.add(measuredPointRow);
+				}
+				else if( rowData.length == 17 && !standingPointId.equals(rowData[0])) {
+					standingPointRow = new RowData();
+			    	standingPointRow.setType(RowType.STANDING_POINT_ROW_DATA);
+			    	standingPointRow.setStandingPointName(rowData[0]);
+			    	standingPointRow.setStandingPointY(rowData[1]);
+			    	standingPointRow.setStandingPointX(rowData[2]);
+			    	standingPointRow.setStandingPointZ(rowData[3]);
+			    	standingPointRow.setTotalStationHeight(rowData[4]);
+			    	standingPointDataStore.add(standingPointRow);
+			    	measuredPointRow = new RowData();
+			    	measuredPointRow.setType(RowType.MEAS_POINT_ROW_DATA);
+			    	measuredPointRow.setRowNumber(String.valueOf((measData.indexOf(row) + 1)));
+			    	measuredPointRow.setStandingPointName(rowData[0]);
+			    	measuredPointRow.setMeasuredPointName(rowData[5]);
+			    	measuredPointRow.setMeasuredPointSign(rowData[6]);
+			    	measuredPointRow.setMeasuredPointY(rowData[7]);
+			    	measuredPointRow.setMeasuredPointX(rowData[8]);
+			    	measuredPointRow.setMeasuredPointZ(rowData[9]);
+			    	measuredPointRow.setHorizontalAngle(rowData[10]);
+			    	measuredPointRow.setVerticalAngle(rowData[11]);
+			    	measuredPointRow.setHorizontalDistance(rowData[12]);
+			    	measuredPointRow.setMeasuredPointSignHeight(rowData[13]);
+			    	measuredPointRow.setDate(rowData[15]);
+			    	measuredPointRow.setTime(rowData[16]);
+			    	measuredPointDataStore.add(measuredPointRow);
+					standingPointId = rowData[0];
+				}
+			}
+	    	
+	    }
+	    
+	    private void setRowNumber() {
+	    	
+	    	int rowNumber = 1;
+	    	
+	    	for(int i = 0; i < standingPointDataStore.size(); i++) {
+	    		
+	    		standingPointDataStore.get(i).setRowNumber(String.valueOf(rowNumber));
+	    		rowNumber++;
+	    		for(int j = 0; j < measuredPointDataStore.size(); j++ ) {
+	    			
+	    			if( standingPointDataStore.get(i).getStandingPointName()
+	    					.equals(measuredPointDataStore.get(j).getStandingPointName())){
+	    				measuredPointDataStore.get(j).setRowNumber(String.valueOf(rowNumber));
+	    				rowNumber++;
+	    				}
+	    			
+	    		}
+	    	}
+	    }
 	    
 	    
 	    private void addHeader() {
