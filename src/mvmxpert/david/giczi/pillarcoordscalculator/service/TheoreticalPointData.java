@@ -8,6 +8,9 @@ public class TheoreticalPointData {
 	private String theoreticalPointY;
 	private String theoreticalPointZ;
 	private String theoreticalPointSignName;
+	private boolean isDeleted;
+	
+	
 	public String getTheoreticalPointName() {
 		return theoreticalPointName;
 	}
@@ -38,12 +41,12 @@ public class TheoreticalPointData {
 	public void setTheoreticalPointSignName(String theoreticalPointSignName) {
 		this.theoreticalPointSignName = theoreticalPointSignName;
 	}
-	
-	@Override
-	public String toString() {
-		return "TheoreticalPointData [theoreticalPointName=" + theoreticalPointName + ", theoreticalPointX="
-				+ theoreticalPointX + ", theoreticalPointY=" + theoreticalPointY + ", theoreticalPointZ="
-				+ theoreticalPointZ + ", theoreticalPointSignName=" + theoreticalPointSignName + "]";
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
+
 }

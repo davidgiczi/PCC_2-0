@@ -20,7 +20,6 @@ import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDat
 import mvmxpert.david.giczi.pillarcoordscalculator.fileprocess.PLRFileProcess;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
-import mvmxpert.david.giczi.pillarcoordscalculator.utils.RowType;
 
 public class MeasurmentDataDisplayer {
 
@@ -31,7 +30,6 @@ public class MeasurmentDataDisplayer {
 	    private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 16);
 	    private VBox ROWS;
 	    private List<RowData> standingPointDataStore;
-	    private List<RowData> measuredPointDataStore;
 	    private List<TheoreticalPointData> theoreticalPointDataStore;
 	    
 	    public MeasurmentDataDisplayer(MeasuredPillarDataController measuredPillarDataController){
@@ -84,7 +82,7 @@ public class MeasurmentDataDisplayer {
 	    private void addMeasurmentDataRow() {
 	    	
 	    	createRowDataStore();
-	    	setRowNumber();
+	    	
 	    	for (RowData standingPointData : standingPointDataStore) {
 	    		MeasDataRow standingPointRow = new MeasDataRow(true, true, true, true, true, 
 	    				true, false, false, false, false, false, false, false, false, false,
@@ -98,7 +96,7 @@ public class MeasurmentDataDisplayer {
 	    		standingPointRow.setStyle("-fx-background-color:#ffefea");
 	    		ROWS.getChildren().add(standingPointRow);
 	    		
-	    		for (RowData measuredPointData : measuredPointDataStore) {
+	    		for (RowData measuredPointData : standingPointData.getMeasuredPointDataStore()) {
 	    			
 	    			if( standingPointData.getStandingPointName().equals(measuredPointData.getStandingPointName())) {
 	    				
@@ -118,6 +116,18 @@ public class MeasurmentDataDisplayer {
 	    			measuredPointRow.getDateTimeField().setText(measuredPointData.getDate());
 	    			Tooltip time = new Tooltip(measuredPointData.getDate() + " " + measuredPointData.getTime());
 	    			Tooltip.install(measuredPointRow.getDateTimeField(), time);
+	    			if( measuredPointData.getTheoreticalPointData() != null ) {
+	    				measuredPointRow.getTheoreticalPointNameField()
+	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointName());
+	    				measuredPointRow.getTheoreticalPointYField()
+	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointY());
+	    				measuredPointRow.getTheoreticalPointXField()
+	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointX());
+	    				measuredPointRow.getTheoreticalPointZField()
+	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointZ());
+	    				measuredPointRow.getTheoreticalPointSignNameField()
+	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointSignName());
+	    			}
 	    			ROWS.getChildren().add(measuredPointRow);
 	    			}
 				}
@@ -134,22 +144,22 @@ public class MeasurmentDataDisplayer {
 	    	String standingPointId = rowData[0];
 	    	standingPointDataStore = new ArrayList<>();
 	    	RowData standingPointRow = new RowData();
-	    	standingPointRow.setType(RowType.STANDING_POINT_ROW_DATA);
+	    	standingPointRow.setRowNumber("1");
 	    	standingPointRow.setStandingPointName(rowData[0]);
 	    	standingPointRow.setStandingPointY(rowData[1]);
 	    	standingPointRow.setStandingPointX(rowData[2]);
 	    	standingPointRow.setStandingPointZ(rowData[3]);
 	    	standingPointRow.setTotalStationHeight(rowData[4]);
 	    	standingPointDataStore.add(standingPointRow);
-	    	measuredPointDataStore = new ArrayList<>();
 	    	RowData measuredPointRow = new RowData();
-	    		 
+	    	int rowNumber = 2;
 	    	for (String row : measData) {
 				rowData = row.split(";");
 				
 				if( rowData.length == 17 && standingPointId.equals(rowData[0]) ) {
 					measuredPointRow = new RowData();
-			    	measuredPointRow.setType(RowType.MEAS_POINT_ROW_DATA);
+					measuredPointRow.setRowNumber(String.valueOf(rowNumber));
+					rowNumber++;
 			    	measuredPointRow.setStandingPointName(standingPointId);
 			    	measuredPointRow.setMeasuredPointName(rowData[5]);
 			    	measuredPointRow.setMeasuredPointSign(rowData[6]);
@@ -162,11 +172,12 @@ public class MeasurmentDataDisplayer {
 			    	measuredPointRow.setMeasuredPointSignHeight(rowData[13]);
 			    	measuredPointRow.setDate(rowData[15]);
 			    	measuredPointRow.setTime(rowData[16]);
-			    	measuredPointDataStore.add(measuredPointRow);
+			    	standingPointRow.getMeasuredPointDataStore().add(measuredPointRow);
 				}
 				else if( rowData.length == 17 && !standingPointId.equals(rowData[0])) {
 					standingPointRow = new RowData();
-			    	standingPointRow.setType(RowType.STANDING_POINT_ROW_DATA);
+					standingPointRow.setRowNumber(String.valueOf(rowNumber));
+					rowNumber++;
 			    	standingPointRow.setStandingPointName(rowData[0]);
 			    	standingPointRow.setStandingPointY(rowData[1]);
 			    	standingPointRow.setStandingPointX(rowData[2]);
@@ -174,8 +185,8 @@ public class MeasurmentDataDisplayer {
 			    	standingPointRow.setTotalStationHeight(rowData[4]);
 			    	standingPointDataStore.add(standingPointRow);
 			    	measuredPointRow = new RowData();
-			    	measuredPointRow.setType(RowType.MEAS_POINT_ROW_DATA);
-			    	measuredPointRow.setRowNumber(String.valueOf((measData.indexOf(row) + 1)));
+			    	measuredPointRow.setRowNumber(String.valueOf(rowNumber));
+					rowNumber++;
 			    	measuredPointRow.setStandingPointName(rowData[0]);
 			    	measuredPointRow.setMeasuredPointName(rowData[5]);
 			    	measuredPointRow.setMeasuredPointSign(rowData[6]);
@@ -188,33 +199,24 @@ public class MeasurmentDataDisplayer {
 			    	measuredPointRow.setMeasuredPointSignHeight(rowData[13]);
 			    	measuredPointRow.setDate(rowData[15]);
 			    	measuredPointRow.setTime(rowData[16]);
-			    	measuredPointDataStore.add(measuredPointRow);
+			    	standingPointRow.getMeasuredPointDataStore().add(measuredPointRow);
 					standingPointId = rowData[0];
 				}
+				else if( rowData.length == 5 && measuredPointRow.getMeasuredPointSign().equals(rowData[0]) ) {
+					TheoreticalPointData theoretical = new TheoreticalPointData();
+					theoretical.setTheoreticalPointName(rowData[0]);
+					theoretical.setTheoreticalPointY(rowData[1]);
+					theoretical.setTheoreticalPointX(rowData[2]);
+					theoretical.setTheoreticalPointZ(rowData[3]);
+					theoretical.setTheoreticalPointSignName(rowData[4]);
+					measuredPointRow.setTheoreticalPointData(theoretical);
+				}
+				
 			}
 	    	
-	    }
-	    
-	    private void setRowNumber() {
 	    	
-	    	int rowNumber = 1;
-	    	
-	    	for(int i = 0; i < standingPointDataStore.size(); i++) {
-	    		
-	    		standingPointDataStore.get(i).setRowNumber(String.valueOf(rowNumber));
-	    		rowNumber++;
-	    		for(int j = 0; j < measuredPointDataStore.size(); j++ ) {
-	    			
-	    			if( standingPointDataStore.get(i).getStandingPointName()
-	    					.equals(measuredPointDataStore.get(j).getStandingPointName())){
-	    				measuredPointDataStore.get(j).setRowNumber(String.valueOf(rowNumber));
-	    				rowNumber++;
-	    				}
-	    			
-	    		}
-	    	}
 	    }
-	    
+	      
 	    
 	    private void addHeader() {
 	    	 HBox header = new HBox();

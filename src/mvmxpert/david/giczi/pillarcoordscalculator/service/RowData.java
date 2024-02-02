@@ -1,6 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
-import mvmxpert.david.giczi.pillarcoordscalculator.utils.RowType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RowData {
 	
@@ -21,13 +22,17 @@ public class RowData {
 	private String measuredPointSignHeight;
 	private String date;
 	private String time;
+	private List<RowData> measuredPointDataStore;
 	private TheoreticalPointData theoreticalPointData;
 	private Double firstHrMeas;
 	private Double secondHrMeas;
 	private Double firstVrMeas;
 	private Double secondVrMeas;
-	private RowType type;
 	private boolean isDeleted;
+	
+	public RowData() {
+		this.measuredPointDataStore = new ArrayList<>();
+	}
 	
 	public String getRowNumber() {
 		return rowNumber;
@@ -139,9 +144,14 @@ public class RowData {
 		return time;
 	}
 	public void setTime(String time) {
-		String[] timeData = time.split(":");
-		this.time = time.endsWith("PM") ? 
-				(Integer.parseInt(timeData[0]) + 12) + ":" + timeData[1] : timeData[0] + ":" + timeData[1];
+		this.time = time;
+	}
+	
+	public List<RowData> getMeasuredPointDataStore() {
+		return measuredPointDataStore;
+	}
+	public void setMeasuredPointDataStore(List<RowData> measuredPointDataStore) {
+		this.measuredPointDataStore = measuredPointDataStore;
 	}
 	public TheoreticalPointData getTheoreticalPointData() {
 		return theoreticalPointData;
@@ -173,12 +183,7 @@ public class RowData {
 	public void setSecondVrMeas(Double secondVrMeas) {
 		this.secondVrMeas = secondVrMeas;
 	}
-	public RowType getType() {
-		return type;
-	}
-	public void setType(RowType type) {
-		this.type = type;
-	}
+
 	public boolean isDeleted() {
 		return isDeleted;
 	}
