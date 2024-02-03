@@ -31,11 +31,15 @@ public class MeasurmentDataDisplayer {
 	    private VBox ROWS;
 	    private List<RowData> standingPointDataStore;
 	    private List<TheoreticalPointData> theoreticalPointDataStore;
+	    private int rowNumber = 1;
 	    
 	    public MeasurmentDataDisplayer(MeasuredPillarDataController measuredPillarDataController){
 	        this.measuredPillarDataController = measuredPillarDataController;
 	        this.ROWS = new VBox();
 	        Stage stage = new Stage();
+	        if( !addContent() ) {
+		    	   return;
+		       }
 	        stage.initOwner(measuredPillarDataController.fxHomeWindow.homeStage);
 	        stage.setOnCloseRequest(windowEvent -> {
 	            
@@ -45,11 +49,8 @@ public class MeasurmentDataDisplayer {
 	        		measuredPillarDataController.getInfoAlert(PLRFileProcess.MEAS_FILE_NAME, 
 	        				"A mérési jegyzőkönyv mentve a(z)\n\n" +  PLRFileProcess.FOLDER_PATH + " mappába.");
 	        	}
-	        	
-	        	
 	        });
 	        pane.setStyle("-fx-background-color: white");
-	        addContent();
 	        ScrollPane scrollPane = getScrollPane(pane);
 	        Scene scene = new Scene(scrollPane);
 	        stage.setTitle(PLRFileProcess.FOLDER_PATH + "\\" + PLRFileProcess.MEAS_FILE_NAME);
@@ -72,16 +73,24 @@ public class MeasurmentDataDisplayer {
 	        return scroller;
 	    }
 	    
-	    private void addContent() {
+	   private boolean addContent() {
 	    	addHeader();
-	    	addMeasurmentDataRow();
+	    if(	addMeasurmentDataRow() ) {
 	    	pane.getChildren().add(ROWS);
+	    	return true;
 	    }
+	    	return false;
+	  }
 	    
 	    
-	    private void addMeasurmentDataRow() {
+	    private boolean addMeasurmentDataRow() {
 	    	
 	    	createRowDataStore();
+	    	parseTheoreticalPointData();
+	    	if( standingPointDataStore == null || standingPointDataStore.isEmpty() ) {
+	    		addTheoreticalPointData();
+	    		return false;
+	    	}
 	    	
 	    	for (RowData standingPointData : standingPointDataStore) {
 	    		MeasDataRow standingPointRow = new MeasDataRow(true, true, true, true, true, 
@@ -93,7 +102,7 @@ public class MeasurmentDataDisplayer {
 	    		standingPointRow.getStandingPointXField().setText(standingPointData.getStandingPointX());
 	    		standingPointRow.getStandingPointZField().setText(standingPointData.getStandingPointZ());
 	    		standingPointRow.getTotalStationHeightField().setText(standingPointData.getTotalStationHeight());
-	    		standingPointRow.setStyle("-fx-background-color:#ffefea");
+	    		standingPointRow.setStyle("-fx-background-color:#FFEFEA");
 	    		ROWS.getChildren().add(standingPointRow);
 	    		
 	    		for (RowData measuredPointData : standingPointData.getMeasuredPointDataStore()) {
@@ -132,7 +141,37 @@ public class MeasurmentDataDisplayer {
 	    			}
 				}
 	    	}
-		}	
+	    	
+	    		addTheoreticalPointData();
+	    	
+	    		return true;
+		}
+	    
+	  private void addTheoreticalPointData() {
+		  
+		  if( theoreticalPointDataStore == null || theoreticalPointDataStore.isEmpty() ) {
+			  measuredPillarDataController.getInfoAlert("Az adatok nem jeleníthetők meg", PLRFileProcess.MEAS_FILE_NAME +
+					  "\n\nA beolvasott fájl tartalma nem megfelelő.");
+			  return;
+		  }
+	    	
+	    	for (TheoreticalPointData theoreticalPointData : theoreticalPointDataStore) {
+				if( !theoreticalPointData.isDeleted() ) {
+					MeasDataRow theoreticalPointRow = new MeasDataRow(true, false, false, false, false, 
+		    				false, false, false, false, false, false, false, false, false, false,
+		    				false, true, true, true, true, true);
+					theoreticalPointRow.getRowNumber().setText(String.valueOf(rowNumber));
+					rowNumber++;
+					theoreticalPointRow.getTheoreticalPointNameField().setText(theoreticalPointData.getTheoreticalPointName());
+					theoreticalPointRow.getTheoreticalPointYField().setText(theoreticalPointData.getTheoreticalPointY());
+					theoreticalPointRow.getTheoreticalPointXField().setText(theoreticalPointData.getTheoreticalPointX());
+					theoreticalPointRow.getTheoreticalPointZField().setText(theoreticalPointData.getTheoreticalPointZ());
+					theoreticalPointRow.getTheoreticalPointSignNameField().setText(theoreticalPointData.getTheoreticalPointSignName());
+					ROWS.getChildren().add(theoreticalPointRow);
+				}
+			}
+	    	
+	    }
 	    
 	    private void createRowDataStore() {
 	    	
@@ -141,9 +180,13 @@ public class MeasurmentDataDisplayer {
 	    	if( rowData.length != 17 && rowData.length != 5 ) {
 	    		return;
 	    	}
+	    	theoreticalPointDataStore = new ArrayList<>();
 	    	String standingPointId = rowData[0];
-	    	standingPointDataStore = new ArrayList<>();
 	    	RowData standingPointRow = new RowData();
+	    	RowData measuredPointRow = new RowData();
+	    	
+	    	if( rowData.length == 17 ) {
+	    	standingPointDataStore = new ArrayList<>();
 	    	standingPointRow.setRowNumber("1");
 	    	standingPointRow.setStandingPointName(rowData[0]);
 	    	standingPointRow.setStandingPointY(rowData[1]);
@@ -151,8 +194,9 @@ public class MeasurmentDataDisplayer {
 	    	standingPointRow.setStandingPointZ(rowData[3]);
 	    	standingPointRow.setTotalStationHeight(rowData[4]);
 	    	standingPointDataStore.add(standingPointRow);
-	    	RowData measuredPointRow = new RowData();
-	    	int rowNumber = 2;
+	    	rowNumber = 2;
+	    	}
+	    	
 	    	for (String row : measData) {
 				rowData = row.split(";");
 				
@@ -202,21 +246,40 @@ public class MeasurmentDataDisplayer {
 			    	standingPointRow.getMeasuredPointDataStore().add(measuredPointRow);
 					standingPointId = rowData[0];
 				}
-				else if( rowData.length == 5 && measuredPointRow.getMeasuredPointSign().equals(rowData[0]) ) {
+				else if( rowData.length == 5 ) {
 					TheoreticalPointData theoretical = new TheoreticalPointData();
 					theoretical.setTheoreticalPointName(rowData[0]);
 					theoretical.setTheoreticalPointY(rowData[1]);
 					theoretical.setTheoreticalPointX(rowData[2]);
 					theoretical.setTheoreticalPointZ(rowData[3]);
 					theoretical.setTheoreticalPointSignName(rowData[4]);
-					measuredPointRow.setTheoreticalPointData(theoretical);
-				}
-				
+					theoreticalPointDataStore.add(theoretical);
+					
+				}	
 			}
-	    	
-	    	
 	    }
 	      
+	    private void parseTheoreticalPointData() {
+	    	
+	    	if( theoreticalPointDataStore == null || theoreticalPointDataStore.isEmpty() ) {
+	    		return;
+	    	}
+	    	
+	    	for(int i = 0; i < theoreticalPointDataStore.size(); i++) {
+	    		
+	    		for (RowData standingPoint : standingPointDataStore) {
+	    			
+					for(RowData measuredPoint : standingPoint.getMeasuredPointDataStore() ) {
+						
+						if( theoreticalPointDataStore.get(i).getTheoreticalPointName()
+								.equals( measuredPoint.getMeasuredPointSign())) {
+							measuredPoint.setTheoreticalPointData(theoreticalPointDataStore.get(i));
+							theoreticalPointDataStore.get(i).setDeleted(true);
+						}			
+					}
+				}
+	    	}
+	    }
 	    
 	    private void addHeader() {
 	    	 HBox header = new HBox();
@@ -226,7 +289,7 @@ public class MeasurmentDataDisplayer {
 	         rowNumber.setFont(BOLD);
 	         rowNumber.setAlignment(Pos.CENTER);
 	         rowNumber.setEditable(false);
-	         rowNumber.setStyle("-fx-background-color: #D8F2FF;");
+	         rowNumber.setStyle("-fx-background-color: #FFEFEA;");
 	         rowNumber.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(rowNumber);
 	         TextField standingPointName = new TextField("Álláspont");
@@ -235,7 +298,7 @@ public class MeasurmentDataDisplayer {
 	         standingPointName.setFont(BOLD);
 	         standingPointName.setAlignment(Pos.CENTER);
 	         standingPointName.setEditable(false);
-	         standingPointName.setStyle("-fx-background-color: #D8F2FF;");
+	         standingPointName.setStyle("-fx-background-color: #FFEFEA;");
 	         standingPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(standingPointName);
 	         TextField standingPointY = new TextField("Y");
@@ -243,7 +306,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointY, Priority.ALWAYS);
 	         standingPointY.setFont(BOLD);
 	         standingPointY.setAlignment(Pos.CENTER);
-	         standingPointY.setStyle("-fx-background-color: #D8F2FF;");
+	         standingPointY.setStyle("-fx-background-color: #FFEFEA;");
 	         standingPointY.setPrefHeight(12 * MILLIMETER);
 	         standingPointY.setEditable(false);
 	         header.getChildren().add(standingPointY);
@@ -252,7 +315,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointX, Priority.ALWAYS);
 	         standingPointX.setFont(BOLD);
 	         standingPointX.setAlignment(Pos.CENTER);
-	         standingPointX.setStyle("-fx-background-color: #D8F2FF;");
+	         standingPointX.setStyle("-fx-background-color: #FFEFEA;");
 	         standingPointX.setPrefHeight(12 * MILLIMETER);
 	         standingPointX.setEditable(false);
 	         header.getChildren().add(standingPointX);
@@ -261,7 +324,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointZ, Priority.ALWAYS);
 	         standingPointZ.setFont(BOLD);
 	         standingPointZ.setAlignment(Pos.CENTER);
-	         standingPointZ.setStyle("-fx-background-color: #D8F2FF;");
+	         standingPointZ.setStyle("-fx-background-color: #FFEFEA;");
 	         standingPointZ.setPrefHeight(12 * MILLIMETER);
 	         standingPointZ.setEditable(false);
 	         header.getChildren().add(standingPointZ);
@@ -271,7 +334,7 @@ public class MeasurmentDataDisplayer {
 	         totalStationHeight.setFont(BOLD);
 	         totalStationHeight.setEditable(false);
 	         totalStationHeight.setAlignment(Pos.CENTER);
-	         totalStationHeight.setStyle("-fx-background-color: #D8F2FF;");
+	         totalStationHeight.setStyle("-fx-background-color: #FFEFEA;");
 	         totalStationHeight.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(totalStationHeight);
 	         TextField directionPointName = new TextField("MértP.");
@@ -280,7 +343,7 @@ public class MeasurmentDataDisplayer {
 	         directionPointName.setFont(BOLD);
 	         directionPointName.setEditable(false);
 	         directionPointName.setAlignment(Pos.CENTER);
-	         directionPointName.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointName.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(directionPointName);
 	         TextField directionPointY = new TextField("Y");
@@ -288,7 +351,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointY, Priority.ALWAYS);
 	         directionPointY.setFont(BOLD);
 	         directionPointY.setAlignment(Pos.CENTER);
-	         directionPointY.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointY.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointY.setPrefHeight(12 * MILLIMETER);
 	         directionPointY.setEditable(false);
 	         header.getChildren().add(directionPointY);
@@ -297,7 +360,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointX, Priority.ALWAYS);
 	         directionPointX.setFont(BOLD);
 	         directionPointX.setAlignment(Pos.CENTER);
-	         directionPointX.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointX.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointX.setPrefHeight(12 * MILLIMETER);
 	         directionPointX.setEditable(false);
 	         header.getChildren().add(directionPointX);
@@ -306,7 +369,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointZ, Priority.ALWAYS);
 	         directionPointZ.setFont(BOLD);
 	         directionPointZ.setAlignment(Pos.CENTER);
-	         directionPointZ.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointZ.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointZ.setPrefHeight(12 * MILLIMETER);
 	         directionPointZ.setEditable(false);
 	         header.getChildren().add(directionPointZ);
@@ -315,7 +378,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(directionPointSign, Priority.ALWAYS);
 	         directionPointSign.setFont(BOLD);
 	         directionPointSign.setAlignment(Pos.CENTER);
-	         directionPointSign.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointSign.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointSign.setPrefHeight(12 * MILLIMETER);
 	         directionPointSign.setEditable(false);
 	         header.getChildren().add(directionPointSign);
@@ -324,7 +387,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(horizontalAngle, Priority.ALWAYS);
 	         horizontalAngle.setFont(BOLD);
 	         horizontalAngle.setAlignment(Pos.CENTER);
-	         horizontalAngle.setStyle("-fx-background-color: #D8F2FF;");
+	         horizontalAngle.setStyle("-fx-background-color: #FFEFEA;");
 	         horizontalAngle.setPrefHeight(12 * MILLIMETER);
 	         horizontalAngle.setEditable(false);
 	         header.getChildren().add(horizontalAngle);
@@ -333,7 +396,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(verticalAngle, Priority.ALWAYS);
 	         verticalAngle.setFont(BOLD);
 	         verticalAngle.setAlignment(Pos.CENTER);
-	         verticalAngle.setStyle("-fx-background-color: #D8F2FF;");
+	         verticalAngle.setStyle("-fx-background-color: #FFEFEA;");
 	         verticalAngle.setPrefHeight(12 * MILLIMETER);
 	         verticalAngle.setEditable(false);
 	         header.getChildren().add(verticalAngle);
@@ -342,7 +405,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(horizontalDistance, Priority.ALWAYS);
 	         horizontalDistance.setFont(BOLD);
 	         horizontalDistance.setAlignment(Pos.CENTER);
-	         horizontalDistance.setStyle("-fx-background-color: #D8F2FF;");
+	         horizontalDistance.setStyle("-fx-background-color: #FFEFEA;");
 	         horizontalDistance.setPrefHeight(12 * MILLIMETER);
 	         horizontalDistance.setEditable(false);
 	         header.getChildren().add(horizontalDistance);
@@ -351,7 +414,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(directionPointSignHeight, Priority.ALWAYS);
 	         directionPointSignHeight.setFont(BOLD);
 	         directionPointSignHeight.setAlignment(Pos.CENTER);
-	         directionPointSignHeight.setStyle("-fx-background-color: #D8F2FF;");
+	         directionPointSignHeight.setStyle("-fx-background-color: #FFEFEA;");
 	         directionPointSignHeight.setPrefHeight(12 * MILLIMETER);
 	         directionPointSignHeight.setEditable(false);
 	         header.getChildren().add(directionPointSignHeight);
@@ -360,7 +423,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(measurementDateTime, Priority.ALWAYS);
 	         measurementDateTime.setFont(BOLD);
 	         measurementDateTime.setAlignment(Pos.CENTER);
-	         measurementDateTime.setStyle("-fx-background-color: #D8F2FF;");
+	         measurementDateTime.setStyle("-fx-background-color: #FFEFEA;");
 	         measurementDateTime.setPrefHeight(12 * MILLIMETER);
 	         measurementDateTime.setEditable(false);
 	         header.getChildren().add(measurementDateTime);
@@ -369,7 +432,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointName, Priority.ALWAYS);
 	         theoreticalPointName.setFont(BOLD);
 	         theoreticalPointName.setAlignment(Pos.CENTER);
-	         theoreticalPointName.setStyle("-fx-background-color: #D8F2FF;");
+	         theoreticalPointName.setStyle("-fx-background-color: #FFEFEA;");
 	         theoreticalPointName.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointName.setEditable(false);
 	         header.getChildren().add(theoreticalPointName);
@@ -378,7 +441,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointY, Priority.ALWAYS);
 	         theoreticalPointY.setFont(BOLD);
 	         theoreticalPointY.setAlignment(Pos.CENTER);
-	         theoreticalPointY.setStyle("-fx-background-color: #D8F2FF;");
+	         theoreticalPointY.setStyle("-fx-background-color: #FFEFEA;");
 	         theoreticalPointY.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointY.setEditable(false);
 	         header.getChildren().add(theoreticalPointY);
@@ -387,7 +450,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointX, Priority.ALWAYS);
 	         theoreticalPointX.setFont(BOLD);
 	         theoreticalPointX.setAlignment(Pos.CENTER);
-	         theoreticalPointX.setStyle("-fx-background-color: #D8F2FF;");
+	         theoreticalPointX.setStyle("-fx-background-color: #FFEFEA;");
 	         theoreticalPointX.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointX.setEditable(false);
 	         header.getChildren().add(theoreticalPointX);
@@ -396,7 +459,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointZ, Priority.ALWAYS);
 	         theoreticalPointZ.setFont(BOLD);
 	         theoreticalPointZ.setAlignment(Pos.CENTER);
-	         theoreticalPointZ.setStyle("-fx-background-color: #D8F2FF;");
+	         theoreticalPointZ.setStyle("-fx-background-color: #FFEFEA;");
 	         theoreticalPointZ.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointZ.setEditable(false);
 	         header.getChildren().add(theoreticalPointZ);
@@ -405,7 +468,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointSign, Priority.ALWAYS);
 	         theoreticalPointSign.setFont(BOLD);
 	         theoreticalPointSign.setAlignment(Pos.CENTER);
-	         theoreticalPointSign.setStyle("-fx-background-color: #D8F2FF;");
+	         theoreticalPointSign.setStyle("-fx-background-color: #FFEFEA;");
 	         theoreticalPointSign.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointSign.setEditable(false);
 	         header.getChildren().add(theoreticalPointSign);

@@ -3,6 +3,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
 public class TheoreticalPointData {
 
+	String rowNumber;
 	private String theoreticalPointName;
 	private String theoreticalPointX;
 	private String theoreticalPointY;
@@ -47,6 +48,11 @@ public class TheoreticalPointData {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	public String getRowNumber() {
+		return rowNumber;
+	}
+	public void setRowNumber(String rowNumber) {
+		this.rowNumber = rowNumber;
+	}
 	
-
 }
