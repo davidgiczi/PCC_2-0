@@ -87,7 +87,7 @@ public class MeasurmentDataDisplayer {
 	    	
 	    	createRowDataStore();
 	    	parseTheoreticalPointData();
-	    	if( standingPointDataStore == null || standingPointDataStore.isEmpty() ) {
+	    	if( standingPointDataStore == null ) {
 	    		addTheoreticalPointData();
 	    		return false;
 	    	}
@@ -176,17 +176,23 @@ public class MeasurmentDataDisplayer {
 	    private void createRowDataStore() {
 	    	
 	    	List<String> measData = measuredPillarDataController.measurmentData;
+	    	boolean isSeparatedByComma = false;
 	    	String[] rowData =  measData.get(0).split(";");
-	    	if( rowData.length != 17 && rowData.length != 5 ) {
+	    	if( rowData.length == 1) {
+	    	rowData = measData.get(0).split(",");	
+	    	isSeparatedByComma = true;
+	    	}
+	    	
+	    	if( rowData.length != 4 && rowData.length != 5 && rowData.length != 17) {
 	    		return;
 	    	}
+	    	standingPointDataStore = new ArrayList<>();
 	    	theoreticalPointDataStore = new ArrayList<>();
 	    	String standingPointId = rowData[0];
 	    	RowData standingPointRow = new RowData();
 	    	RowData measuredPointRow = new RowData();
 	    	
 	    	if( rowData.length == 17 ) {
-	    	standingPointDataStore = new ArrayList<>();
 	    	standingPointRow.setRowNumber("1");
 	    	standingPointRow.setStandingPointName(rowData[0]);
 	    	standingPointRow.setStandingPointY(rowData[1]);
@@ -198,7 +204,13 @@ public class MeasurmentDataDisplayer {
 	    	}
 	    	
 	    	for (String row : measData) {
-				rowData = row.split(";");
+	    		
+	    		if( isSeparatedByComma ) {
+	    			rowData = row.split(",");	
+	    		}
+	    		else {
+	    			rowData = row.split(",");
+	    		}
 				
 				if( rowData.length == 17 && standingPointId.equals(rowData[0]) ) {
 					measuredPointRow = new RowData();
@@ -246,13 +258,15 @@ public class MeasurmentDataDisplayer {
 			    	standingPointRow.getMeasuredPointDataStore().add(measuredPointRow);
 					standingPointId = rowData[0];
 				}
-				else if( rowData.length == 5 ) {
+				else if( rowData.length == 4 || rowData.length == 5) {
 					TheoreticalPointData theoretical = new TheoreticalPointData();
 					theoretical.setTheoreticalPointName(rowData[0]);
 					theoretical.setTheoreticalPointY(rowData[1]);
 					theoretical.setTheoreticalPointX(rowData[2]);
 					theoretical.setTheoreticalPointZ(rowData[3]);
-					theoretical.setTheoreticalPointSignName(rowData[4]);
+					if( rowData.length == 5) {
+					theoretical.setTheoreticalPointSignName(rowData[4]);	
+					}
 					theoreticalPointDataStore.add(theoretical);
 					
 				}	
