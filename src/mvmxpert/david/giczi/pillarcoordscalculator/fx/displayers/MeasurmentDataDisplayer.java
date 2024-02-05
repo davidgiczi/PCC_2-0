@@ -149,7 +149,7 @@ public class MeasurmentDataDisplayer {
 	    
 	  private void addTheoreticalPointData() {
 		  
-		  if( theoreticalPointDataStore == null || theoreticalPointDataStore.isEmpty() ) {
+		  if( theoreticalPointDataStore == null && theoreticalPointDataStore == null ) {
 			  measuredPillarDataController.getInfoAlert("Az adatok nem jeleníthetők meg", PLRFileProcess.MEAS_FILE_NAME +
 					  "\n\nA beolvasott fájl tartalma nem megfelelő.");
 			  return;
@@ -209,7 +209,7 @@ public class MeasurmentDataDisplayer {
 	    			rowData = row.split(",");	
 	    		}
 	    		else {
-	    			rowData = row.split(",");
+	    			rowData = row.split(";");
 	    		}
 				
 				if( rowData.length == 17 && standingPointId.equals(rowData[0]) ) {
@@ -275,7 +275,7 @@ public class MeasurmentDataDisplayer {
 	      
 	    private void parseTheoreticalPointData() {
 	    	
-	    	if( theoreticalPointDataStore == null || theoreticalPointDataStore.isEmpty() ) {
+	    	if( theoreticalPointDataStore == null ) {
 	    		return;
 	    	}
 	    	
