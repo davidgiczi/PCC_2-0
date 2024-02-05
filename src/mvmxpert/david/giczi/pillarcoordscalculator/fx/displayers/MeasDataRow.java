@@ -1,5 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
@@ -49,6 +51,8 @@ public class MeasDataRow extends HBox {
         rowNumber.setFont(BOLD);
         rowNumber.setAlignment(Pos.CENTER);
         rowNumber.setEditable(false);
+        rowNumber.setCursor(Cursor.HAND);
+        rowNumber.setOnMouseClicked(e -> {});
         this.getChildren().add(rowNumber);
         standingPointNameField = new TextField();
         standingPointNameField.setPrefWidth(21 * MILLIMETER);
@@ -141,7 +145,7 @@ public class MeasDataRow extends HBox {
         dateTimeField.setFont(NORMAL);
         dateTimeField.setAlignment(Pos.CENTER);
         dateTimeField.setEditable(false);
-        dateTimeField.setCursor(Cursor.CLOSED_HAND);
+        dateTimeField.setCursor(Cursor.HAND);
         this.getChildren().add(dateTimeField);
         theoreticalPointNameField = new TextField();
         theoreticalPointNameField.setPrefWidth(40 * MILLIMETER);

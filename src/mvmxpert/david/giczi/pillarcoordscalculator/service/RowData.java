@@ -24,10 +24,8 @@ public class RowData {
 	private String time;
 	private List<RowData> measuredPointDataStore;
 	private TheoreticalPointData theoreticalPointData;
-	private Double firstHrMeas;
-	private Double secondHrMeas;
-	private Double firstVrMeas;
-	private Double secondVrMeas;
+	private String secondHrMeas;
+	private String secondVrMeas;
 	private boolean isDeleted;
 	
 	public RowData() {
@@ -159,28 +157,20 @@ public class RowData {
 	public void setTheoreticalPointData(TheoreticalPointData theoreticalPointData) {
 		this.theoreticalPointData = theoreticalPointData;
 	}
-	public double getFirstHrMeas() {
-		return firstHrMeas;
-	}
-	public void setFirstHrMeas(Double firstHrMeas) {
-		this.firstHrMeas = firstHrMeas;
-	}
-	public double getSecondHrMeas() {
+	
+	public String getSecondHrMeas() {
 		return secondHrMeas;
 	}
-	public void setSecondHrMeas(Double secondHrMeas) {
+
+	public void setSecondHrMeas(String secondHrMeas) {
 		this.secondHrMeas = secondHrMeas;
 	}
-	public double getFirstVrMeas() {
-		return firstVrMeas;
-	}
-	public void setFirstVrMeas(Double firstVrMeas) {
-		this.firstVrMeas = firstVrMeas;
-	}
-	public double getSecondVrMeas() {
+
+	public String getSecondVrMeas() {
 		return secondVrMeas;
 	}
-	public void setSecondVrMeas(Double secondVrMeas) {
+
+	public void setSecondVrMeas(String secondVrMeas) {
 		this.secondVrMeas = secondVrMeas;
 	}
 

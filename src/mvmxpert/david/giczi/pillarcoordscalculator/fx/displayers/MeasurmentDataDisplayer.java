@@ -87,6 +87,8 @@ public class MeasurmentDataDisplayer {
 	    	
 	    	createRowDataStore();
 	    	parseTheoreticalPointData();
+	    	collectSecondMeasurementValue();
+	    	
 	    	if( standingPointDataStore == null ) {
 	    		addTheoreticalPointData();
 	    		return false;
@@ -294,6 +296,34 @@ public class MeasurmentDataDisplayer {
 				}
 	    	}
 	    }
+	    
+	    private void collectSecondMeasurementValue() {
+	    	
+	    	if( standingPointDataStore == null ) {
+	    		return;
+	    	}
+	    	
+	    	for (RowData standigPoint : standingPointDataStore) {
+	    		
+	    		for (int i = 0; i < standigPoint.getMeasuredPointDataStore().size() - 1; i++) {
+					
+	    			if( standigPoint.getMeasuredPointDataStore().get(i).getMeasuredPointName()
+	    					.equals(standigPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointName()) ) {
+	    				
+	    				standigPoint.getMeasuredPointDataStore().get(i + 1)
+	    				.setSecondHrMeas(standigPoint.getMeasuredPointDataStore().get(i).getHorizontalAngle());
+	    				
+	    				standigPoint.getMeasuredPointDataStore().get(i + 1)
+	    				.setSecondVrMeas(standigPoint.getMeasuredPointDataStore().get(i).getVerticalAngle());
+	    				
+	    			}
+	    			
+				}
+				
+			}
+	    	
+	    }
+	    
 	    
 	    private void addHeader() {
 	    	 HBox header = new HBox();
