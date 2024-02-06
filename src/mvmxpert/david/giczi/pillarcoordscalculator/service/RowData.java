@@ -24,12 +24,63 @@ public class RowData {
 	private String time;
 	private List<RowData> measuredPointDataStore;
 	private TheoreticalPointData theoreticalPointData;
-	private String secondHrMeas;
-	private String secondVrMeas;
+	private String firstHrMeas;
+	private String firstVrMeas;
+	private String firstDistValue;
 	private boolean isDeleted;
 	
 	public RowData() {
 		this.measuredPointDataStore = new ArrayList<>();
+	}
+	
+	public String getMediumHrValue(){
+		
+		System.out.println("firstHr: " + firstHrMeas);
+		System.out.println("secondHr: " + horizontalAngle);
+		System.out.println();
+		
+		String[] firstHrData = firstHrMeas.split("-");
+		double firstValue = Integer.parseInt(firstHrData[0]) + 
+				Integer.parseInt(firstHrData[1]) / 60.0 + 
+				Integer.parseInt(firstHrData[2]) / 3600.0;
+		String[] secondHrData = horizontalAngle.split("-");
+		double secondValue = Integer.parseInt(secondHrData[0]) + 
+				Integer.parseInt(secondHrData[1]) / 60.0 + 
+				Integer.parseInt(secondHrData[2]) / 3600.0;
+		double mediumHrValue = (firstValue + secondValue - 180) / 2.0;
+		
+		return convertToAngleMinSecFormat(mediumHrValue);
+	}
+	
+	public String getMediumVrValue(){
+		
+		String[] firstVrData = firstVrMeas.split("-");
+		double firstValue = Integer.parseInt(firstVrData[0]) + 
+				Integer.parseInt(firstVrData[1]) / 60.0 + 
+				Integer.parseInt(firstVrData[2]) / 3600.0;
+		String[] secondVrData = verticalAngle.split("-");
+		double secondValue = Integer.parseInt(secondVrData[0]) + 
+				Integer.parseInt(secondVrData[1]) / 60.0 + 
+				Integer.parseInt(secondVrData[2]) / 3600.0;
+		double mediumVrValue = (firstValue - secondValue + 360) / 2.0;
+		
+		return convertToAngleMinSecFormat(mediumVrValue);
+	}
+	
+	public String getMediumDistanceValue() {
+		double firstValue = Double.parseDouble(horizontalDistance);
+		double secondValue = Double.parseDouble(firstDistValue);
+		double mediumValue = (firstValue + secondValue) / 2.0;
+		return String.format("%.3f" ,mediumValue).replace(",", ".");
+	}
+
+	private String convertToAngleMinSecFormat(double angleValue) {
+		
+		int angle = (int) angleValue;
+		int min = (int) ((angleValue - angle) * 60);
+		int sec = (int) ((angleValue - angle) * 3600 - min * 60);
+		
+		return angle + "-" + (min < 10 ?  "0" + min : min) + "-" + (sec < 10 ?  "0" + sec : sec);
 	}
 	
 	public String getRowNumber() {
@@ -158,20 +209,28 @@ public class RowData {
 		this.theoreticalPointData = theoreticalPointData;
 	}
 	
-	public String getSecondHrMeas() {
-		return secondHrMeas;
+	public String getFirstHrMeas() {
+		return firstHrMeas;
 	}
 
-	public void setSecondHrMeas(String secondHrMeas) {
-		this.secondHrMeas = secondHrMeas;
+	public void setFirstHrMeas(String firstHrMeas) {
+		this.firstHrMeas = firstHrMeas;
 	}
 
-	public String getSecondVrMeas() {
-		return secondVrMeas;
+	public String getFirstVrMeas() {
+		return firstVrMeas;
 	}
 
-	public void setSecondVrMeas(String secondVrMeas) {
-		this.secondVrMeas = secondVrMeas;
+	public void setFirstVrMeas(String firstVrMeas) {
+		this.firstVrMeas = firstVrMeas;
+	}
+
+	public String getFirstDistValue() {
+		return firstDistValue;
+	}
+
+	public void setFirstDistValue(String firstDistValue) {
+		this.firstDistValue = firstDistValue;
 	}
 
 	public boolean isDeleted() {

@@ -27,7 +27,8 @@ public class MeasurmentDataDisplayer {
 	 	private final AnchorPane pane = new AnchorPane();
 	    public MeasuredPillarDataController measuredPillarDataController;
 	    private static final double MILLIMETER = 1000.0 / 225.0;
-	    private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 16);
+	    private static final Font LARGE_BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 16);
+	    private static final Font SMALL_BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
 	    private VBox ROWS;
 	    private List<RowData> standingPointDataStore;
 	    private List<TheoreticalPointData> theoreticalPointDataStore;
@@ -104,7 +105,7 @@ public class MeasurmentDataDisplayer {
 	    		standingPointRow.getStandingPointXField().setText(standingPointData.getStandingPointX());
 	    		standingPointRow.getStandingPointZField().setText(standingPointData.getStandingPointZ());
 	    		standingPointRow.getTotalStationHeightField().setText(standingPointData.getTotalStationHeight());
-	    		standingPointRow.setStyle("-fx-background-color:#FFEFEA");
+	    		standingPointRow.setStyle("-fx-background-color: #73C2FB");
 	    		ROWS.getChildren().add(standingPointRow);
 	    		
 	    		for (RowData measuredPointData : standingPointData.getMeasuredPointDataStore()) {
@@ -114,6 +115,7 @@ public class MeasurmentDataDisplayer {
 	    			MeasDataRow measuredPointRow = new MeasDataRow(true, false, false, false, false, 
 		    				false, true, true, true, true, true, true, true, true, true,
 		    				true, true, true, true, true, true);
+	    			measuredPointRow.setId(measuredPointData.getRowNumber());
 	    			measuredPointRow.getRowNumber().setText(measuredPointData.getRowNumber());
 	    			measuredPointRow.getMeasuredPointNameField().setText(measuredPointData.getMeasuredPointName());
 	    			measuredPointRow.getMeasuredPointYField().setText(measuredPointData.getMeasuredPointY());
@@ -139,10 +141,41 @@ public class MeasurmentDataDisplayer {
 	    				measuredPointRow.getTheoreticalPointSignNameField()
 	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointSignName());
 	    			}
-	    			ROWS.getChildren().add(measuredPointRow);
+	    			if( Integer.parseInt(measuredPointData.getRowNumber()) % 2 == 0 ) {
+	    				measuredPointRow.setStyle("-fx-background-color:#F4F4F4");
 	    			}
-				}
-	    	}
+	    			MeasDataRow twoMeasmentRow = null; 
+	    			if( measuredPointData.getFirstHrMeas() != null && measuredPointData.getFirstVrMeas() != null ) {
+	    				twoMeasmentRow = new MeasDataRow(false, false, false, false, false, 
+			    				false, false, false, false, false, false, true, true, true, false,
+			    				false, false, false, false, false, false);
+	    				twoMeasmentRow.getHorizontalAngleField().setText(measuredPointData.getMediumHrValue());
+	    				twoMeasmentRow.getVerticalAngleField().setText(measuredPointData.getMediumVrValue());
+	    				twoMeasmentRow.getHorizontalDistanceField().setText(measuredPointData.getMediumDistanceValue());
+	    				twoMeasmentRow.setStyle("-fx-background-color:#FFFFE0");
+	    				twoMeasmentRow.getHorizontalAngleField().setFont(SMALL_BOLD);
+	    				twoMeasmentRow.getHorizontalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-text-fill: #FF4122;");
+	    				twoMeasmentRow.getVerticalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-text-fill: #FF4122;");
+	    				twoMeasmentRow.getVerticalAngleField().setFont(SMALL_BOLD);
+	    				twoMeasmentRow.getHorizontalDistanceField().setStyle("-fx-background-color:#FFFFE0;-fx-text-fill: #FF4122;"); 
+	    				twoMeasmentRow.getHorizontalDistanceField().setFont(SMALL_BOLD);
+		
+	    			}
+	    			ROWS.getChildren().add(measuredPointRow);
+	    			if( twoMeasmentRow != null ) {
+	    				ROWS.getChildren().add(twoMeasmentRow);	
+	    				MeasDataRow firstMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 2);
+	    				MeasDataRow secondMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 1);
+	    				firstMeasRow.getHorizontalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				firstMeasRow.getVerticalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				firstMeasRow.getHorizontalDistanceField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				secondMeasRow.getHorizontalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				secondMeasRow.getVerticalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				secondMeasRow.getHorizontalDistanceField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    			}
+	    		}
+			}
+	    }
 	    	
 	    		addTheoreticalPointData();
 	    	
@@ -151,7 +184,7 @@ public class MeasurmentDataDisplayer {
 	    
 	  private void addTheoreticalPointData() {
 		  
-		  if( theoreticalPointDataStore == null && theoreticalPointDataStore == null ) {
+		  if( theoreticalPointDataStore == null ) {
 			  measuredPillarDataController.getInfoAlert("Az adatok nem jeleníthetők meg", PLRFileProcess.MEAS_FILE_NAME +
 					  "\n\nA beolvasott fájl tartalma nem megfelelő.");
 			  return;
@@ -162,6 +195,7 @@ public class MeasurmentDataDisplayer {
 					MeasDataRow theoreticalPointRow = new MeasDataRow(true, false, false, false, false, 
 		    				false, false, false, false, false, false, false, false, false, false,
 		    				false, true, true, true, true, true);
+					theoreticalPointRow.setId(String.valueOf(rowNumber));
 					theoreticalPointRow.getRowNumber().setText(String.valueOf(rowNumber));
 					rowNumber++;
 					theoreticalPointRow.getTheoreticalPointNameField().setText(theoreticalPointData.getTheoreticalPointName());
@@ -169,6 +203,9 @@ public class MeasurmentDataDisplayer {
 					theoreticalPointRow.getTheoreticalPointXField().setText(theoreticalPointData.getTheoreticalPointX());
 					theoreticalPointRow.getTheoreticalPointZField().setText(theoreticalPointData.getTheoreticalPointZ());
 					theoreticalPointRow.getTheoreticalPointSignNameField().setText(theoreticalPointData.getTheoreticalPointSignName());
+					if( rowNumber % 2 == 0 ) {
+	    				theoreticalPointRow.setStyle("-fx-background-color:#F4F4F4");
+	    			}
 					ROWS.getChildren().add(theoreticalPointRow);
 				}
 			}
@@ -303,18 +340,21 @@ public class MeasurmentDataDisplayer {
 	    		return;
 	    	}
 	    	
-	    	for (RowData standigPoint : standingPointDataStore) {
+	    	for (RowData standingPoint : standingPointDataStore) {
 	    		
-	    		for (int i = 0; i < standigPoint.getMeasuredPointDataStore().size() - 1; i++) {
+	    		for (int i = 0; i < standingPoint.getMeasuredPointDataStore().size() - 1; i++) {
 					
-	    			if( standigPoint.getMeasuredPointDataStore().get(i).getMeasuredPointName()
-	    					.equals(standigPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointName()) ) {
+	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointName()
+	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointName()) ) {
 	    				
-	    				standigPoint.getMeasuredPointDataStore().get(i + 1)
-	    				.setSecondHrMeas(standigPoint.getMeasuredPointDataStore().get(i).getHorizontalAngle());
+	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
+	    				.setFirstHrMeas(standingPoint.getMeasuredPointDataStore().get(i).getHorizontalAngle());
 	    				
-	    				standigPoint.getMeasuredPointDataStore().get(i + 1)
-	    				.setSecondVrMeas(standigPoint.getMeasuredPointDataStore().get(i).getVerticalAngle());
+	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
+	    				.setFirstVrMeas(standingPoint.getMeasuredPointDataStore().get(i).getVerticalAngle());
+	    				
+	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
+	    				.setFirstDistValue(standingPoint.getMeasuredPointDataStore().get(i).getHorizontalDistance());
 	    				
 	    			}
 	    			
@@ -330,189 +370,189 @@ public class MeasurmentDataDisplayer {
 	    	 TextField rowNumber = new TextField("Ssz.");
 	    	 rowNumber.setMaxWidth(11 * MILLIMETER);
 	    	 HBox.setHgrow(rowNumber, Priority.ALWAYS);
-	         rowNumber.setFont(BOLD);
+	         rowNumber.setFont(LARGE_BOLD);
 	         rowNumber.setAlignment(Pos.CENTER);
 	         rowNumber.setEditable(false);
-	         rowNumber.setStyle("-fx-background-color: #FFEFEA;");
+	         rowNumber.setStyle("-fx-background-color: #73C2FB;");
 	         rowNumber.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(rowNumber);
 	         TextField standingPointName = new TextField("Álláspont");
 	         standingPointName.setMaxWidth(21 * MILLIMETER);
 	    	 HBox.setHgrow(standingPointName, Priority.ALWAYS);
-	         standingPointName.setFont(BOLD);
+	         standingPointName.setFont(LARGE_BOLD);
 	         standingPointName.setAlignment(Pos.CENTER);
 	         standingPointName.setEditable(false);
-	         standingPointName.setStyle("-fx-background-color: #FFEFEA;");
+	         standingPointName.setStyle("-fx-background-color: #73C2FB;");
 	         standingPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(standingPointName);
 	         TextField standingPointY = new TextField("Y");
 	         standingPointY.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(standingPointY, Priority.ALWAYS);
-	         standingPointY.setFont(BOLD);
+	         standingPointY.setFont(LARGE_BOLD);
 	         standingPointY.setAlignment(Pos.CENTER);
-	         standingPointY.setStyle("-fx-background-color: #FFEFEA;");
+	         standingPointY.setStyle("-fx-background-color: #73C2FB;");
 	         standingPointY.setPrefHeight(12 * MILLIMETER);
 	         standingPointY.setEditable(false);
 	         header.getChildren().add(standingPointY);
 	         TextField standingPointX = new TextField("X");
 	         standingPointX.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(standingPointX, Priority.ALWAYS);
-	         standingPointX.setFont(BOLD);
+	         standingPointX.setFont(LARGE_BOLD);
 	         standingPointX.setAlignment(Pos.CENTER);
-	         standingPointX.setStyle("-fx-background-color: #FFEFEA;");
+	         standingPointX.setStyle("-fx-background-color: #73C2FB;");
 	         standingPointX.setPrefHeight(12 * MILLIMETER);
 	         standingPointX.setEditable(false);
 	         header.getChildren().add(standingPointX);
 	         TextField standingPointZ = new TextField("H");
 	         standingPointZ.setMaxWidth(15 * MILLIMETER);
 	    	 HBox.setHgrow(standingPointZ, Priority.ALWAYS);
-	         standingPointZ.setFont(BOLD);
+	         standingPointZ.setFont(LARGE_BOLD);
 	         standingPointZ.setAlignment(Pos.CENTER);
-	         standingPointZ.setStyle("-fx-background-color: #FFEFEA;");
+	         standingPointZ.setStyle("-fx-background-color: #73C2FB;");
 	         standingPointZ.setPrefHeight(12 * MILLIMETER);
 	         standingPointZ.setEditable(false);
 	         header.getChildren().add(standingPointZ);
 	         TextField totalStationHeight = new TextField("Mmag.");
 	         totalStationHeight.setMaxWidth(16 * MILLIMETER);
 	         HBox.setHgrow(totalStationHeight, Priority.ALWAYS);
-	         totalStationHeight.setFont(BOLD);
+	         totalStationHeight.setFont(LARGE_BOLD);
 	         totalStationHeight.setEditable(false);
 	         totalStationHeight.setAlignment(Pos.CENTER);
-	         totalStationHeight.setStyle("-fx-background-color: #FFEFEA;");
+	         totalStationHeight.setStyle("-fx-background-color: #73C2FB;");
 	         totalStationHeight.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(totalStationHeight);
 	         TextField directionPointName = new TextField("MértP.");
 	         directionPointName.setMaxWidth(15 * MILLIMETER);
 	    	 HBox.setHgrow(directionPointName, Priority.ALWAYS);
-	         directionPointName.setFont(BOLD);
+	         directionPointName.setFont(LARGE_BOLD);
 	         directionPointName.setEditable(false);
 	         directionPointName.setAlignment(Pos.CENTER);
-	         directionPointName.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointName.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(directionPointName);
 	         TextField directionPointY = new TextField("Y");
 	         directionPointY.setMaxWidth(20 * MILLIMETER);
 	         HBox.setHgrow(directionPointY, Priority.ALWAYS);
-	         directionPointY.setFont(BOLD);
+	         directionPointY.setFont(LARGE_BOLD);
 	         directionPointY.setAlignment(Pos.CENTER);
-	         directionPointY.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointY.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointY.setPrefHeight(12 * MILLIMETER);
 	         directionPointY.setEditable(false);
 	         header.getChildren().add(directionPointY);
 	         TextField directionPointX = new TextField("X");
 	         directionPointX.setMaxWidth(20 * MILLIMETER);
 	         HBox.setHgrow(directionPointX, Priority.ALWAYS);
-	         directionPointX.setFont(BOLD);
+	         directionPointX.setFont(LARGE_BOLD);
 	         directionPointX.setAlignment(Pos.CENTER);
-	         directionPointX.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointX.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointX.setPrefHeight(12 * MILLIMETER);
 	         directionPointX.setEditable(false);
 	         header.getChildren().add(directionPointX);
 	         TextField directionPointZ = new TextField("H");
 	         directionPointZ.setMaxWidth(15 * MILLIMETER);
 	         HBox.setHgrow(directionPointZ, Priority.ALWAYS);
-	         directionPointZ.setFont(BOLD);
+	         directionPointZ.setFont(LARGE_BOLD);
 	         directionPointZ.setAlignment(Pos.CENTER);
-	         directionPointZ.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointZ.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointZ.setPrefHeight(12 * MILLIMETER);
 	         directionPointZ.setEditable(false);
 	         header.getChildren().add(directionPointZ);
 	         TextField directionPointSign = new TextField("Jellege");  
 	         directionPointSign.setMaxWidth(40 * MILLIMETER);
 	    	 HBox.setHgrow(directionPointSign, Priority.ALWAYS);
-	         directionPointSign.setFont(BOLD);
+	         directionPointSign.setFont(LARGE_BOLD);
 	         directionPointSign.setAlignment(Pos.CENTER);
-	         directionPointSign.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointSign.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointSign.setPrefHeight(12 * MILLIMETER);
 	         directionPointSign.setEditable(false);
 	         header.getChildren().add(directionPointSign);
 	         TextField horizontalAngle = new TextField("Irányérték");
 	         horizontalAngle.setMaxWidth(25 * MILLIMETER);
 	    	 HBox.setHgrow(horizontalAngle, Priority.ALWAYS);
-	         horizontalAngle.setFont(BOLD);
+	         horizontalAngle.setFont(LARGE_BOLD);
 	         horizontalAngle.setAlignment(Pos.CENTER);
-	         horizontalAngle.setStyle("-fx-background-color: #FFEFEA;");
+	         horizontalAngle.setStyle("-fx-background-color: #73C2FB;");
 	         horizontalAngle.setPrefHeight(12 * MILLIMETER);
 	         horizontalAngle.setEditable(false);
 	         header.getChildren().add(horizontalAngle);
 	         TextField verticalAngle = new TextField("Zenitszög");
 	         verticalAngle.setMaxWidth(25 * MILLIMETER);
 	    	 HBox.setHgrow(verticalAngle, Priority.ALWAYS);
-	         verticalAngle.setFont(BOLD);
+	         verticalAngle.setFont(LARGE_BOLD);
 	         verticalAngle.setAlignment(Pos.CENTER);
-	         verticalAngle.setStyle("-fx-background-color: #FFEFEA;");
+	         verticalAngle.setStyle("-fx-background-color: #73C2FB;");
 	         verticalAngle.setPrefHeight(12 * MILLIMETER);
 	         verticalAngle.setEditable(false);
 	         header.getChildren().add(verticalAngle);
 	         TextField horizontalDistance = new TextField("Távolság");
 	         horizontalDistance.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(horizontalDistance, Priority.ALWAYS);
-	         horizontalDistance.setFont(BOLD);
+	         horizontalDistance.setFont(LARGE_BOLD);
 	         horizontalDistance.setAlignment(Pos.CENTER);
-	         horizontalDistance.setStyle("-fx-background-color: #FFEFEA;");
+	         horizontalDistance.setStyle("-fx-background-color: #73C2FB;");
 	         horizontalDistance.setPrefHeight(12 * MILLIMETER);
 	         horizontalDistance.setEditable(false);
 	         header.getChildren().add(horizontalDistance);
 	         TextField directionPointSignHeight = new TextField("Jmag.");
 	         directionPointSignHeight.setMaxWidth(16 * MILLIMETER);
 	    	 HBox.setHgrow(directionPointSignHeight, Priority.ALWAYS);
-	         directionPointSignHeight.setFont(BOLD);
+	         directionPointSignHeight.setFont(LARGE_BOLD);
 	         directionPointSignHeight.setAlignment(Pos.CENTER);
-	         directionPointSignHeight.setStyle("-fx-background-color: #FFEFEA;");
+	         directionPointSignHeight.setStyle("-fx-background-color: #73C2FB;");
 	         directionPointSignHeight.setPrefHeight(12 * MILLIMETER);
 	         directionPointSignHeight.setEditable(false);
 	         header.getChildren().add(directionPointSignHeight);
 	         TextField measurementDateTime = new TextField("Dátum");
 	         measurementDateTime.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(measurementDateTime, Priority.ALWAYS);
-	         measurementDateTime.setFont(BOLD);
+	         measurementDateTime.setFont(LARGE_BOLD);
 	         measurementDateTime.setAlignment(Pos.CENTER);
-	         measurementDateTime.setStyle("-fx-background-color: #FFEFEA;");
+	         measurementDateTime.setStyle("-fx-background-color: #73C2FB;");
 	         measurementDateTime.setPrefHeight(12 * MILLIMETER);
 	         measurementDateTime.setEditable(false);
 	         header.getChildren().add(measurementDateTime);
 	         TextField theoreticalPointName = new TextField("Elméleti pont");
 	         theoreticalPointName.setMaxWidth(40 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointName, Priority.ALWAYS);
-	         theoreticalPointName.setFont(BOLD);
+	         theoreticalPointName.setFont(LARGE_BOLD);
 	         theoreticalPointName.setAlignment(Pos.CENTER);
-	         theoreticalPointName.setStyle("-fx-background-color: #FFEFEA;");
+	         theoreticalPointName.setStyle("-fx-background-color: #73C2FB;");
 	         theoreticalPointName.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointName.setEditable(false);
 	         header.getChildren().add(theoreticalPointName);
 	         TextField theoreticalPointY = new TextField("Y");
 	         theoreticalPointY.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointY, Priority.ALWAYS);
-	         theoreticalPointY.setFont(BOLD);
+	         theoreticalPointY.setFont(LARGE_BOLD);
 	         theoreticalPointY.setAlignment(Pos.CENTER);
-	         theoreticalPointY.setStyle("-fx-background-color: #FFEFEA;");
+	         theoreticalPointY.setStyle("-fx-background-color: #73C2FB;");
 	         theoreticalPointY.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointY.setEditable(false);
 	         header.getChildren().add(theoreticalPointY);
 	         TextField theoreticalPointX = new TextField("X");
 	         theoreticalPointX.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointX, Priority.ALWAYS);
-	         theoreticalPointX.setFont(BOLD);
+	         theoreticalPointX.setFont(LARGE_BOLD);
 	         theoreticalPointX.setAlignment(Pos.CENTER);
-	         theoreticalPointX.setStyle("-fx-background-color: #FFEFEA;");
+	         theoreticalPointX.setStyle("-fx-background-color: #73C2FB;");
 	         theoreticalPointX.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointX.setEditable(false);
 	         header.getChildren().add(theoreticalPointX);
 	         TextField theoreticalPointZ = new TextField("H");
 	         theoreticalPointZ.setMaxWidth(15 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointZ, Priority.ALWAYS);
-	         theoreticalPointZ.setFont(BOLD);
+	         theoreticalPointZ.setFont(LARGE_BOLD);
 	         theoreticalPointZ.setAlignment(Pos.CENTER);
-	         theoreticalPointZ.setStyle("-fx-background-color: #FFEFEA;");
+	         theoreticalPointZ.setStyle("-fx-background-color: #73C2FB;");
 	         theoreticalPointZ.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointZ.setEditable(false);
 	         header.getChildren().add(theoreticalPointZ);
 	         TextField theoreticalPointSign = new TextField("Jellege");
-	         theoreticalPointSign.setMaxWidth(20 * MILLIMETER);
+	         theoreticalPointSign.setMaxWidth(40 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointSign, Priority.ALWAYS);
-	         theoreticalPointSign.setFont(BOLD);
+	         theoreticalPointSign.setFont(LARGE_BOLD);
 	         theoreticalPointSign.setAlignment(Pos.CENTER);
-	         theoreticalPointSign.setStyle("-fx-background-color: #FFEFEA;");
+	         theoreticalPointSign.setStyle("-fx-background-color: #73C2FB;");
 	         theoreticalPointSign.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointSign.setEditable(false);
 	         header.getChildren().add(theoreticalPointSign);

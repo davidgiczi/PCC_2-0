@@ -1,7 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
@@ -40,6 +39,8 @@ public class MeasDataRow extends HBox {
 	
 	
 	public MeasDataRow(boolean...isVisible) {
+		this.setOnMouseClicked(e -> {});
+		this.setCursor(Cursor.HAND);
 		createRow();
 		setFieldVisible(isVisible);	
 	}
@@ -51,14 +52,12 @@ public class MeasDataRow extends HBox {
         rowNumber.setFont(BOLD);
         rowNumber.setAlignment(Pos.CENTER);
         rowNumber.setEditable(false);
-        rowNumber.setCursor(Cursor.HAND);
-        rowNumber.setOnMouseClicked(e -> {});
         this.getChildren().add(rowNumber);
         standingPointNameField = new TextField();
         standingPointNameField.setPrefWidth(21 * MILLIMETER);
    	 	HBox.setHgrow(standingPointNameField, Priority.ALWAYS);
         standingPointNameField.setFont(BOLD);
-        standingPointNameField.setStyle("-fx-text-fill: blue;"); 
+        standingPointNameField.setStyle("-fx-text-fill:#FF4122;"); 
         standingPointNameField.setAlignment(Pos.CENTER);
         this.getChildren().add(standingPointNameField);
         standingPointYField = new TextField();
@@ -172,7 +171,7 @@ public class MeasDataRow extends HBox {
         theoreticalPointZField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointZField);
         theoreticalPointSignNameField = new TextField();
-        theoreticalPointSignNameField.setPrefWidth(20 * MILLIMETER);
+        theoreticalPointSignNameField.setPrefWidth(40 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointSignNameField, Priority.ALWAYS);
         theoreticalPointSignNameField.setFont(NORMAL);
         theoreticalPointSignNameField.setAlignment(Pos.CENTER);
