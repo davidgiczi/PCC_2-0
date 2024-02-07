@@ -349,9 +349,7 @@ public class MeasurmentDataDisplayer {
 	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointY()
 	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointY()) &&
 	    							standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointX()
-	    	    						.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointX()) && 
-	    	    								standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointZ()
-	    	    									.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointZ()) &&
+	    	    						.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointX()) &&
 	    	    											standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointSign()
 	    	    												.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointSign())) {
 	    				
