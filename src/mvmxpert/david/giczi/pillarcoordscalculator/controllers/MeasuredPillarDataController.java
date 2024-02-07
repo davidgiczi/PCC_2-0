@@ -343,7 +343,6 @@ public class MeasuredPillarDataController {
     
     public void onClickCountButtonForElevationMeasureOnly() {
     	ELEVATION_MEAS_ONLY = true;
-    	fxHomeWindow.homeStage.hide();
     	if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
                 intersectionInputDataWindow.standingAPointField_X.getText().isEmpty() &&
                 intersectionInputDataWindow.standingAPointField_Y.getText().isEmpty() &&
@@ -565,7 +564,7 @@ public class MeasuredPillarDataController {
      }
      MeasPoint standingPointA = new MeasPoint(standingAPointId,
              standingPointA_X, standingPointA_Y, standingPointA_Z, null);
-    
+     fileProcess.setFolder();
      if( intersection == null ) {
      	intersection = new Intersection();
      }
@@ -580,8 +579,7 @@ public class MeasuredPillarDataController {
      intersection.setElevationSecA(standingAPointElevationSec);
      intersection.calcElevationOnly();
      intersection.getIntersectionPoint().setPointID(newPointId);
-     
-     fileProcess.setFolder();
+    
      if( PLRFileProcess.FOLDER_PATH == null ) {
      	return;
      }
@@ -608,7 +606,6 @@ public class MeasuredPillarDataController {
     
     public void onClickCountButtonForIntersectionProcess(){
     	ELEVATION_MEAS_ONLY = false;
-        fxHomeWindow.homeStage.hide();
         loadMeasureFileData();
         String startPointId;
         if( !InputDataValidator.isValidID(intersectionInputDataWindow.startPointIdField.getText()) ){
@@ -936,6 +933,7 @@ public class MeasuredPillarDataController {
                 standingPointA_X, standingPointA_Y, standingPointA_Z, null);
         MeasPoint standingPointB = new MeasPoint(standingBPointId,
                 standingPointB_X, standingPointB_Y, standingPointB_Z, null);
+        fileProcess.setFolder();
         if( intersection == null ) {
         	intersection = new Intersection();
         }
@@ -957,8 +955,7 @@ public class MeasuredPillarDataController {
         intersection.setElevationSecB(standingBPointElevationSec);
         intersection.calcIntersectionPoint();
         intersection.getIntersectionPoint().setPointID(newPointId);
-        fileProcess.setFolder();
-   
+       
         if( PLRFileProcess.FOLDER_PATH == null ) {
         	return;
         }
