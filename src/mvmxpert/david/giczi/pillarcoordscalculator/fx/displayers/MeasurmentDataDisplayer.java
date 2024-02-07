@@ -115,6 +115,7 @@ public class MeasurmentDataDisplayer {
 	    			MeasDataRow measuredPointRow = new MeasDataRow(true, false, false, false, false, 
 		    				false, true, true, true, true, true, true, true, true, true,
 		    				true, true, true, true, true, true);
+	    			measuredPointRow.setMeasuredPillarDataController(measuredPillarDataController);
 	    			measuredPointRow.setId(measuredPointData.getRowNumber());
 	    			measuredPointRow.getRowNumber().setText(measuredPointData.getRowNumber());
 	    			measuredPointRow.getMeasuredPointNameField().setText(measuredPointData.getMeasuredPointName());
@@ -166,12 +167,12 @@ public class MeasurmentDataDisplayer {
 	    				ROWS.getChildren().add(twoMeasmentRow);	
 	    				MeasDataRow firstMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 2);
 	    				MeasDataRow secondMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 1);
-	    				firstMeasRow.getHorizontalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
-	    				firstMeasRow.getVerticalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
-	    				firstMeasRow.getHorizontalDistanceField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
-	    				secondMeasRow.getHorizontalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
-	    				secondMeasRow.getVerticalAngleField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
-	    				secondMeasRow.getHorizontalDistanceField().setStyle("-fx-background-color:#FFFFE0;-fx-border-color: lightgray;");
+	    				firstMeasRow.getHorizontalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
+	    				firstMeasRow.getVerticalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
+	    				firstMeasRow.getHorizontalDistanceField().setStyle("-fx-control-inner-background:#FFFFE0;");
+	    				secondMeasRow.getHorizontalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
+	    				secondMeasRow.getVerticalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
+	    				secondMeasRow.getHorizontalDistanceField().setStyle("-fx-control-inner-background:#FFFFE0;");
 	    			}
 	    		}
 			}
@@ -195,6 +196,7 @@ public class MeasurmentDataDisplayer {
 					MeasDataRow theoreticalPointRow = new MeasDataRow(true, false, false, false, false, 
 		    				false, false, false, false, false, false, false, false, false, false,
 		    				false, true, true, true, true, true);
+					theoreticalPointRow.setMeasuredPillarDataController(measuredPillarDataController);
 					theoreticalPointRow.setId(String.valueOf(rowNumber));
 					theoreticalPointRow.getRowNumber().setText(String.valueOf(rowNumber));
 					rowNumber++;

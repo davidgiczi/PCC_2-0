@@ -1,6 +1,5 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
-
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
@@ -8,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 
 public class MeasDataRow extends HBox {
 
@@ -33,16 +33,81 @@ public class MeasDataRow extends HBox {
 	private TextField theoreticalPointYField;
 	private TextField theoreticalPointZField;
 	private TextField theoreticalPointSignNameField;
+	private MeasuredPillarDataController measuredPillarDataController;
 	private static final double MILLIMETER = 1000.0 / 225.0;
 	private static final Font NORMAL = Font.font("Book Antiqua", FontWeight.NORMAL, 14);
 	private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
 	
 	
 	public MeasDataRow(boolean...isVisible) {
-		this.setOnMouseClicked(e -> {});
+		this.setOnMouseClicked(e -> {
+			if( measuredPillarDataController != null) {
+			
+				if( measuredPillarDataController
+			.getConfirmationAlert("Mérés törlése", 
+					"Biztos, hogy törlöd a(z) " + ((HBox) e.getSource()).getId() + ". sor mérési eredményeit?")) {
+					deleteRowData();
+				}
+				else {
+					
+					noDeleteRowData();
+				}
+				;} 
+			});
 		this.setCursor(Cursor.HAND);
 		createRow();
 		setFieldVisible(isVisible);	
+	}
+	
+	private void noDeleteRowData() {
+			
+		 rowNumber.setStyle("-fx-control-inner-background:white");
+		 standingPointNameField.setStyle("-fx-control-inner-background:white");
+		 standingPointYField.setStyle("-fx-control-inner-background:white");
+		 standingPointXField.setStyle("-fx-control-inner-background:white");
+		 standingPointZField.setStyle("-fx-control-inner-background:white");
+		 totalStationHeightField.setStyle("-fx-control-inner-background:white");
+		 measuredPointNameField.setStyle("-fx-control-inner-background:white");
+		 measuredPointYField.setStyle("-fx-control-inner-background:white");
+		 measuredPointXField.setStyle("-fx-control-inner-background:white");
+		 measuredPointZField.setStyle("-fx-control-inner-background:white");
+		 measuredPointSignField.setStyle("-fx-control-inner-background:white");
+		 horizontalAngleField.setStyle("-fx-control-inner-background:white");
+		 verticalAngleField.setStyle("-fx-control-inner-background:white");
+		 horizontalDistanceField.setStyle("-fx-control-inner-background:white");
+		 measuredPointSignHeightField.setStyle("-fx-control-inner-background:white");
+		 dateTimeField.setStyle("-fx-control-inner-background:white");
+		 theoreticalPointNameField.setStyle("-fx-control-inner-background:white");
+		 theoreticalPointXField.setStyle("-fx-control-inner-background:white");
+		 theoreticalPointYField.setStyle("-fx-control-inner-background:white");
+		 theoreticalPointZField.setStyle("-fx-control-inner-background:white");
+		 theoreticalPointSignNameField.setStyle("-fx-control-inner-background:white");
+}
+	
+	
+	private void deleteRowData() {
+			
+			 rowNumber.setStyle("-fx-control-inner-background:#F88379");
+			 standingPointNameField.setStyle("-fx-control-inner-background:#F88379");
+			 standingPointYField.setStyle("-fx-control-inner-background:#F88379");
+			 standingPointXField.setStyle("-fx-control-inner-background:#F88379");
+			 standingPointZField.setStyle("-fx-control-inner-background:#F88379");
+			 totalStationHeightField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointNameField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointYField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointXField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointZField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointSignField.setStyle("-fx-control-inner-background:#F88379");
+			 horizontalAngleField.setStyle("-fx-control-inner-background:#F88379");
+			 verticalAngleField.setStyle("-fx-control-inner-background:#F88379");
+			 horizontalDistanceField.setStyle("-fx-control-inner-background:#F88379");
+			 measuredPointSignHeightField.setStyle("-fx-control-inner-background:#F88379");
+			 dateTimeField.setStyle("-fx-control-inner-background:#F88379");
+			 theoreticalPointNameField.setStyle("-fx-control-inner-background:#F88379");
+			 theoreticalPointXField.setStyle("-fx-control-inner-background:#F88379");
+			 theoreticalPointYField.setStyle("-fx-control-inner-background:#F88379");
+			 theoreticalPointZField.setStyle("-fx-control-inner-background:#F88379");
+			 theoreticalPointSignNameField.setStyle("-fx-control-inner-background:#F88379");
 	}
 	
 	private void createRow() {
@@ -375,7 +440,12 @@ public class MeasDataRow extends HBox {
 	public TextField getTheoreticalPointSignNameField() {
 		return theoreticalPointSignNameField;
 	}
-	
 
+	
+	public void setMeasuredPillarDataController(MeasuredPillarDataController measuredPillarDataController) {
+		this.measuredPillarDataController = measuredPillarDataController;
+	}
+	
+	
 }
  
