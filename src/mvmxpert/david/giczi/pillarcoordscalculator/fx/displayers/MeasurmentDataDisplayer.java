@@ -344,8 +344,14 @@ public class MeasurmentDataDisplayer {
 	    		
 	    		for (int i = 0; i < standingPoint.getMeasuredPointDataStore().size() - 1; i++) {
 					
-	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointName()
-	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointName()) ) {
+	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointY()
+	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointY()) &&
+	    							standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointX()
+	    	    						.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointX()) && 
+	    	    								standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointZ()
+	    	    									.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointZ()) &&
+	    	    											standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointSign()
+	    	    												.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointSign())) {
 	    				
 	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
 	    				.setFirstHrMeas(standingPoint.getMeasuredPointDataStore().get(i).getHorizontalAngle());
