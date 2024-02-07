@@ -105,7 +105,7 @@ public class MeasurmentDataDisplayer {
 	    		standingPointRow.getStandingPointXField().setText(standingPointData.getStandingPointX());
 	    		standingPointRow.getStandingPointZField().setText(standingPointData.getStandingPointZ());
 	    		standingPointRow.getTotalStationHeightField().setText(standingPointData.getTotalStationHeight());
-	    		standingPointRow.setStyle("-fx-background-color: #73C2FB");
+	    		standingPointRow.setStyle("-fx-background-color: #E8D9D3");
 	    		ROWS.getChildren().add(standingPointRow);
 	    		
 	    		for (RowData measuredPointData : standingPointData.getMeasuredPointDataStore()) {
@@ -373,7 +373,7 @@ public class MeasurmentDataDisplayer {
 	         rowNumber.setFont(LARGE_BOLD);
 	         rowNumber.setAlignment(Pos.CENTER);
 	         rowNumber.setEditable(false);
-	         rowNumber.setStyle("-fx-background-color: #73C2FB;");
+	         rowNumber.setStyle("-fx-background-color: #E8D9D3;");
 	         rowNumber.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(rowNumber);
 	         TextField standingPointName = new TextField("Álláspont");
@@ -382,7 +382,7 @@ public class MeasurmentDataDisplayer {
 	         standingPointName.setFont(LARGE_BOLD);
 	         standingPointName.setAlignment(Pos.CENTER);
 	         standingPointName.setEditable(false);
-	         standingPointName.setStyle("-fx-background-color: #73C2FB;");
+	         standingPointName.setStyle("-fx-background-color: #E8D9D3;");
 	         standingPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(standingPointName);
 	         TextField standingPointY = new TextField("Y");
@@ -390,7 +390,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointY, Priority.ALWAYS);
 	         standingPointY.setFont(LARGE_BOLD);
 	         standingPointY.setAlignment(Pos.CENTER);
-	         standingPointY.setStyle("-fx-background-color: #73C2FB;");
+	         standingPointY.setStyle("-fx-background-color: #E8D9D3;");
 	         standingPointY.setPrefHeight(12 * MILLIMETER);
 	         standingPointY.setEditable(false);
 	         header.getChildren().add(standingPointY);
@@ -399,7 +399,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointX, Priority.ALWAYS);
 	         standingPointX.setFont(LARGE_BOLD);
 	         standingPointX.setAlignment(Pos.CENTER);
-	         standingPointX.setStyle("-fx-background-color: #73C2FB;");
+	         standingPointX.setStyle("-fx-background-color: #E8D9D3;");
 	         standingPointX.setPrefHeight(12 * MILLIMETER);
 	         standingPointX.setEditable(false);
 	         header.getChildren().add(standingPointX);
@@ -408,7 +408,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(standingPointZ, Priority.ALWAYS);
 	         standingPointZ.setFont(LARGE_BOLD);
 	         standingPointZ.setAlignment(Pos.CENTER);
-	         standingPointZ.setStyle("-fx-background-color: #73C2FB;");
+	         standingPointZ.setStyle("-fx-background-color: #E8D9D3;");
 	         standingPointZ.setPrefHeight(12 * MILLIMETER);
 	         standingPointZ.setEditable(false);
 	         header.getChildren().add(standingPointZ);
@@ -418,16 +418,16 @@ public class MeasurmentDataDisplayer {
 	         totalStationHeight.setFont(LARGE_BOLD);
 	         totalStationHeight.setEditable(false);
 	         totalStationHeight.setAlignment(Pos.CENTER);
-	         totalStationHeight.setStyle("-fx-background-color: #73C2FB;");
+	         totalStationHeight.setStyle("-fx-background-color: #E8D9D3;");
 	         totalStationHeight.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(totalStationHeight);
 	         TextField directionPointName = new TextField("MértP.");
-	         directionPointName.setMaxWidth(15 * MILLIMETER);
+	         directionPointName.setMaxWidth(20 * MILLIMETER);
 	    	 HBox.setHgrow(directionPointName, Priority.ALWAYS);
 	         directionPointName.setFont(LARGE_BOLD);
 	         directionPointName.setEditable(false);
 	         directionPointName.setAlignment(Pos.CENTER);
-	         directionPointName.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointName.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointName.setPrefHeight(12 * MILLIMETER);
 	         header.getChildren().add(directionPointName);
 	         TextField directionPointY = new TextField("Y");
@@ -435,7 +435,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointY, Priority.ALWAYS);
 	         directionPointY.setFont(LARGE_BOLD);
 	         directionPointY.setAlignment(Pos.CENTER);
-	         directionPointY.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointY.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointY.setPrefHeight(12 * MILLIMETER);
 	         directionPointY.setEditable(false);
 	         header.getChildren().add(directionPointY);
@@ -444,7 +444,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointX, Priority.ALWAYS);
 	         directionPointX.setFont(LARGE_BOLD);
 	         directionPointX.setAlignment(Pos.CENTER);
-	         directionPointX.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointX.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointX.setPrefHeight(12 * MILLIMETER);
 	         directionPointX.setEditable(false);
 	         header.getChildren().add(directionPointX);
@@ -453,7 +453,7 @@ public class MeasurmentDataDisplayer {
 	         HBox.setHgrow(directionPointZ, Priority.ALWAYS);
 	         directionPointZ.setFont(LARGE_BOLD);
 	         directionPointZ.setAlignment(Pos.CENTER);
-	         directionPointZ.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointZ.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointZ.setPrefHeight(12 * MILLIMETER);
 	         directionPointZ.setEditable(false);
 	         header.getChildren().add(directionPointZ);
@@ -462,7 +462,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(directionPointSign, Priority.ALWAYS);
 	         directionPointSign.setFont(LARGE_BOLD);
 	         directionPointSign.setAlignment(Pos.CENTER);
-	         directionPointSign.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointSign.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointSign.setPrefHeight(12 * MILLIMETER);
 	         directionPointSign.setEditable(false);
 	         header.getChildren().add(directionPointSign);
@@ -471,7 +471,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(horizontalAngle, Priority.ALWAYS);
 	         horizontalAngle.setFont(LARGE_BOLD);
 	         horizontalAngle.setAlignment(Pos.CENTER);
-	         horizontalAngle.setStyle("-fx-background-color: #73C2FB;");
+	         horizontalAngle.setStyle("-fx-background-color: #E8D9D3;");
 	         horizontalAngle.setPrefHeight(12 * MILLIMETER);
 	         horizontalAngle.setEditable(false);
 	         header.getChildren().add(horizontalAngle);
@@ -480,7 +480,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(verticalAngle, Priority.ALWAYS);
 	         verticalAngle.setFont(LARGE_BOLD);
 	         verticalAngle.setAlignment(Pos.CENTER);
-	         verticalAngle.setStyle("-fx-background-color: #73C2FB;");
+	         verticalAngle.setStyle("-fx-background-color: #E8D9D3;");
 	         verticalAngle.setPrefHeight(12 * MILLIMETER);
 	         verticalAngle.setEditable(false);
 	         header.getChildren().add(verticalAngle);
@@ -489,7 +489,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(horizontalDistance, Priority.ALWAYS);
 	         horizontalDistance.setFont(LARGE_BOLD);
 	         horizontalDistance.setAlignment(Pos.CENTER);
-	         horizontalDistance.setStyle("-fx-background-color: #73C2FB;");
+	         horizontalDistance.setStyle("-fx-background-color: #E8D9D3;");
 	         horizontalDistance.setPrefHeight(12 * MILLIMETER);
 	         horizontalDistance.setEditable(false);
 	         header.getChildren().add(horizontalDistance);
@@ -498,7 +498,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(directionPointSignHeight, Priority.ALWAYS);
 	         directionPointSignHeight.setFont(LARGE_BOLD);
 	         directionPointSignHeight.setAlignment(Pos.CENTER);
-	         directionPointSignHeight.setStyle("-fx-background-color: #73C2FB;");
+	         directionPointSignHeight.setStyle("-fx-background-color: #E8D9D3;");
 	         directionPointSignHeight.setPrefHeight(12 * MILLIMETER);
 	         directionPointSignHeight.setEditable(false);
 	         header.getChildren().add(directionPointSignHeight);
@@ -507,7 +507,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(measurementDateTime, Priority.ALWAYS);
 	         measurementDateTime.setFont(LARGE_BOLD);
 	         measurementDateTime.setAlignment(Pos.CENTER);
-	         measurementDateTime.setStyle("-fx-background-color: #73C2FB;");
+	         measurementDateTime.setStyle("-fx-background-color: #E8D9D3;");
 	         measurementDateTime.setPrefHeight(12 * MILLIMETER);
 	         measurementDateTime.setEditable(false);
 	         header.getChildren().add(measurementDateTime);
@@ -516,7 +516,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointName, Priority.ALWAYS);
 	         theoreticalPointName.setFont(LARGE_BOLD);
 	         theoreticalPointName.setAlignment(Pos.CENTER);
-	         theoreticalPointName.setStyle("-fx-background-color: #73C2FB;");
+	         theoreticalPointName.setStyle("-fx-background-color: #E8D9D3;");
 	         theoreticalPointName.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointName.setEditable(false);
 	         header.getChildren().add(theoreticalPointName);
@@ -525,7 +525,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointY, Priority.ALWAYS);
 	         theoreticalPointY.setFont(LARGE_BOLD);
 	         theoreticalPointY.setAlignment(Pos.CENTER);
-	         theoreticalPointY.setStyle("-fx-background-color: #73C2FB;");
+	         theoreticalPointY.setStyle("-fx-background-color: #E8D9D3;");
 	         theoreticalPointY.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointY.setEditable(false);
 	         header.getChildren().add(theoreticalPointY);
@@ -534,7 +534,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointX, Priority.ALWAYS);
 	         theoreticalPointX.setFont(LARGE_BOLD);
 	         theoreticalPointX.setAlignment(Pos.CENTER);
-	         theoreticalPointX.setStyle("-fx-background-color: #73C2FB;");
+	         theoreticalPointX.setStyle("-fx-background-color: #E8D9D3;");
 	         theoreticalPointX.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointX.setEditable(false);
 	         header.getChildren().add(theoreticalPointX);
@@ -543,7 +543,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointZ, Priority.ALWAYS);
 	         theoreticalPointZ.setFont(LARGE_BOLD);
 	         theoreticalPointZ.setAlignment(Pos.CENTER);
-	         theoreticalPointZ.setStyle("-fx-background-color: #73C2FB;");
+	         theoreticalPointZ.setStyle("-fx-background-color: #E8D9D3;");
 	         theoreticalPointZ.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointZ.setEditable(false);
 	         header.getChildren().add(theoreticalPointZ);
@@ -552,7 +552,7 @@ public class MeasurmentDataDisplayer {
 	    	 HBox.setHgrow(theoreticalPointSign, Priority.ALWAYS);
 	         theoreticalPointSign.setFont(LARGE_BOLD);
 	         theoreticalPointSign.setAlignment(Pos.CENTER);
-	         theoreticalPointSign.setStyle("-fx-background-color: #73C2FB;");
+	         theoreticalPointSign.setStyle("-fx-background-color: #E8D9D3;");
 	         theoreticalPointSign.setPrefHeight(12 * MILLIMETER);
 	         theoreticalPointSign.setEditable(false);
 	         header.getChildren().add(theoreticalPointSign);

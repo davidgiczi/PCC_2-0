@@ -85,7 +85,7 @@ public class MeasDataRow extends HBox {
         totalStationHeightField.setAlignment(Pos.CENTER);
         this.getChildren().add(totalStationHeightField);
         measuredPointNameField = new TextField();
-        measuredPointNameField.setPrefWidth(15 * MILLIMETER);
+        measuredPointNameField.setPrefWidth(20 * MILLIMETER);
         HBox.setHgrow(measuredPointNameField, Priority.ALWAYS);
         measuredPointNameField.setFont(NORMAL);
         measuredPointNameField.setAlignment(Pos.CENTER);

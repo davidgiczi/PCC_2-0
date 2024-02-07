@@ -35,10 +35,6 @@ public class RowData {
 	
 	public String getMediumHrValue(){
 		
-		System.out.println("firstHr: " + firstHrMeas);
-		System.out.println("secondHr: " + horizontalAngle);
-		System.out.println();
-		
 		String[] firstHrData = firstHrMeas.split("-");
 		double firstValue = Integer.parseInt(firstHrData[0]) + 
 				Integer.parseInt(firstHrData[1]) / 60.0 + 
@@ -47,7 +43,8 @@ public class RowData {
 		double secondValue = Integer.parseInt(secondHrData[0]) + 
 				Integer.parseInt(secondHrData[1]) / 60.0 + 
 				Integer.parseInt(secondHrData[2]) / 3600.0;
-		double mediumHrValue = (firstValue + secondValue - 180) / 2.0;
+		secondValue = secondValue > 180 ? secondValue - 180 : secondValue + 180;
+		double mediumHrValue = (firstValue + secondValue) / 2.0;
 		
 		return convertToAngleMinSecFormat(mediumHrValue);
 	}
@@ -62,8 +59,8 @@ public class RowData {
 		double secondValue = Integer.parseInt(secondVrData[0]) + 
 				Integer.parseInt(secondVrData[1]) / 60.0 + 
 				Integer.parseInt(secondVrData[2]) / 3600.0;
-		double mediumVrValue = (firstValue - secondValue + 360) / 2.0;
-		
+		double mediumVrValue = (firstValue + secondValue - 360) / 2.0;
+		mediumVrValue = 0 > mediumVrValue ? mediumVrValue + 360 : mediumVrValue;
 		return convertToAngleMinSecFormat(mediumVrValue);
 	}
 	
