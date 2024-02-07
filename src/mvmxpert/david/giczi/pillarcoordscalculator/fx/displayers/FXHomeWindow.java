@@ -53,7 +53,7 @@ public class FXHomeWindow extends Application {
 				event.consume();
 			};
 		});
-		stage.setTitle("Nagyfeszültségű távvezeték oszlop alapjának kitűzése");
+		stage.setTitle("Nagyfeszültségű távvezeték oszlopok mérése");
 		stage.getIcons().add(new Image("/img/MVM.jpg"));
 		stage.setWidth(550);
 		stage.setHeight(800);

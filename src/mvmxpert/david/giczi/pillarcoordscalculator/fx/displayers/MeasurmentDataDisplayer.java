@@ -142,6 +142,7 @@ public class MeasurmentDataDisplayer {
 	    				measuredPointRow.getTheoreticalPointSignNameField()
 	    				.setText(measuredPointData.getTheoreticalPointData().getTheoreticalPointSignName());
 	    			}
+	    			measuredPointRow.setTooltip();
 	    			if( Integer.parseInt(measuredPointData.getRowNumber()) % 2 == 0 ) {
 	    				measuredPointRow.setStyle("-fx-background-color:#F4F4F4");
 	    			}
@@ -205,6 +206,7 @@ public class MeasurmentDataDisplayer {
 					theoreticalPointRow.getTheoreticalPointXField().setText(theoreticalPointData.getTheoreticalPointX());
 					theoreticalPointRow.getTheoreticalPointZField().setText(theoreticalPointData.getTheoreticalPointZ());
 					theoreticalPointRow.getTheoreticalPointSignNameField().setText(theoreticalPointData.getTheoreticalPointSignName());
+					theoreticalPointRow.setTooltip();
 					if( rowNumber % 2 == 0 ) {
 	    				theoreticalPointRow.setStyle("-fx-background-color:#F4F4F4");
 	    			}
@@ -328,9 +330,16 @@ public class MeasurmentDataDisplayer {
 						
 						if( theoreticalPointDataStore.get(i).getTheoreticalPointName()
 								.equals( measuredPoint.getMeasuredPointSign())) {
+							
 							measuredPoint.setTheoreticalPointData(theoreticalPointDataStore.get(i));
 							theoreticalPointDataStore.get(i).setDeleted(true);
-						}			
+							if("0.000".equals(measuredPoint.getMeasuredPointY()) && "0.000".equals(measuredPoint.getMeasuredPointX()) ) {
+								measuredPoint.setMeasuredPointY(theoreticalPointDataStore.get(i).getTheoreticalPointY());
+								measuredPoint.setMeasuredPointX(theoreticalPointDataStore.get(i).getTheoreticalPointX());
+								measuredPoint.setMeasuredPointZ(theoreticalPointDataStore.get(i).getTheoreticalPointZ());
+							}
+						}
+						
 					}
 				}
 	    	}
@@ -345,6 +354,15 @@ public class MeasurmentDataDisplayer {
 	    	for (RowData standingPoint : standingPointDataStore) {
 	    		
 	    		for (int i = 0; i < standingPoint.getMeasuredPointDataStore().size() - 1; i++) {
+	    			
+	    			if( "0.000".equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointY()) &&
+	    				"0.000".equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointX()) &&
+	    				"0.000".equals(standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointY()) &&
+	    				"0.000".equals(standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointX()) &&
+	    	    		standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointSign()
+	    	    		.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointSign())) {
+	    				continue;
+	    			}
 					
 	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointY()
 	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointY()) &&

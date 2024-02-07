@@ -935,7 +935,6 @@ public class MeasuredPillarDataController {
                 standingPointB_X, standingPointB_Y, standingPointB_Z, null);
         fileProcess.setFolder();
         
-        
         if( intersection == null ) {
         	intersection = new Intersection();
         }

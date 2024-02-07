@@ -86,7 +86,7 @@ public class RowData {
 		
 		return angle + "-" + (min < 10 ?  "0" + min : min) + "-" + (sec < 10 ?  "0" + sec : sec);
 	}
-	
+		
 	public String getRowNumber() {
 		return rowNumber;
 	}

@@ -3,6 +3,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
@@ -110,6 +111,24 @@ public class MeasDataRow extends HBox {
 			 theoreticalPointSignNameField.setStyle("-fx-control-inner-background:#F88379");
 	}
 	
+	public void setTooltip() {
+		
+		Tooltip measPointNameTip = new Tooltip(measuredPointNameField.getText());
+		Tooltip.install(measuredPointNameField, measPointNameTip);
+		Tooltip measPointSignTip = new Tooltip(measuredPointSignField.getText());
+		Tooltip.install(measuredPointSignField, measPointSignTip);
+		if( theoreticalPointNameField.getText() != null && !theoreticalPointNameField.getText().isEmpty()) {
+			Tooltip theoreticalPointNameTip = new Tooltip(theoreticalPointNameField.getText());
+			Tooltip.install(theoreticalPointNameField, theoreticalPointNameTip);
+			theoreticalPointNameField.setCursor(Cursor.HAND);
+		}
+		if( theoreticalPointSignNameField.getText() != null && !theoreticalPointSignNameField.getText().isEmpty()) {
+			Tooltip theoreticalPointSignNameTip = new Tooltip(theoreticalPointSignNameField.getText());
+			Tooltip.install(theoreticalPointSignNameField, theoreticalPointSignNameTip);
+			theoreticalPointSignNameField.setCursor(Cursor.HAND);
+		}
+	}
+	
 	private void createRow() {
 		rowNumber = new TextField();
    	 	rowNumber.setPrefWidth(11 * MILLIMETER);
@@ -154,6 +173,7 @@ public class MeasDataRow extends HBox {
         HBox.setHgrow(measuredPointNameField, Priority.ALWAYS);
         measuredPointNameField.setFont(NORMAL);
         measuredPointNameField.setAlignment(Pos.CENTER);
+        measuredPointNameField.setCursor(Cursor.HAND);
         this.getChildren().add(measuredPointNameField);
         measuredPointYField = new TextField();
         measuredPointYField.setPrefWidth(20 * MILLIMETER);
@@ -178,6 +198,7 @@ public class MeasDataRow extends HBox {
    	 	HBox.setHgrow(measuredPointSignField, Priority.ALWAYS);
         measuredPointSignField.setFont(NORMAL);
         measuredPointSignField.setAlignment(Pos.CENTER);
+        measuredPointSignField.setCursor(Cursor.HAND);
         this.getChildren().add(measuredPointSignField);
         horizontalAngleField = new TextField();
         horizontalAngleField.setPrefWidth(25 * MILLIMETER);
@@ -208,7 +229,6 @@ public class MeasDataRow extends HBox {
    	 	HBox.setHgrow(dateTimeField, Priority.ALWAYS);
         dateTimeField.setFont(NORMAL);
         dateTimeField.setAlignment(Pos.CENTER);
-        dateTimeField.setEditable(false);
         dateTimeField.setCursor(Cursor.HAND);
         this.getChildren().add(dateTimeField);
         theoreticalPointNameField = new TextField();
