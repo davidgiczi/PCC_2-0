@@ -65,8 +65,15 @@ public class RowData {
 	}
 	
 	public String getMediumDistanceValue() {
-		double firstValue = Double.parseDouble(horizontalDistance);
-		double secondValue = Double.parseDouble(firstDistValue);
+		double firstValue;
+		double secondValue;
+		try {
+		firstValue = Double.parseDouble(horizontalDistance);
+		secondValue = Double.parseDouble(firstDistValue);
+		}catch (NumberFormatException e) {
+			return "0.000";
+		}
+		
 		double mediumValue = (firstValue + secondValue) / 2.0;
 		return String.format("%.3f" ,mediumValue).replace(",", ".");
 	}
