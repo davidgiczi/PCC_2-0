@@ -290,6 +290,7 @@ public class MeasuredPillarDataController {
     
    
     public void openIntersectionInputDataWindow(){
+    	fxHomeWindow.homeStage.hide();
         if( intersectionInputDataWindow == null ){
             intersectionInputDataWindow = new IntersectionInputDataWindow(this);
         }
@@ -327,19 +328,6 @@ public class MeasuredPillarDataController {
         }
     }
 
-    private void loadMeasureFileData(){
-        if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
-            intersectionInputDataWindow.standingAPointField_X.getText().isEmpty() &&
-            intersectionInputDataWindow.standingAPointField_Y.getText().isEmpty() &&
-            intersectionInputDataWindow.standingAPointField_Z.getText().isEmpty() &&
-            !intersectionInputDataWindow.standingBIdField.getText().isEmpty() &&
-            intersectionInputDataWindow.standingBPointField_X.getText().isEmpty() &&
-            intersectionInputDataWindow.standingBPointField_Y.getText().isEmpty() &&
-            intersectionInputDataWindow.standingBPointField_Z.getText().isEmpty() &&
-            !intersectionInputDataWindow.newPointIdField.getText().isEmpty())  {
-            fileProcess.getIntersectionMeasureFileData();
-        }
-    }
     
     public void onClickCountButtonForElevationMeasureOnly() {
     	ELEVATION_MEAS_ONLY = true;
@@ -602,6 +590,21 @@ public class MeasuredPillarDataController {
      }
      intersectionInputDataWindow.stage.hide();
      new IntersectionDisplayer(this);		
+    }
+    
+    
+    private void loadMeasureFileData(){
+        if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
+            intersectionInputDataWindow.standingAPointField_X.getText().isEmpty() &&
+            intersectionInputDataWindow.standingAPointField_Y.getText().isEmpty() &&
+            intersectionInputDataWindow.standingAPointField_Z.getText().isEmpty() &&
+            !intersectionInputDataWindow.standingBIdField.getText().isEmpty() &&
+            intersectionInputDataWindow.standingBPointField_X.getText().isEmpty() &&
+            intersectionInputDataWindow.standingBPointField_Y.getText().isEmpty() &&
+            intersectionInputDataWindow.standingBPointField_Z.getText().isEmpty() &&
+            !intersectionInputDataWindow.newPointIdField.getText().isEmpty())  {
+            fileProcess.getIntersectionMeasureFileData();
+        }
     }
     
     public void onClickCountButtonForIntersectionProcess(){

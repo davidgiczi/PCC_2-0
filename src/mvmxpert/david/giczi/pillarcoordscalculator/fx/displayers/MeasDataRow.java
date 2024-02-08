@@ -35,6 +35,7 @@ public class MeasDataRow extends HBox {
 	private TextField theoreticalPointZField;
 	private TextField theoreticalPointSignNameField;
 	private MeasuredPillarDataController measuredPillarDataController;
+	private boolean isDeleted;
 	private static final double MILLIMETER = 1000.0 / 225.0;
 	private static final Font NORMAL = Font.font("Book Antiqua", FontWeight.NORMAL, 14);
 	private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
@@ -47,10 +48,11 @@ public class MeasDataRow extends HBox {
 				if( measuredPillarDataController
 			.getConfirmationAlert("Mérés törlése", 
 					"Biztos, hogy törlöd a(z) " + ((HBox) e.getSource()).getId() + ". sor mérési eredményeit?")) {
+					isDeleted = true;
 					deleteRowData();
 				}
 				else {
-					
+					isDeleted = false;
 					noDeleteRowData();
 				}
 				;} 
@@ -60,6 +62,10 @@ public class MeasDataRow extends HBox {
 		setFieldVisible(isVisible);	
 	}
 	
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
 	private void noDeleteRowData() {
 			
 		 rowNumber.setStyle("-fx-control-inner-background:white");
@@ -465,7 +471,13 @@ public class MeasDataRow extends HBox {
 	public void setMeasuredPillarDataController(MeasuredPillarDataController measuredPillarDataController) {
 		this.measuredPillarDataController = measuredPillarDataController;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "MeasDataRow [rowNumber=" + rowNumber.getText() + ", standingPointNameField=" + standingPointNameField.getText()
+				+ ", measuredPointNameField=" + measuredPointNameField.getText() + "]";
+	}
+
+
 }
  

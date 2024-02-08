@@ -157,7 +157,16 @@ public class RowData {
 	public String getHorizontalAngle() {
 		return horizontalAngle;
 	}
+	
+	public void setHorizontalAngleFromDisplayer(String horizontalAngle) {
+		this.horizontalAngle = horizontalAngle;
+	}
+	
 	public void setHorizontalAngle(String horizontalAngle) {
+		if( horizontalAngle.contains("-")) {
+			this.horizontalAngle = horizontalAngle;
+			return;
+		}
 		this.horizontalAngle = horizontalAngle.substring(0, horizontalAngle.indexOf('.')) 
 				+ "-" + horizontalAngle.substring(horizontalAngle.indexOf('.') + 1, horizontalAngle.indexOf('.') + 3)
 				+ "-" + horizontalAngle.substring(horizontalAngle.indexOf('.') + 3);
@@ -166,7 +175,16 @@ public class RowData {
 	public String getVerticalAngle() {
 		return verticalAngle;
 	}
+	
+	public void setVerticalAngleFromDisplayer(String verticalAngle) {
+		this.verticalAngle = verticalAngle;
+	}
+	
 	public void setVerticalAngle(String verticalAngle) {
+		if( verticalAngle.contains("-") ) {
+			this.verticalAngle = verticalAngle;
+			return;
+		}
 		this.verticalAngle = verticalAngle.substring(0, verticalAngle.indexOf('.')) 
 				+ "-" + verticalAngle.substring(verticalAngle.indexOf('.') + 1, verticalAngle.indexOf('.') + 3)
 				+ "-" + verticalAngle.substring(verticalAngle.indexOf('.') + 3);
@@ -188,6 +206,10 @@ public class RowData {
 		return date;
 	}
 	public void setDate(String date) {
+		if( date.contains(".") ) {
+			this.date = date;
+			return;
+		}
 		String[] dateData = date.split("/");
 		String month = Integer.parseInt(dateData[0]) < 10 ? "0" + dateData[0] : dateData[0];
 		String day = Integer.parseInt(dateData[1]) < 10 ? "0" + dateData[1] : dateData[1];
