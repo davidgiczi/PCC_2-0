@@ -54,5 +54,10 @@ public class TheoreticalPointData {
 	public void setRowNumber(String rowNumber) {
 		this.rowNumber = rowNumber;
 	}
+	@Override
+	public String toString() {
+		return theoreticalPointName + ";" + theoreticalPointX + ";" + theoreticalPointY
+				+ ";" + theoreticalPointZ + ";" + (theoreticalPointSignName == null ? ";" : theoreticalPointSignName + ";");
+	}
 	
 }

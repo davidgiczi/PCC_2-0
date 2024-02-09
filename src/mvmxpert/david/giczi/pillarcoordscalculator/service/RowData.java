@@ -218,6 +218,7 @@ public class RowData {
 	public String getTime() {
 		return time;
 	}
+	
 	public void setTime(String time) {
 		this.time = time;
 	}
@@ -266,5 +267,13 @@ public class RowData {
 		this.isDeleted = isDeleted;
 	}
 	
-	
+
+	@Override
+	public String toString() {
+		return standingPointName + ";" + standingPointY + ";" + standingPointX + ";" + standingPointZ + ";"+ totalStationHeight + ";" 
+				+  measuredPointName + ";" + measuredPointY + ";" + measuredPointX + ";" + measuredPointZ + "," + 
+				   horizontalAngle + ";" + verticalAngle + ";" + horizontalDistance + ";" + measuredPointSignHeight + 
+				   ";;" + date + ";" + time + ";";
+	}
+
 }

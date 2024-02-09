@@ -28,14 +28,16 @@ public class MeasDataRow extends HBox {
 	private TextField verticalAngleField;
 	private TextField horizontalDistanceField;
 	private TextField measuredPointSignHeightField;
-	private TextField dateTimeField;
+	private TextField dateField;
+	private TextField timeField;
 	private TextField theoreticalPointNameField;
 	private TextField theoreticalPointXField;
 	private TextField theoreticalPointYField;
 	private TextField theoreticalPointZField;
 	private TextField theoreticalPointSignNameField;
 	private MeasuredPillarDataController measuredPillarDataController;
-	private boolean isDeleted;
+	private boolean isDeletedRow;
+	private boolean isDeletedTheoretical;
 	private static final double MILLIMETER = 1000.0 / 225.0;
 	private static final Font NORMAL = Font.font("Book Antiqua", FontWeight.NORMAL, 14);
 	private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
@@ -47,12 +49,28 @@ public class MeasDataRow extends HBox {
 			
 				if( measuredPillarDataController
 			.getConfirmationAlert("Mérés törlése", 
-					"Biztos, hogy törlöd a(z) " + ((HBox) e.getSource()).getId() + ". sor mérési eredményeit?")) {
-					isDeleted = true;
+					"Biztos, hogy törlöd a(z) " + this.getId().split("_")[1] + ". sor mérési eredményeit?")) {
+					isDeletedRow = true;
 					deleteRowData();
+					if( this.getTheoreticalPointNameField().getText().isEmpty() ) {
+						return;
+					}
+					
+					if(measuredPillarDataController.getConfirmationAlert("Elméleti pont törlése", "Törlöd az elméleti pontot is?")){
+						isDeletedTheoretical = true;
+					}
+					else {
+						isDeletedTheoretical = false;
+						theoreticalPointNameField.setStyle("-fx-control-inner-background:white");
+						theoreticalPointYField.setStyle("-fx-control-inner-background:white");
+						theoreticalPointXField.setStyle("-fx-control-inner-background:white");
+						theoreticalPointZField.setStyle("-fx-control-inner-background:white");
+						theoreticalPointSignNameField.setStyle("-fx-control-inner-background:white");
+					}
+					
 				}
 				else {
-					isDeleted = false;
+					isDeletedRow = false;
 					noDeleteRowData();
 				}
 				;} 
@@ -62,8 +80,14 @@ public class MeasDataRow extends HBox {
 		setFieldVisible(isVisible);	
 	}
 	
-	public boolean isDeleted() {
-		return isDeleted;
+	
+
+	public boolean isDeletedRow() {
+		return isDeletedRow;
+	}
+
+	public boolean isDeletedTheoretical() {
+		return isDeletedTheoretical;
 	}
 
 	private void noDeleteRowData() {
@@ -83,7 +107,7 @@ public class MeasDataRow extends HBox {
 		 verticalAngleField.setStyle("-fx-control-inner-background:white");
 		 horizontalDistanceField.setStyle("-fx-control-inner-background:white");
 		 measuredPointSignHeightField.setStyle("-fx-control-inner-background:white");
-		 dateTimeField.setStyle("-fx-control-inner-background:white");
+		 dateField.setStyle("-fx-control-inner-background:white");
 		 theoreticalPointNameField.setStyle("-fx-control-inner-background:white");
 		 theoreticalPointXField.setStyle("-fx-control-inner-background:white");
 		 theoreticalPointYField.setStyle("-fx-control-inner-background:white");
@@ -109,7 +133,7 @@ public class MeasDataRow extends HBox {
 			 verticalAngleField.setStyle("-fx-control-inner-background:#F88379");
 			 horizontalDistanceField.setStyle("-fx-control-inner-background:#F88379");
 			 measuredPointSignHeightField.setStyle("-fx-control-inner-background:#F88379");
-			 dateTimeField.setStyle("-fx-control-inner-background:#F88379");
+			 dateField.setStyle("-fx-control-inner-background:#F88379");
 			 theoreticalPointNameField.setStyle("-fx-control-inner-background:#F88379");
 			 theoreticalPointXField.setStyle("-fx-control-inner-background:#F88379");
 			 theoreticalPointYField.setStyle("-fx-control-inner-background:#F88379");
@@ -230,13 +254,14 @@ public class MeasDataRow extends HBox {
         measuredPointSignHeightField.setFont(NORMAL);
         measuredPointSignHeightField.setAlignment(Pos.CENTER);
         this.getChildren().add(measuredPointSignHeightField);
-        dateTimeField = new TextField();
-        dateTimeField.setPrefWidth(20 * MILLIMETER);
-   	 	HBox.setHgrow(dateTimeField, Priority.ALWAYS);
-        dateTimeField.setFont(NORMAL);
-        dateTimeField.setAlignment(Pos.CENTER);
-        dateTimeField.setCursor(Cursor.HAND);
-        this.getChildren().add(dateTimeField);
+        dateField = new TextField();
+        dateField.setPrefWidth(20 * MILLIMETER);
+   	 	HBox.setHgrow(dateField, Priority.ALWAYS);
+        dateField.setFont(NORMAL);
+        dateField.setAlignment(Pos.CENTER);
+        dateField.setCursor(Cursor.HAND);
+        this.getChildren().add(dateField);
+        timeField = new TextField();
         theoreticalPointNameField = new TextField();
         theoreticalPointNameField.setPrefWidth(40 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointNameField, Priority.ALWAYS);
@@ -342,7 +367,7 @@ public class MeasDataRow extends HBox {
 			}
 			else if( i == 15 && !visible[15] ) {
 				
-				dateTimeField.setVisible(false);
+				dateField.setVisible(false);
 			}
 			else if( i == 16 && !visible[16] ) {
 				
@@ -443,8 +468,12 @@ public class MeasDataRow extends HBox {
 		return measuredPointSignHeightField;
 	}
 
-	public TextField getDateTimeField() {
-		return dateTimeField;
+	public TextField getDateField() {
+		return dateField;
+	}
+	
+	public TextField getTimeField() {
+		return timeField;
 	}
 
 	public TextField getTheoreticalPointNameField() {
@@ -472,12 +501,6 @@ public class MeasDataRow extends HBox {
 		this.measuredPillarDataController = measuredPillarDataController;
 	}
 
-	@Override
-	public String toString() {
-		return "MeasDataRow [rowNumber=" + rowNumber.getText() + ", standingPointNameField=" + standingPointNameField.getText()
-				+ ", measuredPointNameField=" + measuredPointNameField.getText() + "]";
-	}
-
-
+	
 }
  
