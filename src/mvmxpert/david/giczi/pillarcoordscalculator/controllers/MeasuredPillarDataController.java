@@ -40,7 +40,7 @@ public class MeasuredPillarDataController {
     public Intersection intersection;
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
-    private static boolean IS_CONTROLLED_INPUT_DATA;
+    public static boolean IS_RUNNING_PROCESS_OK;
     
     public boolean isCreatedInputPillarDataWindow() {
 		return isCreatedInputPillarDataWindow;
@@ -786,17 +786,25 @@ public class MeasuredPillarDataController {
     
     public void onClickButtonForIntersectionProcess(){
     	ELEVATION_MEAS_ONLY = false;
-    	if( !IS_CONTROLLED_INPUT_DATA ) {
-    		 loadMeasureFileData();
-    	 IS_CONTROLLED_INPUT_DATA = validateIntersectionInputData();
-    	 if( !IS_CONTROLLED_INPUT_DATA ) {
-    		 return;
-    	 }
-    	 intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+    	if( !IS_RUNNING_PROCESS_OK ) {
+    	
+    	if( measurmentDataDisplayer != null) {
+    		loadMeasureFileData();
+    	}
+    	if( validateIntersectionInputData() ) {
+    		intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+    		IS_RUNNING_PROCESS_OK = true;
     	}
     	else {
-    		 saveAndDisplayIntersectionData();
+    		return;
     	}
+    }		
+    	else {
+    		
+    		
+    	}
+    	
+    	
     }
     
     
@@ -1181,16 +1189,15 @@ public class MeasuredPillarDataController {
         new IntersectionDisplayer(this);
     }
     
-    public boolean openMeasurmentFXDisplayer() {
+    public void openMeasurmentFXDisplayer() {
     	measurmentData = fileProcess.openMeasurmentFileData();
         if( PLRFileProcess.MEAS_FILE_NAME == null ) {
-     	   return false;
+     	   return;
         }
          if( measurmentData.isEmpty() ){
-             return false;
+             return;
          }
 	measurmentDataDisplayer = new MeasurmentDataDisplayer(this);
-	return true;
 	}
     
     public void openIntersectionProject(){
