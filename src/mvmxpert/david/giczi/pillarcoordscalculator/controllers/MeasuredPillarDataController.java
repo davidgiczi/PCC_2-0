@@ -14,6 +14,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.Intersection;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasuredPillarData;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -32,12 +33,14 @@ public class MeasuredPillarDataController {
     public PillarBaseDisplayer pillarBaseDisplayer;
     public InputPillarDataWindow inputPillarDataWindow;
     public IntersectionInputDataWindow intersectionInputDataWindow;
+    public MeasurmentDataDisplayer measurmentDataDisplayer;
     public FXHomeWindow fxHomeWindow;
     public List<String> pillarBaseProjectFileData;
     public List<String> measurmentData;
     public Intersection intersection;
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
+    private static boolean IS_CONTROLLED_INPUT_DATA;
     
     public boolean isCreatedInputPillarDataWindow() {
 		return isCreatedInputPillarDataWindow;
@@ -322,6 +325,7 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationMinField.setText("");
             intersectionInputDataWindow.standingBPointElevationSecField.setText("");
             intersectionInputDataWindow.elevationMeasureCheckbox.setSelected(ELEVATION_MEAS_ONLY);
+            //intersectionInputDataWindow.calcButton.setText("Adatok beolvasása");
             intersectionInputDataWindow.stage.show();
         }
     }
@@ -591,84 +595,7 @@ public class MeasuredPillarDataController {
     }
     
     
-    private void getIntersectionMeasureData() {
-    	
-    	String[] rowData = null;
-		if( 5 >= rowData.length && 
-				rowData[0].equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText())) {
-			intersection = new Intersection();
-			intersection
-			.setTheoreticalPoint(new Point("Theoretical", Double.parseDouble(rowData[1]), Double.parseDouble(rowData[2])));
-		}
-		if( rowData.length > 5 && !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
-				rowData[5].equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
-
-		intersectionInputDataWindow.startField_X.setText(rowData[7]);
-		intersectionInputDataWindow.startField_Y.setText(rowData[8]);
-		}
-		if( rowData.length > 5 && intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
-				rowData[5].equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
-			intersectionInputDataWindow.endField_X.setText(rowData[7]);
-			intersectionInputDataWindow.endField_Y.setText(rowData[8]);
-		}
-
-			if( rowData.length > 5 && intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
-					rowData[0].equalsIgnoreCase(intersectionInputDataWindow.standingAIdField.getText().trim())) {
-				intersectionInputDataWindow
-						.standingAPointField_X.setText(rowData[1]);
-				intersectionInputDataWindow
-						.standingAPointField_Y.setText(rowData[2]);
-				intersectionInputDataWindow
-						.standingAPointField_Z.setText(rowData[3]);
-			}
-				if( rowData.length > 5 && intersectionInputDataWindow.standingBIdField.getText().isEmpty() &&
-						rowData[0].equalsIgnoreCase(intersectionInputDataWindow.standingBIdField.getText().trim())) {
-					intersectionInputDataWindow
-							.standingBPointField_X.setText(rowData[1]);
-					intersectionInputDataWindow
-							.standingBPointField_Y.setText(rowData[2]);
-					intersectionInputDataWindow
-							.standingBPointField_Z.setText(rowData[3]);
-			}
-				if( rowData.length > 5 && intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
-				rowData[0].equalsIgnoreCase(
-						intersectionInputDataWindow.standingAIdField.getText()) &&
-				rowData[6].equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText())){
-					String[] azimuthData = rowData[10].split("\\.");
-					intersectionInputDataWindow
-							.standingAPointAzimuthAngleField.setText(azimuthData[0]);
-					intersectionInputDataWindow
-							.standingAPointAzimuthMinField.setText(azimuthData[1].substring(0, 2));
-					intersectionInputDataWindow
-							.standingAPointAzimuthSecField.setText(azimuthData[1].substring(2, 4));
-					String[] elevationData = rowData[11].split("\\.");
-					intersectionInputDataWindow
-							.standingAPointElevationAngleField.setText(elevationData[0]);
-					intersectionInputDataWindow
-							.standingAPointElevationMinField.setText(elevationData[1].substring(0, 2));
-					intersectionInputDataWindow
-							.standingAPointElevationSecField.setText(elevationData[1].substring(2, 4));
-				}
-		if( rowData.length > 5 && intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
-				rowData[0].equalsIgnoreCase(
-						intersectionInputDataWindow.standingBIdField.getText()) &&
-				rowData[6].equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText())){
-			String[] azimuthData = rowData[10].split("\\.");
-			intersectionInputDataWindow
-					.standingBPointAzimuthAngleField.setText(azimuthData[0]);
-			intersectionInputDataWindow
-					.standingBPointAzimuthMinField.setText(azimuthData[1].substring(0, 2));
-			intersectionInputDataWindow
-					.standingBPointAzimuthSecField.setText(azimuthData[1].substring(2, 4));
-			String[] elevationData = rowData[11].split("\\.");
-			intersectionInputDataWindow
-					.standingBPointElevationAngleField.setText(elevationData[0]);
-			intersectionInputDataWindow
-					.standingBPointElevationMinField.setText(elevationData[1].substring(0, 2));
-			intersectionInputDataWindow
-					.standingBPointElevationSecField.setText(elevationData[1].substring(2, 4));
-		}
-    }
+   
     
     private void getMeasureDataForElevationMeasureOnly() {
 		
@@ -724,6 +651,125 @@ public class MeasuredPillarDataController {
 	}
     
     
+    private void getIntersectionMeasureData() {
+    	
+    	measurmentDataDisplayer.getDisplayerData();
+    	measurmentDataDisplayer.collectSecondMeasurementValue();
+    	
+    	for (RowData standingPoint : measurmentDataDisplayer.getStandingPointDataStore()) {
+    		
+    		if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
+					standingPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingAIdField.getText().trim())) {
+				intersectionInputDataWindow.standingAPointField_X.setText(standingPoint.getStandingPointY());
+				intersectionInputDataWindow.standingAPointField_Y.setText(standingPoint.getStandingPointX());
+				intersectionInputDataWindow.standingAPointField_Z.setText(standingPoint.getStandingPointZ());
+			}
+    		if( !intersectionInputDataWindow.standingBIdField.getText().isEmpty() &&
+					standingPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingBIdField.getText().trim())) {
+				intersectionInputDataWindow.standingBPointField_X.setText(standingPoint.getStandingPointY());
+				intersectionInputDataWindow.standingBPointField_Y.setText(standingPoint.getStandingPointX());
+				intersectionInputDataWindow.standingBPointField_Z.setText(standingPoint.getStandingPointZ());
+    		}
+			
+    		for (RowData measPoint : standingPoint.getMeasuredPointDataStore()) {
+    			
+    			
+    			if( measPoint.getTheoreticalPointData() != null && 
+    					measPoint.getTheoreticalPointData().getTheoreticalPointName()
+    					.equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())) {
+    				intersection = new Intersection();
+    				intersection.setTheoreticalPoint(new Point("Theoretical", 
+    						Double.parseDouble(measPoint.getTheoreticalPointData().getTheoreticalPointY()), 
+    						Double.parseDouble(measPoint.getTheoreticalPointData().getTheoreticalPointX())));
+    			}
+    			
+    			if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
+    			
+    				intersectionInputDataWindow.startField_X.setText(measPoint.getMeasuredPointY());
+    				intersectionInputDataWindow.startField_Y.setText(measPoint.getMeasuredPointX());
+    			}
+    			
+    			if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
+    				
+    				intersectionInputDataWindow.endField_X.setText(measPoint.getMeasuredPointY());
+    				intersectionInputDataWindow.endField_Y.setText(measPoint.getMeasuredPointX());
+    			}
+    			if( !intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
+    					measPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingAIdField.getText().trim()) &&
+    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())){
+    				
+    				if( measPoint.getFirstHrMeas() != null ) {
+    					
+    					String[] azimuthData = measPoint.getMediumHrValue().split("-");
+						intersectionInputDataWindow.standingAPointAzimuthAngleField.setText(azimuthData[0]);
+						intersectionInputDataWindow.standingAPointAzimuthMinField.setText(azimuthData[1]);
+						intersectionInputDataWindow.standingAPointAzimuthSecField.setText(azimuthData[2]);
+    				}
+    				else {
+    					
+    					String[] azimuthData = measPoint.getHorizontalAngle().split("-");
+						intersectionInputDataWindow.standingAPointAzimuthAngleField.setText(azimuthData[0]);
+						intersectionInputDataWindow.standingAPointAzimuthMinField.setText(azimuthData[1]);
+						intersectionInputDataWindow.standingAPointAzimuthSecField.setText(azimuthData[2]);
+    				}
+    				
+    				if( measPoint.getFirstVrMeas() != null ) {
+    					
+    					String[] elevationData = measPoint.getMediumVrValue().split("-");
+    					intersectionInputDataWindow.standingAPointElevationAngleField.setText(elevationData[0]);
+    					intersectionInputDataWindow.standingAPointElevationMinField.setText(elevationData[1]);
+    					intersectionInputDataWindow.standingAPointElevationSecField.setText(elevationData[2]);
+    				}
+    				else {
+    					
+    					String[] elevationData = measPoint.getVerticalAngle().split("-");
+    					intersectionInputDataWindow.standingAPointElevationAngleField.setText(elevationData[0]);
+    					intersectionInputDataWindow.standingAPointElevationMinField.setText(elevationData[1]);
+    					intersectionInputDataWindow.standingAPointElevationSecField.setText(elevationData[2]);	
+    				}				
+    	}
+    			
+    			if( !intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
+    					measPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingBIdField.getText().trim()) &&
+    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())){
+    				
+    				if( measPoint.getFirstHrMeas() != null ) {
+    					
+    					String[] azimuthData = measPoint.getMediumHrValue().split("-");
+    					intersectionInputDataWindow.standingBPointAzimuthAngleField.setText(azimuthData[0]);
+    					intersectionInputDataWindow.standingBPointAzimuthMinField.setText(azimuthData[1]);
+    					intersectionInputDataWindow.standingBPointAzimuthSecField.setText(azimuthData[2]);
+    				}
+    				else {
+    					
+    					String[] azimuthData = measPoint.getHorizontalAngle().split("-");
+    					intersectionInputDataWindow.standingBPointAzimuthAngleField.setText(azimuthData[0]);
+    					intersectionInputDataWindow.standingBPointAzimuthMinField.setText(azimuthData[1]);
+    					intersectionInputDataWindow.standingBPointAzimuthSecField.setText(azimuthData[2]);
+    				}
+    				
+    				if( measPoint.getFirstVrMeas() != null ) {
+    					
+    					String[] elevationData = measPoint.getMediumVrValue().split("-");
+    					intersectionInputDataWindow.standingBPointElevationAngleField.setText(elevationData[0]);
+    					intersectionInputDataWindow.standingBPointElevationMinField.setText(elevationData[1]);
+    					intersectionInputDataWindow.standingBPointElevationSecField.setText(elevationData[2]);
+    				}
+    				else {
+    					
+    					String[] elevationData = measPoint.getVerticalAngle().split("-");
+    					intersectionInputDataWindow.standingBPointElevationAngleField.setText(elevationData[0]);
+    					intersectionInputDataWindow.standingBPointElevationMinField.setText(elevationData[1]);
+    					intersectionInputDataWindow.standingBPointElevationSecField.setText(elevationData[2]);	
+    				}	
+    	}		
+	}
+    		
+  }	
+    }
+    
     private void loadMeasureFileData(){
         if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
             intersectionInputDataWindow.standingAPointField_X.getText().isEmpty() &&
@@ -738,360 +784,379 @@ public class MeasuredPillarDataController {
         }
     }
     
-    public void onClickCountButtonForIntersectionProcess(){
+    public void onClickButtonForIntersectionProcess(){
     	ELEVATION_MEAS_ONLY = false;
-        loadMeasureFileData();
-        String startPointId;
-        if( !InputDataValidator.isValidID(intersectionInputDataWindow.startPointIdField.getText()) ){
-                if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() ){
-                    getInfoAlert("Nem megfelelő a sodrony kezdőpontjának megnevezése",
-                            "Add meg a sodrony kezdőpontjának megnevezését.");
-                    return;
-                }
+    	if( !IS_CONTROLLED_INPUT_DATA ) {
+    		 loadMeasureFileData();
+    	 IS_CONTROLLED_INPUT_DATA = validateIntersectionInputData();
+    	 if( !IS_CONTROLLED_INPUT_DATA ) {
+    		 return;
+    	 }
+    	 intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+    	}
+    	else {
+    		 saveAndDisplayIntersectionData();
+    	}
+    }
+    
+    
+    private boolean validateIntersectionInputData() {
+    	
+    	 String startPointId;
+         if( !InputDataValidator.isValidID(intersectionInputDataWindow.startPointIdField.getText()) ){
+                 if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() ){
+                     getInfoAlert("Nem megfelelő a sodrony kezdőpontjának megnevezése",
+                             "Add meg a sodrony kezdőpontjának megnevezését.");
+                     return false;
+                 }
 
-        }
-        startPointId = intersectionInputDataWindow.startPointIdField.getText();
-        Double startPointX = null;
-        try {
-            startPointX =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.startField_X.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-           if( !intersectionInputDataWindow.startField_X.getText().isEmpty() ){
-               getInfoAlert("Nem megfelelő a sodrony kezdőpontjának Y koordinátája",
-                       "A sodrony kezdőpontjának Y koordinátája csak nem negatív szám lehet.");
-               return;
-           }
-        }
-        Double startPointY = null;
-        try {
-            startPointY =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.startField_Y.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            if( !intersectionInputDataWindow.startField_Y.getText().isEmpty() ){
-                getInfoAlert("Nem megfelelő a sodrony kezdőpontjának X koordinátája",
-                        "A sodrony kezdőpontjának X koordinátája csak nem negatív szám lehet.");
-                return;
+         }
+         startPointId = intersectionInputDataWindow.startPointIdField.getText();
+         Double startPointX = null;
+         try {
+             startPointX =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.startField_X.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+            if( !intersectionInputDataWindow.startField_X.getText().isEmpty() ){
+                getInfoAlert("Nem megfelelő a sodrony kezdőpontjának Y koordinátája",
+                        "A sodrony kezdőpontjának Y koordinátája csak nem negatív szám lehet.");
+                return false;
             }
-        }
-        String endPointId;
-        if( !InputDataValidator.isValidID(intersectionInputDataWindow.endPointIdField.getText()) ){
-            if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() ){
-                getInfoAlert("Nem megfelelő a sodrony végpontjának megnevezése",
-                        "Add meg a sodrony végpontjának megnevezését.");
-                return;
-            }
+         }
+         Double startPointY = null;
+         try {
+             startPointY =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.startField_Y.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             if( !intersectionInputDataWindow.startField_Y.getText().isEmpty() ){
+                 getInfoAlert("Nem megfelelő a sodrony kezdőpontjának X koordinátája",
+                         "A sodrony kezdőpontjának X koordinátája csak nem negatív szám lehet.");
+                 return false;
+             }
+         }
+         String endPointId;
+         if( !InputDataValidator.isValidID(intersectionInputDataWindow.endPointIdField.getText()) ){
+             if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() ){
+                 getInfoAlert("Nem megfelelő a sodrony végpontjának megnevezése",
+                         "Add meg a sodrony végpontjának megnevezését.");
+                 return false;
+             }
 
-        }
-        endPointId = intersectionInputDataWindow.endPointIdField.getText();
-        Double endPointX = null;
-        try {
-            endPointX =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.endField_X.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            if( !intersectionInputDataWindow.endField_X.getText().isEmpty() ){
-                getInfoAlert("Nem megfelelő a sodrony végpontjának Y koordinátája",
-                        "A sodrony végpontjának Y koordinátája csak nem negatív szám lehet.");
-                return;
-            }
-        }
+         }
+         endPointId = intersectionInputDataWindow.endPointIdField.getText();
+         Double endPointX = null;
+         try {
+             endPointX =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.endField_X.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             if( !intersectionInputDataWindow.endField_X.getText().isEmpty() ){
+                 getInfoAlert("Nem megfelelő a sodrony végpontjának Y koordinátája",
+                         "A sodrony végpontjának Y koordinátája csak nem negatív szám lehet.");
+                 return false;
+             }
+         }
 
-        Double endPointY = null;
-        try {
-            endPointY =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.endField_Y.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            if( !intersectionInputDataWindow.endField_Y.getText().isEmpty() ){
-                getInfoAlert("Nem megfelelő a sodrony végpontjának X koordinátája",
-                        "A sodrony végpontjának X koordinátája csak nem negatív szám lehet.");
-                return;
-            }
-        }
-        String newPointId;
-        if( !InputDataValidator.isValidID(intersectionInputDataWindow.newPointIdField.getText()) ){
-            getInfoAlert("Nem megfelelő az új pont megnevezése",
-                    "Add meg az új pont megnevezését.");
-            return;
-        }
-        newPointId = intersectionInputDataWindow.newPointIdField.getText();
+         Double endPointY = null;
+         try {
+             endPointY =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.endField_Y.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             if( !intersectionInputDataWindow.endField_Y.getText().isEmpty() ){
+                 getInfoAlert("Nem megfelelő a sodrony végpontjának X koordinátája",
+                         "A sodrony végpontjának X koordinátája csak nem negatív szám lehet.");
+                 return false;
+             }
+         }
+         String newPointId;
+         if( !InputDataValidator.isValidID(intersectionInputDataWindow.newPointIdField.getText()) ){
+             getInfoAlert("Nem megfelelő az új pont megnevezése",
+                     "Add meg az új pont megnevezését.");
+             return false;
+         }
+         newPointId = intersectionInputDataWindow.newPointIdField.getText();
 
-        String standingAPointId;
-        if( !InputDataValidator.isValidID(intersectionInputDataWindow.standingAIdField.getText()) ){
-            getInfoAlert("Nem megfelelő az 1. álláspont megnevezése",
-                    "Add meg az 1. álláspont megnevezését.");
-            return;
-        }
-        standingAPointId = intersectionInputDataWindow.standingAIdField.getText();
+         String standingAPointId;
+         if( !InputDataValidator.isValidID(intersectionInputDataWindow.standingAIdField.getText()) ){
+             getInfoAlert("Nem megfelelő az 1. álláspont megnevezése",
+                     "Add meg az 1. álláspont megnevezését.");
+             return false;
+         }
+         standingAPointId = intersectionInputDataWindow.standingAIdField.getText();
 
-        double standingPointA_X;
-        try {
-            standingPointA_X =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingAPointField_X.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. álláspont Y koordinátája",
-                    "Az 1. álláspont Y koordinátája csak nem negatív szám lehet.");
-            return;
-        }
-        double standingPointA_Y;
-        try {
-            standingPointA_Y =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingAPointField_Y.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. álláspont X koordinátája",
-                    "Az 1. álláspont X koordinátája csak nem negatív szám lehet.");
-            return;
-        }
+         double standingPointA_X;
+         try {
+             standingPointA_X =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingAPointField_X.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. álláspont Y koordinátája",
+                     "Az 1. álláspont Y koordinátája csak nem negatív szám lehet.");
+             return false;
+         }
+         double standingPointA_Y;
+         try {
+             standingPointA_Y =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingAPointField_Y.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. álláspont X koordinátája",
+                     "Az 1. álláspont X koordinátája csak nem negatív szám lehet.");
+             return false;
+         }
 
-        double standingPointA_Z;
-        try {
-            standingPointA_Z =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingAPointField_Z.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. álláspont magassága",
-                    "Az 1. álláspont magassági adata csak nem negatív szám lehet.");
-            return;
-        }
-        int standingAPointHzAngle;
-        try {
-           standingAPointHzAngle  = InputDataValidator
-                    .isValidAngleValue(intersectionInputDataWindow
-                            .standingAPointAzimuthAngleField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szög érték",
-                    "A vízszintes szög értéke egész szám és -360 < érték < 360 lehet.");
-            return;
-        }
-        int standingAPointHzMin;
-        try {
-            standingAPointHzMin  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingAPointAzimuthMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szögperc érték",
-                    "A vízszintes szögperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
-        int standingAPointHzSec;
-        try {
-            standingAPointHzSec  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingAPointAzimuthSecField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szögmásodperc érték",
-                    "A vízszintes szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
-        int standingAPointElevationAngle;
-        try {
-            standingAPointElevationAngle  = InputDataValidator
-                    .isValidElevationAngleValue(intersectionInputDataWindow
-                            .standingAPointElevationAngleField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szög érték",
-                    "A magassági szög értéke egész szám és -1 < érték < 181 lehet.");
-            return;
-        }
+         double standingPointA_Z;
+         try {
+             standingPointA_Z =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingAPointField_Z.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. álláspont magassága",
+                     "Az 1. álláspont magassági adata csak nem negatív szám lehet.");
+             return false;
+         }
+         int standingAPointHzAngle;
+         try {
+            standingAPointHzAngle  = InputDataValidator
+                     .isValidAngleValue(intersectionInputDataWindow
+                             .standingAPointAzimuthAngleField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szög érték",
+                     "A vízszintes szög értéke egész szám és -360 < érték < 360 lehet.");
+             return false;
+         }
+         int standingAPointHzMin;
+         try {
+             standingAPointHzMin  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingAPointAzimuthMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szögperc érték",
+                     "A vízszintes szögperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
+         int standingAPointHzSec;
+         try {
+             standingAPointHzSec  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingAPointAzimuthSecField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért víszintes szögmásodperc érték",
+                     "A vízszintes szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
+         int standingAPointElevationAngle;
+         try {
+             standingAPointElevationAngle  = InputDataValidator
+                     .isValidElevationAngleValue(intersectionInputDataWindow
+                             .standingAPointElevationAngleField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szög érték",
+                     "A magassági szög értéke egész szám és -1 < érték < 181 lehet.");
+             return false;
+         }
 
-        int standingAPointElevationMin;
-        try {
-            standingAPointElevationMin  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingAPointElevationMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögperc érték",
-                    "A magassági szögperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
+         int standingAPointElevationMin;
+         try {
+             standingAPointElevationMin  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingAPointElevationMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögperc érték",
+                     "A magassági szögperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
 
-        int standingAPointElevationSec;
-        try {
-            standingAPointElevationSec  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingAPointElevationMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögmásodperc érték",
-                    "A magassági szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
+         int standingAPointElevationSec;
+         try {
+             standingAPointElevationSec  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingAPointElevationMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögmásodperc érték",
+                     "A magassági szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
 
-        String standingBPointId;
-        if( !InputDataValidator.isValidID(intersectionInputDataWindow.standingBIdField.getText()) ){
-            getInfoAlert("Nem megfelelő az 2. álláspont megnevezése",
-                    "Add meg az 2. álláspont megnevezését.");
-            return;
-        }
-        standingBPointId = intersectionInputDataWindow.standingBIdField.getText();
+         String standingBPointId;
+         if( !InputDataValidator.isValidID(intersectionInputDataWindow.standingBIdField.getText()) ){
+             getInfoAlert("Nem megfelelő az 2. álláspont megnevezése",
+                     "Add meg az 2. álláspont megnevezését.");
+             return false;
+         }
+         standingBPointId = intersectionInputDataWindow.standingBIdField.getText();
 
-        double standingPointB_X;
-        try {
-            standingPointB_X =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingBPointField_X.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. álláspont Y koordinátája",
-                    "A 2. álláspont Y koordinátája csak nem negatív szám lehet.");
-            return;
-        }
-        double standingPointB_Y;
-        try {
-            standingPointB_Y =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingBPointField_Y.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. álláspont X koordinátája",
-                    "Az 2. álláspont X koordinátája csak nem negatív szám lehet.");
-            return;
-        }
+         double standingPointB_X;
+         try {
+             standingPointB_X =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingBPointField_X.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. álláspont Y koordinátája",
+                     "A 2. álláspont Y koordinátája csak nem negatív szám lehet.");
+             return false;
+         }
+         double standingPointB_Y;
+         try {
+             standingPointB_Y =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingBPointField_Y.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. álláspont X koordinátája",
+                     "Az 2. álláspont X koordinátája csak nem negatív szám lehet.");
+             return false;
+         }
 
-        double standingPointB_Z;
-        try {
-            standingPointB_Z =
-                    InputDataValidator
-                            .isValidInputPositiveDoubleValue
-                                    (intersectionInputDataWindow.standingBPointField_Z.getText().replace(",", "."));
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. álláspont magassága",
-                    "A 2. álláspont magassági adata csak nem negatív szám lehet.");
-            return;
-        }
-        int standingBPointHzAngle;
-        try {
-            standingBPointHzAngle  = InputDataValidator
-                    .isValidAngleValue(intersectionInputDataWindow
-                            .standingBPointAzimuthAngleField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szög érték",
-                    "A vízszintes szög értéke egész szám és -360 < érték < 360 lehet.");
-            return;
-        }
-        int standingBPointHzMin;
-        try {
-            standingBPointHzMin  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingBPointAzimuthMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szögperc érték",
-                    "A vízszintes szögperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
-        int standingBPointHzSec;
-        try {
-            standingBPointHzSec  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingBPointAzimuthSecField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szögmásodperc érték",
-                    "A vízszintes szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
-        int standingBPointElevationAngle;
-        try {
-            standingBPointElevationAngle  = InputDataValidator
-                    .isValidElevationAngleValue(intersectionInputDataWindow
-                            .standingBPointElevationAngleField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szög érték",
-                    "A magassági szög értéke egész szám és -1 < érték < 181 lehet.");
-            return;
-        }
+         double standingPointB_Z;
+         try {
+             standingPointB_Z =
+                     InputDataValidator
+                             .isValidInputPositiveDoubleValue
+                                     (intersectionInputDataWindow.standingBPointField_Z.getText().replace(",", "."));
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. álláspont magassága",
+                     "A 2. álláspont magassági adata csak nem negatív szám lehet.");
+             return false;
+         }
+         int standingBPointHzAngle;
+         try {
+             standingBPointHzAngle  = InputDataValidator
+                     .isValidAngleValue(intersectionInputDataWindow
+                             .standingBPointAzimuthAngleField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szög érték",
+                     "A vízszintes szög értéke egész szám és -360 < érték < 360 lehet.");
+             return false;
+         }
+         int standingBPointHzMin;
+         try {
+             standingBPointHzMin  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingBPointAzimuthMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szögperc érték",
+                     "A vízszintes szögperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
+         int standingBPointHzSec;
+         try {
+             standingBPointHzSec  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingBPointAzimuthSecField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért víszintes szögmásodperc érték",
+                     "A vízszintes szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
+         int standingBPointElevationAngle;
+         try {
+             standingBPointElevationAngle  = InputDataValidator
+                     .isValidElevationAngleValue(intersectionInputDataWindow
+                             .standingBPointElevationAngleField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szög érték",
+                     "A magassági szög értéke egész szám és -1 < érték < 181 lehet.");
+             return false;
+         }
 
-        int standingBPointElevationMin;
-        try {
-            standingBPointElevationMin  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingBPointElevationMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szögperc érték",
-                    "A magassági szögperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
+         int standingBPointElevationMin;
+         try {
+             standingBPointElevationMin  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingBPointElevationMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szögperc érték",
+                     "A magassági szögperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
 
-        int standingBPointElevationSec;
-        try {
-            standingBPointElevationSec  = InputDataValidator
-                    .isValidMinSecValue(intersectionInputDataWindow
-                            .standingBPointElevationMinField.getText());
-        }
-        catch (NumberFormatException e){
-            getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szögmásodperc érték",
-                    "A magassági szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
-            return;
-        }
+         int standingBPointElevationSec;
+         try {
+             standingBPointElevationSec  = InputDataValidator
+                     .isValidMinSecValue(intersectionInputDataWindow
+                             .standingBPointElevationMinField.getText());
+         }
+         catch (NumberFormatException e){
+             getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szögmásodperc érték",
+                     "A magassági szögmásodperc értéke egész szám és -1 < érték < 60 lehet.");
+             return false;
+         }
+         
+         Point startPoint = null;
+         Point endPoint = null;
+
+         if( startPointId != null && startPointX != null && startPointY != null &&
+             endPointId != null && endPointX != null && endPointY != null ){
+
+             startPoint = new Point(startPointId, startPointX, startPointY);
+             endPoint = new Point(endPointId, endPointX, endPointY);
+         }
+         MeasPoint standingPointA = new MeasPoint(standingAPointId,
+                 standingPointA_X, standingPointA_Y, standingPointA_Z, null);
+         MeasPoint standingPointB = new MeasPoint(standingBPointId,
+                 standingPointB_X, standingPointB_Y, standingPointB_Z, null);
         
-        Point startPoint = null;
-        Point endPoint = null;
-
-        if( startPointId != null && startPointX != null && startPointY != null &&
-            endPointId != null && endPointX != null && endPointY != null ){
-
-            startPoint = new Point(startPointId, startPointX, startPointY);
-            endPoint = new Point(endPointId, endPointX, endPointY);
-        }
-        MeasPoint standingPointA = new MeasPoint(standingAPointId,
-                standingPointA_X, standingPointA_Y, standingPointA_Z, null);
-        MeasPoint standingPointB = new MeasPoint(standingBPointId,
-                standingPointB_X, standingPointB_Y, standingPointB_Z, null);
-        fileProcess.setFolder();
-        
-        if( intersection == null ) {
-        	intersection = new Intersection();
-        }
-        intersection.setStandingPointA(standingPointA);
-        intersection.setStandingPointB(standingPointB);
-        intersection.setLineStartPoint(startPoint);
-        intersection.setLineEndPoint(endPoint);
-        intersection.setAzimuthAngleA(standingAPointHzAngle);
-        intersection.setAzimuthMinuteA(standingAPointHzMin);
-        intersection.setAzimuthSecA(standingAPointHzSec);
-        intersection.setElevationAngleA(standingAPointElevationAngle);
-        intersection.setElevationMinuteA(standingAPointElevationMin);
-        intersection.setElevationSecA(standingAPointElevationSec);
-        intersection.setAzimuthAngleB(standingBPointHzAngle);
-        intersection.setAzimuthMinuteB(standingBPointHzMin);
-        intersection.setAzimuthSecB(standingBPointHzSec);
-        intersection.setElevationAngleB(standingBPointElevationAngle);
-        intersection.setElevationMinuteB(standingBPointElevationMin);
-        intersection.setElevationSecB(standingBPointElevationSec);
-        intersection.calcIntersectionPoint();
-        intersection.getIntersectionPoint().setPointID(newPointId);
-       
-        if( PLRFileProcess.FOLDER_PATH == null ) {
+         if( intersection == null ) {
+         	intersection = new Intersection();
+         }
+         intersection.setStandingPointA(standingPointA);
+         intersection.setStandingPointB(standingPointB);
+         intersection.setLineStartPoint(startPoint);
+         intersection.setLineEndPoint(endPoint);
+         intersection.setAzimuthAngleA(standingAPointHzAngle);
+         intersection.setAzimuthMinuteA(standingAPointHzMin);
+         intersection.setAzimuthSecA(standingAPointHzSec);
+         intersection.setElevationAngleA(standingAPointElevationAngle);
+         intersection.setElevationMinuteA(standingAPointElevationMin);
+         intersection.setElevationSecA(standingAPointElevationSec);
+         intersection.setAzimuthAngleB(standingBPointHzAngle);
+         intersection.setAzimuthMinuteB(standingBPointHzMin);
+         intersection.setAzimuthSecB(standingBPointHzSec);
+         intersection.setElevationAngleB(standingBPointElevationAngle);
+         intersection.setElevationMinuteB(standingBPointElevationMin);
+         intersection.setElevationSecB(standingBPointElevationSec);
+         intersection.calcIntersectionPoint();
+         intersection.getIntersectionPoint().setPointID(newPointId);
+         return true;
+    }
+    
+    private void saveAndDisplayIntersectionData() {
+    
+    	fileProcess.setFolder();
+     if( PLRFileProcess.FOLDER_PATH == null ) {
         	return;
         }
         PLRFileProcess.PROJECT_FILE_NAME = intersectionInputDataWindow.standingAIdField.getText().toUpperCase() +
@@ -1116,15 +1181,16 @@ public class MeasuredPillarDataController {
         new IntersectionDisplayer(this);
     }
     
-    public void openMeasurmentFXDisplayer() {
+    public boolean openMeasurmentFXDisplayer() {
     	measurmentData = fileProcess.openMeasurmentFileData();
         if( PLRFileProcess.MEAS_FILE_NAME == null ) {
-     	   return;
+     	   return false;
         }
          if( measurmentData.isEmpty() ){
-             return;
+             return false;
          }
-		new MeasurmentDataDisplayer(this);
+	measurmentDataDisplayer = new MeasurmentDataDisplayer(this);
+	return true;
 	}
     
     public void openIntersectionProject(){

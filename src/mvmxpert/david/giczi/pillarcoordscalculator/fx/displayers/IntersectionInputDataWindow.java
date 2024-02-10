@@ -57,6 +57,7 @@ public class IntersectionInputDataWindow {
     public TextField standingBPointElevationMinField;
     public TextField standingBPointElevationSecField;
     public CheckBox elevationMeasureCheckbox;
+    public Button calcButton; 
 
     public IntersectionInputDataWindow(MeasuredPillarDataController measuredPillarDataController){
         this.measuredPillarDataController = measuredPillarDataController;
@@ -652,13 +653,13 @@ public class IntersectionInputDataWindow {
 
     }
     private void addCalcButton(){
-        Button calcButton = new Button("Adatok beolvasása");
+        calcButton = new Button("Adatok beolvasása");
         calcButton.setOnMouseClicked(e -> {
         if( elevationMeasureCheckbox.isSelected() ) {
         	measuredPillarDataController.onClickCountButtonForElevationMeasureOnly();
         }
         else {
-        	measuredPillarDataController.onClickCountButtonForIntersectionProcess();
+        	measuredPillarDataController.onClickButtonForIntersectionProcess();
         }});
         calcButton.setCursor(Cursor.HAND);
         calcButton.setFont(boldFont);

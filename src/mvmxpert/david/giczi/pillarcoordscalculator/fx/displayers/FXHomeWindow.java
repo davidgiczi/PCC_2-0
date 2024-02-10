@@ -117,8 +117,15 @@ public class FXHomeWindow extends Application {
 		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{
-			homeController.measuredPillarDataController.openMeasurmentFXDisplayer();
-			homeController.measuredPillarDataController.openIntersectionInputDataWindow();
+			if( homeController.measuredPillarDataController.openMeasurmentFXDisplayer() ) {
+				
+				
+			}
+			else {
+				homeController.measuredPillarDataController.openIntersectionInputDataWindow();
+				homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+			}
+			
 		});
 		Menu createIntersection = new Menu("Előmetszés létrehozása");
 		createIntersection.getItems().add(openMeasurment);

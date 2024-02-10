@@ -45,11 +45,12 @@ public class MeasDataRow extends HBox {
 	
 	public MeasDataRow(boolean...isVisible) {
 		this.setOnMouseClicked(e -> {
-			if( measuredPillarDataController != null) {
+			if( measuredPillarDataController == null) {return;}
 			
 				if( measuredPillarDataController
-			.getConfirmationAlert("Mérés törlése", 
+						.getConfirmationAlert("Mérés törlése", 
 					"Biztos, hogy törlöd a(z) " + this.getId().split("_")[1] + ". sor mérési eredményeit?")) {
+					
 					isDeletedRow = true;
 					deleteRowData();
 					if( this.getTheoreticalPointNameField().getText().isEmpty() ) {
@@ -70,10 +71,26 @@ public class MeasDataRow extends HBox {
 					
 				}
 				else {
+					
 					isDeletedRow = false;
 					noDeleteRowData();
-				}
-				;} 
+					if( this.getTheoreticalPointNameField().getText().isEmpty() ) {
+						return;
+					}
+					
+					if(measuredPillarDataController.getConfirmationAlert("Elméleti pont törlése", "Törlöd az elméleti pontot?")){
+						isDeletedTheoretical = true;
+						theoreticalPointNameField.setStyle("-fx-control-inner-background:#F88379");
+						theoreticalPointXField.setStyle("-fx-control-inner-background:#F88379");
+						theoreticalPointYField.setStyle("-fx-control-inner-background:#F88379");
+						theoreticalPointZField.setStyle("-fx-control-inner-background:#F88379");
+						theoreticalPointSignNameField.setStyle("-fx-control-inner-background:#F88379");
+						
+					}
+					else {
+						isDeletedTheoretical = false;
+					}
+				};
 			});
 		this.setCursor(Cursor.HAND);
 		createRow();

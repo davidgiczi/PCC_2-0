@@ -359,7 +359,7 @@ public class MeasurmentDataDisplayer {
 	    	}
 	    }
 	    
-	    private void collectSecondMeasurementValue() {
+	    public void collectSecondMeasurementValue() {
 	    	
 	    	if( standingPointDataStore == null ) {
 	    		return;
@@ -394,7 +394,7 @@ public class MeasurmentDataDisplayer {
 	    	
 	    }
 	    
-	    private void getDisplayerData() {
+	    public void getDisplayerData() {
 	    	
 	    	standingPointDataStore.clear();
 	    	theoreticalPointDataStore.clear();
