@@ -27,8 +27,7 @@ public class PLRFileProcess {
 	public List<String> getPillarBaseMeasData() {
 		return pillarBaseMeasData;
 	}
-
-
+	
 	public void setDelimiter(String delimiter) {
 		this.delimiter = delimiter;
 	}
@@ -131,7 +130,7 @@ public class PLRFileProcess {
 		return projectData;
 	}
 
-	public List<String> openMeasurmentFileData() {
+	public void openMeasurmentFileData() {
 		FileChooser projectFileChooser = new FileChooser();
 		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ?
 				new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
@@ -142,17 +141,16 @@ public class PLRFileProcess {
 		if ( selectedFile != null ) {
 			FOLDER_PATH = selectedFile.getParent();
 			MEAS_FILE_NAME = selectedFile.getName();
+			getMeasurmentFileData();
 		}
-		
-		return getMeasurmentFileData();
 	}
 	
-	private List<String> getMeasurmentFileData(){
+	private void getMeasurmentFileData(){
 
-		List<String> measData = new ArrayList<>();
+		measuredPillarDataController.measurmentData = new ArrayList<>();
 
 		if(MEAS_FILE_NAME == null || FOLDER_PATH == null)
-			return measData;
+			return;
 
 		File file = new File(FOLDER_PATH + "/" + MEAS_FILE_NAME);
 		
@@ -161,15 +159,13 @@ public class PLRFileProcess {
 
 			String row = reader.readLine();
 			while( row != null ) {
-				measData.add(row);
+				measuredPillarDataController.measurmentData.add(row);
 				row = reader.readLine();
 			}
 		}
 		catch (IOException e) {
 
 		}
-
-		return measData;
 	}
 	
 	

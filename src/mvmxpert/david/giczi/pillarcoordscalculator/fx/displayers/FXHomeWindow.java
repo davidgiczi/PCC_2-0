@@ -121,6 +121,7 @@ public class FXHomeWindow extends Application {
 			homeController.measuredPillarDataController.openIntersectionInputDataWindow();
 			if( homeController.measuredPillarDataController.measurmentDataDisplayer == null ) {
 			homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 			}
 		});
 		Menu createIntersection = new Menu("Előmetszés létrehozása");

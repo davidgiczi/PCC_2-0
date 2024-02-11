@@ -325,7 +325,6 @@ public class MeasuredPillarDataController {
             intersectionInputDataWindow.standingBPointElevationMinField.setText("");
             intersectionInputDataWindow.standingBPointElevationSecField.setText("");
             intersectionInputDataWindow.elevationMeasureCheckbox.setSelected(ELEVATION_MEAS_ONLY);
-            //intersectionInputDataWindow.calcButton.setText("Adatok beolvasása");
             intersectionInputDataWindow.stage.show();
         }
     }
@@ -1190,14 +1189,11 @@ public class MeasuredPillarDataController {
     }
     
     public void openMeasurmentFXDisplayer() {
-    	measurmentData = fileProcess.openMeasurmentFileData();
+    	fileProcess.openMeasurmentFileData();
         if( PLRFileProcess.MEAS_FILE_NAME == null ) {
      	   return;
         }
-         if( measurmentData.isEmpty() ){
-             return;
-         }
-	measurmentDataDisplayer = new MeasurmentDataDisplayer(this);
+        measurmentDataDisplayer = new MeasurmentDataDisplayer(this);
 	}
     
     public void openIntersectionProject(){
