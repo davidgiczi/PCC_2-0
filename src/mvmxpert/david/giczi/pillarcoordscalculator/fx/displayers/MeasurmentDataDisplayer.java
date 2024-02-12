@@ -27,6 +27,7 @@ public class MeasurmentDataDisplayer {
 	
 	 	private final AnchorPane pane = new AnchorPane();
 	    public MeasuredPillarDataController measuredPillarDataController;
+	    public Stage stage;
 	    private static final double MILLIMETER = 1000.0 / 225.0;
 	    private static final Font LARGE_BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 16);
 	    private static final Font SMALL_BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
@@ -46,7 +47,7 @@ public class MeasurmentDataDisplayer {
 		public MeasurmentDataDisplayer(MeasuredPillarDataController measuredPillarDataController){
 	        this.measuredPillarDataController = measuredPillarDataController;
 	        this.ROWS = new VBox();
-	        Stage stage = new Stage();
+	        stage = new Stage();
 	        if( !addContent() ) {
 		    	   return;
 		       }

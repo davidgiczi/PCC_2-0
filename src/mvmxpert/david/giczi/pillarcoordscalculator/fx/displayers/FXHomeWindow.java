@@ -117,10 +117,11 @@ public class FXHomeWindow extends Application {
 		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{
+			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
 			homeController.measuredPillarDataController.openMeasurmentFXDisplayer();
 			homeController.measuredPillarDataController.openIntersectionInputDataWindow();
 			if( homeController.measuredPillarDataController.measurmentDataDisplayer == null ) {
-			homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgozás");
+			homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgoz");
 			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 			}
 		});
@@ -129,6 +130,8 @@ public class FXHomeWindow extends Application {
 		MenuItem openIntersection = new MenuItem("Előmetszés megnyitása");
 		openIntersection.setOnAction(e -> {
 		homeController.measuredPillarDataController.openIntersectionProject();
+		homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgoz");
+		MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 		});
 		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 
 				new SeparatorMenuItem(), openIntersection, createIntersection);

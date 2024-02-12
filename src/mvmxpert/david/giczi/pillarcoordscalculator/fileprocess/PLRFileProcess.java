@@ -138,6 +138,7 @@ public class PLRFileProcess {
 		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Mérési fájlok (*.txt)", "*.txt");
 		projectFileChooser.getExtensionFilters().add(projectFileFilter);
 		File selectedFile = projectFileChooser.showOpenDialog(measuredPillarDataController.fxHomeWindow.homeStage);
+		MEAS_FILE_NAME = null;
 		if ( selectedFile != null ) {
 			FOLDER_PATH = selectedFile.getParent();
 			MEAS_FILE_NAME = selectedFile.getName();

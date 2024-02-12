@@ -56,7 +56,7 @@ public class TheoreticalPointData {
 	}
 	@Override
 	public String toString() {
-		return theoreticalPointName + ";" + theoreticalPointX + ";" + theoreticalPointY
+		return theoreticalPointName + ";" + theoreticalPointY + ";" + theoreticalPointX
 				+ ";" + theoreticalPointZ + ";" + (theoreticalPointSignName == null ? ";" : theoreticalPointSignName + ";");
 	}
 	

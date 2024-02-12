@@ -656,9 +656,11 @@ public class IntersectionInputDataWindow {
         calcButton = new Button("Adatok beolvasása");
         calcButton.setOnMouseClicked(e -> {
         if( elevationMeasureCheckbox.isSelected() ) {
-        	measuredPillarDataController.onClickCountButtonForElevationMeasureOnly();
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = true;
+        	measuredPillarDataController.onClickButtonForElevationMeasureOnly();
         }
         else {
+        	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
         	measuredPillarDataController.onClickButtonForIntersectionProcess();
         }});
         calcButton.setCursor(Cursor.HAND);

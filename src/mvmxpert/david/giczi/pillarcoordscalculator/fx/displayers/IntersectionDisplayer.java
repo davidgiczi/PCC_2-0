@@ -189,6 +189,9 @@ public class IntersectionDisplayer {
                                 .replace(",",".") + "m");
         Tooltip.install(intersectionPointCircle, intersectionPointTooltip);
         pane.getChildren().add(intersectionPointCircle);
+        if( measuredPillarDataController.intersection.getTheoreticalPointData() == null ) {
+        	return;
+        }
         Point wireLineTheoreticalPoint = new Point("Elméleti ponthely:\t" + 
         measuredPillarDataController.intersection.getIntersectionPoint().getPointID().toUpperCase(),
         		
