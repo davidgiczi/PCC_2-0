@@ -1,5 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.service;
 
+import java.util.Objects;
 
 public class TheoreticalPointData {
 
@@ -53,6 +54,27 @@ public class TheoreticalPointData {
 	}
 	public void setRowNumber(String rowNumber) {
 		this.rowNumber = rowNumber;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(theoreticalPointName, theoreticalPointSignName, theoreticalPointX, theoreticalPointY,
+				theoreticalPointZ);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TheoreticalPointData other = (TheoreticalPointData) obj;
+		return Objects.equals(theoreticalPointName, other.theoreticalPointName)
+				&& Objects.equals(theoreticalPointSignName, other.theoreticalPointSignName)
+				&& Objects.equals(theoreticalPointX, other.theoreticalPointX)
+				&& Objects.equals(theoreticalPointY, other.theoreticalPointY)
+				&& Objects.equals(theoreticalPointZ, other.theoreticalPointZ);
 	}
 	@Override
 	public String toString() {

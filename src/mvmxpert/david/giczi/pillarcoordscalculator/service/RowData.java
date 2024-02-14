@@ -271,7 +271,7 @@ public class RowData {
 	@Override
 	public String toString() {
 		return standingPointName + ";" + standingPointY + ";" + standingPointX + ";" + standingPointZ + ";"+ totalStationHeight + ";" 
-				+  measuredPointName + ";" + measuredPointY + ";" + measuredPointX + ";" + measuredPointZ + "," + 
+				+  measuredPointName + ";" + measuredPointSign + ";" + measuredPointY + ";" + measuredPointX + ";" + measuredPointZ + ";" + 
 				   horizontalAngle + ";" + verticalAngle + ";" + horizontalDistance + ";" + measuredPointSignHeight + 
 				   ";;" + date + ";" + time + ";";
 	}

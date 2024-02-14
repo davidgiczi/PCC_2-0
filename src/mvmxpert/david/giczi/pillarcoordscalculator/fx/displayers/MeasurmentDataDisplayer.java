@@ -53,10 +53,26 @@ public class MeasurmentDataDisplayer {
 		       }
 	        stage.setOnCloseRequest(windowEvent -> {
 	            
+	        	getDisplayerData();
+	        
 	        	if( measuredPillarDataController
 	        			.getConfirmationAlert("Jegyzőkönyv mentése", "Kívánod a jegyzőkönyvet fájlba menteni?") ) {
 	        		
-	        		measuredPillarDataController.getInfoAlert(PLRFileProcess.MEAS_FILE_NAME, 
+	        		
+	        		for (RowData standingPointData : standingPointDataStore) {
+						for (RowData measPointData: standingPointData.getMeasuredPointDataStore()) {
+							if( measPointData.getTheoreticalPointData() != null && measPointData.isDeleted()) {
+								theoreticalPointDataStore.remove(measPointData.getTheoreticalPointData());
+							}
+						}
+					}
+	        		
+	        		
+	        		String fileName = measuredPillarDataController.fileProcess.saveMeasurmentReportRowData(standingPointDataStore);
+	        		
+	        		measuredPillarDataController.fileProcess.saveMeasurmentReportTheoreticalPointData(theoreticalPointDataStore, fileName);
+	        		
+	        		measuredPillarDataController.getInfoAlert(fileName, 
 	        				"A mérési jegyzőkönyv mentve a(z)\n\n" +  PLRFileProcess.FOLDER_PATH + " mappába.");
 	        	}
 	        });
@@ -234,13 +250,12 @@ public class MeasurmentDataDisplayer {
 	    private void createRowDataStore() {
 	    	
 	    	List<String> measData = measuredPillarDataController.measurmentData;
-	    	boolean isSeparatedByComma = false;
+	    	 boolean isSeparatedByComma = false;
 	    	String[] rowData =  measData.get(0).split(";");
 	    	if( rowData.length == 1) {
 	    	rowData = measData.get(0).split(",");	
 	    	isSeparatedByComma = true;
 	    	}
-	    	
 	    	if( rowData.length != 4 && rowData.length != 5 && rowData.length != 17) {
 	    		return;
 	    	}
@@ -326,7 +341,6 @@ public class MeasurmentDataDisplayer {
 					theoretical.setTheoreticalPointSignName(rowData[4]);	
 					}
 					theoreticalPointDataStore.add(theoretical);
-					
 				}	
 			}
 	    }
@@ -414,7 +428,7 @@ public class MeasurmentDataDisplayer {
 	    					standingPointDataStore.add(standingPointRow);
 	    					standingPointRow = new RowData();
 	    				}
-	    				
+	    				standingPointRow.setDeleted(measDataRow.isDeletedRow());
 	    				standingPointRow.setStandingPointName(row.getId());
 	    				standingPointRow.setStandingPointY(measDataRow.getStandingPointYField().getText());
 	    				standingPointRow.setStandingPointX(measDataRow.getStandingPointXField().getText());
@@ -422,8 +436,9 @@ public class MeasurmentDataDisplayer {
 	    				standingPointRow.setTotalStationHeight(measDataRow.getTotalStationHeightField().getText());
 	    				
 	    			}
-	    			else if(row.getId().startsWith("MEAS") && !measDataRow.isDeletedRow()){
+	    			else if(row.getId().startsWith("MEAS")){
 	    				RowData measPointRow = new RowData();
+	    				measPointRow.setDeleted(standingPointRow.isDeleted());
 	    				measPointRow.setStandingPointName(standingPointRow.getStandingPointName());
 	    				measPointRow.setStandingPointY(standingPointRow.getStandingPointY());
 	    				measPointRow.setStandingPointX(standingPointRow.getStandingPointX());
@@ -444,6 +459,7 @@ public class MeasurmentDataDisplayer {
 	    				if( !measDataRow.getTheoreticalPointNameField().getText().isEmpty() && !measDataRow.isDeletedTheoretical() ) {
 	    					theoreticalPointData = new TheoreticalPointData();
 	    					theoreticalPointData.setTheoreticalPointName(measDataRow.getTheoreticalPointNameField().getText());
+	    					theoreticalPointData.setDeleted(measDataRow.isDeletedTheoretical());
 	    				}
 	    				if( !measDataRow.getTheoreticalPointYField().getText().isEmpty() && !measDataRow.isDeletedTheoretical() ) {
 	    					theoreticalPointData.setTheoreticalPointY(measDataRow.getTheoreticalPointYField().getText());

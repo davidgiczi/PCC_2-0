@@ -5,10 +5,14 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PLRFileProcess {
@@ -168,8 +172,6 @@ public class PLRFileProcess {
 
 		}
 	}
-	
-	
 	
 	public void getPillarBaseMeasureFileData() {
 		FileChooser projectFileChooser = new FileChooser();
@@ -355,6 +357,45 @@ public class PLRFileProcess {
 		catch (IOException e){
 		}
 	}
+	
+	public String saveMeasurmentReportRowData(List<RowData> standingPointDataStore) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+		String fileName = MEAS_FILE_NAME.substring(0, MEAS_FILE_NAME.indexOf(".")) + "_" 
+		+ df.format(new Date(System.currentTimeMillis())) + ".txt";
+		File file = new File(FOLDER_PATH + "\\" + fileName);
+		
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))){
+			
+			for (RowData standingPointData : standingPointDataStore) {
+				
+				for (RowData measPointData : standingPointData.getMeasuredPointDataStore()) {
+					if( !measPointData.isDeleted() ) {
+						writer.write(measPointData.toString());
+						writer.newLine();	
+					}
+				}
+		}
+}
+			catch (IOException e){
+				
+			}
+		
+		return fileName;
+	}
+		
+	
+	public void saveMeasurmentReportTheoreticalPointData(List<TheoreticalPointData> theoreticalPointDataStore, String fileName) {
+		
+		File file = new File(FOLDER_PATH + "\\" + fileName);
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, true))){
+			for (TheoreticalPointData theoreticalPointData : theoreticalPointDataStore) {
+				writer.write(theoreticalPointData.toString());
+				writer.newLine();
+				}
+		}
+			catch (IOException e){
+	}
+}
 
 	public static boolean isExistedProjectFile(String extension){
 		return  new File(FOLDER_PATH + "\\" + PROJECT_FILE_NAME + "." + extension).exists();
