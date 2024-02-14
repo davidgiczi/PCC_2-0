@@ -389,8 +389,11 @@ public class PLRFileProcess {
 		File file = new File(FOLDER_PATH + "\\" + fileName);
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, true))){
 			for (TheoreticalPointData theoreticalPointData : theoreticalPointDataStore) {
+				if( !theoreticalPointData.isDeleted() ) {
 				writer.write(theoreticalPointData.toString());
 				writer.newLine();
+				}
+				
 				}
 		}
 			catch (IOException e){

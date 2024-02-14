@@ -480,6 +480,7 @@ public class MeasurmentDataDisplayer {
 	    			}
 	    			else if( row.getId().startsWith("TEO") && !measDataRow.isDeletedTheoretical()) {
 	    				TheoreticalPointData theoreticalPointRow = new TheoreticalPointData();
+	    				theoreticalPointRow.setDeleted(measDataRow.isDeletedTheoretical());
 	    				theoreticalPointRow.setTheoreticalPointName(measDataRow.getTheoreticalPointNameField().getText());
 	    				theoreticalPointRow.setTheoreticalPointY(measDataRow.getTheoreticalPointYField().getText());
 	    				theoreticalPointRow.setTheoreticalPointX(measDataRow.getTheoreticalPointXField().getText());
