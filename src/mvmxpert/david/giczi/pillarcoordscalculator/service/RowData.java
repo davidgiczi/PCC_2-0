@@ -59,7 +59,7 @@ public class RowData {
 		double secondValue = Integer.parseInt(secondVrData[0]) + 
 				Integer.parseInt(secondVrData[1]) / 60.0 + 
 				Integer.parseInt(secondVrData[2]) / 3600.0;
-		double mediumVrValue = (firstValue + secondValue - 360) / 2.0;
+		double mediumVrValue = (firstValue - secondValue + 360) / 2.0;
 		mediumVrValue = 0 > mediumVrValue ? mediumVrValue + 360 : mediumVrValue;
 		return convertToAngleMinSecFormat(mediumVrValue);
 	}
