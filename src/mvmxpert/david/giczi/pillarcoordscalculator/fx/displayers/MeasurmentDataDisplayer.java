@@ -58,15 +58,15 @@ public class MeasurmentDataDisplayer {
 	        	if( measuredPillarDataController
 	        			.getConfirmationAlert("Jegyzőkönyv mentése", "Kívánod a jegyzőkönyvet fájlba menteni?") ) {
 	        		
-	        		
 	        		for (RowData standingPointData : standingPointDataStore) {
 						for (RowData measPointData: standingPointData.getMeasuredPointDataStore()) {
-							if( measPointData.getTheoreticalPointData() != null && measPointData.isDeleted()) {
-								theoreticalPointDataStore.remove(measPointData.getTheoreticalPointData());
+							if( measPointData.getTheoreticalPointData() != null && 
+									!measPointData.isDeleted() &&
+									!theoreticalPointDataStore.contains(measPointData.getTheoreticalPointData())) {
+								theoreticalPointDataStore.add(measPointData.getTheoreticalPointData());
 							}
 						}
 					}
-	        		
 	        		
 	        		String fileName = measuredPillarDataController.fileProcess.saveMeasurmentReportRowData(standingPointDataStore);
 	        		

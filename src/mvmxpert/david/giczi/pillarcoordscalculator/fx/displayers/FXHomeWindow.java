@@ -130,7 +130,9 @@ public class FXHomeWindow extends Application {
 		MenuItem openIntersection = new MenuItem("Előmetszés megnyitása");
 		openIntersection.setOnAction(e -> {
 		homeController.measuredPillarDataController.openIntersectionProject();
-		homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgoz");
+		if( homeController.measuredPillarDataController.intersectionInputDataWindow != null ) {
+			homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgoz");	
+		}
 		MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 		});
 		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 

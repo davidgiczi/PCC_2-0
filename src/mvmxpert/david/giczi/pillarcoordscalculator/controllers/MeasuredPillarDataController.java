@@ -298,6 +298,34 @@ public class MeasuredPillarDataController {
         intersectionInputDataWindow = new IntersectionInputDataWindow(this);
     }
     
+    public void initIntersectionInputDataWindow() {
+    	
+    	intersectionInputDataWindow.startField_X.setText("");
+    	intersectionInputDataWindow.startField_Y.setText("");
+    	intersectionInputDataWindow.endField_X.setText("");
+    	intersectionInputDataWindow.endField_Y.setText("");
+    	intersectionInputDataWindow.standingAPointField_X.setText("");
+    	intersectionInputDataWindow.standingAPointField_Y.setText("");
+    	intersectionInputDataWindow.standingAPointField_Z.setText("");
+    	intersectionInputDataWindow.standingAPointAzimuthAngleField.setText("");
+    	intersectionInputDataWindow.standingAPointAzimuthMinField.setText("");
+    	intersectionInputDataWindow.standingAPointAzimuthSecField.setText("");
+    	intersectionInputDataWindow.standingAPointElevationAngleField.setText("");
+    	intersectionInputDataWindow.standingAPointElevationMinField.setText("");
+    	intersectionInputDataWindow.standingAPointElevationSecField.setText("");
+    	intersectionInputDataWindow.standingBPointField_X.setText("");
+    	intersectionInputDataWindow.standingBPointField_Y.setText("");
+    	intersectionInputDataWindow.standingBPointField_Z.setText("");
+    	intersectionInputDataWindow.standingBPointAzimuthAngleField.setText("");
+    	intersectionInputDataWindow.standingBPointAzimuthMinField.setText("");
+    	intersectionInputDataWindow.standingBPointAzimuthSecField.setText("");
+    	intersectionInputDataWindow.standingBPointElevationAngleField.setText("");
+    	intersectionInputDataWindow.standingBPointElevationMinField.setText("");
+    	intersectionInputDataWindow.standingBPointElevationSecField.setText("");
+    	intersectionInputDataWindow.calcButton.setText("Adatok beolvasása");
+    	MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
+    }
+    
     
     private void loadMeasureFileDataForElevationMeasureOnly() {
     	

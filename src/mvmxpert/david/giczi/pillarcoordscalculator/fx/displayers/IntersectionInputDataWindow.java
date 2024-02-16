@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -65,6 +66,13 @@ public class IntersectionInputDataWindow {
         stage.setOnCloseRequest(windowEvent ->
                 measuredPillarDataController.fxHomeWindow.homeStage.show());
         pane = new AnchorPane();
+        pane.setOnMouseClicked(event -> {
+        	
+        	if (event.getButton() == MouseButton.SECONDARY){
+        		measuredPillarDataController.initIntersectionInputDataWindow();
+        	}
+      
+        });
         vBox = new VBox();
         pane.setStyle("-fx-background-color: white");
         addWireDataFields();
