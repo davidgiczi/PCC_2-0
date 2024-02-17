@@ -171,6 +171,21 @@ public class MeasurmentDataDisplayer {
 	    			measuredPointRow.setTooltip();
 	    			if( Integer.parseInt(measuredPointData.getRowNumber()) % 2 == 0 ) {
 	    				measuredPointRow.setStyle("-fx-background-color:#F4F4F4");
+	    				measuredPointRow.getMeasuredPointNameField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getMeasuredPointYField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getMeasuredPointXField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getMeasuredPointZField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getMeasuredPointSignHeightField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getMeasuredPointSignField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getHorizontalAngleField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getVerticalAngleField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getHorizontalDistanceField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getDateField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getTheoreticalPointNameField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getTheoreticalPointYField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getTheoreticalPointXField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getTheoreticalPointZField().setStyle("-fx-control-inner-background:#F4F4F4;");
+	    				measuredPointRow.getTheoreticalPointSignNameField().setStyle("-fx-control-inner-background:#F4F4F4;");
 	    			}
 	    			MeasDataRow twoMeasmentRow = null; 
 	    			if( measuredPointData.getFirstHrMeas() != null && measuredPointData.getFirstVrMeas() != null ) {
@@ -192,11 +207,7 @@ public class MeasurmentDataDisplayer {
 	    			ROWS.getChildren().add(measuredPointRow);
 	    			if( twoMeasmentRow != null ) {
 	    				ROWS.getChildren().add(twoMeasmentRow);	
-	    				MeasDataRow firstMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 2);
 	    				MeasDataRow secondMeasRow = (MeasDataRow) ROWS.getChildren().get(ROWS.getChildren().indexOf(twoMeasmentRow) - 1);
-	    				firstMeasRow.getHorizontalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
-	    				firstMeasRow.getVerticalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
-	    				firstMeasRow.getHorizontalDistanceField().setStyle("-fx-control-inner-background:#FFFFE0;");
 	    				secondMeasRow.getHorizontalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
 	    				secondMeasRow.getVerticalAngleField().setStyle("-fx-control-inner-background:#FFFFE0;");
 	    				secondMeasRow.getHorizontalDistanceField().setStyle("-fx-control-inner-background:#FFFFE0;");
@@ -380,32 +391,35 @@ public class MeasurmentDataDisplayer {
 	    		return;
 	    	}
 	    	
-	    	for (RowData standingPoint : standingPointDataStore) {
+	    	for (RowData standingPoint1 : standingPointDataStore) {
 	    		
-	    		for (int i = 0; i < standingPoint.getMeasuredPointDataStore().size() - 1; i++) {
+	    		for (RowData measPoint1 : standingPoint1.getMeasuredPointDataStore()) {
 	    			
 	    			
-	    			if( standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointY()
-	    					.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointY()) &&
-	    							standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointX()
-	    	    						.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointX()) &&
-	    	    											standingPoint.getMeasuredPointDataStore().get(i + 1).getMeasuredPointSign()
-	    	    												.equals(standingPoint.getMeasuredPointDataStore().get(i).getMeasuredPointSign())) {
-	    				
-	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
-	    				.setFirstHrMeas(standingPoint.getMeasuredPointDataStore().get(i).getHorizontalAngle());
-	    				
-	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
-	    				.setFirstVrMeas(standingPoint.getMeasuredPointDataStore().get(i).getVerticalAngle());
-	    				
-	    				standingPoint.getMeasuredPointDataStore().get(i + 1)
-	    				.setFirstDistValue(standingPoint.getMeasuredPointDataStore().get(i).getHorizontalDistance());
-	    				
-	    			}
+	    			for (RowData standingPoint2 : standingPointDataStore) {
+	    	    		
+	    	    		for (RowData measPoint2 : standingPoint2.getMeasuredPointDataStore()) {
+	    	    			
+	    	    			
+	    	    			if( standingPoint1.getStandingPointName().equals(standingPoint2.getStandingPointName()) &&
+	    	    					measPoint1.getMeasuredPointSign().equals(measPoint2.getMeasuredPointSign()) &&
+	    	    					measPoint1.getMeasuredPointX().equals(measPoint2.getMeasuredPointX()) &&
+	    	    					measPoint1.getMeasuredPointY().equals(measPoint2.getMeasuredPointY()) &&
+	    	    					!measPoint1.getHorizontalAngle().equals(measPoint2.getHorizontalAngle()) &&
+	    	    					!measPoint1.getVerticalAngle().equals(measPoint2.getVerticalAngle()) &&
+	    	    					measPoint1.getFirstHrMeas() == null &&
+	    	    					measPoint1.getFirstVrMeas() == null &&
+	    	    					measPoint2.getFirstHrMeas() == null &&
+	    	    					measPoint2.getFirstVrMeas() == null ) {
+	    	    				
+	    	    					measPoint2.setFirstHrMeas(measPoint1.getHorizontalAngle());
+	    	    					measPoint2.setFirstVrMeas(measPoint1.getVerticalAngle());
+	    	    			}		
+	    	    		}
+	    	    	}	
+	    		}
 	    			
-				}
-				
-			}
+	    	}
 	    	
 	    }
 	    
@@ -428,7 +442,6 @@ public class MeasurmentDataDisplayer {
 	    					standingPointDataStore.add(standingPointRow);
 	    					standingPointRow = new RowData();
 	    				}
-	    				standingPointRow.setDeleted(measDataRow.isDeletedRow());
 	    				standingPointRow.setStandingPointName(row.getId());
 	    				standingPointRow.setStandingPointY(measDataRow.getStandingPointYField().getText());
 	    				standingPointRow.setStandingPointX(measDataRow.getStandingPointXField().getText());
@@ -438,7 +451,7 @@ public class MeasurmentDataDisplayer {
 	    			}
 	    			else if(row.getId().startsWith("MEAS")){
 	    				RowData measPointRow = new RowData();
-	    				measPointRow.setDeleted(standingPointRow.isDeleted());
+	    				measPointRow.setDeleted(measDataRow.isDeletedRow());
 	    				measPointRow.setStandingPointName(standingPointRow.getStandingPointName());
 	    				measPointRow.setStandingPointY(standingPointRow.getStandingPointY());
 	    				measPointRow.setStandingPointX(standingPointRow.getStandingPointX());
@@ -678,7 +691,7 @@ public class MeasurmentDataDisplayer {
 	         theoreticalPointZ.setEditable(false);
 	         header.getChildren().add(theoreticalPointZ);
 	         TextField theoreticalPointSign = new TextField("Jellege");
-	         theoreticalPointSign.setMaxWidth(40 * MILLIMETER);
+	         theoreticalPointSign.setMaxWidth(30 * MILLIMETER);
 	    	 HBox.setHgrow(theoreticalPointSign, Priority.ALWAYS);
 	         theoreticalPointSign.setFont(LARGE_BOLD);
 	         theoreticalPointSign.setAlignment(Pos.CENTER);

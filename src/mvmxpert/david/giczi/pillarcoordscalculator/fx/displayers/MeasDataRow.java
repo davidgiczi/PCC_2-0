@@ -108,28 +108,57 @@ public class MeasDataRow extends HBox {
 	}
 
 	private void noDeleteRowData() {
+		
+		
+		if( Integer.parseInt(rowNumber.getText()) % 2 == 0 ) {
 			
-		 rowNumber.setStyle("-fx-control-inner-background:white");
-		 standingPointNameField.setStyle("-fx-control-inner-background:white");
-		 standingPointYField.setStyle("-fx-control-inner-background:white");
-		 standingPointXField.setStyle("-fx-control-inner-background:white");
-		 standingPointZField.setStyle("-fx-control-inner-background:white");
-		 totalStationHeightField.setStyle("-fx-control-inner-background:white");
-		 measuredPointNameField.setStyle("-fx-control-inner-background:white");
-		 measuredPointYField.setStyle("-fx-control-inner-background:white");
-		 measuredPointXField.setStyle("-fx-control-inner-background:white");
-		 measuredPointZField.setStyle("-fx-control-inner-background:white");
-		 measuredPointSignField.setStyle("-fx-control-inner-background:white");
-		 horizontalAngleField.setStyle("-fx-control-inner-background:white");
-		 verticalAngleField.setStyle("-fx-control-inner-background:white");
-		 horizontalDistanceField.setStyle("-fx-control-inner-background:white");
-		 measuredPointSignHeightField.setStyle("-fx-control-inner-background:white");
-		 dateField.setStyle("-fx-control-inner-background:white");
-		 theoreticalPointNameField.setStyle("-fx-control-inner-background:white");
-		 theoreticalPointXField.setStyle("-fx-control-inner-background:white");
-		 theoreticalPointYField.setStyle("-fx-control-inner-background:white");
-		 theoreticalPointZField.setStyle("-fx-control-inner-background:white");
-		 theoreticalPointSignNameField.setStyle("-fx-control-inner-background:white");
+			rowNumber.setStyle("-fx-control-inner-background: #F4F4F4");
+			 standingPointNameField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 standingPointYField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 standingPointXField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 standingPointZField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 totalStationHeightField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointNameField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointYField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointXField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointZField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointSignField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 horizontalAngleField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 verticalAngleField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 horizontalDistanceField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 measuredPointSignHeightField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 dateField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 theoreticalPointNameField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 theoreticalPointXField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 theoreticalPointYField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 theoreticalPointZField.setStyle("-fx-control-inner-background: #F4F4F4");
+			 theoreticalPointSignNameField.setStyle("-fx-control-inner-background: #F4F4F4");
+		}
+		else {
+			
+			 rowNumber.setStyle("-fx-control-inner-background: white");
+			 standingPointNameField.setStyle("-fx-control-inner-background: white");
+			 standingPointYField.setStyle("-fx-control-inner-background: white");
+			 standingPointXField.setStyle("-fx-control-inner-background: white");
+			 standingPointZField.setStyle("-fx-control-inner-background: white");
+			 totalStationHeightField.setStyle("-fx-control-inner-background: white");
+			 measuredPointNameField.setStyle("-fx-control-inner-background: white");
+			 measuredPointYField.setStyle("-fx-control-inner-background: white");
+			 measuredPointXField.setStyle("-fx-control-inner-background: white");
+			 measuredPointZField.setStyle("-fx-control-inner-background: white");
+			 measuredPointSignField.setStyle("-fx-control-inner-background: white");
+			 horizontalAngleField.setStyle("-fx-control-inner-background: white");
+			 verticalAngleField.setStyle("-fx-control-inner-background: white");
+			 horizontalDistanceField.setStyle("-fx-control-inner-background: white");
+			 measuredPointSignHeightField.setStyle("-fx-control-inner-background: white");
+			 dateField.setStyle("-fx-control-inner-background: white");
+			 theoreticalPointNameField.setStyle("-fx-control-inner-background: white");
+			 theoreticalPointXField.setStyle("-fx-control-inner-background: white");
+			 theoreticalPointYField.setStyle("-fx-control-inner-background: white");
+			 theoreticalPointZField.setStyle("-fx-control-inner-background: white");
+			 theoreticalPointSignNameField.setStyle("-fx-control-inner-background: white");	
+		}
+		 
 }
 	
 	
@@ -304,7 +333,7 @@ public class MeasDataRow extends HBox {
         theoreticalPointZField.setAlignment(Pos.CENTER);
         this.getChildren().add(theoreticalPointZField);
         theoreticalPointSignNameField = new TextField();
-        theoreticalPointSignNameField.setPrefWidth(40 * MILLIMETER);
+        theoreticalPointSignNameField.setPrefWidth(30 * MILLIMETER);
    	 	HBox.setHgrow(theoreticalPointSignNameField, Priority.ALWAYS);
         theoreticalPointSignNameField.setFont(NORMAL);
         theoreticalPointSignNameField.setAlignment(Pos.CENTER);
