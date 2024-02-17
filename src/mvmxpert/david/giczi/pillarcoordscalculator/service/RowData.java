@@ -70,7 +70,7 @@ public class RowData {
 		try {
 		firstValue = Double.parseDouble(horizontalDistance);
 		secondValue = Double.parseDouble(firstDistValue);
-		}catch (NumberFormatException e) {
+		}catch (Exception e) {
 			return "0.000";
 		}
 		
