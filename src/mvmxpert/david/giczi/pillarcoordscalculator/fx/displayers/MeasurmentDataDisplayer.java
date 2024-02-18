@@ -1,5 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,10 +59,12 @@ public class MeasurmentDataDisplayer {
 	        	if( measuredPillarDataController
 	        			.getConfirmationAlert("Jegyzőkönyv mentése", "Kívánod a jegyzőkönyvet fájlba menteni?") ) {
 	        		
+	        		
+	        		
 	        		for (RowData standingPointData : standingPointDataStore) {
 						for (RowData measPointData: standingPointData.getMeasuredPointDataStore()) {
 							if( measPointData.getTheoreticalPointData() != null && 
-									!measPointData.isDeleted() &&
+									!measPointData.getTheoreticalPointData().isDeleted() &&
 									!theoreticalPointDataStore.contains(measPointData.getTheoreticalPointData())) {
 								theoreticalPointDataStore.add(measPointData.getTheoreticalPointData());
 							}
@@ -69,11 +72,19 @@ public class MeasurmentDataDisplayer {
 					}
 	        		
 	        		String fileName = measuredPillarDataController.fileProcess.saveMeasurmentReportRowData(standingPointDataStore);
+	        		File file = measuredPillarDataController.fileProcess.saveMeasurmentReportTheoreticalPointData(theoreticalPointDataStore, fileName);
 	        		
-	        		measuredPillarDataController.fileProcess.saveMeasurmentReportTheoreticalPointData(theoreticalPointDataStore, fileName);
+	        	if(	file.length() != 0 ) {
 	        		
 	        		measuredPillarDataController.getInfoAlert(fileName, 
 	        				"A mérési jegyzőkönyv mentve a(z)\n\n" +  PLRFileProcess.FOLDER_PATH + " mappába.");
+	        	}
+	        	else {
+	        		measuredPillarDataController.getInfoAlert("Adatok mentése sikertelen", 
+	        				"Nincs menthető adat.");
+	        		file.delete();
+	        	}
+	        		
 	        	}
 	        });
 	        pane.setStyle("-fx-background-color: white");

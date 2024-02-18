@@ -384,7 +384,7 @@ public class PLRFileProcess {
 	}
 		
 	
-	public void saveMeasurmentReportTheoreticalPointData(List<TheoreticalPointData> theoreticalPointDataStore, String fileName) {
+	public File saveMeasurmentReportTheoreticalPointData(List<TheoreticalPointData> theoreticalPointDataStore, String fileName) {
 		
 		File file = new File(FOLDER_PATH + "\\" + fileName);
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8, true))){
@@ -398,6 +398,8 @@ public class PLRFileProcess {
 		}
 			catch (IOException e){
 	}
+		
+		return file;
 }
 
 	public static boolean isExistedProjectFile(String extension){
