@@ -425,6 +425,7 @@ public class MeasurmentDataDisplayer {
 	    	    				
 	    	    					measPoint2.setFirstHrMeas(measPoint1.getHorizontalAngle());
 	    	    					measPoint2.setFirstVrMeas(measPoint1.getVerticalAngle());
+	    	    					measPoint2.setFirstDistValue(measPoint1.getHorizontalDistance());
 	    	    			}		
 	    	    		}
 	    	    	}	
