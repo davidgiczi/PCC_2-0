@@ -71,9 +71,9 @@ public class FXHomeWindow extends Application {
 		MenuBar menuBar = new MenuBar();
 		menuBar.setCursor(Cursor.HAND);
 		Menu projectProcess = new Menu("Projekt műveletek");
-		MenuItem openProject = new MenuItem("Projekt megnyitása");
+		MenuItem openProject = new MenuItem("Kitűzés projekt megnyitása");
 		openProject.setOnAction(e -> homeController.openProject());
-		MenuItem createProject = new MenuItem("Új projekt létrehozása");
+		MenuItem createProject = new MenuItem("Új kitűzés projekt létrehozása");
 		createProject.setOnAction(e -> homeController.createNewProject());
 		MenuItem closeProject = new MenuItem("Program bezárása");
 		closeProject.setOnAction(new EventHandler<ActionEvent>() {
