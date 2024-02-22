@@ -649,7 +649,8 @@ public class MeasuredPillarDataController {
     			
     			if( measPoint.getTheoreticalPointData() != null &&
     					measPoint.getTheoreticalPointData().getTheoreticalPointName()
-    					.equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())) {
+    					.equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim()) &&
+    					!measPoint.getTheoreticalPointData().isDeleted()) {
     				intersection = new Intersection();
     				intersection.setTheoreticalPoint(new Point("Theoretical", 
     						Double.parseDouble(measPoint.getTheoreticalPointData().getTheoreticalPointY()), 
@@ -657,21 +658,24 @@ public class MeasuredPillarDataController {
     			}
     			
     			if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
-    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()) {
     			
     				intersectionInputDataWindow.startField_X.setText(measPoint.getMeasuredPointY());
     				intersectionInputDataWindow.startField_Y.setText(measPoint.getMeasuredPointX());
     			}
     			
     			if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
-    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()) {
     				
     				intersectionInputDataWindow.endField_X.setText(measPoint.getMeasuredPointY());
     				intersectionInputDataWindow.endField_Y.setText(measPoint.getMeasuredPointX());
     			}
     			if( !intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
     					measPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingAIdField.getText().trim()) &&
-    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())){
+    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()){
     				
     				if( measPoint.getFirstHrMeas() != null ) {
     					
@@ -735,7 +739,8 @@ public class MeasuredPillarDataController {
     					
     			if( measPoint.getTheoreticalPointData() != null && 
     					measPoint.getTheoreticalPointData().getTheoreticalPointName()
-    					.equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())) {
+    					.equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim()) 
+    					&& !measPoint.getTheoreticalPointData().isDeleted()) {
     				intersection = new Intersection();
     				intersection.setTheoreticalPoint(new Point("Theoretical", 
     						Double.parseDouble(measPoint.getTheoreticalPointData().getTheoreticalPointY()), 
@@ -744,21 +749,24 @@ public class MeasuredPillarDataController {
     			}
     			
     			if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
-    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()) {
     			
     				intersectionInputDataWindow.startField_X.setText(measPoint.getMeasuredPointY());
     				intersectionInputDataWindow.startField_Y.setText(measPoint.getMeasuredPointX());
     			}
     			
     			if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
-    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
+    					measPoint.getMeasuredPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()) {
     				
     				intersectionInputDataWindow.endField_X.setText(measPoint.getMeasuredPointY());
     				intersectionInputDataWindow.endField_Y.setText(measPoint.getMeasuredPointX());
     			}
     			if( !intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
     					measPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingAIdField.getText().trim()) &&
-    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())){
+    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()){
     				
     				if( measPoint.getFirstHrMeas() != null ) {
     					
@@ -793,7 +801,8 @@ public class MeasuredPillarDataController {
     			
     			if( !intersectionInputDataWindow.newPointIdField.getText().isEmpty() &&
     					measPoint.getStandingPointName().equalsIgnoreCase(intersectionInputDataWindow.standingBIdField.getText().trim()) &&
-    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim())){
+    					measPoint.getMeasuredPointSign().equalsIgnoreCase(intersectionInputDataWindow.newPointIdField.getText().trim()) &&
+    					!measPoint.isDeleted()){
     				
     				if( measPoint.getFirstHrMeas() != null ) {
     					
@@ -837,14 +846,16 @@ public class MeasuredPillarDataController {
     	for (TheoreticalPointData theoreticalPointData : measurmentDataDisplayer.getTheoreticalPointDataStore()) {
 			
     		if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
-					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
+					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())
+							&& !theoreticalPointData.isDeleted()) {
 			
 				intersectionInputDataWindow.startField_X.setText(theoreticalPointData.getTheoreticalPointY());
 				intersectionInputDataWindow.startField_Y.setText(theoreticalPointData.getTheoreticalPointX());
 			}
 			
 			if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
-					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
+					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())
+					&& !theoreticalPointData.isDeleted()) {
 				
 				intersectionInputDataWindow.endField_X.setText(theoreticalPointData.getTheoreticalPointY());
 				intersectionInputDataWindow.endField_Y.setText(theoreticalPointData.getTheoreticalPointX());
