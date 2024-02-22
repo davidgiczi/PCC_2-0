@@ -15,6 +15,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasuredPillarData;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -706,7 +707,7 @@ public class MeasuredPillarDataController {
     		}
     	
     	}
-    			
+    			getBaseLineEndPointsDataFromTheoreticalPoints();
 	}
     
     
@@ -827,7 +828,32 @@ public class MeasuredPillarDataController {
 	}
     		
   }	
+    	getBaseLineEndPointsDataFromTheoreticalPoints();
     }
+    
+    
+    private void getBaseLineEndPointsDataFromTheoreticalPoints() {
+    	
+    	for (TheoreticalPointData theoreticalPointData : measurmentDataDisplayer.getTheoreticalPointDataStore()) {
+			
+    		if( !intersectionInputDataWindow.startPointIdField.getText().isEmpty() &&
+					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.startPointIdField.getText().trim())) {
+			
+				intersectionInputDataWindow.startField_X.setText(theoreticalPointData.getTheoreticalPointY());
+				intersectionInputDataWindow.startField_Y.setText(theoreticalPointData.getTheoreticalPointX());
+			}
+			
+			if( !intersectionInputDataWindow.endPointIdField.getText().isEmpty() &&
+					theoreticalPointData.getTheoreticalPointName().equalsIgnoreCase(intersectionInputDataWindow.endPointIdField.getText().trim())) {
+				
+				intersectionInputDataWindow.endField_X.setText(theoreticalPointData.getTheoreticalPointY());
+				intersectionInputDataWindow.endField_Y.setText(theoreticalPointData.getTheoreticalPointX());
+			}
+    		 		
+		}
+    	
+    }
+    
     
     private void loadMeasureFileData(){
         if( !intersectionInputDataWindow.standingAIdField.getText().isEmpty() &&
