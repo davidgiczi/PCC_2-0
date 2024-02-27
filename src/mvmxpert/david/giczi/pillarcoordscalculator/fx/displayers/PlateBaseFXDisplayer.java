@@ -97,10 +97,13 @@ public class PlateBaseFXDisplayer {
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if( mouseEvent.getButton() == MouseButton.SECONDARY ){
+                if( mouseEvent.getButton() == MouseButton.PRIMARY ){
                    distancePointList.clear();
                    stk_distancePointList.clear();
                    nextRowValue += 10 * MILLIMETER;
+                }
+                else if( mouseEvent.getButton() == MouseButton.SECONDARY ) {
+                	displayPillarBasePointId();
                 }
             }
         });
@@ -114,6 +117,18 @@ public class PlateBaseFXDisplayer {
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	private void displayPillarBasePointId() {
+		
+			for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
+				setText(transformedPillarBasePoints.get(i).getPointID(), 
+						transformedPillarBasePoints.get(i), Color.LIGHTGREY, 14);
+			}
+			
+			setText("M= 1:" + (int) SCALE, 
+					new Point(null, - 72  * MILLIMETER, - 55 * MILLIMETER), 
+					Color.BLACK, 16);
 	}
 	
     private void getContent(){
@@ -146,7 +161,7 @@ public class PlateBaseFXDisplayer {
         ImageView northSign = new ImageView(new Image("/img/north.jpg"));
         northSign.setFitWidth(40 * MILLIMETER);
         northSign.setFitHeight(40 * MILLIMETER);
-        northSign.xProperty().bind(pane.widthProperty().divide(10).add(50 * MILLIMETER));
+        northSign.xProperty().bind(pane.widthProperty().divide(10).multiply(2).add(50 * MILLIMETER));
         northSign.setY(10 * MILLIMETER);
         pane.getChildren().add(northSign);
     }
@@ -807,11 +822,11 @@ public class PlateBaseFXDisplayer {
                         + DIRECTION_POINT.getPointID() + ". oszlopok távolsága: " +
                         String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m");
         distanceInfo.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-        distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
+        distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(4));
         distanceInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(9));
         Text unit = new Text("1m");
         unit.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-        unit.xProperty().bind(pane.widthProperty().divide(10).multiply(3).subtract(100 * MILLIMETER / SCALE));
+        unit.xProperty().bind(pane.widthProperty().divide(10).multiply(4).subtract(100 * MILLIMETER / SCALE));
         unit.yProperty().bind(pane.heightProperty()
                 .divide(10).multiply(9).subtract(10 * MILLIMETER ));
         Line distanceUnit = new Line();
@@ -820,7 +835,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3));
+                        .multiply(4));
         distanceUnit
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -831,7 +846,7 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3)
+                        .multiply(4)
                         .add(1000 * MILLIMETER / SCALE));
         distanceUnit
                 .endYProperty()
@@ -845,7 +860,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3));
+                        .multiply(4));
         leftEndLine
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -856,7 +871,7 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3));
+                        .multiply(4));
         leftEndLine
                 .endYProperty()
                 .bind(pane.heightProperty()
@@ -869,7 +884,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3).add(1000 * MILLIMETER / SCALE));
+                        .multiply(4).add(1000 * MILLIMETER / SCALE));
         rightEndLine
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -880,7 +895,7 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(3).add(1000 * MILLIMETER / SCALE));
+                        .multiply(4).add(1000 * MILLIMETER / SCALE));
         rightEndLine
                 .endYProperty()
                 .bind(pane.heightProperty()
@@ -894,6 +909,13 @@ public class PlateBaseFXDisplayer {
         Text text = new Text(textData);
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, size));
         text.setFill(color);
+        text.setCursor(Cursor.HAND);
+        text.setOnMouseClicked(e -> {
+            if( e.getButton() == MouseButton.MIDDLE ) {
+            	Text clickedText = (Text) e.getSource();
+                clickedText.setFill(Color.WHITE);	
+            }
+            });
         text.xProperty()
                 .bind(pane.widthProperty()
                         .divide(10).multiply(6)
