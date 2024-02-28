@@ -97,7 +97,7 @@ public class PlateBaseFXDisplayer {
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if( mouseEvent.getButton() == MouseButton.PRIMARY ){
+                if( mouseEvent.getButton() == MouseButton.MIDDLE ){
                    distancePointList.clear();
                    stk_distancePointList.clear();
                    nextRowValue += 10 * MILLIMETER;

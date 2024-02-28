@@ -96,7 +96,7 @@ public class WeightBaseFXDisplayer {
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if( mouseEvent.getButton() == MouseButton.PRIMARY ){
+                if( mouseEvent.getButton() == MouseButton.MIDDLE ){
                    distancePointList.clear();
                    stk_distancePointList.clear();
                    nextRowValue += 10 * MILLIMETER;
@@ -715,6 +715,7 @@ public class WeightBaseFXDisplayer {
         if( distancePointList.size() == 1 ){
             return;
         }
+       
         double distance =
                 new AzimuthAndDistance(distancePointList.get(distancePointList.size() - 2),
                         distancePointList.get(distancePointList.size() - 1)).calcDistance();
