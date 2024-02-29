@@ -93,8 +93,10 @@ public class MeasuredPillarDataController {
     
     public void openMeasuredData(){
     	init();
-        fileProcess.getPillarBaseMeasureFileData();;
+        fileProcess.getPillarBaseMeasureFileData();
         if( fileProcess.getPillarBaseMeasData() == null || fileProcess.getPillarBaseMeasData().isEmpty() ){
+        	getInfoAlert("Nem beolvasható adat",
+                    "Nem található beolvasható mérési eredmény a fájlban.");
             return;
         }
         measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
