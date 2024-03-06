@@ -122,7 +122,7 @@ public class WeightBaseFXDisplayer {
 		
 		for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
 			setText(transformedPillarBasePoints.get(i).getPointID(), 
-					transformedPillarBasePoints.get(i), Color.LIGHTGREY, 14);
+					transformedPillarBasePoints.get(i), Color.FIREBRICK, 14);
 		}
 		
 		setText("M= 1:" + (int) SCALE, 
