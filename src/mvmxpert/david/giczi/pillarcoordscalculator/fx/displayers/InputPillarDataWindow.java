@@ -40,6 +40,7 @@ public class InputPillarDataWindow {
     public TextField directionPillarIDField;
     public TextField directionPillarField_X;
     public TextField directionPillarField_Y;
+    public  Button processButton;
 
     public InputPillarDataWindow(MeasuredPillarDataController measuredPillarDataController){
         this.measuredPillarDataController = measuredPillarDataController;
@@ -59,6 +60,9 @@ public class InputPillarDataWindow {
                         measuredPillarDataController.openMeasuredData();
                         measuredPillarDataController.setCreatedInputPillarDataWindow(false);
                 }
+               
+                MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
+                processButton.setText("Tallóz");
             }
         });
         vBox = new VBox();
@@ -411,14 +415,14 @@ public class InputPillarDataWindow {
     }
 
     private void addCalcButton(){
-    Button calcButton = new Button("Számol");
-    calcButton.setOnMouseClicked(e -> measuredPillarDataController.onlClickCountButtonProcessForPillarBaseProject());
-    calcButton.setCursor(Cursor.HAND);
-    calcButton.setFont(boldFont);
+    processButton = new Button("Tallóz");
+    processButton.setOnMouseClicked(e -> measuredPillarDataController.onlClickProcessButtonForPillarBaseProject());
+    processButton.setCursor(Cursor.HAND);
+    processButton.setFont(boldFont);
     HBox calcButtonHbox = new HBox();
     calcButtonHbox.setPadding(new Insets(20,20,20,20));
     calcButtonHbox.setAlignment(Pos.CENTER);
-    calcButtonHbox.getChildren().add(calcButton);
+    calcButtonHbox.getChildren().add(processButton);
     vBox.getChildren().add(calcButtonHbox);
     }
 

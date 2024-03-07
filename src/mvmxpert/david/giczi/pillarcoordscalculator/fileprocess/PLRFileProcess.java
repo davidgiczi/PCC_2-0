@@ -22,6 +22,7 @@ public class PLRFileProcess {
 	public static String FOLDER_PATH;
 	public static String MEAS_FILE_NAME;
 	private List<String> pillarBaseMeasData;
+	public List<String> pccData;
 	private String delimiter = ";";
 
 	public PLRFileProcess(MeasuredPillarDataController measuredPillarDataController){
@@ -188,6 +189,42 @@ public class PLRFileProcess {
 		}
 	}
 
+	public void getPillarBaseDataByPCCProject() {
+		
+		FileChooser projectFileChooser = new FileChooser();
+		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ?
+				new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
+		projectFileChooser.setTitle("Válassz kitűzési projektet");
+		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Kitűzés projekt fájl (*.pcc)", "*.pcc");
+		projectFileChooser.getExtensionFilters().add(projectFileFilter);
+		File selectedFile = projectFileChooser.showOpenDialog(measuredPillarDataController.fxHomeWindow.homeStage);
+		if ( selectedFile != null ) {
+			setPillarBaseDataByPCCProject(selectedFile);
+		}
+		else {
+		measuredPillarDataController.inputPillarDataWindow.processButton.setText("Számol");
+        MeasuredPillarDataController.IS_OPEN_PCC_DATA = true;
+		}
+	}
+	
+		
+	private void setPillarBaseDataByPCCProject(File selectedFile) {
+		pccData = new ArrayList<>();
+		try(BufferedReader reader = new BufferedReader(
+				new FileReader(selectedFile, StandardCharsets.UTF_8))) {
+
+			String row = reader.readLine();
+			while (row != null) {
+				
+				pccData.add(row);
+				
+				row = reader.readLine();
+			}
+		}
+		catch (IOException e) {
+		}
+	}
+	
 	private void setPillarBaseData(File selectedFile){
 		pillarBaseMeasData = new ArrayList<>();
 		try(BufferedReader reader = new BufferedReader(
