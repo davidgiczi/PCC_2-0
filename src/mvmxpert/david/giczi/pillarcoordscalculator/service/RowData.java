@@ -103,25 +103,25 @@ public class RowData {
 		return standingPointY;
 	}
 	public void setStandingPointY(String standingPointY) {
-		this.standingPointY = standingPointY;
+		this.standingPointY = standingPointY.replace(",", ".");
 	}
 	public String getStandingPointX() {
 		return standingPointX;
 	}
 	public void setStandingPointX(String standingPointX) {
-		this.standingPointX = standingPointX;
+		this.standingPointX = standingPointX.replace(",", ".");
 	}
 	public String getStandingPointZ() {
 		return standingPointZ;
 	}
 	public void setStandingPointZ(String standingPointZ) {
-		this.standingPointZ = standingPointZ;
+		this.standingPointZ = standingPointZ.replace(",", ".");
 	}
 	public String getTotalStationHeight() {
 		return totalStationHeight;
 	}
 	public void setTotalStationHeight(String totalStationHeight) {
-		this.totalStationHeight = totalStationHeight;
+		this.totalStationHeight = totalStationHeight.replace(",", ".");
 	}
 
 	public String getMeasuredPointName() {
@@ -134,19 +134,19 @@ public class RowData {
 		return measuredPointY;
 	}
 	public void setMeasuredPointY(String measuredPointY) {
-		this.measuredPointY = measuredPointY;
+		this.measuredPointY = measuredPointY.replace(",", ".");
 	}
 	public String getMeasuredPointX() {
 		return measuredPointX;
 	}
 	public void setMeasuredPointX(String measuredPointX) {
-		this.measuredPointX = measuredPointX;
+		this.measuredPointX = measuredPointX.replace(",", ".");
 	}
 	public String getMeasuredPointZ() {
 		return measuredPointZ;
 	}
 	public void setMeasuredPointZ(String measuredPointZ) {
-		this.measuredPointZ = measuredPointZ;
+		this.measuredPointZ = measuredPointZ.replace(",", ".");
 	}
 	public String getMeasuredPointSign() {
 		return measuredPointSign;
@@ -193,14 +193,14 @@ public class RowData {
 		return horizontalDistance;
 	}
 	public void setHorizontalDistance(String horizontalDistance) {
-		this.horizontalDistance = horizontalDistance;
+		this.horizontalDistance = horizontalDistance.replace(",", ".");
 	}
 	
 	public String getMeasuredPointSignHeight() {
 		return measuredPointSignHeight;
 	}
 	public void setMeasuredPointSignHeight(String measuredPointSignHeight) {
-		this.measuredPointSignHeight = measuredPointSignHeight;
+		this.measuredPointSignHeight = measuredPointSignHeight.replace(",", ".");
 	}
 	public String getDate() {
 		return date;
@@ -257,7 +257,7 @@ public class RowData {
 	}
 
 	public void setFirstDistValue(String firstDistValue) {
-		this.firstDistValue = firstDistValue;
+		this.firstDistValue = firstDistValue.replace(",", ".");
 	}
 
 	public boolean isDeleted() {

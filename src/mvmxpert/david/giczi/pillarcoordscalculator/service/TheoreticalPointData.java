@@ -23,19 +23,19 @@ public class TheoreticalPointData {
 		return theoreticalPointX;
 	}
 	public void setTheoreticalPointX(String theoreticalPointX) {
-		this.theoreticalPointX = theoreticalPointX;
+		this.theoreticalPointX = theoreticalPointX.replace(",", ".");
 	}
 	public String getTheoreticalPointY() {
 		return theoreticalPointY;
 	}
 	public void setTheoreticalPointY(String theoreticalPointY) {
-		this.theoreticalPointY = theoreticalPointY;
+		this.theoreticalPointY = theoreticalPointY.replace(",", ".");
 	}
 	public String getTheoreticalPointZ() {
 		return theoreticalPointZ;
 	}
 	public void setTheoreticalPointZ(String theoreticalPointZ) {
-		this.theoreticalPointZ = theoreticalPointZ;
+		this.theoreticalPointZ = theoreticalPointZ.replace(",", ".");
 	}
 	public String getTheoreticalPointSignName() {
 		return theoreticalPointSignName;

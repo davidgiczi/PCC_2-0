@@ -61,8 +61,6 @@ public class InputPillarDataWindow {
                         measuredPillarDataController.setCreatedInputPillarDataWindow(false);
                 }
                
-                MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
-                processButton.setText("Tallóz");
             }
         });
         vBox = new VBox();
