@@ -283,11 +283,11 @@ public class MeasuredPillarDataController {
     }
     else if( "#PlateBase".equals(fileProcess.pccData.get(0)) ) {
     	inputPillarDataWindow.rotationAngleField
-    	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
+    	.setText(fileProcess.pccData.get(11).substring(0, fileProcess.pccData.get(11).indexOf(".")));
     	inputPillarDataWindow.rotationMinField
-    	.setText(fileProcess.pccData.get(14).substring(0, fileProcess.pccData.get(14).indexOf(".")));
+    	.setText(fileProcess.pccData.get(12).substring(0, fileProcess.pccData.get(12).indexOf(".")));
     	inputPillarDataWindow.rotationSecField
-    	.setText(fileProcess.pccData.get(15).substring(0, fileProcess.pccData.get(15).indexOf(".")));
+    	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
     }
     
     return true;	
