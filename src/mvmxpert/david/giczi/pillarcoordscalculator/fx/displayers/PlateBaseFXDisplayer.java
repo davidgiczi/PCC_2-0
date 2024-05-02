@@ -103,7 +103,7 @@ public class PlateBaseFXDisplayer {
                    nextRowValue += 10 * MILLIMETER;
                 }
                 else if( mouseEvent.getButton() == MouseButton.SECONDARY ) {
-                	displayPillarBasePointId();
+                	displayPillarBaseMetaData();
                 }
             }
         });
@@ -119,7 +119,7 @@ public class PlateBaseFXDisplayer {
         stage.show();
 	}
 	
-	private void displayPillarBasePointId() {
+	private void displayPillarBaseMetaData() {
 		
 			for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
 				setText(transformedPillarBasePoints.get(i).getPointID(), 
@@ -129,6 +129,23 @@ public class PlateBaseFXDisplayer {
 			setText("M= 1:" + (int) SCALE, 
 					new Point(null, - 72  * MILLIMETER, - 55 * MILLIMETER), 
 					Color.BLACK, 16);
+			double vrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(1), 
+					PILLAR_BASE_POINTS.get(4)).calcDistance()) / 100.0;
+			double hrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(1), 
+					PILLAR_BASE_POINTS.get(2)).calcDistance()) / 100.0;
+			if( vrHoleSizeValue == hrHoleSizeValue ) {
+				setText("Az alap gödrének oldalhossza: " + vrHoleSizeValue + "m", 
+						new Point(null, - 72  * MILLIMETER, - 60 * MILLIMETER), 
+						Color.BLACK, 16);
+			}
+			else {
+				setText("Az alap gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeValue + "m", 
+						new Point(null, - 72  * MILLIMETER, - 63 * MILLIMETER), 
+						Color.BLACK, 16);
+				setText("Az alap gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeValue + "m", 
+						new Point(null, - 72  * MILLIMETER, - 68 * MILLIMETER), 
+						Color.BLACK, 16);
+			}	
 	}
 	
     private void getContent(){
