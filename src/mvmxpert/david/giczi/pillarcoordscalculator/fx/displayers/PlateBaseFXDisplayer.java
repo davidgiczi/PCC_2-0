@@ -122,8 +122,17 @@ public class PlateBaseFXDisplayer {
 	private void displayPillarBaseMetaData() {
 		
 			for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
-				setText(transformedPillarBasePoints.get(i).getPointID(), 
-						transformedPillarBasePoints.get(i), Color.FIREBRICK, 14);
+				
+				if( i == 9 || i == 10 ) {
+					setText(transformedPillarBasePoints.get(i).getPointID(), 
+							new Point(null, transformedPillarBasePoints.get(i).getX_coord() - 5 * MILLIMETER, 
+									transformedPillarBasePoints.get(i).getY_coord() + 5 * MILLIMETER) , Color.FIREBRICK, 14);
+				}
+				else {
+					setText(transformedPillarBasePoints.get(i).getPointID(), 
+							transformedPillarBasePoints.get(i), Color.FIREBRICK, 14);
+				}
+				
 			}
 			
 			setText("M= 1:" + (int) SCALE, 
@@ -133,17 +142,17 @@ public class PlateBaseFXDisplayer {
 					PILLAR_BASE_POINTS.get(4)).calcDistance()) / 100.0;
 			double hrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(1), 
 					PILLAR_BASE_POINTS.get(2)).calcDistance()) / 100.0;
-			if( vrHoleSizeValue == hrHoleSizeValue ) {
-				setText("Az alap gödrének oldalhossza: " + vrHoleSizeValue + "m", 
+			if( 0.01 >= Math.abs(vrHoleSizeValue - hrHoleSizeValue) ) {
+				setText("Az alap gödrének oldalhossza: " + (vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeValue : hrHoleSizeValue) + "m", 
 						new Point(null, - 72  * MILLIMETER, - 60 * MILLIMETER), 
 						Color.BLACK, 16);
 			}
 			else {
 				setText("Az alap gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeValue + "m", 
-						new Point(null, - 72  * MILLIMETER, - 63 * MILLIMETER), 
+						new Point(null, - 72  * MILLIMETER, - 80 * MILLIMETER), 
 						Color.BLACK, 16);
 				setText("Az alap gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeValue + "m", 
-						new Point(null, - 72  * MILLIMETER, - 68 * MILLIMETER), 
+						new Point(null, - 72  * MILLIMETER, - 85 * MILLIMETER), 
 						Color.BLACK, 16);
 			}	
 	}

@@ -121,8 +121,15 @@ public class WeightBaseFXDisplayer {
 	private void displayPillarBaseMetaData() {
 		
 		for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
-			setText(transformedPillarBasePoints.get(i).getPointID(), 
-					transformedPillarBasePoints.get(i), Color.FIREBRICK, 14);
+			if( i == 25 || i == 26 ) {
+				setText(transformedPillarBasePoints.get(i).getPointID(), 
+						new Point(null, transformedPillarBasePoints.get(i).getX_coord() - 5 * MILLIMETER, 
+								transformedPillarBasePoints.get(i).getY_coord() + 5 * MILLIMETER) , Color.FIREBRICK, 14);
+			}
+			else {
+				setText(transformedPillarBasePoints.get(i).getPointID(), 
+						transformedPillarBasePoints.get(i), Color.FIREBRICK, 14);
+			}
 		}
 		
 		setText("M= 1:" + (int) SCALE, 
@@ -132,8 +139,8 @@ public class WeightBaseFXDisplayer {
 				PILLAR_BASE_POINTS.get(12)).calcDistance()) / 100.0;
 		double hrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
 				PILLAR_BASE_POINTS.get(10)).calcDistance()) / 100.0;
-		if( vrHoleSizeValue == hrHoleSizeValue ) {
-			setText("A láb gödrének oldalhossza: " + vrHoleSizeValue + "m", 
+		if(0.01 >= Math.abs(vrHoleSizeValue - hrHoleSizeValue) ) {
+			setText("A láb gödrének oldalhossza: " + (vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeValue : hrHoleSizeValue) + "m", 
 					new Point(null, - 72  * MILLIMETER, - 83 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
@@ -149,16 +156,16 @@ public class WeightBaseFXDisplayer {
 				PILLAR_BASE_POINTS.get(23)).calcDistance()) / 1000.0;
 		double hrFootSizeValue = (int) (1000 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
 				PILLAR_BASE_POINTS.get(13)).calcDistance()) / 1000.0;
-		if( vrFootSizeValue == hrFootSizeValue ) {
-			setText("A lábtávolság: " + vrFootSizeValue + "m", 
+		if( 0.01 >= Math.abs(vrFootSizeValue - hrFootSizeValue)) {
+			setText("Lábtávolság: " + (vrFootSizeValue > hrFootSizeValue ? vrFootSizeValue : hrFootSizeValue) + "m", 
 					new Point(null, - 72  * MILLIMETER, - 91 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
 		else {
-			setText("A lábtávolság az oszlopkarra merőlegesen: " + vrFootSizeValue + "m", 
+			setText("Lábtávolság az oszlopkarra merőlegesen: " + vrFootSizeValue + "m", 
 					new Point(null, - 72  * MILLIMETER, - 91 * MILLIMETER), 
 					Color.BLACK, 16);
-			setText("A lábtávolság az oszlopkarral párhuzamosan: " + hrFootSizeValue + "m", 
+			setText("Lábtávolság az oszlopkarral párhuzamosan: " + hrFootSizeValue + "m", 
 					new Point(null, - 72  * MILLIMETER, - 95 * MILLIMETER), 
 					Color.BLACK, 16);
 		}	
