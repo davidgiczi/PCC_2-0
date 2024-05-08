@@ -135,37 +135,41 @@ public class WeightBaseFXDisplayer {
 		setText("M= 1:" + (int) SCALE, 
 				new Point(null, - 72 * MILLIMETER, - 55 * MILLIMETER), 
 				Color.BLACK, 16);
-		double vrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
-				PILLAR_BASE_POINTS.get(12)).calcDistance()) / 100.0;
-		double hrHoleSizeValue = (int) (100 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
-				PILLAR_BASE_POINTS.get(10)).calcDistance()) / 100.0;
+		String vrHoleSizeText = String.format("%.2f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+				PILLAR_BASE_POINTS.get(12)).calcDistance()).replace(",", ".");
+		double vrHoleSizeValue = Double.parseDouble(vrHoleSizeText);
+		String hrHoleSizeText =  String.format("%.2f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+				PILLAR_BASE_POINTS.get(10)).calcDistance()).replace(",", ".");
+		double hrHoleSizeValue = Double.parseDouble(hrHoleSizeText);
 		if(0.01 >= Math.abs(vrHoleSizeValue - hrHoleSizeValue) ) {
-			setText("A láb gödrének oldalhossza: " + (vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeValue : hrHoleSizeValue) + "m", 
+			setText("A láb gödrének oldalhossza: " + (vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeText : hrHoleSizeText) + "m", 
 					new Point(null, - 72  * MILLIMETER, - 83 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
 		else {
-			setText("A láb gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeValue + "m", 
+			setText("A láb gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeText + "m", 
 					new Point(null, - 72  * MILLIMETER, - 83 * MILLIMETER), 
 					Color.BLACK, 16);
-			setText("A láb gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeValue + "m", 
+			setText("A láb gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeText + "m", 
 					new Point(null, - 72  * MILLIMETER, - 87 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
-		double vrFootSizeValue = (int) (1000 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
-				PILLAR_BASE_POINTS.get(23)).calcDistance()) / 1000.0;
-		double hrFootSizeValue = (int) (1000 * new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
-				PILLAR_BASE_POINTS.get(13)).calcDistance()) / 1000.0;
+		String vrFootSizeText = String.format("%.3f",  new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+				PILLAR_BASE_POINTS.get(23)).calcDistance()).replace(",", ".");
+		double vrFootSizeValue = Double.parseDouble(vrFootSizeText);
+		String hrFootSizeText = String.format("%.3f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+				PILLAR_BASE_POINTS.get(13)).calcDistance()).replace(",", ".");
+		double hrFootSizeValue = Double.parseDouble(hrFootSizeText);
 		if( 0.01 >= Math.abs(vrFootSizeValue - hrFootSizeValue)) {
-			setText("Lábtávolság: " + (vrFootSizeValue > hrFootSizeValue ? vrFootSizeValue : hrFootSizeValue) + "m", 
+			setText("Lábtávolság: " + (vrFootSizeValue > hrFootSizeValue ? vrFootSizeText : hrFootSizeText) + "m", 
 					new Point(null, - 72  * MILLIMETER, - 91 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
 		else {
-			setText("Lábtávolság az oszlopkarra merőlegesen: " + vrFootSizeValue + "m", 
+			setText("Lábtávolság az oszlopkarra merőlegesen: " + vrFootSizeText + "m", 
 					new Point(null, - 72  * MILLIMETER, - 91 * MILLIMETER), 
 					Color.BLACK, 16);
-			setText("Lábtávolság az oszlopkarral párhuzamosan: " + hrFootSizeValue + "m", 
+			setText("Lábtávolság az oszlopkarral párhuzamosan: " + hrFootSizeText + "m", 
 					new Point(null, - 72  * MILLIMETER, - 95 * MILLIMETER), 
 					Color.BLACK, 16);
 		}	
