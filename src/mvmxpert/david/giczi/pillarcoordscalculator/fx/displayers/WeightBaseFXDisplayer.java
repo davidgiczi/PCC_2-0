@@ -272,8 +272,12 @@ public class WeightBaseFXDisplayer {
             coords.setId(stk_coords.getPointID());
             coords.setOnMouseEntered(e -> onMouseEnteredEventForSTKPoint(coords));
             coords.setOnMouseExited(e -> onMouseExitedEventForSTKPoint(coords));
+            Text linearDiff = new Text(stk_coords.getLinearDifferenceData());
+            linearDiff.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 14));
+            linearDiff.xProperty().bind(pane.widthProperty().divide(6));
+            linearDiff.setY(row);
             row += 6 * MILLIMETER;
-            pane.getChildren().addAll(pointID, coords);
+            pane.getChildren().addAll(pointID, coords, linearDiff);
         }
     }
 

@@ -118,6 +118,18 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 				"\t" + getDeltaY().replace('.', ',');
 	}
 	
+	public String getLinearDifferenceData() {
+		AzimuthAndDistance centerToDesignPoint = 
+				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForDesignPoint, YcoordForDesignPoint));
+		AzimuthAndDistance centerToSteakoutedPoint = 
+				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForSteakoutPoint, YcoordForSteakoutPoint));
+		double deltaAzimuthInSec = 3600 * Math.toDegrees(centerToDesignPoint.calcAzimuth() - centerToSteakoutedPoint.calcAzimuth());
+		double E = 100 * centerToDesignPoint.calcDistance() * deltaAzimuthInSec / (3600 * 180 / Math.PI);
+		return	"e= " + (deltaAzimuthInSec > 0 ? "+" : "") + 
+				(int) deltaAzimuthInSec + "\", E= " + (deltaAzimuthInSec > 0 ? "+" : "") + (int) (10 * E) / 10.0 + "cm";
+		
+	}
+	
 	public String getPointID() {
 		return pointID;
 	}
