@@ -5,6 +5,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 import java.util.*;
 
+
 public class MeasuredPillarData {
 
     public MeasuredPillarDataController measuredPillarDataController;
@@ -312,6 +313,95 @@ public class MeasuredPillarData {
             }
         }
     }
+    
+    public String getDirectionDifferenceOfMeasuredPillarBasePoints() {
+    	
+    		Point pointA = null;
+    		Point pointB = null;
+    		Point pointC = null;
+    		Point pointD = null;
+    	
+    	for (MeasPoint measPoint: pillarBasePoints){
+    		
+    	if( "A".equals(measPoint.getPointID()) ){
+    			pointA = new Point(measPoint.getPointID(), measPoint.getX_coord(), measPoint.getY_coord());
+    		}
+    	else if( "B".equals(measPoint.getPointID()) ){
+    			pointB = new Point(measPoint.getPointID(), measPoint.getX_coord(), measPoint.getY_coord());
+    		}
+    	else if( "C".equals(measPoint.getPointID()) ){
+    			pointC = new Point(measPoint.getPointID(), measPoint.getX_coord(), measPoint.getY_coord());
+    		}
+    	else if( "D".equals(measPoint.getPointID()) ){
+    			pointD = new Point(measPoint.getPointID(), measPoint.getX_coord(), measPoint.getY_coord());
+    	}
+    }
+    	if( pointA == null || pointB == null || pointC == null || pointD == null ) {
+    		return "";
+    	}
+    	int centerID = Integer.parseInt(pillarCenterPoint.getPointID());
+        int directionID = Integer.parseInt(baseLineDirectionPoint.getPointID());
+    	AzimuthAndDistance azimuthBaseLine = new AzimuthAndDistance
+    			( new Point(pillarCenterPoint.getPointID(), pillarCenterPoint.getX_coord(), pillarCenterPoint.getY_coord()), 
+    			new Point(baseLineDirectionPoint.getPointID(), baseLineDirectionPoint.getX_coord(), baseLineDirectionPoint.getY_coord()) );
+    	
+    	double e1;
+    	double e2;
+    	
+    	if( radRotation == Math.PI && directionID > centerID ) {
+    		AzimuthAndDistance DtoA = new AzimuthAndDistance(pointD, pointA);
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth());
+    		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth());	
+    		double ave = (e1 + e2) / 2;
+    		return "D → A: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * DtoA.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
+    			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
+    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    	}
+    	else if( radRotation == Math.PI && directionID < centerID ) {
+    		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth());
+    		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth());
+    		double ave = (e1 + e2) / 2;
+    		return "A → D: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * AtoD.calcDistance() * e1 / ( 180 / Math.PI ))  + "cm\n" +
+    			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  + "cm\n\n" +
+    			   "átlag: e="+ getAngleMinSecFormat(ave);
+    	}
+    	else if( radRotation != Math.PI && directionID > centerID ) {
+    		AzimuthAndDistance DtoA = new AzimuthAndDistance(pointD, pointA);
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth() - (Math.PI - radRotation) / 2);
+    		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth() - (Math.PI - radRotation) / 2);	
+    		double ave = (e1 + e2) / 2;
+    		return "D → A: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * DtoA.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
+    			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
+    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    	}
+    	else if( radRotation != Math.PI && directionID < centerID ) {
+    		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth() + (Math.PI - radRotation) / 2);
+    		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth() + (Math.PI - radRotation) / 2);	
+    		double ave = (e1 + e2) / 2;
+    		return "A → D: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * AtoD.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
+    			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
+    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    	}
+    	else
+    	
+    	return "";
+    }
+    
+    public String getAngleMinSecFormat(double angleValue){
+
+        int angle = (int) Math.abs( angleValue );
+        int min = (int) ((Math.abs( angleValue ) - angle) * 60);
+        int sec = (int) (Math.abs( angleValue ) * 3600 -  angle * 3600 - min * 60);
+
+        return (angleValue > 0 ? "+" : "-") + angle  + "° " + (min < 10 ? "0" + min : min) + "' " +
+               (sec < 10 ? "0" + sec : sec) + "\"";
+      }
 
     public MeasPoint getPillarBaseCenterPoint(){
         double x = 0.0;

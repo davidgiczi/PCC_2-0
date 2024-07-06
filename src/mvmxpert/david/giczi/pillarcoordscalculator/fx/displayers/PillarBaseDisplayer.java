@@ -106,6 +106,7 @@ public class PillarBaseDisplayer {
         addNextPillarDirection();
         addPreviousPillarDirection();
         addDistanceInformation();
+        addDirectionInformation();
     }
 
     private void addNorthSign(){
@@ -610,7 +611,15 @@ public class PillarBaseDisplayer {
                 .subtract(slavePoint2.calcPolarPoint().getY_coord()));
         pane.getChildren().addAll(arrow1, arrow2);
     }
-
+    
+    private void addDirectionInformation() {
+    	Text directionInfo = new Text(measuredPillarDataController.getDirectionDifference());
+        directionInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        directionInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
+        directionInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(3));
+        pane.getChildren().add(directionInfo);
+    }
+    
     private void addDistanceInformation(){
         Point centerPoint = new Point(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID(),
         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(),
