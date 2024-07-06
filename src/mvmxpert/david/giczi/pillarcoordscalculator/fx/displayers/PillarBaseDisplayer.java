@@ -613,7 +613,7 @@ public class PillarBaseDisplayer {
     }
     
     private void addDirectionInformation() {
-    	Text directionInfo = new Text(measuredPillarDataController.getDirectionDifference());
+    	Text directionInfo = new Text(measuredPillarDataController.getPillarBaseDirectionDifference());
         directionInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
         directionInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
         directionInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(3));

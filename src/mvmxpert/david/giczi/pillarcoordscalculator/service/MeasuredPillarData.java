@@ -314,7 +314,7 @@ public class MeasuredPillarData {
         }
     }
     
-    public String getDirectionDifferenceOfMeasuredPillarBasePoints() {
+    public String calcPillarBaseDirectionDifference() {
     	
     		Point pointA = null;
     		Point pointB = null;

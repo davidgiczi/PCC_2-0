@@ -141,8 +141,8 @@ public class MeasuredPillarDataController {
         openMeasuredData();
     }
     
-    public String getDirectionDifference() {
-    	return measuredPillarData.getDirectionDifferenceOfMeasuredPillarBasePoints();
+    public String getPillarBaseDirectionDifference() {
+    	return measuredPillarData.calcPillarBaseDirectionDifference();
     }
     
     private boolean validatePillarBaseInputData() {
