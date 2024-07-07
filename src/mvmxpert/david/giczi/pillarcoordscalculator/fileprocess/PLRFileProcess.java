@@ -288,6 +288,12 @@ public class PLRFileProcess {
 					writer.newLine();
 				}
 			}
+			if( measuredPillarDataController.measuredPillarData.isRightRotationAngle() ) {
+				writer.write("0");
+			}
+			else {
+				writer.write("1");
+			}
 		}catch (IOException e){
 		}
 	}

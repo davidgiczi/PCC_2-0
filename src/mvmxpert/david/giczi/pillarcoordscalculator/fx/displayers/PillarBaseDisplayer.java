@@ -543,15 +543,15 @@ public class PillarBaseDisplayer {
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getY_coord() -
                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
        AzimuthAndDistance baseLineData = new AzimuthAndDistance(pillarCenterPoint, directionPoint);
-
+       double rotation = measuredPillarDataController.measuredPillarData.isRightRotationAngle() ?
+     		  measuredPillarDataController.measuredPillarData.radRotation : 
+    			   - measuredPillarDataController.measuredPillarData.radRotation;
        PolarPoint startPoint = new PolarPoint(pillarCenterPoint, 3 * MILLIMETER,
-                baseLineData.calcAzimuth() + measuredPillarDataController.measuredPillarData.radRotation,
-                "prevPoint");
+                baseLineData.calcAzimuth() + rotation, "prevPoint");
 
        PolarPoint endPoint = new PolarPoint(startPoint.calcPolarPoint(),
                 7000 * MILLIMETER / SCALE,
-                baseLineData.calcAzimuth() + measuredPillarDataController.measuredPillarData.radRotation,
-                "backwardDirection");
+                baseLineData.calcAzimuth() + rotation, "backwardDirection");
 
         Line backwardDirection = new Line();
         backwardDirection.setStrokeWidth(2);

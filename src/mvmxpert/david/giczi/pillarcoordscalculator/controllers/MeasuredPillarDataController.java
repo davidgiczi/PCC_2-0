@@ -271,6 +271,12 @@ public class MeasuredPillarDataController {
     if( fileProcess.pccData == null || fileProcess.pccData.isEmpty() ) {
     		return false;
     	}
+    if( measuredPillarData.isAscPillarOrder(fileProcess.pccData.get(1), fileProcess.pccData.get(4))) {
+		inputPillarDataWindow.projectDataText.setText("A következő oszlop adatai");
+	}
+	else {
+		inputPillarDataWindow.projectDataText.setText("Az előző oszlop adatai");
+	}
     inputPillarDataWindow.centerPillarIDField.setText(fileProcess.pccData.get(1));	
     inputPillarDataWindow.centerPillarField_X.setText(fileProcess.pccData.get(2));
     inputPillarDataWindow.centerPillarField_Y.setText(fileProcess.pccData.get(3));
@@ -284,6 +290,15 @@ public class MeasuredPillarDataController {
     	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
     	inputPillarDataWindow.rotationSecField.setText(fileProcess.pccData.get(14)
     			.substring(0, fileProcess.pccData.get(14).indexOf(".")));
+    	if( "0".equals(fileProcess.pccData.get(15))) {
+    		measuredPillarData.setRightRotationAngle(true);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög.");
+    	}
+    	else {
+    		measuredPillarData.setRightRotationAngle(false);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög.");
+    	}
+    	
     }
     else if( "#PlateBase".equals(fileProcess.pccData.get(0)) ) {
     	inputPillarDataWindow.rotationAngleField
@@ -292,6 +307,14 @@ public class MeasuredPillarDataController {
     	.setText(fileProcess.pccData.get(12).substring(0, fileProcess.pccData.get(12).indexOf(".")));
     	inputPillarDataWindow.rotationSecField
     	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
+    	if( "0".equals(fileProcess.pccData.get(14))) {
+    		measuredPillarData.setRightRotationAngle(true);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög.");
+    	}
+    	else {
+    		measuredPillarData.setRightRotationAngle(false);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög.");
+    	}
     }
     
     return true;	

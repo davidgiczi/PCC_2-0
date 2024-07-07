@@ -29,6 +29,8 @@ public class InputPillarDataWindow {
     private final Color color = Color.rgb(112,128,144);
     private final Font normalFont = Font.font("Arial", FontWeight.NORMAL, 14);
     private final Font boldFont = Font.font("Arial", FontWeight.BOLD, 13);
+    public Text rotationText;
+    public Text projectDataText;
     public TextField projectNameField;
     public TextField projectPathField;
     public TextField centerPillarIDField;
@@ -266,7 +268,7 @@ public class InputPillarDataWindow {
         centerPillarField_X.setPrefColumnCount(15);
         centerPillarField_X.setFont(normalFont);
         xCoordHbox.getChildren().addAll(xCoordText, centerPillarField_X);
-        Text rotationText = new Text("A nyomvonal által bezárt jobb oldali szög");
+        rotationText = new Text("A nyomvonal által bezár szög");
         rotationText.setFont(boldFont);
         HBox rotationTextHbox = new HBox();
         rotationTextHbox.setAlignment(Pos.CENTER);
@@ -313,6 +315,11 @@ public class InputPillarDataWindow {
 
     private void initDataFieldsByProjectFile(){
         if( PLRFileProcess.isExistedProjectFile("plr") ){
+        	 projectDataText.setText((measuredPillarDataController.
+             		measuredPillarData.isAscPillarOrder(
+             				measuredPillarDataController.pillarBaseProjectFileData.get(0),
+             				measuredPillarDataController.pillarBaseProjectFileData.get(3) ) ? 
+             						"A következő " : "Az előző " ) + "oszlop adatainak megadása");
             centerPillarIDField.setText(measuredPillarDataController.pillarBaseProjectFileData.get(0));
             centerPillarField_X.setText(measuredPillarDataController.pillarBaseProjectFileData.get(1));
             centerPillarField_Y.setText(measuredPillarDataController.pillarBaseProjectFileData.get(2));
@@ -322,6 +329,17 @@ public class InputPillarDataWindow {
             rotationAngleField.setText(measuredPillarDataController.pillarBaseProjectFileData.get(6));
             rotationMinField.setText(measuredPillarDataController.pillarBaseProjectFileData.get(7));
             rotationSecField.setText(measuredPillarDataController.pillarBaseProjectFileData.get(8));
+            int rotationDirectionData = 1;
+            try {
+            rotationDirectionData = Integer.parseInt( measuredPillarDataController
+            		.pillarBaseProjectFileData.get(measuredPillarDataController.pillarBaseProjectFileData.size() - 1));
+            }
+            catch(NumberFormatException n) {
+            	
+            }
+            measuredPillarDataController.measuredPillarData.setRightRotationAngle( rotationDirectionData == 0 ? true : false );
+            rotationText.setText("A nyomvonal által bezárt" + 
+                    (rotationDirectionData == 0 ? " jobb " : " bal ") + "oldali szög");
         }
     }
 
@@ -356,7 +374,7 @@ public class InputPillarDataWindow {
         bottomLine.setStartY(500);
         bottomLine.setEndX(380);
         bottomLine.setEndY(500);
-        Text projectDataText = new Text("A következő/előző oszlop adatainak megadása");
+        projectDataText = new Text("Következő/előző oszlop adatainak megadása");
         projectDataText.setFont(normalFont);
         projectDataText.setFill(color);
         HBox directionPillarTextHbox = new HBox();

@@ -14,6 +14,7 @@ public class MeasuredPillarData {
     private List<MeasPoint> pillarTopPoints;
     private MeasPoint pillarCenterPoint;
     private MeasPoint baseLineDirectionPoint;
+    private boolean isRightRotationAngle;
     public double radRotation;
     private int angleRotation;
     private int minRotation;
@@ -73,8 +74,17 @@ public class MeasuredPillarData {
     public void setSecRotation(int secRotation) {
         this.secRotation = secRotation;
     }
+    
+    
+    public boolean isRightRotationAngle() {
+		return isRightRotationAngle;
+	}
 
-    public void calcPillarLegsPoint(){
+	public void setRightRotationAngle(boolean isRightRotationAngle) {
+		this.isRightRotationAngle = isRightRotationAngle;
+	}
+
+	public void calcPillarLegsPoint(){
         pillarBasePoints = new ArrayList<>();
         for(int i = 0; i < 5; i++){
             List<MeasPoint> pillarLegPoints = new ArrayList<>();
@@ -116,6 +126,12 @@ public class MeasuredPillarData {
             pillarBasePoints.add(pillarLegPoint);
         }
     }
+	
+	public boolean isAscPillarOrder(String centerPillarID, String directionPillarId) {
+		int centerID = Integer.parseInt(centerPillarID == null ? pillarCenterPoint.getPointID() : centerPillarID);
+        int directionID = Integer.parseInt(directionPillarId == null ? baseLineDirectionPoint.getPointID() : directionPillarId);
+		return centerID < directionID;
+	}
 
     public void addIDsForPillarLegs() {
         radRotation = Math.toRadians(angleRotation + minRotation / 60.0 + secRotation / 3600.0);
@@ -149,10 +165,7 @@ public class MeasuredPillarData {
                 return;
         }
 
-        int centerID = Integer.parseInt(pillarCenterPoint.getPointID());
-        int directionID = Integer.parseInt(baseLineDirectionPoint.getPointID());
-
-        if (centerID < directionID) {
+        if ( isAscPillarOrder(null, null) ) {
 
             if (radRotation == Math.PI) {
 
@@ -191,7 +204,7 @@ public class MeasuredPillarData {
             }
         }
 
-        if (centerID > directionID) {
+        if ( !isAscPillarOrder(null, null) ) {
 
             if (radRotation == Math.PI) {
 
@@ -230,9 +243,9 @@ public class MeasuredPillarData {
             }
         }
 
-        if( centerID < directionID ){
+        if( isAscPillarOrder(null, null) ){
 
-            double rotation = (Math.PI - radRotation) / 2;
+            double rotation = isRightRotationAngle ? (Math.PI - radRotation) / 2 : - (Math.PI - radRotation) / 2;
 
           if( 0 < (baseLineDirection.calcAzimuth() - rotation) &&
                   (baseLineDirection.calcAzimuth() - rotation) <= pillarBasePoints.get(0).getAzimuth()){
@@ -272,9 +285,9 @@ public class MeasuredPillarData {
             return;
         }
 
-        if( centerID > directionID)   {
+        if( !isAscPillarOrder(null, null) )   {
 
-            double rotation = (Math.PI + radRotation) / 2;
+            double rotation = isRightRotationAngle ? (Math.PI + radRotation) / 2 : - (Math.PI + radRotation) / 2;
 
             if( 0 < (baseLineDirection.calcAzimuth() + rotation) &&
                     (baseLineDirection.calcAzimuth() + rotation) <= pillarBasePoints.get(0).getAzimuth()){
@@ -339,8 +352,7 @@ public class MeasuredPillarData {
     	if( pointA == null || pointB == null || pointC == null || pointD == null ) {
     		return "";
     	}
-    	int centerID = Integer.parseInt(pillarCenterPoint.getPointID());
-        int directionID = Integer.parseInt(baseLineDirectionPoint.getPointID());
+    	
     	AzimuthAndDistance azimuthBaseLine = new AzimuthAndDistance
     			( new Point(pillarCenterPoint.getPointID(), pillarCenterPoint.getX_coord(), pillarCenterPoint.getY_coord()), 
     			new Point(baseLineDirectionPoint.getPointID(), baseLineDirectionPoint.getX_coord(), baseLineDirectionPoint.getY_coord()) );
@@ -348,7 +360,7 @@ public class MeasuredPillarData {
     	double e1;
     	double e2;
     	
-    	if( radRotation == Math.PI && directionID > centerID ) {
+    	if( radRotation == Math.PI && isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance DtoA = new AzimuthAndDistance(pointD, pointA);
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth());
     		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
@@ -358,7 +370,7 @@ public class MeasuredPillarData {
     			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
     			   "átlag: e=" + getAngleMinSecFormat(ave);
     	}
-    	else if( radRotation == Math.PI && directionID < centerID ) {
+    	else if( radRotation == Math.PI && !isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth());
     		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
@@ -368,21 +380,23 @@ public class MeasuredPillarData {
     			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  + "cm\n\n" +
     			   "átlag: e="+ getAngleMinSecFormat(ave);
     	}
-    	else if( radRotation != Math.PI && directionID > centerID ) {
+    	else if( radRotation != Math.PI && isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance DtoA = new AzimuthAndDistance(pointD, pointA);
-    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth() - (Math.PI - radRotation) / 2);
+    		double rotation = isRightRotationAngle ? - (Math.PI - radRotation) / 2 : (Math.PI - radRotation) / 2;
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth() + rotation);
     		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
-    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth() - (Math.PI - radRotation) / 2);	
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth() + rotation);	
     		double ave = (e1 + e2) / 2;
     		return "D → A: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * DtoA.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
     			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
     			   "átlag: e=" + getAngleMinSecFormat(ave);
     	}
-    	else if( radRotation != Math.PI && directionID < centerID ) {
+    	else if( radRotation != Math.PI && !isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
-    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth() + (Math.PI - radRotation) / 2);
+    		double rotation = isRightRotationAngle ?  - (Math.PI - radRotation) / 2 : (Math.PI - radRotation) / 2;
+    		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth() + rotation);
     		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
-    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth() + (Math.PI - radRotation) / 2);	
+    		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth() + rotation);	
     		double ave = (e1 + e2) / 2;
     		return "A → D: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * AtoD.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
     			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
