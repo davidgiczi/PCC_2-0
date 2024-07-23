@@ -157,16 +157,14 @@ public class MeasuredPillarDataController {
              return false;
          }
          PLRFileProcess.FOLDER_PATH = inputPillarDataWindow.projectPathField.getText();
-          int centerPillarID;
+          int centerPillarID = -1;
          try {
               centerPillarID =
                      InputDataValidator
                              .isValidInputPositiveIntegerValue(inputPillarDataWindow.centerPillarIDField.getText());
          }
          catch (NumberFormatException e){
-             getInfoAlert("Nem megfelelő az oszlop száma",
-                     "Az oszlop száma csak pozitív egész érték lehet.");
-             return false;
+        	inputPillarDataWindow.centerPillarIDField.setText("-1");
          }
           double centerPillarX;
           try {
@@ -223,7 +221,7 @@ public class MeasuredPillarDataController {
               return false;
           }
           measuredPillarData.setSecRotation(sec);
-          int directionPillarID;
+          int directionPillarID = 0;
           try {
               directionPillarID =
                       InputDataValidator
@@ -235,12 +233,9 @@ public class MeasuredPillarDataController {
               }
           }
           catch (NumberFormatException e){
-              getInfoAlert("Nem megfelelő az előző/következő oszlop száma",
-                      "Az oszlop száma csak pozitív egész érték lehet.");
-              return false;
-          }
+        	  inputPillarDataWindow.directionPillarIDField.setText("0");
+           }
 
-         
           try {
                       InputDataValidator
                               .isValidInputPositiveDoubleValue
@@ -292,11 +287,11 @@ public class MeasuredPillarDataController {
     			.substring(0, fileProcess.pccData.get(14).indexOf(".")));
     	if( "0".equals(fileProcess.pccData.get(15))) {
     		measuredPillarData.setRightRotationAngle(true);
-    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög.");
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
     	else {
     		measuredPillarData.setRightRotationAngle(false);
-    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög.");
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
     	}
     	
     }
@@ -309,11 +304,11 @@ public class MeasuredPillarDataController {
     	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
     	if( "0".equals(fileProcess.pccData.get(14))) {
     		measuredPillarData.setRightRotationAngle(true);
-    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög.");
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
     	else {
     		measuredPillarData.setRightRotationAngle(false);
-    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög.");
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
     	}
     }
     

@@ -268,7 +268,7 @@ public class InputPillarDataWindow {
         centerPillarField_X.setPrefColumnCount(15);
         centerPillarField_X.setFont(normalFont);
         xCoordHbox.getChildren().addAll(xCoordText, centerPillarField_X);
-        rotationText = new Text("A nyomvonal által bezár szög");
+        rotationText = new Text("A nyomvonal által bezárt szög");
         rotationText.setFont(boldFont);
         HBox rotationTextHbox = new HBox();
         rotationTextHbox.setAlignment(Pos.CENTER);
