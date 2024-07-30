@@ -285,7 +285,7 @@ public class MeasuredPillarDataController {
     	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
     	inputPillarDataWindow.rotationSecField.setText(fileProcess.pccData.get(14)
     			.substring(0, fileProcess.pccData.get(14).indexOf(".")));
-    	if( "0".equals(fileProcess.pccData.get(15))) {
+    	if( fileProcess.pccData.size() == 16 && "0".equals(fileProcess.pccData.get(15))) {
     		measuredPillarData.setRightRotationAngle(true);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
@@ -302,7 +302,7 @@ public class MeasuredPillarDataController {
     	.setText(fileProcess.pccData.get(12).substring(0, fileProcess.pccData.get(12).indexOf(".")));
     	inputPillarDataWindow.rotationSecField
     	.setText(fileProcess.pccData.get(13).substring(0, fileProcess.pccData.get(13).indexOf(".")));
-    	if( "0".equals(fileProcess.pccData.get(14))) {
+    	if( fileProcess.pccData.size() == 15 && "0".equals(fileProcess.pccData.get(14))) {
     		measuredPillarData.setRightRotationAngle(true);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
