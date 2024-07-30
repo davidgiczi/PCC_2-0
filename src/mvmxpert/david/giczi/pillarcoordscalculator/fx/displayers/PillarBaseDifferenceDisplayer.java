@@ -355,15 +355,16 @@ public class PillarBaseDifferenceDisplayer {
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getY_coord() -
                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
         AzimuthAndDistance baseLineData = new AzimuthAndDistance(pillarCenterPoint, directionPoint);
-
+        double rotation = measuredPillarDataController.measuredPillarData.isRightRotationAngle() ?
+       		  measuredPillarDataController.measuredPillarData.radRotation : 
+      			   - measuredPillarDataController.measuredPillarData.radRotation;
         PolarPoint startPoint = new PolarPoint(pillarCenterPoint, 3 * MILLIMETER,
-                baseLineData.calcAzimuth() + measuredPillarDataController.measuredPillarData.radRotation,
-                "prevPoint");
-
+                baseLineData.calcAzimuth() + rotation,"prevPoint");
+        
         PolarPoint endPoint = new PolarPoint(startPoint.calcPolarPoint(),
                 (1000 * Math.abs(measuredPillarDataController
                         .measuredPillarData.getXDifferenceOnMainLine()) + 30) * MILLIMETER / SCALE,
-                baseLineData.calcAzimuth() + measuredPillarDataController.measuredPillarData.radRotation,
+                baseLineData.calcAzimuth() + rotation,
                 "backwardDirection");
 
         Line backwardDirection = new Line();
