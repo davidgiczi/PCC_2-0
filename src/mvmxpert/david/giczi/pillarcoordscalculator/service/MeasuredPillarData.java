@@ -536,8 +536,9 @@ public class MeasuredPillarData {
                         getPillarBaseCenterPoint().getX_coord(), getPillarBaseCenterPoint().getY_coord()),
                         new Point("topCenter",
                                 getPillarTopCenterPoint().getX_coord(), getPillarTopCenterPoint().getY_coord()));
+        
         return differenceData.calcDistance()
-                * Math.cos(mainLineData.calcAzimuth() + radRotation - differenceData.calcAzimuth());
+                * Math.cos(mainLineData.calcAzimuth() + (isRightRotationAngle ? radRotation : - radRotation) - differenceData.calcAzimuth());
     }
 
     public double getYDifferenceOnBackwardLine(){
@@ -552,7 +553,7 @@ public class MeasuredPillarData {
                         new Point("topCenter",
                                 getPillarTopCenterPoint().getX_coord(), getPillarTopCenterPoint().getY_coord()));
         return differenceData.calcDistance()
-                * Math.sin(mainLineData.calcAzimuth() + radRotation - differenceData.calcAzimuth());
+                * Math.sin(mainLineData.calcAzimuth() +  (isRightRotationAngle ? radRotation : - radRotation) - differenceData.calcAzimuth());
     }
 
     public void parseProjectFileData(List<String> projectFileData){

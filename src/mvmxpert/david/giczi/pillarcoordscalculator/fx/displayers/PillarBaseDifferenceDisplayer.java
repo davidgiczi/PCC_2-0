@@ -567,10 +567,13 @@ public class PillarBaseDifferenceDisplayer {
                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
         AzimuthAndDistance mainLineDirection =
                 new AzimuthAndDistance(pillarCenterPoint, directionPillarPoint);
+        double rotation = measuredPillarDataController.measuredPillarData.isRightRotationAngle() ?
+         		  measuredPillarDataController.measuredPillarData.radRotation : 
+        			   - measuredPillarDataController.measuredPillarData.radRotation;
         PolarPoint endPoint = new PolarPoint(pillarCenterPoint,
                 1000 * measuredPillarDataController.measuredPillarData.getXDifferenceOnBackwardLine()
                         * MILLIMETER / SCALE,
-                mainLineDirection.calcAzimuth() + measuredPillarDataController.measuredPillarData.radRotation,
+                mainLineDirection.calcAzimuth() + rotation,
                 "forwardXDifference");
 
         Line backwardXDifference = new Line();
