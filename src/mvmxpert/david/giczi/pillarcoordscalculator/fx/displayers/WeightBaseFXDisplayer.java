@@ -154,12 +154,12 @@ public class WeightBaseFXDisplayer {
 					new Point(null, - 72  * MILLIMETER, - 87 * MILLIMETER), 
 					Color.BLACK, 16);
 		}
-		String vrFootSizeText = String.format("%.3f",  new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+		String hrFootSizeText = String.format("%.3f",  new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
 				PILLAR_BASE_POINTS.get(23)).calcDistance()).replace(",", ".");
-		double vrFootSizeValue = Double.parseDouble(vrFootSizeText);
-		String hrFootSizeText = String.format("%.3f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
-				PILLAR_BASE_POINTS.get(13)).calcDistance()).replace(",", ".");
 		double hrFootSizeValue = Double.parseDouble(hrFootSizeText);
+		String vrFootSizeText = String.format("%.3f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
+				PILLAR_BASE_POINTS.get(13)).calcDistance()).replace(",", ".");
+		double vrFootSizeValue = Double.parseDouble(vrFootSizeText);
 		if( 0.01 >= Math.abs(vrFootSizeValue - hrFootSizeValue)) {
 			setText("Lábtávolság: " + (vrFootSizeValue > hrFootSizeValue ? vrFootSizeText : hrFootSizeText) + "m", 
 					new Point(null, - 72  * MILLIMETER, - 91 * MILLIMETER), 

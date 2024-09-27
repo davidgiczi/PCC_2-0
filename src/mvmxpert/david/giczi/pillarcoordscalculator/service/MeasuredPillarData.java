@@ -128,8 +128,8 @@ public class MeasuredPillarData {
     }
 	
 	public boolean isAscPillarOrder(String centerPillarID, String directionPillarId) {
-		int centerID = -1;
-		int directionID = 0;
+		int centerID = 0;
+		int directionID = 1;
 		try {
 			centerID = Integer.parseInt(centerPillarID == null ? pillarCenterPoint.getPointID() : centerPillarID);
 	        directionID = Integer.parseInt(directionPillarId == null ? baseLineDirectionPoint.getPointID() : directionPillarId);

@@ -157,14 +157,14 @@ public class MeasuredPillarDataController {
              return false;
          }
          PLRFileProcess.FOLDER_PATH = inputPillarDataWindow.projectPathField.getText();
-          int centerPillarID = -1;
+          int centerPillarID = 0;
          try {
               centerPillarID =
                      InputDataValidator
                              .isValidInputPositiveIntegerValue(inputPillarDataWindow.centerPillarIDField.getText());
          }
          catch (NumberFormatException e){
-        	inputPillarDataWindow.centerPillarIDField.setText("-1");
+        	inputPillarDataWindow.centerPillarIDField.setText("0");
          }
           double centerPillarX;
           try {
@@ -221,7 +221,7 @@ public class MeasuredPillarDataController {
               return false;
           }
           measuredPillarData.setSecRotation(sec);
-          int directionPillarID = 0;
+          int directionPillarID = 1;
           try {
               directionPillarID =
                       InputDataValidator
@@ -233,7 +233,7 @@ public class MeasuredPillarDataController {
               }
           }
           catch (NumberFormatException e){
-        	  inputPillarDataWindow.directionPillarIDField.setText("0");
+        	  inputPillarDataWindow.directionPillarIDField.setText("1");
            }
 
           try {

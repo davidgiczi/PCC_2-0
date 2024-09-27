@@ -161,7 +161,11 @@ public class PillarBaseDifferenceDisplayer {
         if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
         		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
         
-        copyText(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID() + "." + "\t" +
+        copyText((measuredPillarDataController.fileProcess.pccData == null ? 
+        		measuredPillarDataController.pillarBaseProjectFileData == null ?
+				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
+				measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
+				measuredPillarDataController.fileProcess.pccData.get(1))+ "." + "\t" +
                 String.format("%.2f",
                                 (measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord()))

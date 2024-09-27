@@ -119,10 +119,11 @@ public class PillarBaseDisplayer {
     }
 
     private void addCenterPillarData(){
-      Text idText = new Text(measuredPillarDataController
-                .measuredPillarData
-                .getPillarCenterPoint()
-                .getPointID());
+      Text idText = new Text(measuredPillarDataController.fileProcess.pccData == null ? 
+      						measuredPillarDataController.pillarBaseProjectFileData == null ?
+      						measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
+      						measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
+      						measuredPillarDataController.fileProcess.pccData.get(1));
         idText.xProperty().bind(pane.widthProperty().divide(22).multiply(5));
         idText.setY(10 * MILLIMETER);
         idText.setFont(boldFont);
@@ -192,9 +193,11 @@ public class PillarBaseDisplayer {
     }
 
     public void setDataToClipboard(){
-        copyText( measuredPillarDataController
-                .measuredPillarData
-                .getPillarCenterPoint().getPointID() + "." + "\t" +
+        copyText((measuredPillarDataController.fileProcess.pccData == null ? 
+        		measuredPillarDataController.pillarBaseProjectFileData == null ?
+				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
+				measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
+				measuredPillarDataController.fileProcess.pccData.get(1)) + "." + "\t" +
                 String.format("%10.3f", measuredPillarDataController
                         .measuredPillarData.getPillarCenterPoint()
                         .getX_coord()).replace(",", ".") + "\t" +
