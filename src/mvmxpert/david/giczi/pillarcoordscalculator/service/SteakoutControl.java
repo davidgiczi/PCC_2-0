@@ -17,7 +17,7 @@ public class SteakoutControl {
 	private PointID pointID;
 	private String pointIDValue;
 	private String delimiter;
-	private int rotation;
+	private double rotation;
 	private boolean sideOfRotation;
 	private List<SteakoutedCoords> controlledCoords;
 	private HomeController homeController;
@@ -52,7 +52,7 @@ public class SteakoutControl {
 		this.delimiter = delimiter;
 	}
 	
-	public void setRotation(int rotation) {
+	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
 	

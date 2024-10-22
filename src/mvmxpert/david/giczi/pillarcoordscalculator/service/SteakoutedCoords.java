@@ -13,7 +13,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	private String stkPointID;
 	private String comment;
 	private String sign;
-	private int rotation;
+	private double rotation;
 	private boolean sideOfAngel;
 	private BaseType baseType;
 	private String pathDistance;
@@ -142,7 +142,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		return df.format(YcoordForDesignPoint - YcoordForSteakoutPoint);
 	}
 	
-	public void setRotation(int rotation) {
+	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
 
@@ -410,56 +410,56 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + (90 + (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + (90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + (90 + (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + "°-os szöget zár be)";
 			break;
 		case "9":
 			id = 9;
@@ -595,7 +595,8 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? (90  + Math.abs(180 - rotation) / 2) : (90  - Math.abs(180 - rotation) / 2))  + "°-os szöget zár be)";
+					(sideOfAngel ? convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2) : 
+						convertAngleMinSecFormat(90  - Math.abs(180 - rotation) / 2))  + "°-os szöget zár be)";
 			break;
 		case "6":
 			id = 6;
@@ -603,7 +604,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " +  Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "7":
 			id = 7;
@@ -612,7 +613,8 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ verticalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? (rotation / 2) : 90  + Math.abs(180 - rotation) / 2) + "°-os szöget zár be)";
+					(sideOfAngel ? convertAngleMinSecFormat(rotation / 2) : 
+						convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "8":
 			id = 8;
@@ -620,7 +622,8 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + Math.abs((180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + 
+					convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
 			break;
 		case "9":
 			id = 9;
@@ -639,6 +642,15 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		}
 		
 	}
+	
+	private  String convertAngleMinSecFormat(double data){
+        int angle = (int) data;
+        int min = (int) ((data - angle) * 60);
+        double sec = ((int) ((data - angle) * 3600 - min * 60));
+        return (0 > data ? "-" :  "") + Math.abs(angle) + "° "
+                + (9 < Math.abs(min) ? Math.abs(min) : "0" + Math.abs(min)) + "' "
+                + (9 < Math.abs(sec) ? Math.abs(sec) : "0" + Math.abs(sec)) + "\"";
+    }
 	
 	private void setCenterPoint() {
 		id = 0;

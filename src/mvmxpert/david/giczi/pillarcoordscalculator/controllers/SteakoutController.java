@@ -75,7 +75,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setPointID(getPointID(prePostFixSelectedOption));
 		homeController.steakoutControl.setPointIDValue(prePostFixValue);
 		homeController.steakoutControl.setDelimiter(delimiter);
-		homeController.steakoutControl.setRotation((int) homeController.weightBaseCoordsCalculator.getRotation());
+		homeController.steakoutControl.setRotation(homeController.weightBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.controlSteakout();
 		WeightBaseFXDisplayer.setDisplayPillarBaseCoords(false);
 		homeController.getWeightBaseFXDisplayer();
@@ -91,7 +91,7 @@ public class SteakoutController {
 		homeController.steakoutControl.setPointID(getPointID(prePostFixSelectedOption));
 		homeController.steakoutControl.setPointIDValue(prePostFixValue);
 		homeController.steakoutControl.setDelimiter(delimiter);
-		homeController.steakoutControl.setRotation((int) homeController.plateBaseCoordsCalculator.getRotation());
+		homeController.steakoutControl.setRotation(homeController.plateBaseCoordsCalculator.getRotation());
 		homeController.steakoutControl.setSideOfRotation(homeController.plateBaseCoordsCalculator.isSideOfAngle());
 		homeController.steakoutControl.controlSteakout();
 		PlateBaseFXDisplayer.setDisplayPillarBaseCoords(false);
