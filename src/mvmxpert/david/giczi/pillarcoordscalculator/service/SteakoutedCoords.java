@@ -410,56 +410,56 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + " szöget zár be)";
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + " szöget zár be)";
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + " szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + "°-os szöget zár be)";
+					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + " szöget zár be)";
 			break;
 		case "9":
 			id = 9;
@@ -596,7 +596,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
 					+ " (az oszlop karja a nyomvonallal " + 
 					(sideOfAngel ? convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2) : 
-						convertAngleMinSecFormat(90  - Math.abs(180 - rotation) / 2))  + "°-os szöget zár be)";
+						convertAngleMinSecFormat(90  - Math.abs(180 - rotation) / 2))  + " szöget zár be)";
 			break;
 		case "6":
 			id = 6;
@@ -604,7 +604,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
 			+ horizontalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "7":
 			id = 7;
@@ -614,7 +614,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
 					+ " (az oszlop karja a nyomvonallal " + 
 					(sideOfAngel ? convertAngleMinSecFormat(rotation / 2) : 
-						convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2)) + "°-os szöget zár be)";
+						convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "8":
 			id = 8;
@@ -623,7 +623,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 			+ horizontalDistanceFromSideOfHole + " méterre " + 
 					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
 					+ " (az oszlop tengelye a nyomvonallal " + 
-					convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + "°-os szöget zár be)";
+					convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
 			break;
 		case "9":
 			id = 9;
