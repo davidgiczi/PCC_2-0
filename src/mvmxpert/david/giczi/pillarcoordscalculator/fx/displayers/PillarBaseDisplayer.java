@@ -32,6 +32,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,35 +165,153 @@ public class PillarBaseDisplayer {
         measY.xProperty().bind(pane.widthProperty().divide(22).multiply(12));
         measY.setY(10 * MILLIMETER);
         measY.setFont(normalFont);
-        Text deltaXText = new Text("ΔY [cm]");
+        Text deltaXText = new Text("Nyomvonalban [cm]");
         deltaXText.setFont(boldFont);
         deltaXText.xProperty().bind(pane.widthProperty().divide(21).multiply(14));
         deltaXText.setY(5 * MILLIMETER);
-        Text deltaX = new Text(String.format("%+20.1f", 100 * (measuredPillarDataController
-                .measuredPillarData.getPillarCenterPoint().getX_coord()
-                - measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord())
-        ).replace(",", "."));
+        Text deltaX; 
+        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
+        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
+        	deltaX = new Text(String.format("%+30.1f", 100 * getXDifferenceOnMainLine()).replace(",", "."));
+        }
+        else {
+        	deltaX = new Text(String.format("%+30.1f", -100 * getXDifferenceOnMainLine()).replace(",", "."));
+        }
         deltaX.xProperty().bind(pane.widthProperty().divide(22).multiply(14));
         deltaX.setY(10 * MILLIMETER);
         deltaX.setFont(normalFont);
-        Text deltaYText = new Text("ΔX [cm]");
+        Text deltaYText = new Text("Nyomvonalra merőlegesen [cm]");
         deltaYText.setFont(boldFont);
-        deltaYText.xProperty().bind(pane.widthProperty().divide(21).multiply(16));
+        deltaYText.xProperty().bind(pane.widthProperty().divide(21).multiply(17));
         deltaYText.setY(5 * MILLIMETER);
-        Text deltaY = new Text(String.format("%+20.1f", 100 * (measuredPillarDataController
-                .measuredPillarData.getPillarCenterPoint().getY_coord()
-                - measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord())
-        ).replace(",", "."));
-        deltaY.xProperty().bind(pane.widthProperty().divide(22).multiply(16));
+        Text deltaY;
+        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
+        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
+        	 deltaY  = new Text(String.format("%+30.1f", 100 * getYDifferenceOnMainLine()).replace(",", "."));
+        }
+        else {
+        	 deltaY  = new Text(String.format("%+30.1f", -100 * getYDifferenceOnMainLine()).replace(",", "."));
+        }
+        deltaY.xProperty().bind(pane.widthProperty().divide(22).multiply(18));
         deltaY.setY(10 * MILLIMETER);
         deltaY.setFont(normalFont);
+        Text errorMarginTextForX = getErrorMarginTextForXDifferenceOnMainLine();
+        Text errorMarginTextForY = getErrorMarginTextForYDifferenceOnMainLine();
         pane.getChildren().addAll(idText, designedXText, designedX,
                 designedYText, designedY, measXText, measX, measYText, measY,
-                deltaXText, deltaX, deltaYText, deltaY);
+                deltaXText, deltaX, errorMarginTextForX, deltaYText, deltaY, errorMarginTextForY);
         setDataToClipboard();
+    }
+    
+    private double getXDifferenceOnMainLine() {
+    	try {
+            AzimuthAndDistance mainLineData =
+                    new AzimuthAndDistance(new Point("teoCenter",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                            new Point("direction",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+            AzimuthAndDistance differenceData =
+                    new AzimuthAndDistance(new Point("teoCenter",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                            new Point("measuredCenter",
+               measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
+               measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));   
+        return differenceData.calcDistance()
+                * Math.cos(mainLineData.calcAzimuth() - differenceData.calcAzimuth());
+    	}
+    	catch (NumberFormatException e) {
+			return Double.NaN;
+		}
+    }
+    
+    private Text getErrorMarginTextForXDifferenceOnMainLine() {
+    	AzimuthAndDistance mainLineData;
+    	try {
+    	 mainLineData = new AzimuthAndDistance(new Point("teoCenter",
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                         new Point("direction",
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+    	}
+    	catch (NumberFormatException e) {
+			return new Text("-");
+		}
+    	DecimalFormat df = new DecimalFormat("0.0");
+    	Text errorMarginText = new Text("|" + df.format(250 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "|");
+    	errorMarginText.xProperty().bind(pane.widthProperty().divide(22).multiply(17));
+        errorMarginText.setY(10 * MILLIMETER);
+        errorMarginText.setFont(boldFont);
+    	errorMarginText.setFill((Math.abs(getXDifferenceOnMainLine()) > (2.5 * mainLineData.calcDistance() / 1000.0)) ? Color.RED : Color.GREEN );
+    	return errorMarginText;
+    }
+    
+    private Text getErrorMarginTextForYDifferenceOnMainLine() {
+    	AzimuthAndDistance mainLineData;
+    	try {
+    	 mainLineData = new AzimuthAndDistance(new Point("teoCenter",
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                         new Point("direction",
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+          Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+    	}
+    	catch (NumberFormatException e) {
+			return new Text("-");
+		}
+    	DecimalFormat df = new DecimalFormat("0.0");
+    	Text errorMarginText = new Text("|" + df.format(300 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "|");
+    	errorMarginText.xProperty().bind(pane.widthProperty().divide(22).multiply(21));
+        errorMarginText.setY(10 * MILLIMETER);
+        errorMarginText.setFont(boldFont);
+    	errorMarginText.setFill((Math.abs(getYDifferenceOnMainLine()) > (3 * mainLineData.calcDistance() / 1000.0)) ? Color.RED : Color.GREEN );
+    	return errorMarginText;
+    }
+
+    private double getYDifferenceOnMainLine() {
+    	try {
+        AzimuthAndDistance mainLineData =
+                new AzimuthAndDistance(new Point("baseCenter",
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                        new Point("direction",
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+        AzimuthAndDistance differenceData =
+                new AzimuthAndDistance(new Point("baseCenter",
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                        new Point("measuredCenter",
+           measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
+           measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
+        return differenceData.calcDistance()
+                * Math.sin(mainLineData.calcAzimuth() - differenceData.calcAzimuth());
+    	}
+    	catch (NumberFormatException e) {
+			return Double.NaN;
+		}
     }
 
     public void setDataToClipboard(){
+    	String deltaX;
+    	if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
+        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
+        	deltaX = String.format("%+3.1f", 100 * getXDifferenceOnMainLine()).replace(",", ".");
+        }
+        else {
+        	deltaX = String.format("%+3.1f", -100 * getXDifferenceOnMainLine()).replace(",", ".");
+        }
+    	String deltaY;
+    	if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
+        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
+        	 deltaY  = String.format("%+3.1f", 100 * getYDifferenceOnMainLine()).replace(",", ".");
+        }
+        else {
+        	 deltaY  = String.format("%+3.1f", -100 * getYDifferenceOnMainLine()).replace(",", ".");
+        }
         copyText((measuredPillarDataController.fileProcess.pccData == null ? 
         		measuredPillarDataController.pillarBaseProjectFileData == null ?
 				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
@@ -210,14 +329,7 @@ public class PillarBaseDisplayer {
                 String.format("%10.3f", measuredPillarDataController
                         .measuredPillarData.getPillarBaseCenterPoint()
                         .getY_coord()).replace(",", ".") + "\t" +
-                String.format("%+3.1f", 100 * (measuredPillarDataController
-                        .measuredPillarData.getPillarCenterPoint().getX_coord()
-                        - measuredPillarDataController.measuredPillarData
-                        .getPillarBaseCenterPoint().getX_coord())).replace(",", ".") + "\t" +
-                String.format("%+3.1f", 100 * (measuredPillarDataController
-                        .measuredPillarData.getPillarCenterPoint().getY_coord()
-                        - measuredPillarDataController.measuredPillarData
-                        .getPillarBaseCenterPoint().getY_coord())).replace(",", "."));
+                        deltaX + "\t" + deltaY);
     }
 
     private void copyText(String text){
@@ -620,7 +732,35 @@ public class PillarBaseDisplayer {
         directionInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
         directionInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
         directionInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(3));
-        pane.getChildren().add(directionInfo);
+        Text errorMarginText = new Text(directionInfo.getText().isEmpty() ? "" : "|2°|");
+        errorMarginText.xProperty().bind(pane.widthProperty().divide(10).multiply(2.8));
+        errorMarginText.yProperty().bind(pane.heightProperty().divide(10).multiply(3.7));
+        errorMarginText.setFont(boldFont);
+        errorMarginText.setFill(Math.abs(getPillarBaseTwisting()) > 2 ? Color.RED : Color.GREEN);
+        pane.getChildren().addAll(directionInfo, errorMarginText);
+    }
+    
+    private double getPillarBaseTwisting() {
+    	try {
+            AzimuthAndDistance mainLineData =
+                    new AzimuthAndDistance(new Point("teoCenter",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                            new Point("direction",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+            AzimuthAndDistance differenceData =
+                    new AzimuthAndDistance(new Point("measuredCenter",
+             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
+             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()),
+                            new Point("direction",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));   
+        return Math.toDegrees(mainLineData.calcAzimuth() - differenceData.calcAzimuth());
+    	}
+    	catch (NumberFormatException e) {
+			return Double.NaN;
+		}
     }
     
     private void addDistanceInformation(){

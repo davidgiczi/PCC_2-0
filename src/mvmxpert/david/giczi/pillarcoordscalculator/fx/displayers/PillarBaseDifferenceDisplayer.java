@@ -7,6 +7,8 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.PolarPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -117,7 +119,7 @@ public class PillarBaseDifferenceDisplayer {
         pillarHeight.setY(10 * MILLIMETER);
         pillarHeight.setFont(normalFont);
 
-        Text frontDiffXText = new Text("Nyomvonal irányában [cm]");
+        Text frontDiffXText = new Text("Nyomvonalban [cm]");
         frontDiffXText.setFont(boldFont);
         frontDiffXText.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
         frontDiffXText.setY(5 * MILLIMETER);
@@ -131,7 +133,6 @@ public class PillarBaseDifferenceDisplayer {
         	frontDiffX = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
                     .measuredPillarData.getXDifferenceOnMainLine()).replace(",", "."));
         }
-        frontDiffX.setFill(Color.LIMEGREEN);
         frontDiffX.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
         frontDiffX.setY(10 * MILLIMETER);
         frontDiffX.setFont(normalFont);
@@ -150,13 +151,12 @@ public class PillarBaseDifferenceDisplayer {
         	 frontDiffY  = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
                      .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
         }
-        frontDiffY.setFill(Color.LIMEGREEN);
         frontDiffY.setFont(normalFont);
         frontDiffY.xProperty().bind(pane.widthProperty().divide(20).multiply(14));
         frontDiffY.setY(10 * MILLIMETER);
 
         pane.getChildren().addAll(pillarHeightText, frontDiffXText, frontDiffYText,
-                pillarHeight, frontDiffX, frontDiffY);
+                pillarHeight, frontDiffX, frontDiffY, getErrorMarginTextForMainLine(), getErrorMarginTextForPerpendicularLine());
 
         if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
         		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
@@ -188,6 +188,32 @@ public class PillarBaseDifferenceDisplayer {
         }
     }
 
+    private Text getErrorMarginTextForMainLine() {
+    	DecimalFormat df = new DecimalFormat("0.0");
+    	double heightOfPillar = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
+                measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord();
+    	Text errorMarginText = new Text("|" + df.format(heightOfPillar).replace(",", ".") + "|");
+    	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(10));
+        errorMarginText.setY(10 * MILLIMETER);
+        errorMarginText.setFont(boldFont);
+    	errorMarginText.setFill( measuredPillarDataController.measuredPillarData.getXDifferenceOnMainLine() > heightOfPillar / 100.0  
+    			? Color.RED : Color.GREEN );
+    	return errorMarginText;
+    }
+    
+    private Text getErrorMarginTextForPerpendicularLine() {
+    	DecimalFormat df = new DecimalFormat("0.0");
+    	double heightOfPillar = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
+                measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord();
+    	Text errorMarginText = new Text("|" + df.format(1.5 * heightOfPillar).replace(",", ".") + "|");
+    	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(16));
+        errorMarginText.setY(10 * MILLIMETER);
+        errorMarginText.setFont(boldFont);
+    	errorMarginText.setFill( measuredPillarDataController.measuredPillarData.getXDifferenceOnMainLine() > 1.5 * heightOfPillar / 100.0 
+    			? Color.RED : Color.GREEN );
+    	return errorMarginText;
+    }
+    
     private void addCenterPillarDifferenceDataForBackwardDirection(){
     	Text backDiffX;
     	Text backDiffY;

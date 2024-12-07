@@ -373,20 +373,18 @@ public class MeasuredPillarData {
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth());
     		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
     		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth());	
-    		double ave = (e1 + e2) / 2;
     		return "D → A: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * DtoA.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
     			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
-    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    			   "Alap elcsavarodás: e=" + getAngleMinSecFormat(getPillarBaseTwisting());
     	}
     	else if( radRotation == Math.PI && !isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth());
     		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
     		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth());
-    		double ave = (e1 + e2) / 2;
     		return "A → D: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * AtoD.calcDistance() * e1 / ( 180 / Math.PI ))  + "cm\n" +
     			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  + "cm\n\n" +
-    			   "átlag: e="+ getAngleMinSecFormat(ave);
+    			   "Alap elcsavarodás: e="+ getAngleMinSecFormat(getPillarBaseTwisting());
     	}
     	else if( radRotation != Math.PI && isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance DtoA = new AzimuthAndDistance(pointD, pointA);
@@ -394,10 +392,9 @@ public class MeasuredPillarData {
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - DtoA.calcAzimuth() + rotation);
     		AzimuthAndDistance CtoB = new AzimuthAndDistance(pointC, pointB);
     		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - CtoB.calcAzimuth() + rotation);	
-    		double ave = (e1 + e2) / 2;
     		return "D → A: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * DtoA.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
     			   "C → B: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * CtoB.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
-    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    			   "Alap elcsavarodás: e=" + getAngleMinSecFormat(getPillarBaseTwisting());
     	}
     	else if( radRotation != Math.PI && !isAscPillarOrder(null, null) ) {
     		AzimuthAndDistance AtoD = new AzimuthAndDistance(pointA, pointD);
@@ -405,14 +402,35 @@ public class MeasuredPillarData {
     		e1 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - AtoD.calcAzimuth() + rotation);
     		AzimuthAndDistance BtoC = new AzimuthAndDistance(pointB, pointC);
     		e2 = Math.toDegrees(azimuthBaseLine.calcAzimuth() - BtoC.calcAzimuth() + rotation);	
-    		double ave = (e1 + e2) / 2;
     		return "A → D: e=" + getAngleMinSecFormat(e1) + ", E= " + (int) (100 * AtoD.calcDistance() * e1 / ( 180 / Math.PI ))  +  "cm\n" +
     			   "B → C: e=" + getAngleMinSecFormat(e2) + ", E= " + (int) (100 * BtoC.calcDistance() * e2 / ( 180 / Math.PI ))  +  "cm\n\n" + 
-    			   "átlag: e=" + getAngleMinSecFormat(ave);
+    			   "Alap elcsavarodás: e=" + getAngleMinSecFormat(getPillarBaseTwisting());
     	}
-    	else
     	
     	return "";
+    }
+    
+    private double getPillarBaseTwisting() {
+    	try {
+            AzimuthAndDistance mainLineData =
+                    new AzimuthAndDistance(new Point("teoCenter",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
+                            new Point("direction",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
+            AzimuthAndDistance differenceData =
+                    new AzimuthAndDistance(new Point("measuredCenter",
+             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
+             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()),
+                            new Point("direction",
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
+             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));   
+        return Math.toDegrees(mainLineData.calcAzimuth() - differenceData.calcAzimuth());
+    	}
+    	catch (NumberFormatException e) {
+			return Double.NaN;
+		}
     }
     
     public String getAngleMinSecFormat(double angleValue){
