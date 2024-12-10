@@ -196,7 +196,7 @@ public class PillarBaseDifferenceDisplayer {
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(10));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
-    	errorMarginText.setFill( measuredPillarDataController.measuredPillarData.getXDifferenceOnMainLine() > heightOfPillar / 100.0  
+    	errorMarginText.setFill(Math.abs(measuredPillarDataController.measuredPillarData.getXDifferenceOnMainLine()) > heightOfPillar / 100.0  
     			? Color.RED : Color.GREEN );
     	return errorMarginText;
     }
@@ -209,7 +209,7 @@ public class PillarBaseDifferenceDisplayer {
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(16));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
-    	errorMarginText.setFill( measuredPillarDataController.measuredPillarData.getXDifferenceOnMainLine() > 1.5 * heightOfPillar / 100.0 
+    	errorMarginText.setFill(Math.abs(measuredPillarDataController.measuredPillarData.getYDifferenceOnMainLine()) > 1.5 * heightOfPillar / 100.0 
     			? Color.RED : Color.GREEN );
     	return errorMarginText;
     }
@@ -803,10 +803,10 @@ public class PillarBaseDifferenceDisplayer {
     }
     
     private void addPillarBase(){
+    	getTransformedPillarBaseCoordsForDisplayer();
         if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() == 1 ){
             return;
         }
-        getTransformedPillarBaseCoordsForDisplayer();
         for (int i = 0;  i < transformedPillarBasePoints.size(); i++) {
             Line line = new Line();
             line.setStroke(Color.BLUE);
@@ -855,10 +855,11 @@ public class PillarBaseDifferenceDisplayer {
     }
     
     private void addPillarFrontView() {
+ 
     	
     	for (MeasPoint topPoint : measuredPillarDataController.measuredPillarData.getPillarTopPoints()) {
-			
-    		MeasPoint theNearestTransformedBasePoint = transformedPillarBasePoints.get(getTheNearestBasePointIndex(topPoint));
+    		
+     		MeasPoint theNearestTransformedBasePoint = transformedPillarBasePoints.get(getTheNearestBasePointIndex(topPoint));
     		double X = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getX_coord();
     		double Z = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord();
     		MeasPoint transformedTopPoint = new MeasPoint(topPoint.getPointID(),
