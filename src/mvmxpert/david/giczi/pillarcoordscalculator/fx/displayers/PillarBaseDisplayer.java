@@ -99,6 +99,7 @@ public class PillarBaseDisplayer {
         addCenterPillarData();
         addComboBoxForScaleValue();
         getTransformedPillarBaseCoordsForDisplayer();
+        drawPillarCenterDifferences();
         if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() == 4 ){
             addPillarAxis();
         }
@@ -353,7 +354,7 @@ public class PillarBaseDisplayer {
     }
 
     private void addPillarBase(){
-        if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() == 1 ){
+        if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() == 1 || 50 > SCALE ){
             return;
         }
 
@@ -405,9 +406,75 @@ public class PillarBaseDisplayer {
         }
     }
 
+    private void drawPillarCenterDifferences() {
+    	if( SCALE > 10 ) {
+    		return;
+    	}
+    	addCircleForCenter();
+    	addTheoreticalPillarCenterPoint();
+    	
+    }
+    
+    private void addTheoreticalPillarCenterPoint() {
+    Point teoCenterPoint; 
+    Point transformedTeoCenterPoint;
+    try {
+    teoCenterPoint = new Point("baseCenter",
+    	         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
+    	         Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", ".")));
+    double X = measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord();
+    double Y = measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord();
+    transformedTeoCenterPoint = new Point("baseCenter",
+            Math.round((teoCenterPoint.getX_coord() - X) * 1000.0) * MILLIMETER / SCALE,
+            Math.round((teoCenterPoint.getY_coord() - Y) * 1000.0) * MILLIMETER / SCALE);
+    }
+    catch (NumberFormatException e) {
+		return;
+	}
+    
+    Circle teoCenter = new Circle();
+    teoCenter.setRadius(5);
+    teoCenter.setStroke(Color.BLUE);
+    teoCenter.setStrokeWidth(2);
+    teoCenter.setFill(Color.TRANSPARENT);
+    teoCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(transformedTeoCenterPoint.getX_coord()));
+    teoCenter.centerYProperty().bind(pane.heightProperty().divide(2).subtract(transformedTeoCenterPoint.getY_coord()));
+    Tooltip tooltip = new Tooltip(measuredPillarDataController.measuredPillarData
+            .getPillarBaseCenterPoint().getPointID()
+        +    "\tY=" + String.format("%.3fm",
+                   teoCenterPoint.getX_coord()).replace(",", ".") +
+                    "\tX=" + String.format("%.3fm",
+                    teoCenterPoint.getY_coord()).replace(",", "."));
+    Tooltip.install(teoCenter, tooltip);
+    teoCenter.setCursor(Cursor.HAND);
+    pane.getChildren().add(teoCenter);  
+ }
+    
+    private void addForwardDifferences() {
+    	
+    }
+    
+    private void addForwardDirection() {
+    	
+    }
+    
+    
+    private void addBackwardDifferences() {
+    	
+    }
+    
+    private void addBackwardDirection() {
+    	
+    }
+    
+    
     private void addComboBoxForScaleValue(){
         ObservableList<String> options =
                 FXCollections.observableArrayList(
+                		"1",
+                		"2",
+                		"4",
+                		"10",
                         "50",
                         "100",
                         "200",
@@ -438,6 +505,9 @@ public class PillarBaseDisplayer {
     }
 
     private void addCircleForBasePoints(){
+    	if( 50 > SCALE ) {
+    		return;
+    	}
         for (int i = 0; i < transformedPillarBasePoints.size(); i++) {
             Circle circle = new Circle();
             circle.setRadius(5);
@@ -492,6 +562,9 @@ public class PillarBaseDisplayer {
     }
 
     private void addPillarAxis(){
+    	if( 50 > SCALE ) {
+    		return;
+    	}
         AzimuthAndDistance half1Data = new AzimuthAndDistance(
                 new Point("1", transformedPillarBasePoints.get(0).getX_coord(),
                         transformedPillarBasePoints.get(0).getY_coord()),
@@ -610,6 +683,9 @@ public class PillarBaseDisplayer {
     }
 
     private void addNextPillarDirection(){
+    	if( 50 > SCALE ) {
+    		return;
+    	}
         Point pillarCenterPoint =  new Point("pillarCenterPoint", 0.0, 0.0);
         Point directionPillarPoint = new Point("transformedDirectionPoint",
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getX_coord() -
@@ -651,6 +727,9 @@ public class PillarBaseDisplayer {
     }
 
     private void addPreviousPillarDirection(){
+    	if( 50 > SCALE ) {
+    		return;
+    	}
         Point pillarCenterPoint =  new Point("pillarCenterPoint", 0.0, 0.0);
         Point directionPoint = new Point("transformedDirectionPoint",
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getX_coord() -
