@@ -118,48 +118,27 @@ public class PillarBaseDifferenceDisplayer {
         pillarHeight.xProperty().bind(pane.widthProperty().divide(20).multiply(4));
         pillarHeight.setY(10 * MILLIMETER);
         pillarHeight.setFont(normalFont);
-
         Text frontDiffXText = new Text("Nyomvonalban [cm]");
         frontDiffXText.setFont(boldFont);
         frontDiffXText.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
         frontDiffXText.setY(5 * MILLIMETER);
-        Text frontDiffX;
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        	frontDiffX = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
+        Text frontDiffX = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
                     .measuredPillarData.getXDifferenceOnMainLine()).replace(",", "."));
-        }
-        else {
-        	frontDiffX = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
-                    .measuredPillarData.getXDifferenceOnMainLine()).replace(",", "."));
-        }
         frontDiffX.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
         frontDiffX.setY(10 * MILLIMETER);
         frontDiffX.setFont(normalFont);
-
         Text frontDiffYText = new Text("Nyomvonalra merőlegesen [cm]");
         frontDiffYText.setFont(boldFont);
         frontDiffYText.xProperty().bind(pane.widthProperty().divide(20).multiply(14));
         frontDiffYText.setY(5 * MILLIMETER);
-        Text frontDiffY;
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        	 frontDiffY  = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
+        Text frontDiffY = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
                      .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
-        }
-        else {
-        	 frontDiffY  = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
-                     .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
-        }
         frontDiffY.setFont(normalFont);
         frontDiffY.xProperty().bind(pane.widthProperty().divide(20).multiply(14));
         frontDiffY.setY(10 * MILLIMETER);
 
         pane.getChildren().addAll(pillarHeightText, frontDiffXText, frontDiffYText,
                 pillarHeight, frontDiffX, frontDiffY, getErrorMarginTextForMainLine(), getErrorMarginTextForPerpendicularLine());
-
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
         
         copyText((measuredPillarDataController.fileProcess.pccData == null ? 
         		measuredPillarDataController.pillarBaseProjectFileData == null ?
@@ -174,18 +153,6 @@ public class PillarBaseDifferenceDisplayer {
                         .measuredPillarData.getXDifferenceOnMainLine()).replace(",", ".") + "\t" +
                 String.format("%+.1f", 100 * measuredPillarDataController
                         .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
-        }
-        else {
-        	 copyText(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID() + "." + "\t" +
-                     String.format("%.2f",
-                                     (measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
-                                             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord()))
-                             .replace(",", ".") + "\t" +
-                     String.format("%+.1f", -100 * measuredPillarDataController
-                             .measuredPillarData.getXDifferenceOnMainLine()).replace(",", ".") + "\t" +
-                     String.format("%+.1f", -100 * measuredPillarDataController
-                             .measuredPillarData.getYDifferenceOnMainLine()).replace(",", "."));
-        }
     }
 
     private Text getErrorMarginTextForMainLine() {
@@ -215,41 +182,20 @@ public class PillarBaseDifferenceDisplayer {
     }
     
     private void addCenterPillarDifferenceDataForBackwardDirection(){
-    	Text backDiffX;
-    	Text backDiffY;
-    	if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		< Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-    		backDiffX = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
+    		Text backDiffX = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
 	                .measuredPillarData.getXDifferenceOnBackwardLine()).replace(",", "."));
 	        backDiffX.setFill(Color.BLUE);
 	        backDiffX.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
 	        backDiffX.setY(15 * MILLIMETER);
 	        backDiffX.setFont(normalFont);
 
-	        backDiffY = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
+	        Text backDiffY = new Text(String.format("%+3.1f", 100 * measuredPillarDataController
 	                .measuredPillarData.getYDifferenceOnBackwardLine()).replace(",", "."));
 	        backDiffY.setFill(Color.BLUE);
 	        backDiffY.setFont(normalFont);
 	        backDiffY.xProperty().bind(pane.widthProperty().divide(20).multiply(14));
-	        backDiffY.setY(15 * MILLIMETER);
-    	}
-    	else {
-    		backDiffX = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
-	                .measuredPillarData.getXDifferenceOnBackwardLine()).replace(",", "."));
-	        backDiffX.setFill(Color.BLUE);
-	        backDiffX.xProperty().bind(pane.widthProperty().divide(20).multiply(8));
-	        backDiffX.setY(15 * MILLIMETER);
-	        backDiffX.setFont(normalFont);
-
-	        backDiffY = new Text(String.format("%+3.1f", -100 * measuredPillarDataController
-	                .measuredPillarData.getYDifferenceOnBackwardLine()).replace(",", "."));
-	        backDiffY.setFill(Color.BLUE);
-	        backDiffY.setFont(normalFont);
-	        backDiffY.xProperty().bind(pane.widthProperty().divide(20).multiply(14));
-	        backDiffY.setY(15 * MILLIMETER);	
-    	}
-    	
-    	pane.getChildren().addAll(backDiffX, backDiffY);
+	        backDiffY.setY(15 * MILLIMETER);  	
+	        pane.getChildren().addAll(backDiffX, backDiffY);
     }
 
     private void copyText(String text){
@@ -507,18 +453,9 @@ public class PillarBaseDifferenceDisplayer {
                 .bind(pane.heightProperty()
                         .divide(2)
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
-        Tooltip forwardXDistanceTooltip;
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        	 forwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 
+        Tooltip forwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 
              		100 * measuredPillarDataController
-                     .measuredPillarData.getXDifferenceOnMainLine()).replace(",", ".") );
-        }
-        else {
-        	 forwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 
-              		-100 * measuredPillarDataController
-                      .measuredPillarData.getXDifferenceOnMainLine()).replace(",", ".") );
-        }
+                     .measuredPillarData.getXDifferenceOnMainLine()).replace(",", "."));
         Tooltip.install(forwardXDifference, forwardXDistanceTooltip);
         forwardXDifference.setCursor(Cursor.CLOSED_HAND);
         Line forwardYDifference = new Line();
@@ -540,16 +477,8 @@ public class PillarBaseDifferenceDisplayer {
                         .bind(pane.heightProperty()
                                 .divide(2)
                                 .subtract(topCenterPoint.getY_coord()));
-        Tooltip forwardYDistanceTooltip;
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		> Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        	forwardYDistanceTooltip  = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
+        Tooltip forwardYDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
                     .measuredPillarData.getYDifferenceOnMainLine()).replace(",", ".") );
-        }
-        else {
-        	forwardYDistanceTooltip  = new Tooltip(String.format("%+3.1fcm", -100 * measuredPillarDataController
-                    .measuredPillarData.getYDifferenceOnMainLine()).replace(",", ".") );
-        }
         Tooltip.install(forwardYDifference, forwardYDistanceTooltip);
         forwardYDifference.setCursor(Cursor.CLOSED_HAND);
         Line forwardDistance = new Line();
@@ -624,16 +553,8 @@ public class PillarBaseDifferenceDisplayer {
                 .bind(pane.heightProperty()
                         .divide(2)
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
-        Tooltip backwardXDistanceTooltip; 
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		< Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        	 backwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
+        Tooltip backwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
                      .measuredPillarData.getXDifferenceOnBackwardLine()).replace(",", ".") );
-        }
-        else {
-        	 backwardXDistanceTooltip = new Tooltip(String.format("%+3.1fcm", -100 * measuredPillarDataController
-                     .measuredPillarData.getXDifferenceOnBackwardLine()).replace(",", ".") );
-        }
         Tooltip.install(backwardXDifference, backwardXDistanceTooltip);
         backwardXDifference.setCursor(Cursor.CLOSED_HAND);
         Line backwardYDifference = new Line();
@@ -655,16 +576,8 @@ public class PillarBaseDifferenceDisplayer {
                 .bind(pane.heightProperty()
                         .divide(2)
                         .subtract(topCenterPoint.getY_coord()));
-        Tooltip backwardYDistanceTooltip;
-        if(Integer.parseInt( measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID())
-        		< Integer.parseInt( measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID())) {
-        		backwardYDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
+        Tooltip backwardYDistanceTooltip = new Tooltip(String.format("%+3.1fcm", 100 * measuredPillarDataController
                     .measuredPillarData.getYDifferenceOnBackwardLine()).replace(",", ".") );
-        }
-        else {
-        		backwardYDistanceTooltip = new Tooltip(String.format("%+3.1fcm", -100 * measuredPillarDataController
-                    .measuredPillarData.getYDifferenceOnBackwardLine()).replace(",", ".") );
-        }
         Tooltip.install(backwardYDifference, backwardYDistanceTooltip);
         backwardYDifference.setCursor(Cursor.CLOSED_HAND);
         Line backwardDistance = new Line();
