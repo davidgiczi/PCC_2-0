@@ -10,6 +10,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointType;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -159,7 +160,7 @@ public class PillarBaseDifferenceDisplayer {
     	DecimalFormat df = new DecimalFormat("0.0");
     	double heightOfPillar = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord();
-    	Text errorMarginText = new Text("|" + df.format(heightOfPillar).replace(",", ".") + "|");
+    	Text errorMarginText = new Text("|" + df.format(heightOfPillar).replace(",", ".") + "cm|");
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(10));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
@@ -172,7 +173,7 @@ public class PillarBaseDifferenceDisplayer {
     	DecimalFormat df = new DecimalFormat("0.0");
     	double heightOfPillar = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord();
-    	Text errorMarginText = new Text("|" + df.format(1.5 * heightOfPillar).replace(",", ".") + "|");
+    	Text errorMarginText = new Text("|" + df.format(1.5 * heightOfPillar).replace(",", ".") + "cm|");
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(20).multiply(16));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
@@ -768,11 +769,16 @@ public class PillarBaseDifferenceDisplayer {
     }
     
     private void addPillarFrontView() {
- 
     	
+    	sortTopMeasPointListByAzimuthAscOrder();
+    
     	for (MeasPoint topPoint : measuredPillarDataController.measuredPillarData.getPillarTopPoints()) {
-    		
-     		MeasPoint theNearestTransformedBasePoint = transformedPillarBasePoints.get(getTheNearestBasePointIndex(topPoint));
+    		MeasPoint parsedBasePoint = 
+    				measuredPillarDataController.measuredPillarData.getPillarTopPoints().size() == 2 && 
+    				measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint) == 1 &&
+    				measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() > 2 ?
+    				transformedPillarBasePoints.get(2) :
+    				transformedPillarBasePoints.get(measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint));
     		double X = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getX_coord();
     		double Z = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord();
     		MeasPoint transformedTopPoint = new MeasPoint(topPoint.getPointID(),
@@ -784,35 +790,30 @@ public class PillarBaseDifferenceDisplayer {
     		line.getStrokeDashArray().addAll(10d);
     		line.startXProperty().bind(pane.widthProperty().divide(10).multiply(8).add(transformedTopPoint.getX_coord()));
     		line.setStartY(pillarHeight.getStartY() + transformedTopPoint.getZ_coord());
-    		line.endXProperty().bind(pane.widthProperty().divide(10).multiply(8).add(theNearestTransformedBasePoint.getX_coord()));
-    		line.setEndY(pillarHeight.getEndY() + theNearestTransformedBasePoint.getZ_coord());
+    		line.endXProperty().bind(pane.widthProperty().divide(10).multiply(8).add(parsedBasePoint.getX_coord()));
+    		line.setEndY(pillarHeight.getEndY() + parsedBasePoint.getZ_coord());
     		pane.getChildren().add(line);
 		}
     	
     }
     
-    private int getTheNearestBasePointIndex(MeasPoint topPoint) {
+    private void sortTopMeasPointListByAzimuthAscOrder() {
     	
-    		double theShortestDistance = 
-    				getHorizontalDistance(topPoint, measuredPillarDataController.measuredPillarData.getPillarBasePoints().get(0));
-    		int theNearestBasePointIndex = 0;	
-    		for (MeasPoint basePoint :  measuredPillarDataController.measuredPillarData.getPillarBasePoints()) {
-    			
-        		if( theShortestDistance >= getHorizontalDistance(topPoint, basePoint)) {
-        			
-        			theShortestDistance = getHorizontalDistance(topPoint, basePoint);
-        			theNearestBasePointIndex =  measuredPillarDataController
-        					.measuredPillarData.getPillarBasePoints().indexOf(basePoint);
-    	}
-    		}
-    		
-    	return theNearestBasePointIndex;
+         for (MeasPoint topPoint : measuredPillarDataController.measuredPillarData.getPillarTopPoints()) {
+             topPoint.setAzimuth(new Point("",
+            		 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
+            		 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
+         }
+
+         for (int i = 0; i < measuredPillarDataController.measuredPillarData.getPillarTopPoints().size(); i++) {
+             for (int j = i + 1; j < measuredPillarDataController.measuredPillarData.getPillarTopPoints().size(); j++) {
+                 if (measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(i).getAzimuth() >
+                 measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(j).getAzimuth()) {
+                     Collections.swap(measuredPillarDataController.measuredPillarData.getPillarTopPoints(), i, j);
+                 }
+             }
+         }
+    				
     }
-    
-    private double getHorizontalDistance(MeasPoint topPoint, MeasPoint basePoint) {
-    	return Math.sqrt(
-    		   Math.pow(topPoint.getX_coord() - basePoint.getX_coord(), 2) +
-    		   Math.pow(topPoint.getY_coord() - basePoint.getY_coord(), 2));
-    }
-    
+   
 }

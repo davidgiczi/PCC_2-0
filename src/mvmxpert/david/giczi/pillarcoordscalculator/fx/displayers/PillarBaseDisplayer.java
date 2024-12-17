@@ -228,7 +228,7 @@ public class PillarBaseDisplayer {
 			return new Text("-");
 		}
     	DecimalFormat df = new DecimalFormat("0.0");
-    	Text errorMarginText = new Text("|" + df.format(250 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "|");
+    	Text errorMarginText = new Text("|" + df.format(250 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "cm|");
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(22).multiply(17));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
@@ -250,7 +250,7 @@ public class PillarBaseDisplayer {
 			return new Text("-");
 		}
     	DecimalFormat df = new DecimalFormat("0.0");
-    	Text errorMarginText = new Text("|" + df.format(300 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "|");
+    	Text errorMarginText = new Text("|" + df.format(300 * mainLineData.calcDistance() / 1000.0).replace(",", ".") + "cm|");
     	errorMarginText.xProperty().bind(pane.widthProperty().divide(22).multiply(21));
         errorMarginText.setY(10 * MILLIMETER);
         errorMarginText.setFont(boldFont);
