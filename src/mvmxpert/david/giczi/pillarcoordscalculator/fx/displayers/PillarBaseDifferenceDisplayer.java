@@ -779,7 +779,7 @@ public class PillarBaseDifferenceDisplayer {
     							measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() > 2) {
     					parsedBasePoint = transformedPillarBasePoints.get(2);
     				}
-    				else if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() - 1 > 
+    				else if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() - 1 >= 
     							measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint) ) {
     					parsedBasePoint = transformedPillarBasePoints
     									.get(measuredPillarDataController
