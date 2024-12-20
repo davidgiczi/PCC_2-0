@@ -773,12 +773,23 @@ public class PillarBaseDifferenceDisplayer {
     	sortTopMeasPointListByAzimuthAscOrder();
     
     	for (MeasPoint topPoint : measuredPillarDataController.measuredPillarData.getPillarTopPoints()) {
-    		MeasPoint parsedBasePoint = 
-    				measuredPillarDataController.measuredPillarData.getPillarTopPoints().size() == 2 && 
-    				measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint) == 1 &&
-    				measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() > 2 ?
-    				transformedPillarBasePoints.get(2) :
-    				transformedPillarBasePoints.get(measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint));
+    		MeasPoint parsedBasePoint;
+    				if( measuredPillarDataController.measuredPillarData.getPillarTopPoints().size() == 2 && 
+    						measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint) == 1 &&
+    							measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() > 2) {
+    					parsedBasePoint = transformedPillarBasePoints.get(2);
+    				}
+    				else if( measuredPillarDataController.measuredPillarData.getPillarBasePoints().size() - 1 > 
+    							measuredPillarDataController.measuredPillarData.getPillarTopPoints().indexOf(topPoint) ) {
+    					parsedBasePoint = transformedPillarBasePoints
+    									.get(measuredPillarDataController
+    									.measuredPillarData
+    									.getPillarTopPoints()
+    									.indexOf(topPoint));
+    				}
+    				else {
+    					continue;
+    				}
     		double X = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getX_coord();
     		double Z = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord();
     		MeasPoint transformedTopPoint = new MeasPoint(topPoint.getPointID(),
