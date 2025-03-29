@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -70,6 +69,33 @@ public class PlateBaseInputWindow {
 		addOkButton();
 		inputFrameForPlateBase.setResizable(false);
 		inputFrameForPlateBase.setVisible(true);
+	}
+	
+	public void sharePillarCenterDataBetweenInputWindows() {
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText().isEmpty()) {
+			centerIdField.setText(plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText());
+		}
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText().isEmpty()) {
+			x_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText());
+		}
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText().isEmpty()) {
+			y_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText());
+		}
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText().isEmpty()) {
+			directionIdField.setText(plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText());
+		}
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText().isEmpty()) {
+			x_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText());
+		}
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				!plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText().isEmpty()) {
+			y_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText());
+		}
 	}
 	
 	private void setPillarPointsData() {
@@ -134,10 +160,6 @@ public class PlateBaseInputWindow {
 		centerIdField = new JTextField(15);
 		centerIdField.setFont(font2);
 		centerIdField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText().isEmpty()) {
-			centerIdField.setText(plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText());
-		}
 		panel.add(centerIDLabel);
 		panel.add(Box.createHorizontalStrut(3));
 		panel.add(centerIdField);
@@ -156,9 +178,6 @@ public class PlateBaseInputWindow {
 			protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
 				
 				if( chng.getOffset() < 3 && Character.isDigit(x_centerField.getText().charAt(0))) {
-					if( x_directionField == null ) {
-						return;
-					}
 					x_directionField.setText(x_centerField.getText());
 				}
 				
@@ -168,10 +187,6 @@ public class PlateBaseInputWindow {
 		});
 		x_centerField.setFont(font2);
 		x_centerField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText().isEmpty()) {
-			x_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText());
-		}
 		panel.add(x_centerField);
 		panel.add(new JLabel("m"));
 		
@@ -189,9 +204,6 @@ public class PlateBaseInputWindow {
 			protected void insertUpdate(DefaultDocumentEvent chng, AttributeSet attr) {
 				
 				if( chng.getOffset() < 3 && Character.isDigit(y_centerField.getText().charAt(0))) {
-					if( y_directionField == null ) {
-						return;
-					}
 					y_directionField.setText(y_centerField.getText());
 				}
 				
@@ -201,10 +213,6 @@ public class PlateBaseInputWindow {
 		});
 		y_centerField.setFont(font2);
 		y_centerField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText().isEmpty()) {
-			y_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText());
-		}
 		panel.add(y_centerField);
 		panel.add(new JLabel("m"));
 		
@@ -218,10 +226,6 @@ public class PlateBaseInputWindow {
 		directionIdField = new JTextField(15);
 		directionIdField.setFont(font2);
 		directionIdField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText().isEmpty()) {
-			directionIdField.setText(plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText());
-		}
 		panel.add(directionIDLabel);
 		panel.add(Box.createHorizontalStrut(3));
 		panel.add(directionIdField);
@@ -234,10 +238,6 @@ public class PlateBaseInputWindow {
 		x_directionField = new JTextField(15);
 		x_directionField.setFont(font2);
 		x_directionField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText().isEmpty()) {
-			x_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText());
-		}
 		panel.add(x_directionField);
 		panel.add(new JLabel("m"));
 		
@@ -248,13 +248,9 @@ public class PlateBaseInputWindow {
 		y_directionField = new JTextField(15);
 		y_directionField.setFont(font2);
 		y_directionField.setForeground(color);
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText().isEmpty()) {
-			y_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText());
-		}
 		panel.add(y_directionField);
 		panel.add(new JLabel("m"));
-		
+		sharePillarCenterDataBetweenInputWindows();
 		inputFrameForPlateBase.add(panel);
 
 	}
@@ -292,8 +288,7 @@ public class PlateBaseInputWindow {
 		verticalSizeOfHoleField.setForeground(color);
 		panel.add(verticalSizeOfHoleField);
 		panel.add(new JLabel("m"));
-		
-			
+				
 		JLabel titleForHorizontalDistanceFromHole = new JLabel("A gödörtől vett távolság az oszlopkarra merőlegesen");
 		titleForHorizontalDistanceFromHole.setFont(font2);
 		panel.add(Box.createHorizontalStrut(60));

@@ -68,6 +68,7 @@ public class HomeController {
 			weightBaseInputWindow = new WeightBaseInputWindow(PROJECT_NAME, weightBaseController);
 			}
 		else {
+			weightBaseInputWindow.sharePillarCenterDataBetweenInputWindows();
 			weightBaseInputWindow.inputFrameForWeightBase.setVisible(true);
 			}
 	}
@@ -78,6 +79,7 @@ public class HomeController {
 			plateBaseInputWindow = new PlateBaseInputWindow(PROJECT_NAME, plateBaseController);
 			}
 		else {
+			plateBaseInputWindow.sharePillarCenterDataBetweenInputWindows();
 			plateBaseInputWindow.inputFrameForPlateBase.setVisible(true);	
 			}
 	}
