@@ -42,7 +42,8 @@ public class MeasDataRow extends HBox {
 	private static final Font NORMAL = Font.font("Book Antiqua", FontWeight.NORMAL, 14);
 	private static final Font BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
 	
-	
+
+
 	public MeasDataRow(boolean...isVisible) {
 		this.setOnMouseClicked(e -> {
 			if( measuredPillarDataController == null) {return;}

@@ -59,7 +59,7 @@ public class PCCFileProcess {
 		}
 	}
 	
-	public void saveDataForRTK(List<Point> points, Point directionPoint) {
+	public void saveDataForRTK(List<Point> points, Point directionPoint) { 
 		
 		if(FOLDER_PATH == null) {
 			return;
@@ -423,7 +423,11 @@ public class PCCFileProcess {
 		}
 	}
 	
-	public static boolean isProjectFileExist() {
+	public static boolean isProjectFileExist()  {
+		
+		if( FOLDER_PATH == null ) {
+			
+		}
 		
 		String[] pcc = new File(FOLDER_PATH).list(new FilenameFilter() {
 			
@@ -436,7 +440,7 @@ public class PCCFileProcess {
 		return Arrays.asList(pcc).contains(HomeController.PROJECT_NAME + ".pcc");
 	}
 	
-	public List<String> getProjectFileData(){
+	public List<String> getProjectFileData() {
 		
 		List<String> projectData = new ArrayList<>();
 		
@@ -454,7 +458,8 @@ public class PCCFileProcess {
 			row = reader.readLine();
 			}
 			
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			homeController
 			.getInfoMessage("Projekt fájl beolvasása", "Projekt fájl beolvasása sikertelen: \"" + projectFile.getName() + "\"");
 		}

@@ -58,6 +58,14 @@ public class WeightBaseController implements Controller {
 			homeController.weightBaseCoordsCalculator
 			.setSideOfAngle(angleSideIndex == 0 ? true : false);
 			homeController.weightBaseCoordsCalculator.calculatePillarPoints();
+			
+			if( PCCFileProcess.FOLDER_PATH == null ) {
+				homeController.fileProcess.setFolder();
+				if( PCCFileProcess.FOLDER_PATH == null ) {
+					return;
+				}
+			}
+			
 			 if ( saveAsProject() ) {
 				 createProjectFile(centerID, centerX, centerY, 
 					  directionID, directionX, directionY,

@@ -58,6 +58,13 @@ public class PlateBaseController implements Controller  {
 		.setSideOfAngle(angleSideIndex == 0 ? true : false);
 		homeController.plateBaseCoordsCalculator.calculatePillarPoints();
 		
+		if( PCCFileProcess.FOLDER_PATH == null ) {
+			homeController.fileProcess.setFolder();
+			if( PCCFileProcess.FOLDER_PATH == null ) {
+				return;
+			}
+		}
+		
 		if( saveAsProject() ) {
 			createProjectFile(
 					centerID, centerX, centerY, 
@@ -120,7 +127,7 @@ public class PlateBaseController implements Controller  {
 		String projectName = 
 				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
-		homeController.fileProcess.setFolder();
+			homeController.fileProcess.setFolder();
 			if( PCCFileProcess.FOLDER_PATH != null ) {
 			HomeController.PROJECT_NAME = projectName;
 			homeController.getExistedProjectInfoMessage();
