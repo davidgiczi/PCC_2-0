@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.PlainDocument;
-
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
 
 
@@ -72,6 +71,12 @@ public class PlateBaseInputWindow {
 	}
 	
 	public void sharePillarCenterDataBetweenInputWindows() {
+		
+		if( plateBaseController.homeController.weightBaseInputWindow != null && 
+				plateBaseController.homeController.getYesNoMessage("Súlyalap pont koordináták átvétele", "Átveszi az adatokat?") == 1 ) {
+			return;
+		}
+		
 		if( plateBaseController.homeController.weightBaseInputWindow != null && 
 				!plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText().isEmpty()) {
 			centerIdField.setText(plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText());

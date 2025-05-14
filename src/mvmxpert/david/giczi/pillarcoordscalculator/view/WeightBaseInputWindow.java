@@ -71,6 +71,12 @@ public class WeightBaseInputWindow {
 	}
 	
 	public void sharePillarCenterDataBetweenInputWindows() {
+		
+		if(  weightBaseController.homeController.plateBaseInputWindow != null &&
+				weightBaseController.homeController.getYesNoMessage("Lemezalap pont koordináták átvétele", "Átveszi az adatokat?") == 1 ) {
+			return;
+		}
+		
 		if( weightBaseController.homeController.plateBaseInputWindow != null && 
 				!weightBaseController.homeController.plateBaseInputWindow.centerIdField.getText().isEmpty()) {
 			centerIdField.setText(weightBaseController.homeController.plateBaseInputWindow.centerIdField.getText());
@@ -95,6 +101,7 @@ public class WeightBaseInputWindow {
 				!weightBaseController.homeController.plateBaseInputWindow.y_directionField.getText().isEmpty()) {
 			y_directionField.setText(weightBaseController.homeController.plateBaseInputWindow.y_directionField.getText());
 		}
+		
 	}
 	
 	private void setPillarPointsData() {
