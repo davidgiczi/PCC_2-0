@@ -114,10 +114,14 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 				"\t" + String.valueOf(YcoordForDesignPoint).replace('.', ',') + 
 				"\t" + String.valueOf(XcoordForSteakoutPoint).replace('.', ',') +
 				"\t" + String.valueOf(YcoordForSteakoutPoint).replace('.', ',') +
-				"\t" + getLinearDifferenceDataForReportFile();
+				"\t" + (pointID.equals(centerPoint.getPointID()) ? 
+						getXDifferenceOnMainLine() + "\t" + getYDifferenceOnMainLine() : getLinearDifferenceDataForReportFile());
 	}
 	
 	public String getLinearDifferenceData() {
+		if(pointID.equals(centerPoint.getPointID())) {
+			return	getXDifferenceOnMainLine() + "\t" + getYDifferenceOnMainLine();
+		}
 		AzimuthAndDistance centerToDesignPoint = 
 				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForDesignPoint, YcoordForDesignPoint));
 		AzimuthAndDistance centerToSteakoutedPoint = 
@@ -129,7 +133,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		
 	}
 	
-	public String getLinearDifferenceDataForReportFile() {
+	private String getLinearDifferenceDataForReportFile() {
 		AzimuthAndDistance centerToDesignPoint = 
 				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForDesignPoint, YcoordForDesignPoint));
 		AzimuthAndDistance centerToSteakoutedPoint = 
@@ -140,6 +144,37 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 				(deltaAzimuthInSec > 0 ? "+" : "") + (int) (10 * E) / 10.0 + "cm";
 		
 	}
+	
+	private String getYDifferenceOnMainLine(){
+        AzimuthAndDistance mainLineData =
+                new AzimuthAndDistance(new Point("baseCenter",
+                        centerPoint.getX_coord(), centerPoint.getY_coord()),
+                        new Point("direction",
+                                directionPoint.getX_coord(), directionPoint.getY_coord()));
+        AzimuthAndDistance steakoutData =
+                new AzimuthAndDistance(new Point("baseCenter",
+                        centerPoint.getX_coord(), centerPoint.getY_coord()),
+                        new Point("steakouted",
+                                XcoordForSteakoutPoint, YcoordForSteakoutPoint));
+        return df.format(steakoutData.calcDistance()
+                * Math.sin(mainLineData.calcAzimuth() - steakoutData.calcAzimuth())).replace(",", ".") + "m";
+    }
+
+	private String getXDifferenceOnMainLine(){
+        AzimuthAndDistance mainLineData =
+                new AzimuthAndDistance(new Point("baseCenter",
+                        centerPoint.getX_coord(), centerPoint.getY_coord()),
+                        new Point("direction",
+                                directionPoint.getX_coord(), directionPoint.getY_coord()));
+        AzimuthAndDistance steakoutData =
+                new AzimuthAndDistance(new Point("baseCenter",
+                        centerPoint.getX_coord(), centerPoint.getY_coord()),
+                        new Point("steakouted",
+                        		XcoordForSteakoutPoint, YcoordForSteakoutPoint));
+
+        return df.format(steakoutData.calcDistance()
+                * Math.cos(mainLineData.calcAzimuth() - steakoutData.calcAzimuth())).replace(",", ".") + "m";
+    }
 	
 	public String getPointID() {
 		return pointID;
