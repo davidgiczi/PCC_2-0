@@ -13,14 +13,12 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	private String stkPointID;
 	private String comment;
 	private String sign;
-	private double rotation;
-	private boolean sideOfAngel;
+	private double angle;
 	private BaseType baseType;
-	private String pathDistance;
-	private String centerToForwardBackwardDistance;
-	private String centerToLeftRightDistance;
-	private String horizontalDistanceFromSideOfHole;
-	private String verticalDistanceFromSideOfHole;
+	private String forwardDistance;
+	private String rightDistance;
+	private String backwardDistance;
+	private String leftDistance;
 	private double XcoordForDesignPoint;
 	private double YcoordForDesignPoint;
 	private double XcoordForSteakoutPoint;
@@ -57,27 +55,27 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		YcoordForSteakoutPoint = ycoordForSteakoutPoint;
 	}
 	
-	public void setPathDistance(String pathDistance) {
-		this.pathDistance = pathDistance;
-	}
 	
-	
-	public void setCenterToForwardBackwardDistance(String centerToForwardBackwardDistance) {
-		this.centerToForwardBackwardDistance = centerToForwardBackwardDistance;
-	}
-	
-	public void setCenterToLeftRightDistance(String centerToLeftRightDistance) {
-		this.centerToLeftRightDistance = centerToLeftRightDistance;
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
-	public void setHorizontalDistanceFromSideOfHole(String horizontalDistanceFromSideOfHole) {
-		this.horizontalDistanceFromSideOfHole = horizontalDistanceFromSideOfHole;
+	public void setForwardDistance(String forwardDistance) {
+		this.forwardDistance = forwardDistance;
 	}
 
-	public void setVerticalDistanceFromSideOfHole(String verticalDistanceFromSideOfHole) {
-		this.verticalDistanceFromSideOfHole = verticalDistanceFromSideOfHole;
+	public void setRightDistance(String rightDistance) {
+		this.rightDistance = rightDistance;
 	}
-	
+
+	public void setBackwardDistance(String backwardDistance) {
+		this.backwardDistance = backwardDistance;
+	}
+
+	public void setLeftDistance(String leftDistance) {
+		this.leftDistance = leftDistance;
+	}
+
 	public String getStkPointID() {
 		return stkPointID;
 	}
@@ -102,20 +100,16 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		return YcoordForSteakoutPoint;
 	}
 	
-	public void setSideOfAngel(boolean sideOfAngel) {
-		this.sideOfAngel = sideOfAngel;
-	}
-
 	public String getSteakoutedPointData() {
 		return pointID + 
 				"\t" + comment +
 				"\t" + sign +
-				"\t" + String.valueOf(XcoordForDesignPoint).replace('.', ',') + 
-				"\t" + String.valueOf(YcoordForDesignPoint).replace('.', ',') + 
-				"\t" + String.valueOf(XcoordForSteakoutPoint).replace('.', ',') +
-				"\t" + String.valueOf(YcoordForSteakoutPoint).replace('.', ',') +
+				"\t" + String.valueOf(XcoordForDesignPoint).replace(',', '.') + 
+				"\t" + String.valueOf(YcoordForDesignPoint).replace(',', '.') + 
+				"\t" + String.valueOf(XcoordForSteakoutPoint).replace(',', '.') +
+				"\t" + String.valueOf(YcoordForSteakoutPoint).replace(',', '.') +
 				"\t" + (pointID.equals(centerPoint.getPointID()) ? 
-						getXDifferenceOnMainLine() + "\t" + getYDifferenceOnMainLine() : getLinearDifferenceDataForReportFile());
+						"ΔY=" + getXDifferenceOnMainLine() + "\t" + "ΔX=" + getYDifferenceOnMainLine() : getLinearDifferenceDataForReportFile());
 	}
 	
 	public String getLinearDifferenceData() {
@@ -188,9 +182,6 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		return df.format(YcoordForDesignPoint - YcoordForSteakoutPoint);
 	}
 	
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
-	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -211,16 +202,20 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	public void setMetaData() {
 		switch (baseType) {
 		case PLATE_BASE:
-			if( rotation == 0 ) 
+			if( angle == 0 ) { 
 			setMetaDataForPlateBaseControlledPoint();
-			else 
+			}
+			else { 
 			setMetaDataForRotatedPlateBaseControlledPoint();
+			}
 			break;
 		case WEIGHT_BASE:
-			if( rotation == 0 ) 
+			if( angle == 0 ) { 
 			setMetaDataForWeightBaseControlledPoint();
-			else 
+			}
+			else {
 			setMetaDataForRotatedWeightBaseControlledPoint();
+			}
 		}
 	}
 	
@@ -251,50 +246,50 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "1":
 			id = 1;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + pathDistance + " méterre " + 
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
+			comment = "a nyomvonal iránya az oszlop közepétől " + 
+			forwardDistance + " méterre előre";
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
+			comment = "az oszlopkar iránya az oszlop közepétől "  +
+			rightDistance + " méterre jobbra";
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
+			comment = "a nyomvonal iránya az oszlop közepétől " +
+			backwardDistance + " méterre hátra";
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
+			comment = "az oszlopkar iránya az oszlop közepétől " +
+			leftDistance + " méterre balra";
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + centerToForwardBackwardDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
+			comment = "a nyomvonal iránya az oszlop közepétől " +
+			forwardDistance + " méterre előre";
 			break;
 		case "6": 
 			id = 6;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + centerToLeftRightDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");
+			comment = "az oszlopkar iránya az oszlop közepétől " + 
+			rightDistance + " méterre jobbra";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az oszlop közepétől " + centerToForwardBackwardDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
+			comment = "a nyomvonal iránya az oszlop közepétől " +
+			backwardDistance + " méterre hátra";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + centerToLeftRightDistance + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
+			comment = "az oszlopkar iránya az oszlop közepétől " +
+			leftDistance + " méterre balra";
 			break;
 		case "9":
 			id = 9;
@@ -413,30 +408,26 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra");
+			comment = "az oszlopkar iránya az alap gödrének szélétől "  +
+			leftDistance + " méterre balra";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra");
+			comment = "a nyomvonal iránya az alap gödrének szélétől " +
+			forwardDistance + " méterre előre";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra");;
+			comment = "az oszlopkar iránya az alap gödrének szélétől " + 
+			rightDistance + " méterre jobbra";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "a nyomvonal iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " +
-			(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre");
+			comment = "a nyomvonal iránya az alap gödrének szélétől " + 
+			backwardDistance + " méterre hátra";
 		}
 		
 	}
@@ -454,58 +445,58 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "1":
 			id = 1;
 			sign = "karó szeggel";
-			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			comment = "az oszlop tengelyének iránya az oszlop közepétől " +
+			forwardDistance + " méterre előre" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "2":
 			id = 2;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + " szöget zár be)";
+			comment = "az oszlopkar iránya az oszlop közepétől " + 
+			rightDistance + " méterre jobbra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "3":
 			id = 3;
 			sign = "karó szeggel";
-			comment = "az oszlop tengelyének iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			comment = "az oszlop tengelyének iránya az oszlop közepétől " +
+			backwardDistance + " méterre hátra" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "4":
 			id = 4;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az oszlop közepétől " + pathDistance + " méterre " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + " szöget zár be)";
+			comment = "az oszlopkar iránya az oszlop közepétől " +
+			leftDistance + " méterre balra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			forwardDistance + " méterre előre" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 - (180 - rotation) / 2) + " szöget zár be)";
+			rightDistance + " méterre jobbra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
 			comment = "az oszlop tengelyének iránya a gödrök széleinél " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			backwardDistance + " méterre hátra" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
 			comment = "az oszlopkar iránya a gödrök széleinél " +
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(90 + (180 - rotation) / 2) + " szöget zár be)";
+			leftDistance + " méterre balra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "9":
 			id = 9;
@@ -637,39 +628,30 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "5":
 			id = 5;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " + 
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "balra" : "jobbra")
-					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2) : 
-						convertAngleMinSecFormat(90  - Math.abs(180 - rotation) / 2))  + " szöget zár be)";
+			comment = "az oszlopkar iránya az alap gödrének szélétől " + 
+			leftDistance + " méterre balra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle)  + " szöget zár be)";
 			break;
 		case "6":
 			id = 6;
 			sign = "karó szeggel";
-			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " + 
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "előre" : "hátra")
-					+ " (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " +
+			forwardDistance + " méterre előre" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "7":
 			id = 7;
 			sign = "karó szeggel";
-			comment = "az oszlopkar iránya az alap gödrének szélétől " 
-			+ verticalDistanceFromSideOfHole + " méterre " + 
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "jobbra" : "balra")
-					+ " (az oszlop karja a nyomvonallal " + 
-					(sideOfAngel ? convertAngleMinSecFormat(rotation / 2) : 
-						convertAngleMinSecFormat(90  + Math.abs(180 - rotation) / 2)) + " szöget zár be)";
+			comment = "az oszlopkar iránya az alap gödrének szélétől " + 
+			rightDistance + " méterre jobbra" + 
+					" (az oszlop karja a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "8":
 			id = 8;
 			sign = "karó szeggel";
-			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " 
-			+ horizontalDistanceFromSideOfHole + " méterre " + 
-					(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint) ?  "hátra" : "előre")
-					+ " (az oszlop tengelye a nyomvonallal " + 
-					convertAngleMinSecFormat(Math.abs((180 - rotation) / 2)) + " szöget zár be)";
+			comment = "az oszlop tengelyének iránya az alap gödrének szélétől " +
+			backwardDistance + " méterre hátra" + 
+					" (az oszlop tengelye a nyomvonallal " + convertAngleMinSecFormat(angle) + " szöget zár be)";
 			break;
 		case "9":
 			id = 9;
@@ -689,11 +671,11 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		
 	}
 	
-	private  String convertAngleMinSecFormat(double data){
-        int angle = (int) data;
-        int min = (int) ((data - angle) * 60);
-        double sec = ((int) ((data - angle) * 3600 - min * 60));
-        return (0 > data ? "-" :  "") + Math.abs(angle) + "° "
+	private  String convertAngleMinSecFormat(double angleData){
+        int angle = (int) angleData;
+        int min = (int) ((angleData - angle) * 60);
+        double sec = ((int) ((angleData - angle) * 3600 - min * 60));
+        return (0 > angleData ? "-" :  "") + Math.abs(angle) + "° "
                 + (9 < Math.abs(min) ? Math.abs(min) : "0" + Math.abs(min)) + "' "
                 + (9 < Math.abs(sec) ? Math.abs(sec) : "0" + Math.abs(sec)) + "\"";
     }

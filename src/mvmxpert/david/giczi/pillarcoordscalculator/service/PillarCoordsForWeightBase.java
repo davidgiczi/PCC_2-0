@@ -119,6 +119,11 @@ public class PillarCoordsForWeightBase {
 	public void setSideOfAngle(boolean sideOfAngle) {
 		this.sideOfAngle = sideOfAngle;
 	}
+	
+
+	public boolean isSideOfAngle() {
+		return sideOfAngle;
+	}
 
 	public void calculatePillarPoints() {
 		this.pillarPoints = new ArrayList<>();

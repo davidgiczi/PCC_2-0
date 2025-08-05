@@ -4,10 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.PointID;
+
 
 public class SteakoutControl {
 
@@ -18,9 +18,9 @@ public class SteakoutControl {
 	private String pointIDValue;
 	private String delimiter;
 	private double rotation;
-	private boolean sideOfRotation;
 	private List<SteakoutedCoords> controlledCoords;
 	private HomeController homeController;
+	private DecimalFormat df = new DecimalFormat("###.###");
 	
 	public SteakoutControl(HomeController homeController, BaseType baseType) {
 		this.homeController = homeController;
@@ -39,7 +39,7 @@ public class SteakoutControl {
 	public void setControlledCoords(List<SteakoutedCoords> controlledCoords) {
 		this.controlledCoords = controlledCoords;
 	}
-
+	
 	public void setPointID(PointID pointID) {
 		this.pointID = pointID;
 	}
@@ -47,6 +47,7 @@ public class SteakoutControl {
 	public void setPointIDValue(String pointIDValue) {
 		this.pointIDValue = pointIDValue;
 	}
+
 
 	public void setDelimiter(String delimiter) {
 		this.delimiter = delimiter;
@@ -56,56 +57,104 @@ public class SteakoutControl {
 		this.rotation = rotation;
 	}
 	
-	public void setSideOfRotation(boolean sideOfRotation) {
-		this.sideOfRotation = sideOfRotation;
+	public List<SteakoutedCoords> getControlledCoords() {
+		return controlledCoords;
 	}
+	
 
 	public void controlSteakout() {
-		DecimalFormat df = new DecimalFormat("###.###");
 		List<String> steakoutedPointData = homeController.fileProcess.getSteakoutedPointData();
 		for (String controlData : steakoutedPointData) { 
+			for (int i = 0; i < designedPillarCoords.size(); i++) {
 			String[] data = controlData.split(delimiter);
-			for(int i = 0; i < designedPillarCoords.size(); i++) {
-				SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedPillarCoords.get(i).getPointID());
-				steakouted.setDirectionPoint(directionPoint);
-				steakouted.setCenterPoint(designedPillarCoords.get(0));
-				if(getPointIdentifier(designedPillarCoords.get(i).getPointID()).equals(data[0])) {
+			SteakoutedCoords steakouted = new SteakoutedCoords(baseType, designedPillarCoords.get(i).getPointID());
+			steakouted.setDirectionPoint(directionPoint);
+			steakouted.setCenterPoint(designedPillarCoords.get(0));
+			
+			if(getPointIdentifier(designedPillarCoords.get(i).getPointID()).equals(data[0])) {
 					
-				if(baseType == BaseType.WEIGHT_BASE) {
-					steakouted.setPathDistance(
-							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(1)).calcDistance()));
-					steakouted.setCenterToForwardBackwardDistance(
-							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(5)).calcDistance()));
-					steakouted.setCenterToLeftRightDistance(
-							df.format(new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(6)).calcDistance()));
+				if(baseType == BaseType.WEIGHT_BASE) {		
+					
+					if( data[0].endsWith("_1")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setForwardDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
+					else if( data[0].endsWith("_2")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setRightDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_3")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setBackwardDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_4")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setLeftDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_5")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setForwardDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_6")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setRightDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_7")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setBackwardDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_8")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setLeftDistance(calcDistanceForWeightBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
+					}
+	}
 				else if(baseType == BaseType.PLATE_BASE) {
 					
-					double horizonatlDistanceFromSideOfHole = 
-							new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(6)).calcDistance() -
-							new AzimuthAndDistance(designedPillarCoords.get(2), designedPillarCoords.get(3)).calcDistance() / 2;
-					steakouted.setHorizontalDistanceFromSideOfHole(
-							df.format(horizonatlDistanceFromSideOfHole));
-					double verticalDistanceFromSideOfHole =
-							new AzimuthAndDistance(designedPillarCoords.get(0), designedPillarCoords.get(5)).calcDistance() -
-							new AzimuthAndDistance(designedPillarCoords.get(1), designedPillarCoords.get(2)).calcDistance() / 2;
-					steakouted.setVerticalDistanceFromSideOfHole(
-							df.format(verticalDistanceFromSideOfHole));
+					
+					if( data[0].endsWith("_5") ) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setLeftDistance(calcDistanceForPlateBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
 					}
+					else if( data[0].endsWith("_6")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setForwardDistance(calcDistanceForPlateBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));	
+					}
+					else if( data[0].endsWith("_7")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setRightDistance(calcDistanceForPlateBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
+					}
+					else if( data[0].endsWith("_8")) {
+						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+						steakouted.setBackwardDistance(calcDistanceForPlateBase(steakoutedPoint));
+						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
+					}	
+					
+		}
 					steakouted.setStkPointID(data[0]);
-					steakouted.setRotation(rotation);
-					steakouted.setSideOfAngel(sideOfRotation);
 					steakouted.setXcoordForDesignPoint(designedPillarCoords.get(i).getX_coord());
 					steakouted.setYcoordForDesignPoint(designedPillarCoords.get(i).getY_coord()); 
 					steakouted.setXcoordForSteakoutPoint(Double.parseDouble(data[1]));
 					steakouted.setYcoordForSteakoutPoint(Double.parseDouble(data[2]));
 					steakouted.setMetaData();
 					controlledCoords.add(steakouted);
+	}
 			}
 		}
-	}
+		
 		Collections.sort(controlledCoords);
 	}
+	
 	
 	private String getPointIdentifier(String pointNumber) {
 		
@@ -121,10 +170,77 @@ public class SteakoutControl {
 		return identifier;
 	}
 	
-	public List<SteakoutedCoords> getControlledCoords() {
-		return controlledCoords;
+	private Point getCenterPoint() {
+		List<String> steakoutedPointData = homeController.fileProcess.getSteakoutedPointData();
+		for (String controlData : steakoutedPointData) {
+			String[] data = controlData.split(delimiter);
+			if( getPointIdentifier(designedPillarCoords.get(0).getPointID()).equals(data[0]) ){
+				return new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
+			}
+		}
+		return designedPillarCoords.get(0);
 	}
 	
+	private String calcDistanceForWeightBase(Point steakoutedPoint) {
+		Point center = getCenterPoint();
+		return df.format(new AzimuthAndDistance(center, steakoutedPoint).calcDistance()).replace(",", ".");
+	}
+	
+	private String calcDistanceForPlateBase(Point steakoutedPoint) {
+		Point center = getCenterPoint();
+		double centerDistance = new AzimuthAndDistance(center, steakoutedPoint).calcDistance();
+		if( steakoutedPoint.getPointID().endsWith("_5") || steakoutedPoint.getPointID().endsWith("_7")) {
+		return df.format(centerDistance - 
+				new AzimuthAndDistance(designedPillarCoords.get(1), designedPillarCoords.get(2)).calcDistance() / 2.0)
+				.replace(",", ".");	
+		}
+		return df.format(centerDistance - 
+				new AzimuthAndDistance(designedPillarCoords.get(2), designedPillarCoords.get(3)).calcDistance() / 2.0)
+				.replace(",", ".");	
+	}
+	
+	private double calcAngleForWeightBase(Point steakoutedPoint) {
+		if( rotation == 0.0 ) {
+			return rotation;
+		}
+		Point center = getCenterPoint();
+		
+		double angle = Math.abs(new AzimuthAndDistance(center, steakoutedPoint).calcAzimuth() - 
+				new AzimuthAndDistance(center, directionPoint).calcAzimuth());
+		
+		 if( angle > Math.PI )  {
+			return steakoutedPoint.getPointID().endsWith("_3") ?
+					Math.toDegrees(Math.PI - Math.abs(angle - 2 * Math.PI)) :
+					Math.toDegrees(Math.abs(angle - 2 * Math.PI));
+		}
+		 
+		return steakoutedPoint.getPointID().endsWith("_3") ?
+				Math.toDegrees(Math.PI - angle) :
+				Math.toDegrees(angle);
+	}
+	
+	
+	private double calcAngleForPlateBase(Point steakoutedPoint) {
+		if( rotation == 0.0 ) {
+			return rotation;
+		}
+		Point center = getCenterPoint();
+		
+		double angle = Math.abs(new AzimuthAndDistance(center, steakoutedPoint).calcAzimuth() - 
+				new AzimuthAndDistance(center, directionPoint).calcAzimuth());
+		
+		if( angle > Math.PI )  {
+			return steakoutedPoint.getPointID().endsWith("_8") ?
+					Math.toDegrees(Math.PI - Math.abs(angle - 2 * Math.PI)) :
+					Math.toDegrees(Math.abs(angle - 2 * Math.PI));
+		}
+		
+		return steakoutedPoint.getPointID().endsWith("_8") ?
+				Math.toDegrees(Math.PI - angle) :
+				Math.toDegrees(angle);
+	}
+	
+
 	public List<Point> getDesignedPillarCoords() {
 		return designedPillarCoords;
 	}
