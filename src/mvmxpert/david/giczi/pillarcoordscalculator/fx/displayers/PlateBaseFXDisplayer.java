@@ -435,7 +435,7 @@ public class PlateBaseFXDisplayer {
 
     private void addDirectionPointCoords(double row){
         Text pointID = new Text(DIRECTION_POINT.getPointID());
-        pointID.setFill(Color.MAGENTA);
+        pointID.setFill(Color.LIMEGREEN);
         pointID.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
         pointID.xProperty().bind(pane.widthProperty().divide(10).subtract(30 * MILLIMETER));
         pointID.setY(row);
@@ -484,11 +484,11 @@ public class PlateBaseFXDisplayer {
             PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(6),
                     30 * MILLIMETER, mainLineData.calcAzimuth(),
                     "forwardDirection");
-            setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.MAGENTA, 16);
+            setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.LIMEGREEN, 16);
         }
         else {
             setText(DIRECTION_POINT.getPointID(),
-                    transformedPillarBasePoints.get(9), Color.MAGENTA, 16);
+                    transformedPillarBasePoints.get(9), Color.LIMEGREEN, 16);
             int mainPillarID;
             int directionPillarID;
             try {
