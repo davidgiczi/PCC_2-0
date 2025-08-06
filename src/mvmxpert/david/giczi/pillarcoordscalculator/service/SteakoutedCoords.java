@@ -109,7 +109,7 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 				"\t" + String.valueOf(XcoordForSteakoutPoint).replace(',', '.') +
 				"\t" + String.valueOf(YcoordForSteakoutPoint).replace(',', '.') +
 				"\t" + (pointID.equals(centerPoint.getPointID()) ? 
-						"ΔY=" + getXDifferenceOnMainLine() + "\t" + "ΔX=" + getYDifferenceOnMainLine() : getLinearDifferenceDataForReportFile());
+						getXDifferenceOnMainLine() + "\t" + getYDifferenceOnMainLine() : getLinearDifferenceDataForReportFile());
 	}
 	
 	public String getLinearDifferenceData() {

@@ -455,7 +455,7 @@ public class WeightBaseFXDisplayer {
 
     private void addDirectionPointCoords(double row){
         Text pointID = new Text(DIRECTION_POINT.getPointID());
-        pointID.setFill(Color.LIMEGREEN);
+        pointID.setFill(Color.BLUE);
         pointID.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
         pointID.xProperty().bind(pane.widthProperty().divide(10).subtract(30 * MILLIMETER));
         pointID.setY(row);
@@ -504,11 +504,11 @@ public class WeightBaseFXDisplayer {
             PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(1),
                     30 * MILLIMETER, mainLineData.calcAzimuth(),
                     "forwardDirection");
-            setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.LIMEGREEN, 16);
+            setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.BLUE, 16);
         }
         else {
             setText(DIRECTION_POINT.getPointID(),
-                    transformedPillarBasePoints.get(25), Color.LIMEGREEN, 16);
+                    transformedPillarBasePoints.get(25), Color.BLUE, 16);
             int mainPillarID;
             int directionPillarID;
             try {
