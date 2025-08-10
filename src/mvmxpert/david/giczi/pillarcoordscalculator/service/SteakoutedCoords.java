@@ -75,6 +75,26 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 	public void setLeftDistance(String leftDistance) {
 		this.leftDistance = leftDistance;
 	}
+	
+	public String getForwardDistance() {
+		return forwardDistance;
+	}
+
+	public String getRightDistance() {
+		return rightDistance;
+	}
+
+	public String getBackwardDistance() {
+		return backwardDistance;
+	}
+
+	public String getLeftDistance() {
+		return leftDistance;
+	}
+	
+	public String getComment() {
+		return comment;
+	}
 
 	public String getStkPointID() {
 		return stkPointID;
@@ -581,17 +601,15 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "25" :
 			id = 25;
 			sign = "karó";
-			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			comment = directionPoint.getPointID() + ". számú oszlop iránya " + forwardDistance + " méterre előre";
 			break;
 		case "26" :
 			id = 26;
 			sign = "karó";
-			if( centerPoint.getPointID().equals("1") || centerPoint.getPointID().equals("T1"))
-			comment = "Az előző oszlop iránya 20 méterre";
-			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
-			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
-			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
-			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";		
+			 if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint)) {
+			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya " + backwardDistance + " méterre hátra";}
+			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint)) {
+			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya " + backwardDistance + " méterre hátra";}		
 		}
 	}
 	
@@ -656,17 +674,15 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 		case "9":
 			id = 9;
 			sign = "karó";
-			comment = directionPoint.getPointID() + ". számú oszlop iránya 20 méterre";
+			comment = directionPoint.getPointID() + ". számú oszlop iránya " + forwardDistance + " méterre előre";
 			break;
 		case "10":
 			id = 10;
 			sign = "karó";
-			if( centerPoint.getPointID().equals("1") || centerPoint.getPointID().equals("T1"))
-			comment = "Az előző oszlop iránya 20 méterre";
-			else if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint))
-			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya 20 méterre";
-			else if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint))
-			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya 20 méterre";	
+			 if(getPointIntegerID(centerPoint) < getPointIntegerID(directionPoint)) {
+			comment  = (getPointIntegerID(centerPoint) - 1) + ". számú oszlop iránya " + backwardDistance  + " méterre hátra";}
+			  if (getPointIntegerID(centerPoint) > getPointIntegerID(directionPoint)) {
+			comment  = (getPointIntegerID(centerPoint) + 1) + ". számú oszlop iránya " + backwardDistance + " méterre hátra";}
 		}
 		
 	}
