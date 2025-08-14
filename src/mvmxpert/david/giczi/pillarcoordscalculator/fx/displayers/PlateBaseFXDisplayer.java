@@ -34,6 +34,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 
 public class PlateBaseFXDisplayer {
 	
@@ -946,6 +948,15 @@ public class PlateBaseFXDisplayer {
             if( e.getButton() == MouseButton.MIDDLE ) {
             	Text clickedText = (Text) e.getSource();
                 clickedText.setFill(Color.WHITE);	
+            }
+            else if( e.getButton() == MouseButton.PRIMARY ) {
+            	String inputText = 
+            			JOptionPane.showInputDialog(null, "Add meg az új feliratot:", 
+            					"Felirat módosítása", JOptionPane.DEFAULT_OPTION);
+            	if( inputText == null || inputText.trim().isEmpty() ) {
+            		return;
+            	}
+            	text.setText(inputText.trim());
             }
             });
         text.xProperty()
