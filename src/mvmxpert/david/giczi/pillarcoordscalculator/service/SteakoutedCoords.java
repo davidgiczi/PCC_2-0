@@ -152,6 +152,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
 				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForDesignPoint, YcoordForDesignPoint));
 		AzimuthAndDistance centerToSteakoutedPoint = 
 				new AzimuthAndDistance(centerPoint, new Point(pointID, XcoordForSteakoutPoint, YcoordForSteakoutPoint));
+		if( Double.isNaN(centerToSteakoutedPoint.calcAzimuth()) ) {
+        	return "0.000m";
+        }
 		double deltaAzimuthInSec = 3600 * Math.toDegrees(centerToDesignPoint.calcAzimuth() - centerToSteakoutedPoint.calcAzimuth());
 		double E = 100 * centerToDesignPoint.calcDistance() * deltaAzimuthInSec / (3600 * 180 / Math.PI);
 		return	(deltaAzimuthInSec > 0 ? "+" : "") + (int) deltaAzimuthInSec + "\"\t" + 
@@ -170,6 +173,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
                         centerPoint.getX_coord(), centerPoint.getY_coord()),
                         new Point("steakouted",
                                 XcoordForSteakoutPoint, YcoordForSteakoutPoint));
+        if( Double.isNaN(steakoutData.calcAzimuth()) ) {
+        	return "0.000m";
+        }
         return df.format(steakoutData.calcDistance()
                 * Math.sin(mainLineData.calcAzimuth() - steakoutData.calcAzimuth())).replace(",", ".") + "m";
     }
@@ -185,7 +191,9 @@ public class SteakoutedCoords implements Comparable<SteakoutedCoords> {
                         centerPoint.getX_coord(), centerPoint.getY_coord()),
                         new Point("steakouted",
                         		XcoordForSteakoutPoint, YcoordForSteakoutPoint));
-
+        if( Double.isNaN(steakoutData.calcAzimuth()) ) {
+        	return "0.000m";
+        }
         return df.format(steakoutData.calcDistance()
                 * Math.cos(mainLineData.calcAzimuth() - steakoutData.calcAzimuth())).replace(",", ".") + "m";
     }
