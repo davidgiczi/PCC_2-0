@@ -74,6 +74,11 @@ public class MeasPoint  {
         isUsed = used;
     }
 
+    public Point getAsPoint() {
+    	return new Point(pointID, x_coord, y_coord);
+    }
+    
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

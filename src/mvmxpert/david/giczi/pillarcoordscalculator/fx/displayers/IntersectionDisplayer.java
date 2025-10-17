@@ -86,6 +86,10 @@ public class IntersectionDisplayer {
         addCoordsDifferencesAndDistance();
         addStandingPoints();
        }
+        if( measuredPillarDataController.crossedWirePointList.isEmpty() ) {
+        	return;
+        }
+        addDistanceBetweenCrossedWirePoints();
     }
 
     private void addNorthSign(){
@@ -344,7 +348,90 @@ public class IntersectionDisplayer {
                 betweenStandingAAndIntersectionPointDistanceTooltip);
         pane.getChildren().add(distanceBetweenStandingAAndIntersectionPointLine);
     }
-
+    
+    private void addDistanceBetweenCrossedWirePoints() {
+    	if( SCALE < 100){
+            return;
+        }   	
+    
+        Line crossedWireLine = new Line();
+        crossedWireLine.setStroke(Color.BLUE);
+        crossedWireLine.getStrokeDashArray().addAll(10d);
+        crossedWireLine.setStrokeWidth(2);
+        crossedWireLine.setCursor(Cursor.CLOSED_HAND);
+        crossedWireLine.startXProperty()
+                .bind(pane.widthProperty().divide(10).multiply(5)
+                        .add(Math.round((measuredPillarDataController.crossedWirePointList.get(0).getX_coord() - 
+                        		measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        crossedWireLine.startYProperty()
+                .bind(pane.heightProperty().divide(2)
+                        .subtract(Math.round((measuredPillarDataController.crossedWirePointList.get(0).getY_coord() - 
+                        		measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));     
+        crossedWireLine.endXProperty()
+        .bind(pane.widthProperty().divide(10).multiply(5)
+                        .add(Math.round((measuredPillarDataController.crossedWirePointList.get(1).getX_coord() - 
+                        		measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        crossedWireLine.endYProperty()
+        .bind(pane.heightProperty().divide(2)
+                        .subtract(Math.round((measuredPillarDataController.crossedWirePointList.get(1).getY_coord() - 
+                        		measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+        Tooltip crossedWireDistanceTooltip = new Tooltip(String.format("%.2fm",
+                        new AzimuthAndDistance(measuredPillarDataController.crossedWirePointList.get(0).getAsPoint(), 
+                        		measuredPillarDataController.crossedWirePointList.get(1).getAsPoint()).calcDistance())
+                .replace(",", "."));
+        Tooltip.install(crossedWireLine,
+                crossedWireDistanceTooltip);      
+        Circle wireStartPoint = new Circle();
+        wireStartPoint.setRadius(5);
+        wireStartPoint.setStroke(Color.BLUE);
+        wireStartPoint.setStrokeWidth(2);
+        wireStartPoint.setFill(Color.TRANSPARENT);
+        wireStartPoint.setCursor(Cursor.HAND);
+        wireStartPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+       		 .add(Math.round((measuredPillarDataController.crossedWirePointList.get(0).getX_coord() - 
+             		measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireStartPoint.centerYProperty().bind(pane.heightProperty().divide(2)
+        		.subtract(Math.round((measuredPillarDataController.crossedWirePointList.get(0).getY_coord() - 
+                		measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+        Tooltip wireStartPointTooltip =
+                new Tooltip(measuredPillarDataController.crossedWirePointList.get(0).getPointID().toUpperCase() +
+                        "\tY=" + String.format("%.3fm",
+                        		measuredPillarDataController.crossedWirePointList.get(0).getX_coord())
+                        .replace(",",".") + "\tX=" +
+                        String.format("%.3fm",
+                        		measuredPillarDataController.crossedWirePointList.get(0).getY_coord())
+                                .replace(",",".") + "\tH=" +
+                                String.format("%.3fm",
+                                		measuredPillarDataController.crossedWirePointList.get(0).getZ_coord())
+                                        .replace(",","."));
+        Tooltip.install(wireStartPoint, wireStartPointTooltip);   
+        Circle wireEndPoint = new Circle();
+        wireEndPoint.setRadius(5);
+        wireEndPoint.setStroke(Color.BLUE);
+        wireEndPoint.setStrokeWidth(2);
+        wireEndPoint.setFill(Color.TRANSPARENT);
+        wireEndPoint.setCursor(Cursor.HAND);
+        wireEndPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+       		 .add(Math.round((measuredPillarDataController.crossedWirePointList.get(1).getX_coord() - 
+             		measuredPillarDataController.intersection.getIntersectionPoint().getX_coord()) * 1000) * MILLIMETER / SCALE));
+        wireEndPoint.centerYProperty().bind(pane.heightProperty().divide(2)
+       		 .subtract(Math.round((measuredPillarDataController.crossedWirePointList.get(1).getY_coord() - 
+             		measuredPillarDataController.intersection.getIntersectionPoint().getY_coord()) * 1000) * MILLIMETER / SCALE));
+        Tooltip wireEndPointTooltip =
+                new Tooltip(measuredPillarDataController.crossedWirePointList.get(1).getPointID().toUpperCase() +
+                        "\tY=" + String.format("%.3fm",
+                        		measuredPillarDataController.crossedWirePointList.get(1).getX_coord())
+                        .replace(",",".") + "\tX=" +
+                        String.format("%.3fm",
+                        		measuredPillarDataController.crossedWirePointList.get(1).getY_coord())
+                                .replace(",",".") + "\tH=" +
+                                String.format("%.3fm",
+                                		measuredPillarDataController.crossedWirePointList.get(1).getZ_coord())
+                                        .replace(",","."));
+        Tooltip.install(wireEndPoint, wireEndPointTooltip);
+        pane.getChildren().addAll(crossedWireLine, wireStartPoint, wireEndPoint);
+    }
+    
     private void addDistancesBetweenStartAndTheoreticalAndEndPoint() {	
     	 if( measuredPillarDataController.intersection.getLineStartPoint() == null || 
          		measuredPillarDataController.intersection.getLineEndPoint() == null  ){

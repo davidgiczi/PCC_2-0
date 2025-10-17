@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class MeasuredPillarDataController {
     public List<String> pillarBaseProjectFileData;
     public List<String> measurmentData;
     public Intersection intersection;
+    public List<MeasPoint> crossedWirePointList;
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
     public static boolean IS_RUNNING_PROCESS_OK;
@@ -56,6 +58,7 @@ public class MeasuredPillarDataController {
     	this.fxHomeWindow = fxHomeWindow;
         this.fileProcess = new PLRFileProcess(this);
         this.measuredPillarData = new MeasuredPillarData(this);
+        this.crossedWirePointList = new ArrayList<>();
         setCreatedInputPillarDataWindow(true);
     }
 
@@ -443,6 +446,7 @@ public class MeasuredPillarDataController {
         	else {
         		
         		if( isValidInputDataForElevationMeasureOnly() ) {
+        			collectCrossedWireStartAndEndPoints();
             		saveAndDisplayDataForElevationMeasureOnly();
             	}
             	else {
@@ -980,6 +984,7 @@ public class MeasuredPillarDataController {
     	else {
     		
     		if( isValidIntersectionInputData() ) {
+    			collectCrossedWireStartAndEndPoints();
         		saveAndDisplayIntersectionData();
         	}
         	else {
@@ -1565,5 +1570,27 @@ public class MeasuredPillarDataController {
             		Double.parseDouble(intersectionProjectFileData.get(28))));
         }
     }
-
+    
+    private void collectCrossedWireStartAndEndPoints() {
+ 
+    	String crossedPointId = intersectionInputDataWindow.newPointIdField.getText().toUpperCase();
+    	
+    	if( !crossedPointId.contains("20KV") && !crossedPointId.contains("120KV") && !crossedPointId.contains("400KV") ) {
+    		return;
+    	}
+    	crossedWirePointList.clear();
+    	for (String measData : measurmentData) {
+    		
+    		String[] data = measData.split(";");
+    		
+			if( data[0].startsWith(crossedPointId.substring(crossedPointId.indexOf('-') + 1, crossedPointId.lastIndexOf('-'))) ) {
+				
+					crossedWirePointList.add(new MeasPoint(data[0], Double.parseDouble(data[1]), 
+							Double.parseDouble(data[2]), Double.parseDouble(data[3]), null));
+			}
+			
+		}
+        	
+    }
+    	
 }

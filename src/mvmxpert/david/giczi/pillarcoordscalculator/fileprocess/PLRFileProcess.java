@@ -405,6 +405,24 @@ public class PLRFileProcess {
 				writer.write(String.valueOf(measuredPillarDataController.intersection.getTheoreticalPoint().getY_coord()));
 				writer.newLine();
 			}
+			if( !measuredPillarDataController.crossedWirePointList.isEmpty() ) {
+				writer.write(measuredPillarDataController.crossedWirePointList.get(0).getPointID());
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(0).getX_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(0).getY_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(0).getZ_coord()));
+				writer.newLine();
+				writer.write(measuredPillarDataController.crossedWirePointList.get(1).getPointID());
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(1).getX_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(1).getY_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(1).getZ_coord()));
+				writer.newLine();
+			}
 		}
 		catch (IOException e){
 		}

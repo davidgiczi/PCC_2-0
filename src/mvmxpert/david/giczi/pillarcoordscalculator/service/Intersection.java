@@ -420,6 +420,5 @@ public class Intersection {
     public void setElevationSecB(int elevationSecB) {
         this.elevationSecB = elevationSecB;
     }
-
-
+    	    
 }
