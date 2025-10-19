@@ -90,6 +90,7 @@ public class IntersectionDisplayer {
         	return;
         }
         addDistanceBetweenCrossedWirePoints();
+        measuredPillarDataController.crossedWirePointList.clear();
     }
 
     private void addNorthSign(){

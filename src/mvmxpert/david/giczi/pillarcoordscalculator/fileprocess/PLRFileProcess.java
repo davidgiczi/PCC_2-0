@@ -406,6 +406,8 @@ public class PLRFileProcess {
 				writer.newLine();
 			}
 			if( !measuredPillarDataController.crossedWirePointList.isEmpty() ) {
+				writer.write("crossedWire");
+				writer.newLine();
 				writer.write(measuredPillarDataController.crossedWirePointList.get(0).getPointID());
 				writer.newLine();
 				writer.write(String.valueOf(measuredPillarDataController.crossedWirePointList.get(0).getX_coord()));
