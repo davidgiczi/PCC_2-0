@@ -45,6 +45,7 @@ public class IntersectionDisplayer {
         Stage stage = new Stage();
         stage.initOwner(measuredPillarDataController.fxHomeWindow.homeStage);
         stage.setOnCloseRequest(windowEvent -> {
+        	measuredPillarDataController.crossedWirePointList.clear();
             measuredPillarDataController.fxHomeWindow.homeStage.show();
         });
         pane.setStyle("-fx-background-color: white");
@@ -90,7 +91,6 @@ public class IntersectionDisplayer {
         	return;
         }
         addDistanceBetweenCrossedWirePoints();
-        measuredPillarDataController.crossedWirePointList.clear();
     }
 
     private void addNorthSign(){
