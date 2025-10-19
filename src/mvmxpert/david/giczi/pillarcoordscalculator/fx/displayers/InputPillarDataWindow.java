@@ -63,7 +63,7 @@ public class InputPillarDataWindow {
                         measuredPillarDataController.setCreatedInputPillarDataWindow(false);
                 }
                 measuredPillarDataController.inputPillarDataWindow.processButton.setText("Tallóz");
-                MeasuredPillarDataController.IS_OPEN_PCC_DATA = false;
+                MeasuredPillarDataController.IS_OPENING_PCC_FILE_PROCESS = false;
             }
         });
         vBox = new VBox();

@@ -45,6 +45,7 @@ public class IntersectionDisplayer {
         Stage stage = new Stage();
         stage.initOwner(measuredPillarDataController.fxHomeWindow.homeStage);
         stage.setOnCloseRequest(windowEvent -> {
+        	MeasuredPillarDataController.IS_OPENING_INS_FILE_PROCESS = false;
         	measuredPillarDataController.crossedWirePointList.clear();
             measuredPillarDataController.fxHomeWindow.homeStage.show();
         });

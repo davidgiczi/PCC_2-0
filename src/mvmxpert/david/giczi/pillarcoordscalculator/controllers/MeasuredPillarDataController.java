@@ -44,7 +44,8 @@ public class MeasuredPillarDataController {
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
     public static boolean IS_RUNNING_PROCESS_OK;
-    public static boolean IS_OPEN_PCC_DATA;
+    public static boolean IS_OPENING_PCC_FILE_PROCESS;
+    public static boolean IS_OPENING_INS_FILE_PROCESS;
     
     public boolean isCreatedInputPillarDataWindow() {
 		return isCreatedInputPillarDataWindow;
@@ -347,18 +348,18 @@ public class MeasuredPillarDataController {
 
     public void onlClickProcessButtonForPillarBaseProject(){
     	fxHomeWindow.homeStage.hide();
-        if ( IS_OPEN_PCC_DATA ) {
+        if ( IS_OPENING_PCC_FILE_PROCESS ) {
         
         	if( validatePillarBaseInputData() ) {
         		runPillarBaseProcess();
-        		 IS_OPEN_PCC_DATA = false;
+        		 IS_OPENING_PCC_FILE_PROCESS = false;
         	}
         }
         else {
         	fileProcess.getPillarBaseDataByPCCProject();
         	if ( canBeSetDataByPCC() ) {
         		inputPillarDataWindow.processButton.setText("Számol");
-            	IS_OPEN_PCC_DATA = true;
+            	IS_OPENING_PCC_FILE_PROCESS = true;
         	};	
         }
     }
@@ -1413,6 +1414,7 @@ public class MeasuredPillarDataController {
       		 	 intersectionProjectFileData.size() == 38){
         	MeasuredPillarDataController.ELEVATION_MEAS_ONLY = false;
        }
+        IS_OPENING_INS_FILE_PROCESS = true;
         openIntersectionInputDataWindow();
         intersectionInputDataWindow.stage.setTitle(PLRFileProcess.PROJECT_FILE_NAME + ".ins");
         intersection = new Intersection();
@@ -1610,7 +1612,6 @@ public class MeasuredPillarDataController {
     }
     
     private void setCrossedWirePoints(List<String> intersectionProjectFileData, int index) {
-    	measurmentData = null;
 		crossedWirePointList.add(new MeasPoint(intersectionProjectFileData.get(index), 
 								Double.parseDouble(intersectionProjectFileData.get(index + 1)),
 								Double.parseDouble(intersectionProjectFileData.get(index + 2)),
@@ -1622,12 +1623,13 @@ public class MeasuredPillarDataController {
     }
     
     private void collectCrossedWireStartAndEndPoints() {
-    	if( measurmentData == null ) {
-    		return;
-    	}
+   
     	String crossedPointId = intersectionInputDataWindow.newPointIdField.getText().toUpperCase();
     	
-    	if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && !crossedPointId.contains("400KV") ) {
+    	if( IS_OPENING_INS_FILE_PROCESS ) {
+    		return;
+    	}
+    	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && !crossedPointId.contains("400KV") ) {
     		return;
     	}
     	for (String measData : measurmentData) {

@@ -204,7 +204,7 @@ public class PLRFileProcess {
 		}
 		else {
 		measuredPillarDataController.inputPillarDataWindow.processButton.setText("Számol");
-        MeasuredPillarDataController.IS_OPEN_PCC_DATA = true;
+        MeasuredPillarDataController.IS_OPENING_PCC_FILE_PROCESS = true;
         if( pccData != null ) {
         	 pccData = null;
         }
