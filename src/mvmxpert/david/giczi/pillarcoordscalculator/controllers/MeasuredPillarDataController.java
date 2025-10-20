@@ -445,7 +445,7 @@ public class MeasuredPillarDataController {
         	
         }		
         	else {
-        		
+        			loadMeasureFileDataForElevationMeasureOnly();
         		if( isValidInputDataForElevationMeasureOnly() ) {
         			collectCrossedWireStartAndEndPoints();
             		saveAndDisplayDataForElevationMeasureOnly();
@@ -718,8 +718,9 @@ public class MeasuredPillarDataController {
     }
     
     private void getMeasureDataForElevationMeasureOnly() {
-    		
+    	
     	measurmentDataDisplayer.getDisplayerData();
+    	
     	measurmentDataDisplayer.collectSecondMeasurementValue();
     	
     	for (RowData standingPoint : measurmentDataDisplayer.getStandingPointDataStore()) {
@@ -983,7 +984,7 @@ public class MeasuredPillarDataController {
     	
     }		
     	else {
-    		
+    			loadMeasureFileData();
     		if( isValidIntersectionInputData() ) {
     			collectCrossedWireStartAndEndPoints();
         		saveAndDisplayIntersectionData();
@@ -1632,9 +1633,9 @@ public class MeasuredPillarDataController {
     	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && !crossedPointId.contains("400KV") ) {
     		return;
     	}
-    	for (String measData : measurmentData) {
+    	for (TheoreticalPointData theoreticalPointData : measurmentDataDisplayer.theoreticalPointDataStore) {
     		
-    		String[] data = measData.split(";");
+    		String[] data = theoreticalPointData.toString().split(";");
     		
 			if( data[0].startsWith(crossedPointId.substring(crossedPointId.indexOf('-') + 1, crossedPointId.lastIndexOf('-'))) ) {
 				

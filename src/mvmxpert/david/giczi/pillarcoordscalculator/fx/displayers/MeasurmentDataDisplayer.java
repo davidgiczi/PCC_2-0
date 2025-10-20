@@ -34,7 +34,7 @@ public class MeasurmentDataDisplayer {
 	    private static final Font SMALL_BOLD = Font.font("Book Antiqua", FontWeight.BOLD, 14);
 	    private VBox ROWS;
 	    private List<RowData> standingPointDataStore;
-	    private List<TheoreticalPointData> theoreticalPointDataStore;
+	    public List<TheoreticalPointData> theoreticalPointDataStore;
 	    private int rowNumber = 1;
 	    
 	    public List<RowData> getStandingPointDataStore() {
@@ -53,9 +53,9 @@ public class MeasurmentDataDisplayer {
 		    	   return;
 		       }
 	        stage.setOnCloseRequest(windowEvent -> {
-	            
-	        	getDisplayerData();
-	        
+	          
+			getDisplayerData();
+				
 	        	if( measuredPillarDataController
 	        			.getConfirmationAlert("Jegyzőkönyv mentése", "Kívánod a jegyzőkönyvet fájlba menteni?") ) {
 	        		
@@ -435,7 +435,9 @@ public class MeasurmentDataDisplayer {
 	    	
 	    }
 	    
-	    public void getDisplayerData() {
+	    public void getDisplayerData() throws RuntimeException {
+	    	
+	    	try {
 	    	
 	    	standingPointDataStore.clear();
 	    	theoreticalPointDataStore.clear();
@@ -517,7 +519,9 @@ public class MeasurmentDataDisplayer {
 	    	if( standingPointRow != null ) {
 	    		standingPointDataStore.add(standingPointRow);
 	    	}
-	     	
+	    	} catch (Exception e) {
+				e.printStackTrace();
+			}
 	   	}
 	  
 	    private void addHeader() {
