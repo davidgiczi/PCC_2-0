@@ -1630,7 +1630,8 @@ public class MeasuredPillarDataController {
     	if( IS_OPENING_INS_FILE_PROCESS ) {
     		return;
     	}
-    	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && !crossedPointId.contains("400KV") ) {
+    	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && 
+    			!crossedPointId.contains("400KV") && !crossedPointId.contains("VASUT")) {
     		return;
     	}
     	for (TheoreticalPointData theoreticalPointData : measurmentDataDisplayer.theoreticalPointDataStore) {
