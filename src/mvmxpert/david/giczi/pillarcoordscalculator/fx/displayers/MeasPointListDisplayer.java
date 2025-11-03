@@ -28,10 +28,10 @@ public class MeasPointListDisplayer {
     private final MeasuredPillarDataController measuredPillarDataController;
     private final Font font = Font.font("Arial", FontWeight.BOLD, 13);
 
-    public MeasPointListDisplayer(MeasuredPillarDataController measuredPillarDataController){
+    public MeasPointListDisplayer(MeasuredPillarDataController measuredPillarDataController, boolean isAddedPillarTopMeasurment){
         this.measuredPillarDataController = measuredPillarDataController;
         root = new GridPane();
-        addInstructionButtons();
+        addInstructionButtons(isAddedPillarTopMeasurment);
         addMeasData();
         Scene scene = new Scene(root);
         stage = new Stage();
@@ -60,7 +60,19 @@ public class MeasPointListDisplayer {
                 }
             }
         }
-        private void addInstructionButtons(){
+        private void addInstructionButtons(boolean isAddedPillarTopMeasurment){
+        if( isAddedPillarTopMeasurment ) {
+        	Button addPillarTopMeasurmentButton = new Button("Oszlopcsúcs pontok hozzáadása");
+            addPillarTopMeasurmentButton.setFont(font);
+            addPillarTopMeasurmentButton.setCursor(Cursor.HAND);
+            addPillarTopMeasurmentButton.setPrefWidth(495);
+            addPillarTopMeasurmentButton.setPadding(new Insets(10, 10, 10, 10));
+            addPillarTopMeasurmentButton.setOnMouseClicked(e -> {
+               measuredPillarDataController.addPillarTopPointsForPLRProject();
+                  });
+            root.add(addPillarTopMeasurmentButton, 0, 0);
+        	return;
+        }
         Button createProjectButton = new Button("Új projekt létrehozása");
         createProjectButton.setFont(font);
         createProjectButton.setCursor(Cursor.HAND);

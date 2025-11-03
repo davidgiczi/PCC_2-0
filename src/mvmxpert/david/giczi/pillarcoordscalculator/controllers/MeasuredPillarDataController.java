@@ -44,7 +44,7 @@ public class MeasuredPillarDataController {
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
     public static boolean IS_RUNNING_PROCESS_OK;
-    public static boolean IS_OPENING_PCC_FILE_PROCESS;
+    public static boolean IS_OPENING_PCC_OR_PLR_FILE_PROCESS;
     public static boolean IS_OPENING_INS_FILE_PROCESS;
     
     public boolean isCreatedInputPillarDataWindow() {
@@ -110,7 +110,7 @@ public class MeasuredPillarDataController {
                     "Nem található beolvasható mérési eredmény a fájlban.");
         }
         this.measuredPointListDisplayer =
-                new MeasPointListDisplayer(this);
+                new MeasPointListDisplayer(this, false);
     }
 
     public void createNewProject(){
@@ -126,7 +126,7 @@ public class MeasuredPillarDataController {
     public void addMoreMeasuredPillarData(){
         measuredPointListDisplayer.stage.hide();
         measuredPointListDisplayer.parseDisplayerData();
-        fileProcess.getPillarBaseMeasureFileData();;
+        fileProcess.getPillarBaseMeasureFileData();
         measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
         if( measuredPillarData.getMeasPillarPoints() == null || measuredPillarData.getMeasPillarPoints().isEmpty() ){
             getInfoAlert("Nem beolvasható adat",
@@ -138,6 +138,7 @@ public class MeasuredPillarDataController {
         measuredPointListDisplayer.addMeasData();
         measuredPointListDisplayer.stage.show();
     }
+    
 
     public void openNewMeasuredPillarData(){
         measuredPointListDisplayer.stage.hide();
@@ -348,20 +349,45 @@ public class MeasuredPillarDataController {
 
     public void onlClickProcessButtonForPillarBaseProject(){
     	fxHomeWindow.homeStage.hide();
-        if ( IS_OPENING_PCC_FILE_PROCESS ) {
+        if ( IS_OPENING_PCC_OR_PLR_FILE_PROCESS ) {
         
         	if( validatePillarBaseInputData() ) {
         		runPillarBaseProcess();
-        		 IS_OPENING_PCC_FILE_PROCESS = false;
+        		 IS_OPENING_PCC_OR_PLR_FILE_PROCESS = false;
         	}
         }
         else {
-        	fileProcess.getPillarBaseDataByPCCProject();
+        	fileProcess.getPillarBaseDataByPCCProjectOrTopMeasurment();
         	if ( canBeSetDataByPCC() ) {
         		inputPillarDataWindow.processButton.setText("Számol");
-            	IS_OPENING_PCC_FILE_PROCESS = true;
+            	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
+            	return;
+        	}
+        	if( !fileProcess.getPillarBaseMeasData().isEmpty() ) {
+        		measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
+        		this.measuredPointListDisplayer =
+                        new MeasPointListDisplayer(this, true);
+        	}
+        	else {
+        		 getInfoAlert("Nem beolvasható mérési adatok",
+                         "A fájlban nem taláhatók oszlopra mért pontok.");
         	};	
         }
+    }
+    
+    public void addPillarTopPointsForPLRProject() {
+    	measuredPointListDisplayer.parseDisplayerData();
+    	measuredPillarData.calcPillarTopPoints();
+    	if( measuredPillarData.getPillarTopPoints().isEmpty() ) {
+    		getInfoAlert("Nem található adat",
+                    "Az oszlop csúcsára mért pontok választása szükséges.");
+    		return;
+    	}
+    	measuredPointListDisplayer.stage.hide();
+    	getInfoAlert("Az adatok beolvasva",
+                "Az oszlop csúcsára mért pontok hozzáadva a projekthez.");
+    	inputPillarDataWindow.processButton.setText("Számol");
+    	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
     }
 
     public void openPillarBaseProject(){

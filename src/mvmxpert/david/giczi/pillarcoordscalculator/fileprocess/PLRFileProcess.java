@@ -190,21 +190,29 @@ public class PLRFileProcess {
 		}
 	}
 
-	public void getPillarBaseDataByPCCProject() {
+	public void getPillarBaseDataByPCCProjectOrTopMeasurment() {
 		
 		FileChooser projectFileChooser = new FileChooser();
 		projectFileChooser.setInitialDirectory(FOLDER_PATH == null ?
 				new File(System.getProperty("user.home")) : new File(FOLDER_PATH));
-		projectFileChooser.setTitle("Válassz kitűzési projektet");
-		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Kitűzés projekt fájl (*.pcc)", "*.pcc");
+		projectFileChooser.setTitle("Válassz kitűzési projektet vagy mérési fájlt");
+		FileChooser.ExtensionFilter projectFileFilter = new FileChooser.ExtensionFilter("Kitűzési (*.pcc), Mérési (*.txt) fájlok", "*.pcc", "*.txt");
 		projectFileChooser.getExtensionFilters().add(projectFileFilter);
 		File selectedFile = projectFileChooser.showOpenDialog(measuredPillarDataController.fxHomeWindow.homeStage);
 		if ( selectedFile != null ) {
-			setPillarBaseDataByPCCProject(selectedFile);
+			
+			if( selectedFile.getName().endsWith(".txt") ) {
+				MEAS_FILE_NAME = selectedFile.getName();
+				setPillarBaseData(selectedFile);
+			}
+			else if( selectedFile.getName().endsWith(".pcc" ) ) {
+				setPillarBaseDataByPCCProject(selectedFile);
+			}
+			
 		}
 		else {
 		measuredPillarDataController.inputPillarDataWindow.processButton.setText("Számol");
-        MeasuredPillarDataController.IS_OPENING_PCC_FILE_PROCESS = true;
+        MeasuredPillarDataController.IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
         if( pccData != null ) {
         	 pccData = null;
         }
