@@ -363,15 +363,11 @@ public class MeasuredPillarDataController {
             	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
             	return;
         	}
-        	if( !fileProcess.getPillarBaseMeasData().isEmpty() ) {
+        	else if( !fileProcess.getPillarBaseMeasData().isEmpty() ) {
         		measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
         		this.measuredPointListDisplayer =
                         new MeasPointListDisplayer(this, true);
         	}
-        	else {
-        		 getInfoAlert("Nem beolvasható mérési adatok",
-                         "A fájlban nem taláhatók oszlopra mért pontok.");
-        	};	
         }
     }
     
