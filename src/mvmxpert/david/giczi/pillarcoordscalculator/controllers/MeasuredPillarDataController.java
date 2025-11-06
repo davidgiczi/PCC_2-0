@@ -262,6 +262,12 @@ public class MeasuredPillarDataController {
                       "Az oszlop Y koordinátája csak nem negatív szám lehet.");
               return false;
           }
+          
+          if( measuredPillarData.getPillarBasePoints() == null || measuredPillarData.getPillarBasePoints().isEmpty() ) {
+        	  getInfoAlert("Hiányzó oszlop alap pontok",
+                      "A projekt nem hozható létre, oszlop alap pontok megadása szükséges.");
+        	  return false;
+          }
     	
           return true;
     }
@@ -352,21 +358,23 @@ public class MeasuredPillarDataController {
         if ( IS_OPENING_PCC_OR_PLR_FILE_PROCESS ) {
         
         	if( validatePillarBaseInputData() ) {
+        		fileProcess.setPccData(null);
         		runPillarBaseProcess();
-        		 IS_OPENING_PCC_OR_PLR_FILE_PROCESS = false;
         	}
+        	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = false;
+        	inputPillarDataWindow.processButton.setText("Tallóz");
         }
         else {
         	fileProcess.getPillarBaseDataByPCCProjectOrTopMeasurment();
         	if ( canBeSetDataByPCC() ) {
         		inputPillarDataWindow.processButton.setText("Számol");
             	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
-            	return;
         	}
-        	else if( !fileProcess.getPillarBaseMeasData().isEmpty() ) {
+        	else if( fileProcess.getPillarBaseMeasData() != null ) {
         		measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
         		this.measuredPointListDisplayer =
                         new MeasPointListDisplayer(this, true);
+        		fileProcess.setPillarBaseMeasData(null);
         	}
         }
     }

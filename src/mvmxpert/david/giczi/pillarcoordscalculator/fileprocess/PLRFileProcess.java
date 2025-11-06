@@ -34,6 +34,18 @@ public class PLRFileProcess {
 		return pillarBaseMeasData;
 	}
 	
+	public List<String> getPccData() {
+		return pccData;
+	}
+
+	public void setPccData(List<String> pccData) {
+		this.pccData = pccData;
+	}
+
+	public void setPillarBaseMeasData(List<String> pillarBaseMeasData) {
+		this.pillarBaseMeasData = pillarBaseMeasData;
+	}
+
 	public void setDelimiter(String delimiter) {
 		this.delimiter = delimiter;
 	}
@@ -213,13 +225,8 @@ public class PLRFileProcess {
 		else {
 		measuredPillarDataController.inputPillarDataWindow.processButton.setText("Számol");
         MeasuredPillarDataController.IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
-        if( !pillarBaseMeasData.isEmpty() ) {
-        	 pillarBaseMeasData.clear();
-        }
-        if( pccData != null ) {
-        	 pccData = null;
-        }
-       
+        pillarBaseMeasData = null;
+        pccData = null;   
 		}
 	}
 	
