@@ -24,7 +24,6 @@ public class PLRFileProcess {
 	public static String MEAS_FILE_NAME;
 	private List<String> pillarBaseMeasData;
 	public List<String> pccData;
-	private String delimiter = ";";
 
 	public PLRFileProcess(MeasuredPillarDataController measuredPillarDataController){
 		this.measuredPillarDataController = measuredPillarDataController;
@@ -46,10 +45,7 @@ public class PLRFileProcess {
 		this.pillarBaseMeasData = pillarBaseMeasData;
 	}
 
-	public void setDelimiter(String delimiter) {
-		this.delimiter = delimiter;
-	}
-
+	
 	public void setFolder() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setInitialDirectory(FOLDER_PATH == null ?
@@ -255,10 +251,14 @@ public class PLRFileProcess {
 
 			String row = reader.readLine();
 			while (row != null) {
-				if (row.endsWith(PointType.alap.name()) ||
+				if ( row.endsWith(PointType.alap.name()) ||
 						row.endsWith(PointType.ALAP.name()) ||
-						row.endsWith(PointType.CSUCS.name() + delimiter) ||
-						row.endsWith(PointType.csucs.name() + delimiter)) {
+						row.endsWith(PointType.alap.name() + ";") ||
+						row.endsWith(PointType.ALAP.name() + ";") ||
+						row.endsWith(PointType.CSUCS.name()) ||
+						row.endsWith(PointType.csucs.name()) ||
+						row.endsWith(PointType.CSUCS.name() + ";") ||
+						row.endsWith(PointType.csucs.name() + ";") ) {
 					pillarBaseMeasData.add(row);
 				}
 				row = reader.readLine();

@@ -371,6 +371,12 @@ public class MeasuredPillarDataController {
             	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = true;
         	}
         	else if( fileProcess.getPillarBaseMeasData() != null ) {
+        	
+        		if( fileProcess.getPillarBaseMeasData().isEmpty() ) {
+        			 getInfoAlert("Hiányzó mérési adatok",
+                             "A fájlban nem található oszlopra való mérés.");
+        			return;
+        		}
         		measuredPillarData.convertMeasuredDataToMeasPoints(fileProcess.getPillarBaseMeasData());
         		this.measuredPointListDisplayer =
                         new MeasPointListDisplayer(this, true);

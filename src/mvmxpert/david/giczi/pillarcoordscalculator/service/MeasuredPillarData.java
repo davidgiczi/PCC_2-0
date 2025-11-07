@@ -482,24 +482,25 @@ public class MeasuredPillarData {
 
     public void convertMeasuredDataToMeasPoints(List<String> measData){
         measData.forEach(data -> {
-            String[] baseData = data.split(",");
+            String[] baseDataByRTK = data.split(",");
+            String[] baseDataByTPS = data.split(";");
             String[] topData = data.split(";");
-            if( baseData.length == 1 && topData.length == 1){
+            if( baseDataByRTK.length == 1 && topData.length == 1 && baseDataByTPS.length == 1){
               measuredPillarDataController. getInfoAlert("Nem megfelelő mérési fájl formátum",
                         "Az elválasztó karakter a mérési fájlban \",\" vagy \";\" lehet.");
                 return;
             }
-            if( baseData.length > 1) {
-                MeasPoint basePoint = new MeasPoint(baseData[0],
-                        Double.parseDouble(baseData[1]),
-                        Double.parseDouble(baseData[2]),
-                        Double.parseDouble(baseData[3]),
+            if( baseDataByRTK.length > 1 ) {
+                MeasPoint basePoint = new MeasPoint(baseDataByRTK[0],
+                        Double.parseDouble(baseDataByRTK[1]),
+                        Double.parseDouble(baseDataByRTK[2]),
+                        Double.parseDouble(baseDataByRTK[3]),
                         PointType.ALAP);
                 if ( !measPillarPoints.contains(basePoint) ) {
                         measPillarPoints.add(basePoint);
                 }
             }
-            if( topData.length > 1 ) {
+            if( topData.length > 1 && topData[topData.length - 1].equalsIgnoreCase(PointType.CSUCS.name()) ) {
                 MeasPoint topPoint = new MeasPoint(topData[0],
                         Double.parseDouble(topData[1]),
                         Double.parseDouble(topData[2]),
@@ -507,6 +508,16 @@ public class MeasuredPillarData {
                         PointType.CSUCS);
                 if ( !measPillarPoints.contains(topPoint) ) {
                     measPillarPoints.add(topPoint);
+                }
+            }
+            if( baseDataByTPS.length > 1 && baseDataByTPS[baseDataByTPS.length - 1].equalsIgnoreCase(PointType.ALAP.name())) {
+                MeasPoint basePoint = new MeasPoint(baseDataByTPS[0],
+                        Double.parseDouble(baseDataByTPS[1]),
+                        Double.parseDouble(baseDataByTPS[2]),
+                        Double.parseDouble(baseDataByTPS[3]),
+                        PointType.ALAP);
+                if ( !measPillarPoints.contains(basePoint) ) {
+                        measPillarPoints.add(basePoint);
                 }
             }
         });
