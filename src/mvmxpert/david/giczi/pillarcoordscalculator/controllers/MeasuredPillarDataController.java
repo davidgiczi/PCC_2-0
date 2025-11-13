@@ -359,8 +359,6 @@ public class MeasuredPillarDataController {
         
         	if( validatePillarBaseInputData() ) {
         	runPillarBaseProcess();
-        	fileProcess.setPccData(null);
-        	fileProcess.setPillarBaseMeasData(null);
         	}
         	IS_OPENING_PCC_OR_PLR_FILE_PROCESS = false;
         	inputPillarDataWindow.processButton.setText("Tallóz");
