@@ -115,6 +115,8 @@ public class FXHomeWindow extends Application {
 		createPillarProject.setOnAction(e -> {
 		homeController.measuredPillarDataController.openMeasuredData();
 		});
+		MenuItem calcPillarBaseCenter = new MenuItem("OH középpont számítása");
+		calcPillarBaseCenter.setOnAction( c ->{homeController.measuredPillarDataController.calcPillarCenterPoints();});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{
 			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
@@ -136,7 +138,7 @@ public class FXHomeWindow extends Application {
 		MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 		});
 		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 
-				new SeparatorMenuItem(), openIntersection, createIntersection);
+				new SeparatorMenuItem(), calcPillarBaseCenter, new SeparatorMenuItem(), openIntersection, createIntersection);
 		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint, pillarProject);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);

@@ -9,6 +9,8 @@ import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.MeasPointListDi
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.MeasurmentDataDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PillarBaseDifferenceDisplayer;
 import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.PillarBaseDisplayer;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.AvePoint;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.AzimuthAndDistance;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Intersection;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
@@ -22,9 +24,15 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.swing.JOptionPane;
 
 public class MeasuredPillarDataController {
 
@@ -1680,6 +1688,129 @@ public class MeasuredPillarDataController {
 			
 		}
         	
+    }
+    
+    
+    public void calcPillarCenterPoints() {
+    	fileProcess.getPillarBaseMeasureFileData();
+    	if( fileProcess.getPillarBaseMeasData().isEmpty() ) {
+			 getInfoAlert("Hiányzó mérési adatok",
+                    "A fájlban nem található oszlopra való mérés.");
+			return;
+		}
+    	
+    	String preId = JOptionPane.showInputDialog(null, "Oh pontszám előtag megadása:", 
+    			"OH azonosítójának megadása", JOptionPane.DEFAULT_OPTION);
+    	if( preId == null ) {
+    		return;
+    	}
+    	String startPillarId = JOptionPane.showInputDialog(null, "Kezdő oszlop számának megadása:", 
+    			"Kezdő OH számának megadása", JOptionPane.DEFAULT_OPTION);
+    	int startPillarValue;
+    	try {
+    		startPillarValue = InputDataValidator.isValidInputPositiveIntegerValue(startPillarId);
+    		if( startPillarValue ==  0 ) {
+    			throw new NumberFormatException();
+    		}
+    	}
+    	catch (NumberFormatException e) {
+    		getInfoAlert("Hibás oszlopszám",
+                    "Az oszlophely száma csak pozitív egész szám lehet.");
+    		return;
+		}
+    	String endPillarId = JOptionPane.showInputDialog(null, "Az utolsó oszlop számának megadása:", 
+    			"Utolsó OH számának megadása", JOptionPane.DEFAULT_OPTION);
+    	int endPillarValue;
+    	try {
+    		endPillarValue = InputDataValidator.isValidInputPositiveIntegerValue(endPillarId);
+    		if( endPillarValue ==  0 ) {
+    			throw new NumberFormatException();
+    		}
+    	}
+    	catch (NumberFormatException e) {
+    		getInfoAlert("Hibás oszlopszám",
+                    "Az oszlophely száma csak pozitív egész szám lehet.");
+    		return;
+		}
+    	List<AvePoint> resultData = new ArrayList<>();
+    	
+    	for(int i = startPillarValue; i <= endPillarValue; i++) {
+    		resultData.add(new AvePoint(preId + i));
+    	}
+    	
+    	for (AvePoint resultPoint : resultData) {
+			
+    		for (String measData : fileProcess.getPillarBaseMeasData()) {
+    			
+    		if( measData.endsWith(PointType.alap.name()) || measData.endsWith(PointType.ALAP.name()) ||
+    				measData.endsWith(PointType.alap.name() + ",") || measData.endsWith(PointType.ALAP.name() + ",") ||
+    					measData.endsWith(PointType.alap.name() + ";") || measData.endsWith(PointType.ALAP.name() + ";") )	{
+    			
+    			if( measData.startsWith(resultPoint.pointId + "_") ) {
+					resultPoint.measData.add(measData);
+				}
+    			
+    		}
+    			
+	} 
+    		
+}
+    	for (int i = resultData.size() - 1; i >= 0; i--) {
+			if( resultData.get(i).measData.isEmpty() ) {
+				resultData.remove(i);
+			}
+		}
+    
+    	File resultDataFile = fileProcess.savePillarCenterPoints(resultData);
+    	
+    	if( resultDataFile == null  ) {
+    		getInfoAlert("Az eredmény fájl nem menthető", "Hibás bemeneti adatok a megnyitott fájlban.");
+    	}
+    	
+    	if( resultDataFile.exists() ) {
+    		getInfoAlert("OH közép fájl mentve", resultData.size() + " db OH közép adat létrehozva.");
+    	}
+    	
+    		try {
+				Desktop.getDesktop().open(resultDataFile);
+			} catch (IOException e) {
+				getInfoAlert("Fájl megnyitása sikertelen", "Az alapértelmezett szövegszerkesztő nem nyitható meg.");
+			}
+    	init();
+    }
+    
+    
+    public String getPillarTopData() {
+    	
+    	switch (measuredPillarData.getPillarTopPoints().size() ) {
+		
+		case 2:
+		return	"d1= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
+					measuredPillarData.getPillarTopPoints().get(1).getAsPoint()).calcDistance()).replace(",", ".");
+		case 3:
+		return	"a1= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
+				measuredPillarData.getPillarTopPoints().get(1).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\ta2= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(1).getAsPoint(), 
+						measuredPillarData.getPillarTopPoints().get(2).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\td1= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
+					measuredPillarData.getPillarTopPoints().get(2).getAsPoint()).calcDistance()).replace(",", ".");
+		case 4:	
+		return	"a1= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
+				measuredPillarData.getPillarTopPoints().get(1).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\ta2= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(1).getAsPoint(), 
+						measuredPillarData.getPillarTopPoints().get(2).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\td1= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
+					measuredPillarData.getPillarTopPoints().get(2).getAsPoint()).calcDistance()).replace(",", ".") + "\n\n" +
+				"a3= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(2).getAsPoint(), 
+							measuredPillarData.getPillarTopPoints().get(3).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\ta4= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(3).getAsPoint(), 
+									measuredPillarData.getPillarTopPoints().get(0).getAsPoint()).calcDistance()).replace(",", ".") +
+				"\td2= " + String.format("%.2fm", new AzimuthAndDistance(measuredPillarData.getPillarTopPoints().get(1).getAsPoint(), 
+							measuredPillarData.getPillarTopPoints().get(3).getAsPoint()).calcDistance()).replace(",", ".");
+		
+    	}
+    	
+    	return "";
     }
     	
 }

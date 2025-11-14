@@ -23,6 +23,7 @@ public class MeasPoint  {
         this.pointType = pointType;
     }
 
+    
     public String getPointID() {
         return pointID;
     }

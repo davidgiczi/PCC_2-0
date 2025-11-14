@@ -4,6 +4,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fileprocess;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.AvePoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 
 public class PLRFileProcess {
@@ -491,6 +493,23 @@ public class PLRFileProcess {
 		
 		return file;
 }
+	
+	public File savePillarCenterPoints(List<AvePoint> resultPointList) {
+		File file = new File(FOLDER_PATH + "\\" + resultPointList.get(0).pointId + "-" + 
+				resultPointList.get(resultPointList.size() - 1).pointId + "-OH_KOZEP.txt");
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))){
+			for (AvePoint resultPoint : resultPointList) {
+				writer.write(resultPoint.getAveragePointData());
+				writer.newLine();
+				}
+		}
+			catch (IOException | DataFormatException e){
+				return null;
+	}
+		
+		return file;
+}
+	
 
 	public static boolean isExistedProjectFile(String extension){
 		return  new File(FOLDER_PATH + "\\" + PROJECT_FILE_NAME + "." + extension).exists();

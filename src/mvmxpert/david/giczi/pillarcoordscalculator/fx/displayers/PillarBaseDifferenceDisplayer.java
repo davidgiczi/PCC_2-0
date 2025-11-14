@@ -631,15 +631,20 @@ public class PillarBaseDifferenceDisplayer {
         		 * 1000 * MILLIMETER / 500);
          Text pillarHeightScaleText = new Text("M= 1:500");
          pillarHeightScaleText.setFont(boldFont);
-         pillarHeightScaleText.xProperty().bind(pane.widthProperty().divide(11).multiply(9));
+         pillarHeightScaleText.xProperty().bind(pane.widthProperty().divide(11).multiply(10));
          pillarHeightScaleText.setY(20 * MILLIMETER);
+         Text pillarTopDiameterText = new Text(measuredPillarDataController.getPillarTopData());
+         //pillarTopDiameterText.setFill(Color.BLUE);
+         pillarTopDiameterText.setFont(normalFont);
+         pillarTopDiameterText.xProperty().bind(pane.widthProperty().divide(11).multiply(5));
+         pillarTopDiameterText.setY(20 * MILLIMETER);
          Tooltip pillarHeightTooltip = new Tooltip(String.format("%3.2fm",
         		 measuredPillarDataController.measuredPillarData
                  .getPillarTopCenterPoint().getZ_coord() - 
         		 measuredPillarDataController.measuredPillarData
                  .getPillarBaseCenterPoint().getZ_coord()).replace(",", ".") );
          Tooltip.install(pillarHeight, pillarHeightTooltip);
-         pane.getChildren().addAll(pillarHeight, pillarHeightScaleText);
+         pane.getChildren().addAll(pillarHeight, pillarTopDiameterText, pillarHeightScaleText);
          getTransformedPillarTopCoordsForDisplayer();
     }
     
