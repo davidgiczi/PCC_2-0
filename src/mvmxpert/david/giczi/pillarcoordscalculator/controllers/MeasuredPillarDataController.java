@@ -1693,13 +1693,16 @@ public class MeasuredPillarDataController {
     
     public void calcPillarCenterPoints() {
     	fileProcess.getPillarBaseMeasureFileData();
-    	if( fileProcess.getPillarBaseMeasData().isEmpty() ) {
+    	if( fileProcess.getPillarBaseMeasData() == null ) {
+    		return;
+    	}
+    	else if( fileProcess.getPillarBaseMeasData().isEmpty() ) {
 			 getInfoAlert("Hiányzó mérési adatok",
                     "A fájlban nem található oszlopra való mérés.");
 			return;
 		}
     	
-    	String preId = JOptionPane.showInputDialog(null, "Oh pontszám előtag megadása:", 
+    	String preId = JOptionPane.showInputDialog(null, "OH pontszám előtag megadása:", 
     			"OH azonosítójának megadása", JOptionPane.DEFAULT_OPTION);
     	if( preId == null ) {
     		return;
@@ -1715,7 +1718,7 @@ public class MeasuredPillarDataController {
     	}
     	catch (NumberFormatException e) {
     		getInfoAlert("Hibás oszlopszám",
-                    "Az oszlophely száma csak pozitív egész szám lehet.");
+                    "Az OH száma csak pozitív egész szám lehet.");
     		return;
 		}
     	String endPillarId = JOptionPane.showInputDialog(null, "Az utolsó oszlop számának megadása:", 
@@ -1729,16 +1732,16 @@ public class MeasuredPillarDataController {
     	}
     	catch (NumberFormatException e) {
     		getInfoAlert("Hibás oszlopszám",
-                    "Az oszlophely száma csak pozitív egész szám lehet.");
+                    "Az OH száma csak pozitív egész szám lehet.");
     		return;
 		}
-    	List<AvePoint> resultData = new ArrayList<>();
+    	List<AvePoint> resultPointData = new ArrayList<>();
     	
     	for(int i = startPillarValue; i <= endPillarValue; i++) {
-    		resultData.add(new AvePoint(preId + i));
+    		resultPointData.add(new AvePoint(preId + i));
     	}
     	
-    	for (AvePoint resultPoint : resultData) {
+    	for (AvePoint resultPoint : resultPointData) {
 			
     		for (String measData : fileProcess.getPillarBaseMeasData()) {
     			
@@ -1755,20 +1758,25 @@ public class MeasuredPillarDataController {
 	} 
     		
 }
-    	for (int i = resultData.size() - 1; i >= 0; i--) {
-			if( resultData.get(i).measData.isEmpty() ) {
-				resultData.remove(i);
+    	for (int i = resultPointData.size() - 1; i >= 0; i--) {
+			if( resultPointData.get(i).measData.isEmpty() ) {
+				resultPointData.remove(i);
 			}
 		}
     
-    	File resultDataFile = fileProcess.savePillarCenterPoints(resultData);
+    	if( resultPointData.isEmpty() ) {
+    		getInfoAlert("OH közép adat nem számítható", "A megadott azonosítókkal OH közép adatok nem számíthatók.");
+    		return;
+    	}
+    	
+    	File resultDataFile = fileProcess.savePillarCenterPoints(resultPointData);
     	
     	if( resultDataFile == null  ) {
     		getInfoAlert("Az eredmény fájl nem menthető", "Hibás bemeneti adatok a megnyitott fájlban.");
     	}
     	
     	if( resultDataFile.exists() ) {
-    		getInfoAlert("OH közép fájl mentve", resultData.size() + " db OH közép adat létrehozva.");
+    		getInfoAlert("OH közép fájl mentve", resultPointData.size() + " db OH közép adat létrehozva.");
     	}
     	
     		try {
