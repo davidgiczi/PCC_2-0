@@ -24,7 +24,6 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -335,7 +334,7 @@ public class MeasuredPillarDataController {
     }
     
     private void runPillarBaseProcess() {
-    	
+    	measuredPillarData.sortTopMeasPointListByAzimuthAscOrder();
     	 measuredPillarData.setBaseLineDirectionPoint(
     			 new MeasPoint(inputPillarDataWindow.directionPillarIDField.getText(),
                  Double.parseDouble(inputPillarDataWindow.directionPillarField_X.getText().replace(",",".")), 
@@ -1818,7 +1817,7 @@ public class MeasuredPillarDataController {
 		
     	}
     	
-    	return "";
+    	return null;
     }
     	
 }

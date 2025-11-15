@@ -611,5 +611,23 @@ public class MeasuredPillarData {
             i++;
         }
     }
+    
+    public void sortTopMeasPointListByAzimuthAscOrder() {
+    	
+        for (MeasPoint topPoint : pillarTopPoints) {
+            topPoint.setAzimuth(new Point("BaseCenter", getPillarBaseCenterPoint().getX_coord(), 
+            		getPillarBaseCenterPoint().getY_coord()));
+        }
+
+        for (int i = 0; i < pillarTopPoints.size(); i++) {
+            for (int j = i + 1; j < pillarTopPoints.size(); j++) {
+                if (pillarTopPoints.get(i).getAzimuth() >
+                		pillarTopPoints.get(j).getAzimuth()) {
+                    Collections.swap(pillarTopPoints, i, j);
+                }
+            }
+        }
+   				
+   }
 
 }
