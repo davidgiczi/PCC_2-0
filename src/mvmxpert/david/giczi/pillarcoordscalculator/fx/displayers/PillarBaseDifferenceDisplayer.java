@@ -227,7 +227,7 @@ public class PillarBaseDifferenceDisplayer {
         textM.setPadding(new Insets(5.5, 0 , 0 , 0));
         hbox.getChildren().addAll(textM, scaleComboBox);
         hbox.setLayoutX(5 * MILLIMETER);
-        hbox.setLayoutY(2 * MILLIMETER);
+        hbox.setLayoutY(15 * MILLIMETER);
         pane.getChildren().add(hbox);
     }
     private void setOnActionEvent(){
@@ -244,7 +244,7 @@ public class PillarBaseDifferenceDisplayer {
         center.setStroke(Color.MAGENTA);
         center.setStrokeWidth(2);
         center.setFill(Color.TRANSPARENT);
-        center.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5));
+        center.centerXProperty().bind(pane.widthProperty().divide(10).multiply(2));
         center.centerYProperty().bind(pane.heightProperty().divide(2));
         Tooltip centerTooltip = new Tooltip(measuredPillarDataController.measuredPillarData
                 .getPillarBaseCenterPoint().getPointID()
@@ -264,7 +264,7 @@ public class PillarBaseDifferenceDisplayer {
         topCenter.setStroke(Color.BLUE);
         topCenter.setStrokeWidth(2);
         topCenter.setFill(Color.TRANSPARENT);
-        topCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(topCenterPoint.getX_coord()));
+        topCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(2).add(topCenterPoint.getX_coord()));
         topCenter.centerYProperty().bind(pane.heightProperty().divide(2).subtract(topCenterPoint.getY_coord()));
         Tooltip topCenterTooltip = new Tooltip(measuredPillarDataController.measuredPillarData
                 .getPillarTopCenterPoint().getPointID()
@@ -307,14 +307,14 @@ public class PillarBaseDifferenceDisplayer {
         forwardDirection.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(startPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(startPoint.calcPolarPoint().getX_coord()));
         forwardDirection.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(startPoint.calcPolarPoint().getY_coord()));
         forwardDirection.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         forwardDirection.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -351,14 +351,14 @@ public class PillarBaseDifferenceDisplayer {
         backwardDirection.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(startPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(startPoint.calcPolarPoint().getX_coord()));
         backwardDirection.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(startPoint.calcPolarPoint().getY_coord()));
         backwardDirection.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         backwardDirection.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -383,22 +383,22 @@ public class PillarBaseDifferenceDisplayer {
         Line arrow1 = new Line();
         arrow1.setStroke(Color.MAGENTA);
         arrow1.setStrokeWidth(2);
-        arrow1.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        arrow1.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
                 .add(startPoint.getX_coord()));
         arrow1.startYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(startPoint.getY_coord()));
-        arrow1.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        arrow1.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
                 .add(slavePoint1.calcPolarPoint().getX_coord()));
         arrow1.endYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(slavePoint1.calcPolarPoint().getY_coord()));
         Line arrow2 = new Line();
         arrow2.setStroke(Color.MAGENTA);
         arrow2.setStrokeWidth(2);
-        arrow2.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        arrow2.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
                 .add(startPoint.getX_coord()));
         arrow2.startYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(startPoint.getY_coord()));
-        arrow2.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        arrow2.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
                 .add(slavePoint2.calcPolarPoint().getX_coord()));
         arrow2.endYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(slavePoint2.calcPolarPoint().getY_coord()));
@@ -411,7 +411,7 @@ public class PillarBaseDifferenceDisplayer {
         text.setFill(color);
         text.xProperty()
                 .bind(pane.widthProperty()
-                        .divide(10).multiply(5)
+                        .divide(10).multiply(2)
                         .add(startPoint.getX_coord())
                         .add(2 * MILLIMETER));
         text.yProperty()
@@ -443,14 +443,14 @@ public class PillarBaseDifferenceDisplayer {
         forwardXDifference.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(pillarCenterPoint.getX_coord()));
+                        .multiply(2).add(pillarCenterPoint.getX_coord()));
         forwardXDifference.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(pillarCenterPoint.getY_coord()));
         forwardXDifference.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         forwardXDifference.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -466,7 +466,7 @@ public class PillarBaseDifferenceDisplayer {
         forwardYDifference.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         forwardYDifference.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -474,7 +474,7 @@ public class PillarBaseDifferenceDisplayer {
         forwardYDifference.endXProperty()
                         .bind(pane.widthProperty()
                                 .divide(10)
-                                .multiply(5).add(topCenterPoint.getX_coord()));
+                                .multiply(2).add(topCenterPoint.getX_coord()));
         forwardYDifference.endYProperty()
                         .bind(pane.heightProperty()
                                 .divide(2)
@@ -490,14 +490,14 @@ public class PillarBaseDifferenceDisplayer {
         forwardDistance.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(pillarCenterPoint.getX_coord()));
+                        .multiply(2).add(pillarCenterPoint.getX_coord()));
         forwardDistance.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(pillarCenterPoint.getY_coord()));
         forwardDistance.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(topCenterPoint.getX_coord()));
+                        .multiply(2).add(topCenterPoint.getX_coord()));
         forwardDistance.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -543,14 +543,14 @@ public class PillarBaseDifferenceDisplayer {
         backwardXDifference.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(pillarCenterPoint.getX_coord()));
+                        .multiply(2).add(pillarCenterPoint.getX_coord()));
         backwardXDifference.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(pillarCenterPoint.getY_coord()));
         backwardXDifference.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         backwardXDifference.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -565,7 +565,7 @@ public class PillarBaseDifferenceDisplayer {
         backwardYDifference.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(endPoint.calcPolarPoint().getX_coord()));
+                        .multiply(2).add(endPoint.calcPolarPoint().getX_coord()));
         backwardYDifference.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -573,7 +573,7 @@ public class PillarBaseDifferenceDisplayer {
         backwardYDifference.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(topCenterPoint.getX_coord()));
+                        .multiply(2).add(topCenterPoint.getX_coord()));
         backwardYDifference.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -589,14 +589,14 @@ public class PillarBaseDifferenceDisplayer {
         backwardDistance.startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(pillarCenterPoint.getX_coord()));
+                        .multiply(2).add(pillarCenterPoint.getX_coord()));
         backwardDistance.startYProperty()
                 .bind(pane.heightProperty()
                         .divide(2).subtract(pillarCenterPoint.getY_coord()));
         backwardDistance.endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(5).add(topCenterPoint.getX_coord()));
+                        .multiply(2).add(topCenterPoint.getX_coord()));
         backwardDistance.endYProperty()
                 .bind(pane.heightProperty()
                         .divide(2)
@@ -817,13 +817,13 @@ public class PillarBaseDifferenceDisplayer {
     	        int scale = (int) (10 * Math.floor( 10 * topDistance / 3 ));
     	        Text pillarTopScaleText = new Text("M= 1:" + scale);
     	        pillarTopScaleText.setFont(boldFont);
-    	        pillarTopScaleText.xProperty().bind(pane.widthProperty().divide(11));
-    	        pillarTopScaleText.setY(30 * MILLIMETER);
-    	Text pillarTopDiameterText = new Text(measuredPillarDataController.getPillarTopData());
+    	        pillarTopScaleText.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
+    	        pillarTopScaleText.setY(20 * MILLIMETER);
+    	        Text pillarTopDiameterText = new Text(measuredPillarDataController.getPillarTopData());
         		pillarTopDiameterText.setFill(Color.BLUE);
         		pillarTopDiameterText.setFont(normalFont);
-        		pillarTopDiameterText.xProperty().bind(pane.widthProperty().divide(11));
-        		pillarTopDiameterText.setY(40 * MILLIMETER);
+        		pillarTopDiameterText.xProperty().bind(pane.widthProperty().divide(10).multiply(2));
+        		pillarTopDiameterText.setY(30 * MILLIMETER);
         pane.getChildren().addAll(pillarTopDiameterText, pillarTopScaleText);
     }
    
@@ -839,13 +839,16 @@ public class PillarBaseDifferenceDisplayer {
     	switch ( contourPointList.size() ) {
 		case 2:
 			drawDiameter(contourPointList);
+			addCircleForTopPoint(contourPointList);
 			break;
 		case 3:
 			drawPillarTopBy3Side(contourPointList);
+			addCircleForTopPoint(contourPointList);
 			break;
 		case 4:
 			drawPillarTopBy4Side(contourPointList);
 			drawDiameters(contourPointList);
+			addCircleForTopPoint(contourPointList);
 		}
     	
     }
@@ -855,13 +858,13 @@ public class PillarBaseDifferenceDisplayer {
     		diameter.setStroke(Color.BLUE);
     		diameter.getStrokeDashArray().addAll(10d);
     		diameter.setStrokeWidth(2);
-    		diameter.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+    		diameter.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                      .add(contourPointList.get(0).getX_coord()));
-    		diameter.startYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+    		diameter.startYProperty().bind(pane.heightProperty().divide(2)
                      .subtract(contourPointList.get(0).getY_coord()));
-    		diameter.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+    		diameter.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                      .add(contourPointList.get(1).getX_coord()));
-            diameter.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+            diameter.endYProperty().bind(pane.heightProperty().divide(2)
                      .subtract(contourPointList.get(1).getY_coord()));
             String diameterText = "d1= " + String.format("%.2fm",
                     new AzimuthAndDistance(new Point("1",
@@ -884,13 +887,13 @@ public class PillarBaseDifferenceDisplayer {
 		Line diameter1 = new Line();
 		diameter1.setStroke(Color.BLUE);
 		diameter1.getStrokeDashArray().addAll(10d);
-		diameter1.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+		diameter1.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                  .add(contourPointList.get(0).getX_coord()));
-		diameter1.startYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+		diameter1.startYProperty().bind(pane.heightProperty().divide(2)
                  .subtract(contourPointList.get(0).getY_coord()));
-		diameter1.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+		diameter1.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                  .add(contourPointList.get(2).getX_coord()));
-        diameter1.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+        diameter1.endYProperty().bind(pane.heightProperty().divide(2)
                  .subtract(contourPointList.get(2).getY_coord()));
         String diameter1Text = "d1= " + String.format("%.2fm",
                 new AzimuthAndDistance(new Point("1",
@@ -909,13 +912,13 @@ public class PillarBaseDifferenceDisplayer {
         Line diameter2 = new Line();
 		diameter2.setStroke(Color.BLUE);
 		diameter2.getStrokeDashArray().addAll(10d);
-		diameter2.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+		diameter2.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                  .add(contourPointList.get(1).getX_coord()));
-		diameter2.startYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+		diameter2.startYProperty().bind(pane.heightProperty().divide(2)
                  .subtract(contourPointList.get(1).getY_coord()));
-		diameter2.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+		diameter2.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                  .add(contourPointList.get(3).getX_coord()));
-        diameter2.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+        diameter2.endYProperty().bind(pane.heightProperty().divide(2)
                  .subtract(contourPointList.get(3).getY_coord()));
         String diameter2Text = "d2= " + String.format("%.2fm",
                 new AzimuthAndDistance(new Point("1",
@@ -940,17 +943,17 @@ public class PillarBaseDifferenceDisplayer {
             Line line = new Line();
             line.setStroke(Color.BLUE);
             line.setStrokeWidth(2);
-            line.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+            line.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                        .add(contourPointList.get(i).getX_coord()));
-            line.startYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+            line.startYProperty().bind(pane.heightProperty().divide(2)
                        .subtract(contourPointList.get(i).getY_coord()));
                String distance;
                if( i == contourPointList.size() - 1 ){
             	   line.setStrokeWidth(1);
             	   line.getStrokeDashArray().addAll(10d);
-            	   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+            	   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                            .add(contourPointList.get(0).getX_coord()));
-            	   line.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+            	   line.endYProperty().bind(pane.heightProperty().divide(2)
                            .subtract(contourPointList.get(0).getY_coord()));
                    distance = "d1= " +  String.format("%.2fm",
                            new AzimuthAndDistance(new Point("1",
@@ -964,9 +967,9 @@ public class PillarBaseDifferenceDisplayer {
                            ).calcDistance()).replace(",", ".");
                }
                else {
-                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                            .add(contourPointList.get(i + 1).getX_coord()));
-                   line.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+                   line.endYProperty().bind(pane.heightProperty().divide(2)
                            .subtract(contourPointList.get(i + 1).getY_coord()));
                   distance = "a" + (i + 1) +  "= " + String.format("%.2fm",
                            new AzimuthAndDistance(new Point("1",
@@ -992,15 +995,15 @@ public class PillarBaseDifferenceDisplayer {
             Line line = new Line();
             line.setStroke(Color.BLUE);
             line.setStrokeWidth(2);
-            line.startXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+            line.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                        .add(contourPointList.get(i).getX_coord()));
-            line.startYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+            line.startYProperty().bind(pane.heightProperty().divide(2)
                        .subtract(contourPointList.get(i).getY_coord()));
                String distance;
                if( i == contourPointList.size() - 1 ){
-                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                            .add(contourPointList.get(0).getX_coord()));
-                   line.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+                   line.endYProperty().bind(pane.heightProperty().divide(2)
                            .subtract(contourPointList.get(0).getY_coord()));
                    distance = "a" + (i + 1) + "= " +  String.format("%.2fm",
                            new AzimuthAndDistance(new Point("1",
@@ -1014,9 +1017,9 @@ public class PillarBaseDifferenceDisplayer {
                            ).calcDistance()).replace(",", ".");
                }
                else {
-                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(2)
+                   line.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
                            .add(contourPointList.get(i + 1).getX_coord()));
-                   line.endYProperty().bind(pane.heightProperty().divide(3).multiply(2)
+                   line.endYProperty().bind(pane.heightProperty().divide(2)
                            .subtract(contourPointList.get(i + 1).getY_coord()));
                   distance = "a" + (i + 1) +  "= " + String.format("%.2fm",
                            new AzimuthAndDistance(new Point("1",
@@ -1049,6 +1052,35 @@ public class PillarBaseDifferenceDisplayer {
             		transformedPillarTopPoints.add(point);
         }
         return transformedPillarTopPoints;
+    }
+    
+    private void addCircleForTopPoint(List<MeasPoint> contourPoints) {
+    	for (int i = 0; i < contourPoints.size(); i++) {
+            Circle circle = new Circle();
+            circle.setRadius(5);
+            circle.setStroke(Color.BLUE);
+            circle.setStrokeWidth(2);
+            circle.setFill(Color.TRANSPARENT);
+            circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+                    .add(contourPoints.get(i).getX_coord()));
+            circle.centerYProperty().bind(pane.heightProperty().divide(2)
+                    .subtract(contourPoints.get(i).getY_coord()));
+            Tooltip tooltip = new Tooltip(
+                    "\"" +measuredPillarDataController.
+                            measuredPillarData.getPillarTopPoints().get(i).getPointID() + "\tY=" +
+                    String.format("%.3fm",
+                            measuredPillarDataController.measuredPillarData.
+                                    getPillarTopPoints().get(i).getX_coord()).replace(",", ".") +
+                    "\tX=" + String.format("%.3fm",
+                    measuredPillarDataController.measuredPillarData.
+                            getPillarTopPoints().get(i).getY_coord()).replace(",", ".") +
+                    "\tH=" + String.format("%.3fm",
+                    measuredPillarDataController.measuredPillarData.
+                            getPillarTopPoints().get(i).getZ_coord()).replace(",", "."));
+            Tooltip.install(circle, tooltip);
+            circle.setCursor(Cursor.HAND);
+            pane.getChildren().add(circle);
+        }
     }
       
 }

@@ -334,7 +334,7 @@ public class MeasuredPillarDataController {
     }
     
     private void runPillarBaseProcess() {
-    	measuredPillarData.sortTopMeasPointListByAzimuthAscOrder();
+    	 measuredPillarData.sortTopMeasPointListByAzimuthAscOrder();
     	 measuredPillarData.setBaseLineDirectionPoint(
     			 new MeasPoint(inputPillarDataWindow.directionPillarIDField.getText(),
                  Double.parseDouble(inputPillarDataWindow.directionPillarField_X.getText().replace(",",".")), 

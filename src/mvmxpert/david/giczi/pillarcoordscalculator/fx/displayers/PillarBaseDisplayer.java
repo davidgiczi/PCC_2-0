@@ -690,7 +690,7 @@ public class PillarBaseDisplayer {
                     "\tX=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarBasePoints().get(i).getY_coord()).replace(",", ".") +
-                    "\th=" + String.format("%.3fm",
+                    "\tH=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarBasePoints().get(i).getZ_coord()).replace(",", "."));
             Tooltip.install(circle, tooltip);
