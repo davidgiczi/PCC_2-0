@@ -1789,6 +1789,10 @@ public class MeasuredPillarDataController {
     
     public String getPillarTopData() {
     	
+    	if( measuredPillarData.getPillarTopPoints().size() > 4 ) {
+    		return "";
+    	}
+    	
     	switch (measuredPillarData.getPillarTopPoints().size() ) {
 		
 		case 2:

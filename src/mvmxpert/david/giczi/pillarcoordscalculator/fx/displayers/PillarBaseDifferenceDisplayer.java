@@ -846,10 +846,15 @@ public class PillarBaseDifferenceDisplayer {
 			addCircleForTopPoint(contourPointList);
 			break;
 		case 4:
-			drawPillarTopBy4Side(contourPointList);
+			drawPillarTop(contourPointList);
 			drawDiameters(contourPointList);
 			addCircleForTopPoint(contourPointList);
 		}
+    	
+    	if( contourPointList.size() > 4 ) {
+    		drawPillarTop(contourPointList);
+    		addCircleForTopPoint(contourPointList);
+    	}
     	
     }
     
@@ -990,7 +995,7 @@ public class PillarBaseDifferenceDisplayer {
     }
     
     
-    private void drawPillarTopBy4Side(List<MeasPoint> contourPointList) {
+    private void drawPillarTop(List<MeasPoint> contourPointList) {
     	for(int i = 0; i < contourPointList.size(); i++) {
             Line line = new Line();
             line.setStroke(Color.BLUE);
