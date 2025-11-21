@@ -1424,9 +1424,6 @@ public class MeasuredPillarDataController {
         if( PLRFileProcess.MEAS_FILE_NAME == null ) {
      	   return;
         }
-        if( measurmentDataDisplayer != null ) {
-        	return;
-        }
         measurmentDataDisplayer = new MeasurmentDataDisplayer(this);
 	}
     

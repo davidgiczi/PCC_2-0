@@ -46,7 +46,8 @@ public class FXHomeWindow extends Application {
 			@Override
 			public void handle(WindowEvent event) {
 				
-				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null ) {
+				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null &&
+						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 				homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 				}
 				
@@ -85,7 +86,8 @@ public class FXHomeWindow extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null ) {
+				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null &&
+						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 					homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 					}
 				
