@@ -1652,16 +1652,7 @@ public class MeasuredPillarDataController {
     
     private void setCrossedWirePoints(List<String> intersectionProjectFileData, int index) {
     	
-    	if( measurmentDataDisplayer != null && measurmentDataDisplayer.getPane().isVisible() ) {
-    		
-    		if( getConfirmationAlert("Vonalas létesítmény metszése", "Jegyzőkönyvből veszi az adatokat?" ) ) {
-    			return;
-    		}
-    		else {
-    			IS_OPENING_INS_FILE_PROCESS = false;
-    		}
-		}
-    	
+   
 		crossedWirePointList.add(new MeasPoint(intersectionProjectFileData.get(index), 
 								Double.parseDouble(intersectionProjectFileData.get(index + 1)),
 								Double.parseDouble(intersectionProjectFileData.get(index + 2)),

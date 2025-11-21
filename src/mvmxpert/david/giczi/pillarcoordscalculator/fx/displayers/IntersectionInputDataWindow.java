@@ -69,6 +69,14 @@ public class IntersectionInputDataWindow {
         pane.setOnMouseClicked(event -> {
         	
         	if (event.getButton() == MouseButton.SECONDARY){
+        		
+        		measuredPillarDataController.crossedWirePointList.clear();
+        		
+        		if(measuredPillarDataController.measurmentDataDisplayer != null && 
+        			measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
+            		
+            		MeasuredPillarDataController.IS_OPENING_INS_FILE_PROCESS = false;
+        		}
         		measuredPillarDataController.initIntersectionInputDataWindow();
         	}
       
