@@ -46,6 +46,10 @@ public class FXHomeWindow extends Application {
 			@Override
 			public void handle(WindowEvent event) {
 				
+				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null ) {
+				homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
+				}
+				
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {
 					System.exit(0);
@@ -80,6 +84,10 @@ public class FXHomeWindow extends Application {
 			
 			@Override
 			public void handle(ActionEvent event) {
+				
+				if( homeController.measuredPillarDataController.measurmentDataDisplayer != null ) {
+					homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
+					}
 				
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {

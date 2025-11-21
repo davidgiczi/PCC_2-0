@@ -44,7 +44,9 @@ public class MeasurmentDataDisplayer {
 			return theoreticalPointDataStore;
 		}
 		
-		
+		public AnchorPane getPane() {
+			return pane;
+		}
 		public MeasurmentDataDisplayer(MeasuredPillarDataController measuredPillarDataController){
 	        this.measuredPillarDataController = measuredPillarDataController;
 	        this.ROWS = new VBox();
