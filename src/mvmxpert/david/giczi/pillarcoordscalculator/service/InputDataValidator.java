@@ -75,4 +75,17 @@ public class InputDataValidator {
 	public static boolean isValidID(String id) {
 		return !id.isBlank() && !id.isEmpty();
 	}
+	
+	public static int validateIdForControlDirectionInputData(String id) throws NumberFormatException {
+		int pointId = -1;
+		String[] partsOfId = id.split("\\s+");
+		if( partsOfId.length == 1 ) {
+			pointId = Integer.parseInt(id);
+		}
+		else if( partsOfId.length == 2 ) {
+			pointId = Integer.parseInt(partsOfId[1]);
+		}
+		return pointId;
+	}
+	
 }

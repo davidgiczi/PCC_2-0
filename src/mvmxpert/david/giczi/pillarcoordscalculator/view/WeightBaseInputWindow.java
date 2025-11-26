@@ -23,6 +23,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.PlainDocument;
 
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.WeightBaseController;
+import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 
 public class WeightBaseInputWindow {
 
@@ -71,37 +72,28 @@ public class WeightBaseInputWindow {
 	}
 	
 	public void sharePillarCenterDataBetweenInputWindows() {
-		
-		if(  weightBaseController.homeController.plateBaseInputWindow != null &&
-				weightBaseController.homeController.getYesNoMessage("Lemezalap pont koordináták átvétele", "Átveszi az adatokat?") == 1 ) {
+	
+		if( weightBaseController.homeController.plateBaseInputWindow == null ) {
+		return;	
+		}
+		else if(  weightBaseController.homeController.plateBaseInputWindow != null &&
+				weightBaseController.homeController.plateBaseInputWindow.centerIdField.getText().isEmpty() &&
+				weightBaseController.homeController.plateBaseInputWindow.x_centerField.getText().isEmpty() &&
+				weightBaseController.homeController.plateBaseInputWindow.y_centerField.getText().isEmpty() &&
+				weightBaseController.homeController.plateBaseInputWindow.directionIdField.getText().isEmpty() &&
+				weightBaseController.homeController.plateBaseInputWindow.x_directionField.getText().isEmpty() &&
+				weightBaseController.homeController.plateBaseInputWindow.y_directionField.getText().isEmpty() ) {
 			return;
 		}
-		
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.centerIdField.getText().isEmpty()) {
+		else if( weightBaseController.homeController.getYesNoMessage("Lemezalap pont koordináták átvétele", "Átveszi az adatokat?") == 1) {
+			return;
+		}
 			centerIdField.setText(weightBaseController.homeController.plateBaseInputWindow.centerIdField.getText());
-		}
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.x_centerField.getText().isEmpty()) {
 			x_centerField.setText(weightBaseController.homeController.plateBaseInputWindow.x_centerField.getText());
-		}
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.y_centerField.getText().isEmpty()) {
 			y_centerField.setText(weightBaseController.homeController.plateBaseInputWindow.y_centerField.getText());
-		}
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.directionIdField.getText().isEmpty()) {
 			directionIdField.setText(weightBaseController.homeController.plateBaseInputWindow.directionIdField.getText());
-		}
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.x_directionField.getText().isEmpty()) {
 			x_directionField.setText(weightBaseController.homeController.plateBaseInputWindow.x_directionField.getText());
-		}
-		if( weightBaseController.homeController.plateBaseInputWindow != null && 
-				!weightBaseController.homeController.plateBaseInputWindow.y_directionField.getText().isEmpty()) {
 			y_directionField.setText(weightBaseController.homeController.plateBaseInputWindow.y_directionField.getText());
-		}
-		
 	}
 	
 	private void setPillarPointsData() {
@@ -261,6 +253,41 @@ public class WeightBaseInputWindow {
 	
 	private void setPillarSizeData() {
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if( e.getButton() == MouseEvent.BUTTON3 ) {
+				weightBaseController.homeController.getCalculateDistanceBetweenPillarLegsWindow();
+				}
+				
+			}
+		});
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.setBackground(Color.WHITE);
 		panel.setPreferredSize(new Dimension(380, 335));
@@ -369,6 +396,38 @@ public class WeightBaseInputWindow {
 	
 	private void setOutputData() {
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				weightBaseController.homeController.getControlDirectionPointInputWindow();
+				weightBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.WEIGHT_BASE);
+			}
+		});
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(Box.createVerticalStrut(30));
 		panel.setBackground(Color.WHITE);

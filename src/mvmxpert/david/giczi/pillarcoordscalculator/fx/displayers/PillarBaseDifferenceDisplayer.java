@@ -815,6 +815,7 @@ public class PillarBaseDifferenceDisplayer {
     	        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
     	        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(1).getAsPoint()).calcDistance();
     	        int scale = (int) (10 * Math.floor( 10 * topDistance / 3 ));
+    	        scale = 10 > scale ? 10 : scale;
     	        Text pillarTopScaleText = new Text("M= 1:" + scale);
     	        pillarTopScaleText.setFont(boldFont);
     	        pillarTopScaleText.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
@@ -835,6 +836,7 @@ public class PillarBaseDifferenceDisplayer {
     	measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getAsPoint(), 
     	measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(1).getAsPoint()).calcDistance();
     	int scale = (int) (10 * Math.floor( 10 * topDistance / 3 ));
+    	scale = 10 > scale ? 10 : scale;
     	List<MeasPoint> contourPointList = getPillarTopContourPoints(scale);
     	switch ( contourPointList.size() ) {
 		case 2:
@@ -1051,7 +1053,7 @@ public class PillarBaseDifferenceDisplayer {
         for (MeasPoint pillarTopPoint : measuredPillarDataController.measuredPillarData.getPillarTopPoints()) {
             MeasPoint point = new MeasPoint(pillarTopPoint.getPointID(),
                     Math.round((pillarTopPoint.getX_coord() - X) * 1000.0) * MILLIMETER / scale,  
-                    Math.round((pillarTopPoint.getY_coord() - Y)) * 1000.0 * MILLIMETER / scale,
+                    Math.round((pillarTopPoint.getY_coord() - Y) * 1000.0) * MILLIMETER / scale,
                     0.0,
                     PointType.CSUCS);
             		transformedPillarTopPoints.add(point);

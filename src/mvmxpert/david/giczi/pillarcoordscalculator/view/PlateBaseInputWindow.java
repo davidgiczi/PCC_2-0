@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.PlainDocument;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.PlateBaseController;
+import mvmxpert.david.giczi.pillarcoordscalculator.utils.BaseType;
 
 
 public class PlateBaseInputWindow {
@@ -72,35 +73,28 @@ public class PlateBaseInputWindow {
 	
 	public void sharePillarCenterDataBetweenInputWindows() {
 		
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				plateBaseController.homeController.getYesNoMessage("Súlyalap pont koordináták átvétele", "Átveszi az adatokat?") == 1 ) {
+	if( plateBaseController.homeController.weightBaseInputWindow == null ) {
+		return;
+	}
+	else if( plateBaseController.homeController.weightBaseInputWindow != null &&
+				plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText().isEmpty() &&
+				plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText().isEmpty() &&
+				plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText().isEmpty() &&
+				plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText().isEmpty() &&
+				plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText().isEmpty() &&
+				plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText().isEmpty() ) {
 			return;
 		}
-		
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText().isEmpty()) {
-			centerIdField.setText(plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText());
-		}
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText().isEmpty()) {
-			x_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText());
-		}
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText().isEmpty()) {
-			y_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText());
-		}
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText().isEmpty()) {
-			directionIdField.setText(plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText());
-		}
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText().isEmpty()) {
-			x_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText());
-		}
-		if( plateBaseController.homeController.weightBaseInputWindow != null && 
-				!plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText().isEmpty()) {
-			y_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText());
-		}
+	else if( plateBaseController.homeController.getYesNoMessage("Súlyalap pont koordináták átvétele", "Átveszi az adatokat?") == 1 ) {
+			return;
+	}
+		centerIdField.setText(plateBaseController.homeController.weightBaseInputWindow.centerIdField.getText());
+		x_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.x_centerField.getText());
+		y_centerField.setText(plateBaseController.homeController.weightBaseInputWindow.y_centerField.getText());
+		directionIdField.setText(plateBaseController.homeController.weightBaseInputWindow.directionIdField.getText());
+		x_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.x_directionField.getText());
+		y_directionField.setText(plateBaseController.homeController.weightBaseInputWindow.y_directionField.getText());	
+	
 	}
 	
 	private void setPillarPointsData() {
@@ -262,6 +256,41 @@ public class PlateBaseInputWindow {
 	
 	private void setPillarSizeData() {
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if( e.getButton() == MouseEvent.BUTTON3 ) {
+				plateBaseController.homeController.getCalculateDistanceBetweenPillarLegsWindow();
+				}
+				
+			}
+		});
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(Box.createVerticalStrut(10));
 		panel.setBackground(Color.WHITE);
@@ -355,6 +384,38 @@ public class PlateBaseInputWindow {
 	
 	private void setOutputData() {
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				plateBaseController.homeController.getControlDirectionPointInputWindow();
+				plateBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.PLATE_BASE);
+			}
+		});
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(Box.createVerticalStrut(30));
 		panel.setBackground(Color.WHITE);

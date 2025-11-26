@@ -16,12 +16,12 @@ public class PlateBaseController implements Controller  {
 
 	
 	public HomeController homeController;
-	private String centerID;
-	private String directionID;
-	private double centerX;
-	private double centerY;
-	private double directionX;
-	private double directionY;
+	public String centerID;
+	public String directionID;
+	public double centerX;
+	public double centerY;
+	public double directionX;
+	public double directionY;
 	private double horizontalSizeOfHole;
 	private double verticalSizeOfHole;
 	private double horizontalDistanceFromHole;
@@ -88,7 +88,7 @@ public class PlateBaseController implements Controller  {
 	}
 	  catch (NumberFormatException e) {
 		homeController.getInfoMessage("Bemeneti adatok megadása",
-				"Minden üres adatmező kitöltése és szám érték megadása szükséges.");	
+				"Minden üres adatmező kitöltése és szám értékek megadása szükséges.");	
 		}
 	}
 	
@@ -190,18 +190,22 @@ public class PlateBaseController implements Controller  {
 		
 		String centerID = homeController.plateBaseInputWindow.centerIdField.getText();
 		String directionID = homeController.plateBaseInputWindow.directionIdField.getText();
-		 
-		if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-			homeController.getInfoMessage("Az oszlopok nevének megadása",
-					"Az oszlopok neve/száma legalább egy karakter hosszúságú legyen.");
+		
+		try {
+			InputDataValidator.validateIdForControlDirectionInputData(centerID);
+			InputDataValidator.validateIdForControlDirectionInputData(directionID);
+		}
+		catch (NumberFormatException e) {
+		homeController.getInfoMessage("Hibás bemeneti adatok", 
+				"Az oszlop azonosítója csak szám, vagy üres karakterrel elválasztott betű-szám lehet.");
 			return false;
-	}
-			this.centerID = centerID;
-			this.directionID = directionID;
-			return true;
+		}
+		this.centerID = centerID;
+		this.directionID = directionID;
+		return true;
 	}
 	
-	private void isValidInputData() throws NumberFormatException {
+	public void isValidInputData() throws NumberFormatException {
 		centerX = InputDataValidator
 				.isValidInputDoubleValue(homeController.plateBaseInputWindow.x_centerField.getText().replace(',' , '.'));
 		centerY = InputDataValidator

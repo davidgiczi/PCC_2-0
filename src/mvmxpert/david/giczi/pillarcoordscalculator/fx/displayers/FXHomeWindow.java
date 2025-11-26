@@ -101,14 +101,11 @@ public class FXHomeWindow extends Application {
 		projectProcess.getItems().addAll(openProject, createProject, new SeparatorMenuItem(), closeProject); 
 		setBaseData = new Menu("Alap adatainak megadása");
 		setBaseData.setDisable(true);
-		MenuItem calcDistanceBetweenLegs = new MenuItem("Oszloplábak távolságának számítása");
-		calcDistanceBetweenLegs.setOnAction(e -> homeController.getCalculateDistanceBetweenPillarLegsWindow());
 		MenuItem calcWeightBasePoints = new MenuItem("Súlyalap pontjainak számítása");
 		calcWeightBasePoints.setOnAction(e -> homeController.getWeightBaseInputWindow());
 		MenuItem calcPlateBasePoints = new MenuItem("Lemezalap pontjainak számítása");
 		calcPlateBasePoints.setOnAction(e -> homeController.getPlateBaseInputWindow());
-		setBaseData.getItems().addAll(calcDistanceBetweenLegs, 
-				new SeparatorMenuItem(), calcWeightBasePoints, calcPlateBasePoints);
+		setBaseData.getItems().addAll(calcWeightBasePoints, calcPlateBasePoints);
 		controlSteakoutedPoint = new Menu("Kitűzés vizsgálata");
 		controlSteakoutedPoint.setDisable(true);
 		MenuItem controll = new MenuItem("Kitűzött pontok ellenőrzése");

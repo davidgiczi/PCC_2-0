@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -18,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
+import javax.swing.text.PlainDocument;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 
@@ -101,6 +100,51 @@ public class CalculateDistanceBetweenPillarLegsWindow {
 		panel.add(resultField);
 		panel.add(new JLabel("m"));
 		inputFrame.add(panel);
+		distanceOfLegsField.setDocument(new PlainDocument() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void removeUpdate(DefaultDocumentEvent chng) {
+				
+				if( chng.getOffset() == 0 ) {
+					resultField.setText(null);
+				};
+				
+				super.removeUpdate(chng);
+			}
+					
+		});
+		illesztesiSikField.setDocument(new PlainDocument() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void removeUpdate(DefaultDocumentEvent chng) {
+				
+				if( chng.getOffset() == 0 ) {
+					resultField.setText(null);
+				};
+				
+				super.removeUpdate(chng);
+			}
+			
+		});
+		sudarasodasField.setDocument(new PlainDocument() {
+
+			private static final long serialVersionUID = 1L;
+
+				@Override
+				protected void removeUpdate(DefaultDocumentEvent chng) {
+					
+					if( chng.getOffset() == 0 ) {
+						resultField.setText(null);
+					};
+					
+					super.removeUpdate(chng);
+				}
+		});
+		
 	}
 	
 	private void addOkButton() {
