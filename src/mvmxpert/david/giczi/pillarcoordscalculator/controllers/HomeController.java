@@ -1,5 +1,6 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,6 +36,11 @@ public class HomeController {
 	public PlateBaseInputWindow plateBaseInputWindow;
 	public ControlDirectionPointInputWindow controlDirectionPointInputWindow;
 	public Point controlDirectionPoint;
+	private Point centerPillarPoint;
+	private Point nextPillarPoint;
+	private Double inputAngleValue;
+	private Double complAngleValue;
+	private List<String> pillarIdList;
 	WeightBaseDisplayer weightBaseDisplayer;
 	PlateBaseDisplayer plateBaseDisplayer;
 	SteakoutControllWindow steakoutControlWindow;
@@ -280,18 +286,49 @@ public class HomeController {
 		}
 	}
 	
-	public void handleAddButtonClickForControlDirectionProcess() {	
-	List<Integer> pillarIds = validateInputPillarIds();
-	if( pillarIds == null ) {
-		getInfoMessage("Hibás bemeneti adatok", "Az oszlop azonosítója csak szám, vagy üres karakterrel elválasztott betű-szám lehet.");
+public void validateControlDirectionInputData() {
+	pillarIdList = new ArrayList<>();
+	String prePillarId = controlDirectionPointInputWindow.directionControlPointIdField.getText();
+	if( !InputDataValidator.isValidID(prePillarId) ) {
+		getInfoMessage("Hibás bemeneti adatok", "Az ellenőrző oh azonosítójának megadása szükséges.");
 		return;
 	}
+	pillarIdList.add(prePillarId);
+	String centerPillarId;
+	String nextPillarId;
+if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
+		centerPillarId = plateBaseInputWindow.centerIdField.getText();
+		nextPillarId = plateBaseInputWindow.directionIdField.getText();
+	if(	!InputDataValidator.isValidID(centerPillarId) ){
+		getInfoMessage("Hibás bemeneti adatok", "A számítandó oh azonosítójának megadása szükséges.");
+		return;
+	}
+	else if( !InputDataValidator.isValidID(nextPillarId) ){
+		getInfoMessage("Hibás bemeneti adatok", "A tájékozó oh azonosítójának megadása szükséges.");
+		return;
+	}
+	pillarIdList.add(centerPillarId);
+	pillarIdList.add(nextPillarId);
+}
+else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
+		centerPillarId = weightBaseInputWindow.centerIdField.getText();
+		nextPillarId = weightBaseInputWindow.directionIdField.getText();
+	if(	!InputDataValidator.isValidID(centerPillarId) ) {
+		getInfoMessage("Hibás bemeneti adatok", "A számítandó oh azonosítójának megadása szükséges.");
+		return;
+	}
+	else if( !InputDataValidator.isValidID(nextPillarId) ) {
+		getInfoMessage("Hibás bemeneti adatok", "A tájékozó oh azonosítójának megadása szükséges.");
+		return;
+	};
+	pillarIdList.add(centerPillarId);
+	pillarIdList.add(nextPillarId);
+}
 	List<Double> pillarData = validateControlDirectionPointData();
 	if( pillarData == null ) {
 		getInfoMessage("Hibás bemeneti adatok", "Az oszlop helyének x, y koordinátája csak szám lehet.");
 		return;
 	}
-	Double complAngleValue;
 	if( controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
 		complAngleValue = validateComplAngleMinSecValue();
 		if( complAngleValue == null ) {
@@ -299,13 +336,14 @@ public class HomeController {
 			return;
 		}
 	}
-	Point centerPillarPoint = null;
-	Point nextPillarPoint = null;
+	
 	if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
 		try {
 			plateBaseController.isValidInputData();
 			centerPillarPoint = new Point(plateBaseController.centerID, plateBaseController.centerX, plateBaseController.centerY);
 			nextPillarPoint = new Point(plateBaseController.directionID, plateBaseController.directionX, plateBaseController.directionY);
+			inputAngleValue = Math.toRadians(plateBaseController.rotationAngle + 
+					plateBaseController.rotationMin / 60.0 + plateBaseController.rotationSec / 3600.0);
 		}
 		catch (NumberFormatException e) {
 			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
@@ -317,60 +355,51 @@ public class HomeController {
 			weightBaseController.isValidInputData();
 			centerPillarPoint = new Point(weightBaseController.centerID, weightBaseController.centerX, weightBaseController.centerY);
 			nextPillarPoint = new Point(weightBaseController.directionID, weightBaseController.directionX, weightBaseController.directionY);
+			inputAngleValue = Math.toRadians(weightBaseController.rotationAngle + 
+					weightBaseController.rotationMin / 60.0 + weightBaseController.rotationSec / 3600.0);
 		}
 		catch (NumberFormatException e) {
 			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
 			return;
 		}
 	}
-	this.controlDirectionPoint = new Point(
-			controlDirectionPointInputWindow.directionControlPointIdField.getText(), pillarData.get(0), pillarData.get(1));
-	double centerToControlPointAzimuth = new AzimuthAndDistance(centerPillarPoint, controlDirectionPoint).calcAzimuth(); 
-	double centerToNextPointAzimuth = new AzimuthAndDistance(centerPillarPoint, nextPillarPoint).calcAzimuth(); 
-	double mainLineAngle = centerToNextPointAzimuth - centerToControlPointAzimuth;
+	this.controlDirectionPoint = new Point(prePillarId, pillarData.get(0), pillarData.get(1));
 	controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
-	getInfoMessage(pillarIds.get(0) + ". oh → " + pillarIds.get(1) + ". oh → " + pillarIds.get(2) + ". oh", 
-			"Oszlop karja szögfelezőben.\nΔΥ= " + (convertAngleMinSecFormat(mainLineAngle)));
+}
+
+	public String getInfoForControlledAngle() {
+	double centerToControlPointAzimuth = new AzimuthAndDistance(centerPillarPoint, controlDirectionPoint).calcAzimuth();
+	double centerToNextPointAzimuth = new AzimuthAndDistance(centerPillarPoint, nextPillarPoint).calcAzimuth();
+	double mainLineAngle = centerToNextPointAzimuth - centerToControlPointAzimuth;
+	if(	0 > mainLineAngle ) {
+		mainLineAngle += 2 * Math.PI;
+	}
+	String info = controlDirectionPointInputWindow.yesRadioButton.isSelected() ? 
+												"Az oszlop karja szögfelezőben.\n" : 
+												"Az oszlop karja NINCS szögfelezőben.\n";
 	
-//	if( mainLineAngle > 0 &&  Math.PI > mainLineAngle && pillarIds.get(1) < pillarIds.get(2) ) {
-//		
-//	}
-//	else if( mainLineAngle > 0 && pillarIds.get(1) > pillarIds.get(2) ) {
-//		
-//	}
-//	else if( mainLineAngle < 0 && pillarIds.get(1) < pillarIds.get(2) ) {
-//		
-//	}
-//	else if( mainLineAngle < 0 && pillarIds.get(1) > pillarIds.get(2) ) {
-//		
-//	}
+	if( mainLineAngle > 0 && mainLineAngle < Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
+		info += "BAL oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(mainLineAngle - inputAngleValue);
+	}
+	else if( mainLineAngle > Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected()) {
+		info += "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue);
+	}
+	else if( mainLineAngle > 0 && mainLineAngle < Math.PI && controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
+		info += "BAL oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+	}
+	else if( mainLineAngle > Math.PI && controlDirectionPointInputWindow.noRadioButton.isSelected()) {
+		info += "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+	}
 	
+	return info;
 }
 	
-	private List<Integer> validateInputPillarIds(){
-		int controlPillarId;
-		int centerPillarId = -1;
-		int nextPillarId = -1;
-		try {
-			controlPillarId = InputDataValidator.
-					validateIdForControlDirectionInputData(controlDirectionPointInputWindow.directionControlPointIdField.getText());
-			if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
-			centerPillarId = InputDataValidator.
-						validateIdForControlDirectionInputData(plateBaseInputWindow.centerIdField.getText());
-			nextPillarId = InputDataValidator.
-					validateIdForControlDirectionInputData(plateBaseInputWindow.directionIdField.getText());
-			}
-			else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
-				centerPillarId = InputDataValidator.
-						validateIdForControlDirectionInputData(weightBaseInputWindow.centerIdField.getText());
-				nextPillarId = InputDataValidator.
-					validateIdForControlDirectionInputData(weightBaseInputWindow.directionIdField.getText());
-			}
-			
-		} catch (NumberFormatException e) {
-			return null;
-		}
-		return Arrays.asList(controlPillarId, centerPillarId, nextPillarId);
+	public String getTitleForControlledAngle() {
+		return pillarIdList.get(0) + ". oh → " + pillarIdList.get(1) + ". oh → " + pillarIdList.get(2) + ". oh";
 	}
 	
 	private List<Double> validateControlDirectionPointData(){
@@ -402,10 +431,11 @@ public class HomeController {
 		return Math.toRadians(angle + min / 60.0 + sec / 3600.0);
 	}
 	
-	private String convertAngleMinSecFormat(double angleData){
+	private String convertAngleMinSecFormat(double radianAngle){
+		double angleData = Math.toDegrees(radianAngle);
         int angle = (int) angleData;
         int min = (int) ((angleData - angle) * 60);
-        double sec = ((int) ((angleData - angle) * 3600 - min * 60));
+        int sec = ((int) ((angleData - angle) * 3600 - min * 60));
         return (0 > angleData ? "-" :  "") + Math.abs(angle) + "° "
                 + (9 < Math.abs(min) ? Math.abs(min) : "0" + Math.abs(min)) + "' "
                 + (9 < Math.abs(sec) ? Math.abs(sec) : "0" + Math.abs(sec)) + "\"";

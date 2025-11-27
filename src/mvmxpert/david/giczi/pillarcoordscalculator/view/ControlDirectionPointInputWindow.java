@@ -173,16 +173,6 @@ public class ControlDirectionPointInputWindow {
 	private void addButtons() {
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(400, 50));
-		JButton add = new JButton("Hozzáad");
-		add.setFont(font2);
-		add.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		add.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				homeController.handleAddButtonClickForControlDirectionProcess();
-			}
-		});
 		JButton  cancel = new JButton("Mégsem");
 		cancel.setFont(font2);
 		cancel.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -193,9 +183,6 @@ public class ControlDirectionPointInputWindow {
 				inputFrameForDirectionControl.setVisible(false);
 			}
 		});
-		panel.add(Box.createHorizontalStrut(15));
-		panel.add(add);
-		panel.add(Box.createHorizontalStrut(20));
 		panel.add(cancel);
 		inputFrameForDirectionControl.add(panel);
 	}

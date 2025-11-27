@@ -26,9 +26,9 @@ public class PlateBaseController implements Controller  {
 	private double verticalSizeOfHole;
 	private double horizontalDistanceFromHole;
 	private double verticalDistanceFromHole;
-	private double rotationAngle;
-	private double rotationMin;
-	private double rotationSec;
+	public double rotationAngle;
+	public double rotationMin;
+	public double rotationSec;
 	private boolean nonValidProjectName;
 	
 	public PlateBaseController(HomeController homeController) {
@@ -43,6 +43,12 @@ public class PlateBaseController implements Controller  {
 	}
 	try {
 		isValidInputData();
+		homeController.validateControlDirectionInputData();
+	if( homeController.controlDirectionPoint != null &&	
+			homeController.getYesNoMessage(homeController.getTitleForControlledAngle(), 
+			homeController.getInfoForControlledAngle()) == 1 ){
+		return;
+	}
 		Point center = new Point(centerID, centerX, centerY);
 		Point direction = new Point(directionID, directionX, directionY);
 		homeController.plateBaseCoordsCalculator = new PillarCoordsForPlateBase(center, direction);
@@ -191,15 +197,11 @@ public class PlateBaseController implements Controller  {
 		String centerID = homeController.plateBaseInputWindow.centerIdField.getText();
 		String directionID = homeController.plateBaseInputWindow.directionIdField.getText();
 		
-		try {
-			InputDataValidator.validateIdForControlDirectionInputData(centerID);
-			InputDataValidator.validateIdForControlDirectionInputData(directionID);
-		}
-		catch (NumberFormatException e) {
-		homeController.getInfoMessage("Hibás bemeneti adatok", 
-				"Az oszlop azonosítója csak szám, vagy üres karakterrel elválasztott betű-szám lehet.");
+		if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
+			homeController.getInfoMessage("Hibás bemeneti adatok", "Az oszlopok azonosítója legalább egy karakter lehet.");
 			return false;
-		}
+			}
+		
 		this.centerID = centerID;
 		this.directionID = directionID;
 		return true;
