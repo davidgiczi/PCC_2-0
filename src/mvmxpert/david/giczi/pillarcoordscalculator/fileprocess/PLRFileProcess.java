@@ -3,6 +3,7 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fileprocess;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AvePoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
@@ -216,6 +217,7 @@ public class PLRFileProcess {
 				setPillarBaseData(selectedFile);
 			}
 			else if( selectedFile.getName().endsWith(".pcc" ) ) {
+				HomeController.PROJECT_NAME = selectedFile.getName();
 				setPillarBaseDataByPCCProject(selectedFile);
 			}
 			

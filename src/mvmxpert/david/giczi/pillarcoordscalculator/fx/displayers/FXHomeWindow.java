@@ -22,7 +22,7 @@ public class FXHomeWindow extends Application {
 
 	private AnchorPane pane;
 	public Stage homeStage;
-	private static HomeController homeController;
+	public static HomeController homeController;
 	public static Menu setBaseData;
 	public static Menu controlSteakoutedPoint;
 	

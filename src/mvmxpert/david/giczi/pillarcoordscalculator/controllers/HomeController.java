@@ -491,7 +491,7 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		if( controlDirectionPoint == null ) {
 		if( inputAngleValue == Math.PI ) {
 			return "Az oszlop karja szögfelezőben.\n" +
-					"A nyomvonal törésszöge: 180° 00' 00\"";
+					"A nyomvonal törésszöge: " + convertAngleMinSecFormat(inputAngleValue);
 		}
 		return  "Az oszlop karja szögfelezőben.\n" +
 				"A nyomvonal " + (sideOfAngle == 0 ? "JOBB" : "BAL") + 
@@ -509,7 +509,7 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		if( controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
 			if( inputAngleValue == Math.PI ) {
 				return "Az oszlop karja szögfelezőben.\n" +
-						"A nyomvonal törésszöge: 180° 00' 00\"";
+						"A nyomvonal törésszöge: "+ convertAngleMinSecFormat(inputAngleValue);
 			}
 			return "Az oszlop karja szögfelezőben.\n" +
 					"A nyomvonal " +  (angleSideIndex == 0 ? "JOBB" : "BAL") + 
@@ -517,7 +517,7 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		}
 		if( inputAngleValue == Math.PI ) {
 			return "Az oszlop karja szögfelezőben.\n" +
-					"A nyomvonal törésszöge: 180° 00' 00\"";
+					"A nyomvonal törésszöge: " + convertAngleMinSecFormat(inputAngleValue);
 		}
 		return 	"Az oszlop karja NINCS szögfelezőben.\n" +
 				"A nyomvonal " +  (angleSideIndex == 0 ? "JOBB" : "BAL") + 

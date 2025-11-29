@@ -307,11 +307,32 @@ public class MeasuredPillarDataController {
     		measuredPillarData.setRightRotationAngle(true);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
-    	else {
+    	else if( fileProcess.pccData.size() == 16 && "1".equals(fileProcess.pccData.get(15))) {
     		measuredPillarData.setRightRotationAngle(false);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
     	}
-    	
+    	else if( fileProcess.pccData.size() == 19 && "0".equals(fileProcess.pccData.get(15))){
+    		measuredPillarData.setRightRotationAngle(true);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
+    		FXHomeWindow.homeController.getControlDirectionPointInputWindow();
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.directionControlPointIdField.setText(fileProcess.pccData.get(16));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.x_directionControlPointField.setText(fileProcess.pccData.get(17));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.y_directionControlPointField.setText(fileProcess.pccData.get(18));	
+    	}
+    	else if( fileProcess.pccData.size() == 19 && "1".equals(fileProcess.pccData.get(15))){
+    		measuredPillarData.setRightRotationAngle(false);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
+    		FXHomeWindow.homeController.getControlDirectionPointInputWindow();
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.directionControlPointIdField.setText(fileProcess.pccData.get(16));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.x_directionControlPointField.setText(fileProcess.pccData.get(17));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.y_directionControlPointField.setText(fileProcess.pccData.get(18));	
+    	}
     }
     else if( "#PlateBase".equals(fileProcess.pccData.get(0)) ) {
     	inputPillarDataWindow.rotationAngleField
@@ -324,12 +345,35 @@ public class MeasuredPillarDataController {
     		measuredPillarData.setRightRotationAngle(true);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
     	}
-    	else {
+    	else if(fileProcess.pccData.size() == 15 && "1".equals(fileProcess.pccData.get(14))) {
     		measuredPillarData.setRightRotationAngle(false);
     		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
     	}
+    	else if( fileProcess.pccData.size() == 18 && "0".equals(fileProcess.pccData.get(14))){
+    		measuredPillarData.setRightRotationAngle(true);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt jobb oldali szög");
+    		FXHomeWindow.homeController.getControlDirectionPointInputWindow();
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.directionControlPointIdField.setText(fileProcess.pccData.get(15));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.x_directionControlPointField.setText(fileProcess.pccData.get(16));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.y_directionControlPointField.setText(fileProcess.pccData.get(17));	
+    		
+    	}
+    	else if( fileProcess.pccData.size() == 18 && "1".equals(fileProcess.pccData.get(14))){
+    		measuredPillarData.setRightRotationAngle(false);
+    		inputPillarDataWindow.rotationText.setText("A nyomvonal által bezárt bal oldali szög");
+    		FXHomeWindow.homeController.getControlDirectionPointInputWindow();
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.directionControlPointIdField.setText(fileProcess.pccData.get(15));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.x_directionControlPointField.setText(fileProcess.pccData.get(16));
+    		FXHomeWindow.homeController.controlDirectionPointInputWindow
+    		.y_directionControlPointField.setText(fileProcess.pccData.get(17));	
+    	}
     }
-    
+   
     return true;	
     }
     
