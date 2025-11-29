@@ -173,17 +173,30 @@ public class ControlDirectionPointInputWindow {
 	private void addButtons() {
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(400, 50));
-		JButton  cancel = new JButton("Mégsem");
-		cancel.setFont(font2);
-		cancel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		cancel.addActionListener(new ActionListener() {
+		JButton  delete = new JButton("Törlés");
+		delete.setFont(font2);
+		delete.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		delete.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputFrameForDirectionControl.setVisible(false);
+				if( homeController.getYesNoMessage("Adatok törlése", "Biztos, hogy törlöd a tájékozó pont adatait?") == 1) {
+					return;
+				}
+				directionControlPointIdField.setText("");
+				x_directionControlPointField.setText("");
+				y_directionControlPointField.setText("");
+				yesRadioButton.setSelected(true);
+				complAngularField.setText("");
+				complAngularField.setEnabled(false);
+				complMinField.setText("");
+				complMinField.setEnabled(false);
+				complSecField.setText("");
+				complSecField.setEnabled(false);
+				homeController.controlDirectionPoint = null;
 			}
 		});
-		panel.add(cancel);
+		panel.add(delete);
 		inputFrameForDirectionControl.add(panel);
 	}
 	

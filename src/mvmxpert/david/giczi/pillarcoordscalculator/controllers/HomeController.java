@@ -73,6 +73,7 @@ public class HomeController {
 		weightBaseController = null;
 		plateBaseController = null;
 		steakoutController = null;
+		controlDirectionPoint = null;
 	}
 	
 	public void getWeightBaseInputWindow() {
@@ -121,9 +122,8 @@ public class HomeController {
 		if( controlDirectionPointInputWindow == null ) {
 			controlDirectionPointInputWindow = new ControlDirectionPointInputWindow(PROJECT_NAME, this);
 		}
-		else {
-			controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(true);
-		}
+		
+		controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(true);
 		
 	}
 	
@@ -258,6 +258,14 @@ public class HomeController {
 			if( projectFileData.size() == 15 ) {
 			plateBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(14)));
 			}
+			else if( projectFileData.size() == 18 ) {
+			plateBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(14)));
+			getControlDirectionPointInputWindow();
+			controlDirectionPointInputWindow.setBaseType(BaseType.PLATE_BASE);
+			controlDirectionPointInputWindow.directionControlPointIdField.setText(projectFileData.get(15));
+			controlDirectionPointInputWindow.x_directionControlPointField.setText(projectFileData.get(16));
+			controlDirectionPointInputWindow.y_directionControlPointField.setText(projectFileData.get(17));
+			}
 		}
 		else if( !projectFileData.isEmpty() && "#WeightBase".equals(projectFileData.get(0)) ) {
 			weightBaseController = new WeightBaseController(this);
@@ -283,15 +291,33 @@ public class HomeController {
 			if( projectFileData.size() == 16 ) {
 			weightBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(15)));
 			}
+			else if( projectFileData.size() == 19 ) {
+			weightBaseInputWindow.sideComboBox.setSelectedIndex(Integer.parseInt(projectFileData.get(15)));
+			getControlDirectionPointInputWindow();
+			controlDirectionPointInputWindow.setBaseType(BaseType.WEIGHT_BASE);
+			controlDirectionPointInputWindow.directionControlPointIdField.setText(projectFileData.get(16));
+			controlDirectionPointInputWindow.x_directionControlPointField.setText(projectFileData.get(17));
+			controlDirectionPointInputWindow.y_directionControlPointField.setText(projectFileData.get(18));
+			}
 		}
 	}
 	
-public void validateControlDirectionInputData() {
+public boolean isValidControlDirectionData() {
+	
+	if( controlDirectionPointInputWindow == null ) {
+		return true;
+		}
+	else if( controlDirectionPointInputWindow.directionControlPointIdField.getText().isEmpty() && 
+			controlDirectionPointInputWindow.x_directionControlPointField.getText().isEmpty() &&
+			controlDirectionPointInputWindow.y_directionControlPointField.getText().isEmpty() ) {
+		return true;
+	}
+	
 	pillarIdList = new ArrayList<>();
 	String prePillarId = controlDirectionPointInputWindow.directionControlPointIdField.getText();
 	if( !InputDataValidator.isValidID(prePillarId) ) {
 		getInfoMessage("Hibás bemeneti adatok", "Az ellenőrző oh azonosítójának megadása szükséges.");
-		return;
+		return false;
 	}
 	pillarIdList.add(prePillarId);
 	String centerPillarId;
@@ -301,11 +327,11 @@ if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
 		nextPillarId = plateBaseInputWindow.directionIdField.getText();
 	if(	!InputDataValidator.isValidID(centerPillarId) ){
 		getInfoMessage("Hibás bemeneti adatok", "A számítandó oh azonosítójának megadása szükséges.");
-		return;
+		return false;
 	}
 	else if( !InputDataValidator.isValidID(nextPillarId) ){
 		getInfoMessage("Hibás bemeneti adatok", "A tájékozó oh azonosítójának megadása szükséges.");
-		return;
+		return false;
 	}
 	pillarIdList.add(centerPillarId);
 	pillarIdList.add(nextPillarId);
@@ -315,31 +341,31 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		nextPillarId = weightBaseInputWindow.directionIdField.getText();
 	if(	!InputDataValidator.isValidID(centerPillarId) ) {
 		getInfoMessage("Hibás bemeneti adatok", "A számítandó oh azonosítójának megadása szükséges.");
-		return;
+		return false;
 	}
 	else if( !InputDataValidator.isValidID(nextPillarId) ) {
 		getInfoMessage("Hibás bemeneti adatok", "A tájékozó oh azonosítójának megadása szükséges.");
-		return;
+		return false;
 	};
 	pillarIdList.add(centerPillarId);
 	pillarIdList.add(nextPillarId);
 }
+
 	List<Double> pillarData = validateControlDirectionPointData();
 	if( pillarData == null ) {
 		getInfoMessage("Hibás bemeneti adatok", "Az oszlop helyének x, y koordinátája csak szám lehet.");
-		return;
+		return false;
 	}
 	if( controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
 		complAngleValue = validateComplAngleMinSecValue();
 		if( complAngleValue == null ) {
 			getInfoMessage("Hibás bemeneti adatok", "A kiegészítő szög fok, perc, másodperc értéke csak egész szám lehet.");
-			return;
+			return false;
 		}
 	}
 	
 	if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
 		try {
-			plateBaseController.isValidInputData();
 			centerPillarPoint = new Point(plateBaseController.centerID, plateBaseController.centerX, plateBaseController.centerY);
 			nextPillarPoint = new Point(plateBaseController.directionID, plateBaseController.directionX, plateBaseController.directionY);
 			inputAngleValue = Math.toRadians(plateBaseController.rotationAngle + 
@@ -347,12 +373,11 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		}
 		catch (NumberFormatException e) {
 			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
-			return;
+			return false;
 		}
 	}
 	else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE) {
 		try {
-			weightBaseController.isValidInputData();
 			centerPillarPoint = new Point(weightBaseController.centerID, weightBaseController.centerX, weightBaseController.centerY);
 			nextPillarPoint = new Point(weightBaseController.directionID, weightBaseController.directionX, weightBaseController.directionY);
 			inputAngleValue = Math.toRadians(weightBaseController.rotationAngle + 
@@ -360,11 +385,13 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		}
 		catch (NumberFormatException e) {
 			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
-			return;
+			return false;
 		}
 	}
 	this.controlDirectionPoint = new Point(prePillarId, pillarData.get(0), pillarData.get(1));
 	controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
+	
+	return true;
 }
 
 	public String getInfoForControlledAngle() {
@@ -374,30 +401,138 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 	if(	0 > mainLineAngle ) {
 		mainLineAngle += 2 * Math.PI;
 	}
+	
+	int angleSideIndex = -1;
+	
+	if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
+		angleSideIndex = plateBaseInputWindow.sideComboBox.getSelectedIndex();
+	}
+	else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
+		angleSideIndex = weightBaseInputWindow.sideComboBox.getSelectedIndex();
+	}
+	
 	String info = controlDirectionPointInputWindow.yesRadioButton.isSelected() ? 
 												"Az oszlop karja szögfelezőben.\n" : 
 												"Az oszlop karja NINCS szögfelezőben.\n";
 	
+	if( inputAngleValue == Math.PI ) {
+		
+		if( mainLineAngle > 0 && mainLineAngle < Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
+			info += Math.PI / 90  > Math.abs(mainLineAngle - inputAngleValue) ?
+					"<html><span style='color: green;'>" + "180°-os törésszög, ΔΥ= " +
+					  convertAngleMinSecFormat(mainLineAngle - inputAngleValue) + "</span></html>" :
+					"<html><span style='color: red;'>" + "180°-os törésszög, ΔΥ= " +
+					  convertAngleMinSecFormat(mainLineAngle - inputAngleValue) + "</span></html>";
+		}
+		else if( mainLineAngle > Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected()) {
+			info += Math.PI / 90 > Math.abs(2 * Math.PI - mainLineAngle - inputAngleValue) ?
+					"<html><span style='color: green;'>" + "180°-os törésszög, ΔΥ= " +
+					convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue) + "</span></html>" :
+					"<html><span style='color: red;'>" + "180°-os törésszög, ΔΥ= " +
+					convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue) + "</span></html>";
+		}
+}
+	else {
+	
 	if( mainLineAngle > 0 && mainLineAngle < Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
-		info += "BAL oldali törésszög, ΔΥ= " +
-				convertAngleMinSecFormat(mainLineAngle - inputAngleValue);
+		info += Math.PI / 90  > Math.abs(mainLineAngle - inputAngleValue) && angleSideIndex == 1 ?
+				"<html><span style='color: green;'>" + "BAL oldali törésszög, ΔΥ= " +
+				  convertAngleMinSecFormat(mainLineAngle - inputAngleValue) + "</span></html>" :
+				"<html><span style='color: red;'>" + "BAL oldali törésszög, ΔΥ= " +
+				  convertAngleMinSecFormat(mainLineAngle - inputAngleValue) + "</span></html>";
 	}
 	else if( mainLineAngle > Math.PI && controlDirectionPointInputWindow.yesRadioButton.isSelected()) {
-		info += "JOBB oldali törésszög, ΔΥ= " +
-				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue);
+		info += Math.PI / 90 > Math.abs(2 * Math.PI - mainLineAngle - inputAngleValue) && angleSideIndex == 0 ?
+				"<html><span style='color: green;'>" + "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue) + "</span></html>" :
+				"<html><span style='color: red;'>" + "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - inputAngleValue) + "</span></html>";
 	}
 	else if( mainLineAngle > 0 && mainLineAngle < Math.PI && controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
-		info += "BAL oldali törésszög, ΔΥ= " +
-				convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+		info += Math.PI / 90 > Math.abs(mainLineAngle - 0.5 * inputAngleValue - complAngleValue) && angleSideIndex == 1 ?
+				"<html><span style='color: green;'>" + "BAL oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue) + "</span></html>" :
+				"<html><span style='color: red;'>" + "BAL oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue) + "</span></html>";
 	}
 	else if( mainLineAngle > Math.PI && controlDirectionPointInputWindow.noRadioButton.isSelected()) {
-		info += "JOBB oldali törésszög, ΔΥ= " +
-				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+		info += Math.PI / 90 > Math.abs(2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue) && angleSideIndex == 0 ?
+				"<html><span style='color: green;'>" + "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue) + "</span></html>" :
+				"<html><span style='color: red;'>" + "JOBB oldali törésszög, ΔΥ= " +
+				convertAngleMinSecFormat(2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue) + "</span></html>";		
+}
 	}
 	
 	return info;
 }
 	
+	public String getInfoByControlPoint(boolean isWeightBase) {
+		
+		int sideOfAngle;
+		double inputAngleValue;
+		String mainLineAngle;
+		
+		if( isWeightBase ) {
+		sideOfAngle = weightBaseInputWindow.sideComboBox.getSelectedIndex();
+		inputAngleValue = Math.toRadians(Double.parseDouble(weightBaseInputWindow.rotateAngularField.getText()) +
+								Double.parseDouble(weightBaseInputWindow.rotateAngularMinField.getText()) / 60.0 +
+								Double.parseDouble(weightBaseInputWindow.rotateAngularSecField.getText()) / 3600.0);
+		mainLineAngle = convertAngleMinSecFormat(inputAngleValue);
+		}
+		else {
+		sideOfAngle = plateBaseInputWindow.sideComboBox.getSelectedIndex();
+		inputAngleValue = Math.toRadians(Double.parseDouble(plateBaseInputWindow.rotateAngularField.getText()) +
+				Double.parseDouble(plateBaseInputWindow.rotateAngularMinField.getText()) / 60.0 +
+				Double.parseDouble(plateBaseInputWindow.rotateAngularSecField.getText()) / 3600.0);
+		mainLineAngle = convertAngleMinSecFormat(inputAngleValue);
+		}
+		
+		if( controlDirectionPoint == null ) {
+		if( inputAngleValue == Math.PI ) {
+			return "Az oszlop karja szögfelezőben.\n" +
+					"A nyomvonal törésszöge: 180° 00' 00\"";
+		}
+		return  "Az oszlop karja szögfelezőben.\n" +
+				"A nyomvonal " + (sideOfAngle == 0 ? "JOBB" : "BAL") + 
+				" oldali törésszöge: " + mainLineAngle;
+		}
+		int angleSideIndex = -1;
+		
+		if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
+			angleSideIndex = plateBaseInputWindow.sideComboBox.getSelectedIndex();
+		}
+		else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
+			angleSideIndex = weightBaseInputWindow.sideComboBox.getSelectedIndex();
+		}
+		
+		if( controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
+			if( inputAngleValue == Math.PI ) {
+				return "Az oszlop karja szögfelezőben.\n" +
+						"A nyomvonal törésszöge: 180° 00' 00\"";
+			}
+			return "Az oszlop karja szögfelezőben.\n" +
+					"A nyomvonal " +  (angleSideIndex == 0 ? "JOBB" : "BAL") + 
+					" oldali törésszöge: " +  convertAngleMinSecFormat(this.inputAngleValue);
+		}
+		if( inputAngleValue == Math.PI ) {
+			return "Az oszlop karja szögfelezőben.\n" +
+					"A nyomvonal törésszöge: 180° 00' 00\"";
+		}
+		return 	"Az oszlop karja NINCS szögfelezőben.\n" +
+				"A nyomvonal " +  (angleSideIndex == 0 ? "JOBB" : "BAL") + 
+				" oldali törésszöge: " +  convertAngleMinSecFormat(0.5 * this.inputAngleValue + complAngleValue);
+	}
+	
+	public String getDistanceBetweenCenterAndControlPoint() {
+		if( controlDirectionPoint == null ) {
+			return "";
+		}
+		AzimuthAndDistance controlPointData = new AzimuthAndDistance(centerPillarPoint, controlDirectionPoint);
+		return  "\n" + pillarIdList.get(1) + ". és " + pillarIdList.get(0) + ". oszlopok távolsága: " + 
+				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m";
+	}
+
 	public String getTitleForControlledAngle() {
 		return pillarIdList.get(0) + ". oh → " + pillarIdList.get(1) + ". oh → " + pillarIdList.get(2) + ". oh";
 	}

@@ -126,9 +126,13 @@ public class PlateBaseFXDisplayer {
 			for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
 				
 				if( i == 9 || i == 10 ) {
+					AzimuthAndDistance lineData = new AzimuthAndDistance(
+							transformedPillarBasePoints.get(0), transformedPillarBasePoints.get(i));
+					PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(0), 
+							80 * MILLIMETER, lineData.calcAzimuth(), "directionPoint");
 					setText(transformedPillarBasePoints.get(i).getPointID(), 
-							new Point(null, transformedPillarBasePoints.get(i).getX_coord() - 5 * MILLIMETER, 
-									transformedPillarBasePoints.get(i).getY_coord() + 5 * MILLIMETER) , Color.FIREBRICK, 14);
+							new Point(null, slavePoint.calcPolarPoint().getX_coord() - 5 * MILLIMETER, 
+									slavePoint.calcPolarPoint().getY_coord() + 5 * MILLIMETER) , Color.FIREBRICK, 14);
 				}
 				else {
 					setText(transformedPillarBasePoints.get(i).getPointID(), 
@@ -137,9 +141,10 @@ public class PlateBaseFXDisplayer {
 				
 			}
 			
-			setText("M= 1:" + (int) SCALE, 
-					new Point(null, - 72  * MILLIMETER, - 55 * MILLIMETER), 
-					Color.BLACK, 16);
+			Text scaleText = new Text("M= 1:" + (int) SCALE);
+			scaleText.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+	        scaleText.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
+	        scaleText.yProperty().bind(pane.heightProperty().divide(10).multiply(3));
 			String vrHoleSizeText = String.format("%.2f", new AzimuthAndDistance(PILLAR_BASE_POINTS.get(1), 
 					PILLAR_BASE_POINTS.get(4)).calcDistance()).replace(",", ".");
 			double vrHoleSizeValue = Double.parseDouble(vrHoleSizeText);
@@ -147,18 +152,22 @@ public class PlateBaseFXDisplayer {
 					PILLAR_BASE_POINTS.get(2)).calcDistance()).replace(",", ".");
 			double hrHoleSizeValue = Double.parseDouble(hrHoleSizeText);
 			if( 0.01 >= Math.abs(vrHoleSizeValue - hrHoleSizeValue) ) {
-				setText("Az alap gödrének oldalhossza: " + (vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeText : hrHoleSizeText) + "m", 
-						new Point(null, - 72  * MILLIMETER, - 60 * MILLIMETER), 
-						Color.BLACK, 16);
+			Text holeSideLengthText = new Text("Az alap gödrének oldalhossza: " + 
+			(vrHoleSizeValue > hrHoleSizeValue ? vrHoleSizeText : hrHoleSizeText) + "m");				
+			holeSideLengthText.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+	        holeSideLengthText.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
+	        holeSideLengthText.yProperty().bind(pane.heightProperty().divide(10).multiply(8));
+	        pane.getChildren().addAll(scaleText, holeSideLengthText);
 			}
 			else {
-				setText("Az alap gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeText + "m", 
-						new Point(null, - 72  * MILLIMETER, - 80 * MILLIMETER), 
-						Color.BLACK, 16);
-				setText("Az alap gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeText + "m", 
-						new Point(null, - 72  * MILLIMETER, - 85 * MILLIMETER), 
-						Color.BLACK, 16);
+			Text holeSideLengthText = new Text("Az alap gödrének mérete az oszlopkarra merőlegesen: " + vrHoleSizeText + "m\n" +
+					"Az alap gödrének mérete az oszlopkarral párhuzamosan: " + hrHoleSizeText + "m");
+			holeSideLengthText.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+		    holeSideLengthText.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
+		    holeSideLengthText.yProperty().bind(pane.heightProperty().divide(10).multiply(8));
+		    pane.getChildren().addAll(scaleText, holeSideLengthText);
 			}	
+			
 	}
 	
     private void getContent(){
@@ -191,7 +200,7 @@ public class PlateBaseFXDisplayer {
         ImageView northSign = new ImageView(new Image("/img/north.jpg"));
         northSign.setFitWidth(40 * MILLIMETER);
         northSign.setFitHeight(40 * MILLIMETER);
-        northSign.xProperty().bind(pane.widthProperty().divide(10).multiply(2).add(50 * MILLIMETER));
+        northSign.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
         northSign.setY(10 * MILLIMETER);
         pane.getChildren().add(northSign);
     }
@@ -324,10 +333,22 @@ public class PlateBaseFXDisplayer {
         for (Point point: transformedPillarBasePoints) {
             Circle circle = new Circle();
             circle.setRadius(5);
-            circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
-                    .add(point.getX_coord()));
-            circle.centerYProperty().bind(pane.heightProperty().divide(2)
+            AzimuthAndDistance lineData = new AzimuthAndDistance(
+					transformedPillarBasePoints.get(0), point);
+			PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(0), 
+					80 * MILLIMETER, lineData.calcAzimuth(), "directionPoint");
+            if( transformedPillarBasePoints.indexOf(point) == 9 || transformedPillarBasePoints.indexOf(point) == 10 ){
+            	circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
+                        .add(slavePoint.calcPolarPoint().getX_coord()));
+            	circle.centerYProperty().bind(pane.heightProperty().divide(2)
+                        .subtract(slavePoint.calcPolarPoint().getY_coord()));
+            }
+            else {
+            	circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
+                        .add(point.getX_coord()));
+            	circle.centerYProperty().bind(pane.heightProperty().divide(2)
                     .subtract(point.getY_coord()));
+            }
             circle.setStroke(Color.FIREBRICK);
             circle.setStrokeWidth(2);
             circle.setFill(Color.TRANSPARENT);
@@ -352,10 +373,22 @@ public class PlateBaseFXDisplayer {
         for (Point point: stk_transformedPillarBasePoints) {
             Circle circle = new Circle();
             circle.setRadius(5);
-            circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
+            AzimuthAndDistance lineData = new AzimuthAndDistance(
+					transformedPillarBasePoints.get(0), point);
+			PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(0), 
+					80 * MILLIMETER, lineData.calcAzimuth(), "directionPoint");
+            if( transformedPillarBasePoints.indexOf(point) == 9 || transformedPillarBasePoints.indexOf(point) == 10 ){
+            	circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
+                        .add(slavePoint.calcPolarPoint().getX_coord()));
+            	circle.centerYProperty().bind(pane.heightProperty().divide(2)
+                        .subtract(slavePoint.calcPolarPoint().getY_coord()));
+            }
+            else {
+            	circle.centerXProperty().bind(pane.widthProperty().divide(10).multiply(6)
                     .add(point.getX_coord()));
-            circle.centerYProperty().bind(pane.heightProperty().divide(2)
+            	circle.centerYProperty().bind(pane.heightProperty().divide(2)
                     .subtract(point.getY_coord()));
+         }
             circle.setStroke(Color.FIREBRICK);
             circle.setStrokeWidth(2);
             circle.setFill(Color.TRANSPARENT); 
@@ -489,8 +522,13 @@ public class PlateBaseFXDisplayer {
             setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.BLUE, 16);
         }
         else {
+        	AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
+                    transformedPillarBasePoints.get(9));
+            PolarPoint slavePoint1 = new PolarPoint(transformedPillarBasePoints.get(0),
+                    80 * MILLIMETER, backwardLineData.calcAzimuth(),
+                    "backwardDirection");
             setText(DIRECTION_POINT.getPointID(),
-                    transformedPillarBasePoints.get(9), Color.BLUE, 16);
+                    slavePoint1.calcPolarPoint(), Color.BLUE, 16);
             int mainPillarID;
             int directionPillarID;
             try {
@@ -500,15 +538,20 @@ public class PlateBaseFXDisplayer {
                 mainPillarID = 0;
                 directionPillarID = 1;
             }
+            AzimuthAndDistance forwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
+                    transformedPillarBasePoints.get(10));
+            PolarPoint slavePoint2 = new PolarPoint(transformedPillarBasePoints.get(0),
+                    80 * MILLIMETER, forwardLineData.calcAzimuth(),
+                    "forwardDirection");
             if (directionPillarID > mainPillarID) {
                 setText(String.valueOf(mainPillarID - 1),
-                        transformedPillarBasePoints.get(10), Color.MAGENTA, 16);
+                        slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
             } else if (directionPillarID < mainPillarID) {
                 setText(String.valueOf(mainPillarID + 1),
-                        transformedPillarBasePoints.get(10), Color.MAGENTA, 16);
+                		slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
             } else {
                 setText(DIRECTION_POINT.getPointID(),
-                        transformedPillarBasePoints.get(10), Color.MAGENTA, 16);
+                		slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
             }
         }
     }
@@ -761,6 +804,11 @@ public class PlateBaseFXDisplayer {
             pane.getChildren().add(forwardDirection);
             return;
         }
+        AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
+                transformedPillarBasePoints.get(10));
+        PolarPoint slavePoint1 = new PolarPoint(transformedPillarBasePoints.get(0),
+                        80 * MILLIMETER, backwardLineData.calcAzimuth(),
+                        "backwardDirection");
         Line previousPillarDirection = new Line();
         previousPillarDirection.setStroke(Color.MAGENTA);
         previousPillarDirection.setStrokeWidth(2);
@@ -769,10 +817,15 @@ public class PlateBaseFXDisplayer {
         previousPillarDirection.startYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(transformedPillarBasePoints.get(0).getY_coord()));
         previousPillarDirection.endXProperty().bind(pane.widthProperty().divide(10).multiply(6)
-                .add(transformedPillarBasePoints.get(10).getX_coord()));
+                .add(slavePoint1.calcPolarPoint().getX_coord()));
         previousPillarDirection.endYProperty().bind(pane.heightProperty().divide(2)
-                .subtract(transformedPillarBasePoints.get(10).getY_coord()));
-        addArrow(transformedPillarBasePoints.get(10), transformedPillarBasePoints.get(0));
+                .subtract(slavePoint1.calcPolarPoint().getY_coord()));
+        addArrow(slavePoint1.calcPolarPoint(), transformedPillarBasePoints.get(0));
+        AzimuthAndDistance forwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
+                transformedPillarBasePoints.get(9));
+        PolarPoint slavePoint2 = new PolarPoint(transformedPillarBasePoints.get(0),
+                        80 * MILLIMETER, forwardLineData.calcAzimuth(),
+                        "forwardDirection");
         Line nextPillarDirection = new Line();
         nextPillarDirection.setStroke(Color.MAGENTA);
         nextPillarDirection.setStrokeWidth(2);
@@ -781,10 +834,10 @@ public class PlateBaseFXDisplayer {
         nextPillarDirection.startYProperty().bind(pane.heightProperty().divide(2)
                 .subtract(transformedPillarBasePoints.get(0).getY_coord()));
         nextPillarDirection.endXProperty().bind(pane.widthProperty().divide(10).multiply(6)
-                .add(transformedPillarBasePoints.get(9).getX_coord()));
+                .add(slavePoint2.calcPolarPoint().getX_coord()));
         nextPillarDirection.endYProperty().bind(pane.heightProperty().divide(2)
-                .subtract(transformedPillarBasePoints.get(9).getY_coord()));
-        addArrow(transformedPillarBasePoints.get(9), transformedPillarBasePoints.get(0));
+                .subtract(slavePoint2.calcPolarPoint().getY_coord()));
+        addArrow(slavePoint2.calcPolarPoint(), transformedPillarBasePoints.get(0));
         pane.getChildren().addAll(previousPillarDirection, nextPillarDirection);
     }
 
@@ -854,13 +907,18 @@ public class PlateBaseFXDisplayer {
         Text distanceInfo =
                 new Text(PILLAR_BASE_POINTS.get(0).getPointID() + ". és "
                         + DIRECTION_POINT.getPointID() + ". oszlopok távolsága: " +
-                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m");
+                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m" +
+                        homeController.getDistanceBetweenCenterAndControlPoint());
         distanceInfo.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-        distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(4));
-        distanceInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(9));
+        distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
+        distanceInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(8));
+        Text controlPointInfo = new Text(homeController.getInfoByControlPoint(false));
+        controlPointInfo.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        controlPointInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
+        controlPointInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(9));
         Text unit = new Text("1m");
         unit.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
-        unit.xProperty().bind(pane.widthProperty().divide(10).multiply(4).subtract(100 * MILLIMETER / SCALE));
+        unit.xProperty().bind(pane.widthProperty().divide(10).multiply(3).subtract(100 * MILLIMETER / SCALE));
         unit.yProperty().bind(pane.heightProperty()
                 .divide(10).multiply(9).subtract(10 * MILLIMETER ));
         Line distanceUnit = new Line();
@@ -869,7 +927,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4));
+                        .multiply(3));
         distanceUnit
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -880,7 +938,7 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4)
+                        .multiply(3)
                         .add(1000 * MILLIMETER / SCALE));
         distanceUnit
                 .endYProperty()
@@ -894,7 +952,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4));
+                        .multiply(3));
         leftEndLine
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -905,7 +963,7 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4));
+                        .multiply(3));
         leftEndLine
                 .endYProperty()
                 .bind(pane.heightProperty()
@@ -918,7 +976,7 @@ public class PlateBaseFXDisplayer {
                 .startXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4).add(1000 * MILLIMETER / SCALE));
+                        .multiply(3).add(1000 * MILLIMETER / SCALE));
         rightEndLine
                 .startYProperty()
                 .bind(pane.heightProperty()
@@ -929,14 +987,14 @@ public class PlateBaseFXDisplayer {
                 .endXProperty()
                 .bind(pane.widthProperty()
                         .divide(10)
-                        .multiply(4).add(1000 * MILLIMETER / SCALE));
+                        .multiply(3).add(1000 * MILLIMETER / SCALE));
         rightEndLine
                 .endYProperty()
                 .bind(pane.heightProperty()
                         .divide(10)
                         .multiply(9)
                         .subtract( 8 * MILLIMETER ).subtract(0.5 * MILLIMETER));
-        pane.getChildren().addAll(distanceInfo, unit, distanceUnit, leftEndLine, rightEndLine);
+        pane.getChildren().addAll(distanceInfo, controlPointInfo, unit, distanceUnit, leftEndLine, rightEndLine);
     }
 
     private void setText(String textData, Point startPoint, Color color, int size){

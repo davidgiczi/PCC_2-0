@@ -38,12 +38,14 @@ public class PlateBaseController implements Controller  {
 	@Override
 	public void handleCountButtonClick() {
 		
-	if( !isValidInputID() ) {
-		return;
-	}
+	
 	try {
 		isValidInputData();
-		homeController.validateControlDirectionInputData();
+		if( !homeController.isValidControlDirectionData() ) {
+			return;
+		}
+		this.centerID = homeController.plateBaseInputWindow.centerIdField.getText();
+		this.directionID = homeController.plateBaseInputWindow.directionIdField.getText();
 	if( homeController.controlDirectionPoint != null &&	
 			homeController.getYesNoMessage(homeController.getTitleForControlledAngle(), 
 			homeController.getInfoForControlledAngle()) == 1 ){
@@ -192,20 +194,6 @@ public class PlateBaseController implements Controller  {
 		});
 	}
 
-	private boolean isValidInputID() {
-		
-		String centerID = homeController.plateBaseInputWindow.centerIdField.getText();
-		String directionID = homeController.plateBaseInputWindow.directionIdField.getText();
-		
-		if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-			homeController.getInfoMessage("Hibás bemeneti adatok", "Az oszlopok azonosítója legalább egy karakter lehet.");
-			return false;
-			}
-		
-		this.centerID = centerID;
-		this.directionID = directionID;
-		return true;
-	}
 	
 	public void isValidInputData() throws NumberFormatException {
 		centerX = InputDataValidator
@@ -235,12 +223,27 @@ public class PlateBaseController implements Controller  {
 			double horizontalSizeOfHole, double verticalSizeOfHole,
 			double horizontalDistanceFromHole, double verticalDistanceFromHole,
 			double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
-			
-		homeController.fileProcess.saveProjectFileForPlatetBase
+		
+		if( homeController.controlDirectionPoint == null ) {
+			homeController.fileProcess.saveProjectFileForPlatetBase
 			(centerID, centerX, centerY, 
-			 directionID, directionX, directionY, 
+			 directionID, directionX, directionY,
+			 null, 0, 0,
 			 horizontalSizeOfHole, verticalSizeOfHole, 
 			 horizontalDistanceFromHole, verticalDistanceFromHole, 
 			 rotationAngle, rotationSec, rotationMin, angleSideIndex);
 		}
+		else {
+			homeController.fileProcess.saveProjectFileForPlatetBase
+			(centerID, centerX, centerY, 
+			 directionID, directionX, directionY,
+			 homeController.controlDirectionPoint.getPointID(), 
+			 homeController.controlDirectionPoint.getX_coord(),
+			 homeController.controlDirectionPoint.getY_coord(),
+			 horizontalSizeOfHole, verticalSizeOfHole, 
+			 horizontalDistanceFromHole, verticalDistanceFromHole, 
+			 rotationAngle, rotationSec, rotationMin, angleSideIndex);
+		}
+			
+	}
 }

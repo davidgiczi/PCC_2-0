@@ -323,6 +323,7 @@ public class PCCFileProcess {
 	public void saveProjectFileForPlatetBase
 	(String centerID, double centerX, double centerY, 
 	 String directionID, double directionX,  double directionY,
+	 String controlID, double controlX, double controlY,
 	 double horizontalSizeOfHole, double verticalSizeOfHole,
 	 double horizontalDistanceFromHole, double verticalDistanceFromHole,
 	 double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
@@ -362,7 +363,15 @@ public class PCCFileProcess {
 				writer.newLine();
 				writer.write(String.valueOf(angleSideIndex));
 				writer.newLine();
-				
+				if( controlID == null && controlX == 0 && controlY == 0) {
+					return;
+				}
+				writer.write(controlID);
+				writer.newLine();
+				writer.write(String.valueOf(controlX));
+				writer.newLine();
+				writer.write(String.valueOf(controlY));
+				writer.newLine();
 		} catch (IOException e) {
 			homeController
 			.getInfoMessage("Projekt fájl létrehozása", "Projekt fájl létrehozása sikertelen: \"" + projectFile.getName() + "\"");
@@ -371,7 +380,8 @@ public class PCCFileProcess {
 	}
 	
 	public void saveProjectFileForWeightBase(String centerID, double centerX, double centerY, 
-			 String directionID, double directionX,  double directionY,
+			 String directionID, double directionX,  double directionY, 
+			 String controlID, double controlX, double controlY,
 			 double distanceOnTheAxis, 
 			 double horizontalDistanceBetweenPillarLegs,
 			 double verticalDistanceBetweenPillarLegs, 
@@ -415,6 +425,15 @@ public class PCCFileProcess {
 				writer.write(String.valueOf(rotationSec));
 				writer.newLine();
 				writer.write(String.valueOf(angleSideIndex));
+				writer.newLine();
+				if( controlID == null && controlX == 0 && controlY == 0) {
+					return;
+				}
+				writer.write(controlID);
+				writer.newLine();
+				writer.write(String.valueOf(controlX));
+				writer.newLine();
+				writer.write(String.valueOf(controlY));
 				writer.newLine();
 				
 		} catch (IOException e) {

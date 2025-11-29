@@ -131,6 +131,7 @@ public class WeightBaseInputWindow {
 					
 			if(weightBaseController.homeController.getYesNoMessage("Szeretnéd megcserélni az adatokat?", 
 					"A kitűzendő-, és az előző/következő oszlop adatainak cseréje.") == 0) {
+				setControlDirectionPoint();
 				exchangePillarData();
 			}
 					
@@ -531,6 +532,18 @@ public class WeightBaseInputWindow {
 		directionIdField.setText(centerPillarId);
 		x_directionField.setText(centerPillarX);
 		y_directionField.setText(centerPillarY);
-		
+	}
+	
+	private void setControlDirectionPoint() {
+		if( weightBaseController.homeController.controlDirectionPointInputWindow == null ) {
+			weightBaseController.homeController.getControlDirectionPointInputWindow();
+			weightBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.WEIGHT_BASE);
+		}
+		weightBaseController.homeController.controlDirectionPointInputWindow.directionControlPointIdField
+		.setText(centerIdField.getText());
+		weightBaseController.homeController.controlDirectionPointInputWindow.x_directionControlPointField
+		.setText(x_centerField.getText());
+		weightBaseController.homeController.controlDirectionPointInputWindow.y_directionControlPointField
+		.setText(y_centerField.getText());
 	}
 }

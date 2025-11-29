@@ -38,12 +38,13 @@ public class WeightBaseController implements Controller {
 	@Override
 	public void handleCountButtonClick() {
 		
-		if( !isValidInputID() ) {
-			return;
-		}
 		try {
 			isValidInputData();
-			homeController.validateControlDirectionInputData();
+			if( !homeController.isValidControlDirectionData() ) {
+				return;
+			}
+			this.centerID = homeController.weightBaseInputWindow.centerIdField.getText();
+			this.directionID = homeController.weightBaseInputWindow.directionIdField.getText();
 			if(	homeController.controlDirectionPoint != null &&	
 					homeController.getYesNoMessage(homeController.getTitleForControlledAngle(), 
 					homeController.getInfoForControlledAngle()) == 1 ){
@@ -196,21 +197,8 @@ public class WeightBaseController implements Controller {
 		
 	}
 
-	private boolean isValidInputID() {
-			
-			String centerID = homeController.weightBaseInputWindow.centerIdField.getText();
-			String directionID = homeController.weightBaseInputWindow.directionIdField.getText();
-			 
-			if( !InputDataValidator.isValidID(centerID) || !InputDataValidator.isValidID(directionID) ) {
-			homeController.getInfoMessage("Hibás bemeneti adatok", "Az oszlopok azonosítója legalább egy karakter lehet.");
-			return false;
-			}
-			this.centerID = centerID;
-			this.directionID = directionID;
-			return true;
-		}
-	
 		public void isValidInputData() throws NumberFormatException {
+			
 			centerX = InputDataValidator
 					.isValidInputDoubleValue(homeController.weightBaseInputWindow.x_centerField.getText().replace(',' , '.'));
 			centerY = InputDataValidator
@@ -244,15 +232,34 @@ public class WeightBaseController implements Controller {
 		 double verticalSizeOfHoleOfPillarLeg,
 		 double rotationAngle, double rotationSec, double rotationMin, int angleSideIndex) {
 		
-		homeController.fileProcess.saveProjectFileForWeightBase
-		(centerID, centerX, centerY, 
-		 directionID, directionX, directionY, 
-		 distanceOnTheAxis, 
-		 horizontalDistanceBetweenPillarLegs, 
-		 verticalDistanceBetweenPillarLegs, 
-		 horizontalSizeOfHoleOfPillarLeg, 
-		 verticalSizeOfHoleOfPillarLeg, 
-		 rotationAngle, rotationSec, rotationMin, angleSideIndex);
+		if( homeController.controlDirectionPoint == null ) {
+			homeController.fileProcess.saveProjectFileForWeightBase
+			(centerID, centerX, centerY, 
+			 directionID, directionX, directionY,
+			 null, 0, 0,
+			 distanceOnTheAxis, 
+			 horizontalDistanceBetweenPillarLegs, 
+			 verticalDistanceBetweenPillarLegs, 
+			 horizontalSizeOfHoleOfPillarLeg, 
+			 verticalSizeOfHoleOfPillarLeg, 
+			 rotationAngle, rotationSec, rotationMin, angleSideIndex);
+		}
+		else {
+			homeController.fileProcess.saveProjectFileForWeightBase
+			(centerID, centerX, centerY, 
+			 directionID, directionX, directionY,
+			 homeController.controlDirectionPoint.getPointID(), 
+			 homeController.controlDirectionPoint.getX_coord(),
+			 homeController.controlDirectionPoint.getY_coord(),
+			 distanceOnTheAxis, 
+			 horizontalDistanceBetweenPillarLegs, 
+			 verticalDistanceBetweenPillarLegs, 
+			 horizontalSizeOfHoleOfPillarLeg, 
+			 verticalSizeOfHoleOfPillarLeg, 
+			 rotationAngle, rotationSec, rotationMin, angleSideIndex);
+		}
+		
+		
 	}
 		
 }

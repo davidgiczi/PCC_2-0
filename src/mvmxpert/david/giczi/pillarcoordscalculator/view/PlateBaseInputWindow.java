@@ -132,6 +132,7 @@ public class PlateBaseInputWindow {
 					
 			if(plateBaseController.homeController.getYesNoMessage("Szeretnéd megcserélni az adatokat?", 
 					"A kitűzendő-, és az előző/következő oszlop adatainak cseréje.") == 0) {
+				setControlDirectionPoint();
 				exchangePillarData();
 			}
 					
@@ -523,6 +524,19 @@ public class PlateBaseInputWindow {
 		x_directionField.setText(centerPillarX);
 		y_directionField.setText(centerPillarY);
 		
+	}
+	
+	private void setControlDirectionPoint() {
+		if( plateBaseController.homeController.controlDirectionPointInputWindow == null ) {
+			plateBaseController.homeController.getControlDirectionPointInputWindow();
+			plateBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.PLATE_BASE);
+		}
+		plateBaseController.homeController.controlDirectionPointInputWindow.directionControlPointIdField
+		.setText(centerIdField.getText());
+		plateBaseController.homeController.controlDirectionPointInputWindow.x_directionControlPointField
+		.setText(x_centerField.getText());
+		plateBaseController.homeController.controlDirectionPointInputWindow.y_directionControlPointField
+		.setText(y_centerField.getText());
 	}
 	
 }
