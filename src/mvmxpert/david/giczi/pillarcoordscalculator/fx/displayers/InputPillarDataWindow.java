@@ -50,7 +50,10 @@ public class InputPillarDataWindow {
         stage.setOnCloseRequest(windowEvent ->
         {measuredPillarDataController.init();
         measuredPillarDataController.fxHomeWindow.homeStage.show();
-        measuredPillarDataController.setCreatedInputPillarDataWindow(true);});
+        measuredPillarDataController.setCreatedInputPillarDataWindow(true);
+        if( FXHomeWindow.homeController.controlDirectionPointInputWindow != null ) {
+        	FXHomeWindow.homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
+        }});
         pane = new AnchorPane();
         pane.setOnMouseClicked(mouseEvent -> {
             if( mouseEvent.getButton() == MouseButton.SECONDARY ){

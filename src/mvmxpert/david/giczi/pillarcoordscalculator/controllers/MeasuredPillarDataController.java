@@ -53,6 +53,7 @@ public class MeasuredPillarDataController {
     public static boolean IS_RUNNING_PROCESS_OK;
     public static boolean IS_OPENING_PCC_OR_PLR_FILE_PROCESS;
     public static boolean IS_OPENING_INS_FILE_PROCESS;
+    private Double complAngleValue;
     
     public boolean isCreatedInputPillarDataWindow() {
 		return isCreatedInputPillarDataWindow;
@@ -78,7 +79,11 @@ public class MeasuredPillarDataController {
         if( fileProcess.getPillarBaseMeasData() != null && !fileProcess.getPillarBaseMeasData().isEmpty()){
             fileProcess.getPillarBaseMeasData().clear();
         }
-        
+        if( FXHomeWindow.homeController.controlDirectionPointInputWindow != null ) {
+        	FXHomeWindow.homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
+        	FXHomeWindow.homeController.controlDirectionPointInputWindow = null;
+        }
+        FXHomeWindow.homeController.controlDirectionPoint = null;
     }
     public void getInfoAlert(String title, String text) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -276,7 +281,60 @@ public class MeasuredPillarDataController {
         	  return false;
           }
     	
-          return true;
+          return isValidControlDirectionData();
+    }
+    
+    private boolean isValidControlDirectionData() {
+    	
+    	if( FXHomeWindow.homeController.controlDirectionPointInputWindow == null ) {
+    		return true;
+    		}
+    	else if( FXHomeWindow.homeController.controlDirectionPointInputWindow.directionControlPointIdField.getText().isEmpty() && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.x_directionControlPointField.getText().isEmpty() &&
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.y_directionControlPointField.getText().isEmpty() ) {
+    		return true;
+    	}
+    	String controlPointId = FXHomeWindow.homeController.controlDirectionPointInputWindow.directionControlPointIdField.getText(); 
+    	if( !InputDataValidator.isValidID(controlPointId) ) {
+    		getInfoAlert("Hibás bemeneti adatok", "Az ellenőrző oh azonosítójának megadása szükséges.");
+    		return false;
+    	}
+    	double x_controlPoint;
+    	double y_controlPoint;
+    	try {
+    		x_controlPoint = InputDataValidator
+					.isValidInputDoubleValue(FXHomeWindow.homeController
+							.controlDirectionPointInputWindow.x_directionControlPointField.getText().replace(',' , '.'));
+			y_controlPoint = InputDataValidator
+					.isValidInputDoubleValue(FXHomeWindow.homeController
+							.controlDirectionPointInputWindow.y_directionControlPointField.getText().replace(',' , '.'));
+    	}
+    	catch (Exception e) {
+    		getInfoAlert("Hibás bemeneti adatok", "Az oszlop helyének x, y koordinátája csak szám lehet.");
+    		return false;
+		}
+    	int angle = 0;
+		int min = 0;
+		int sec = 0;
+    	if( FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
+    
+    		try {
+    			angle = InputDataValidator.isValidAngleValue(
+    					FXHomeWindow.homeController.controlDirectionPointInputWindow.complAngularField.getText());
+    			min = InputDataValidator.isValidAngleValue(
+    					FXHomeWindow.homeController.controlDirectionPointInputWindow.complMinField.getText());
+    			sec = InputDataValidator.isValidAngleValue(
+    					FXHomeWindow.homeController.controlDirectionPointInputWindow.complSecField.getText());
+    		}catch (NumberFormatException e) {
+    			getInfoAlert("Hibás bemeneti adatok", "A kiegészítő szög fok, perc, másodperc értéke csak egész szám lehet.");
+    			return false;
+    		}
+    	}
+    	
+    	this.complAngleValue = Math.toRadians(angle + min / 60.0 + sec / 3600.0);
+    	FXHomeWindow.homeController.controlDirectionPoint = new Point(controlPointId, x_controlPoint, y_controlPoint);
+    	
+    	return true;
     }
     
     private boolean canBeSetDataByPCC() {
@@ -459,9 +517,23 @@ public class MeasuredPillarDataController {
             inputPillarDataWindow.stage.hide();
         }
         inputPillarDataWindow = new InputPillarDataWindow(this);
+        setControlDirectionPointData();
     }
     
-   
+    private void setControlDirectionPointData() {
+	  for (int i = 0; i < pillarBaseProjectFileData.size(); i++) {
+		  if( pillarBaseProjectFileData.get(i).equals("ControlPoint") ) {
+			  FXHomeWindow.homeController.getControlDirectionPointInputWindow();
+			  FXHomeWindow.homeController.controlDirectionPointInputWindow
+			  .directionControlPointIdField.setText(pillarBaseProjectFileData.get(i + 1));
+			  FXHomeWindow.homeController.controlDirectionPointInputWindow
+			  .x_directionControlPointField.setText(pillarBaseProjectFileData.get(i + 2));
+			  FXHomeWindow.homeController.controlDirectionPointInputWindow
+			  .y_directionControlPointField.setText(pillarBaseProjectFileData.get(i + 3));
+		  }
+	}
+  }
+    
     public void openIntersectionInputDataWindow(){
     	fxHomeWindow.homeStage.hide();
     	if( intersectionInputDataWindow != null ) {
@@ -1696,7 +1768,6 @@ public class MeasuredPillarDataController {
     
     private void setCrossedWirePoints(List<String> intersectionProjectFileData, int index) {
     	
-   
 		crossedWirePointList.add(new MeasPoint(intersectionProjectFileData.get(index), 
 								Double.parseDouble(intersectionProjectFileData.get(index + 1)),
 								Double.parseDouble(intersectionProjectFileData.get(index + 2)),
@@ -1867,5 +1938,99 @@ public class MeasuredPillarDataController {
     	
     	return null;
     }
+    
+    public Double getPillarBaseTwistingByControlPoint() {
+    	if( FXHomeWindow.homeController.controlDirectionPoint == null ) {
+    		return null;
+    	}
+    	double inputAngleValue = Math.toRadians(Double.parseDouble(inputPillarDataWindow.rotationAngleField.getText()) +
+				Double.parseDouble(inputPillarDataWindow.rotationMinField.getText()) / 60.0 +
+				Double.parseDouble(inputPillarDataWindow.rotationSecField.getText()) / 3600.0);
+    	double centerToControlPointAzimuth = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+				FXHomeWindow.homeController.controlDirectionPoint).calcAzimuth();
+    	double centerToNextPointAzimuth = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+		measuredPillarData.getBaseLineDirectionPoint().getAsPoint()).calcAzimuth();
+    	double mainLineAngle = centerToNextPointAzimuth - centerToControlPointAzimuth;
+    	if(	0 > mainLineAngle ) {
+    		mainLineAngle += 2 * Math.PI;
+    	}
+    	if( mainLineAngle > 0 && mainLineAngle < Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected()) {
+    		return mainLineAngle - inputAngleValue;
+    	}
+    	else if( mainLineAngle > Math.PI  && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected()) {
+    		return 2 * Math.PI - mainLineAngle - inputAngleValue;
+    	}
+    	else if( mainLineAngle > 0 && mainLineAngle < Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected()) {
+    		return mainLineAngle - 0.5 * inputAngleValue - complAngleValue;
+    	}
+    	else if( mainLineAngle > Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected()) {
+    		return 2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue;
+    	}
     	
+    	return null;
+    }
+    
+    public String getInfoByControlPoint() {
+    	
+    	double inputAngleValue = Math.toRadians(Double.parseDouble(inputPillarDataWindow.rotationAngleField.getText()) +
+				Double.parseDouble(inputPillarDataWindow.rotationMinField.getText()) / 60.0 +
+				Double.parseDouble(inputPillarDataWindow.rotationSecField.getText()) / 3600.0);
+    	
+    	if( FXHomeWindow.homeController.controlDirectionPoint == null ) {
+    		return "Az oszlop karja szögfelezőben.\n" +
+    					"A nyomvonal törésszöge: " + FXHomeWindow.homeController.convertAngleMinSecFormat(inputAngleValue);
+    		}
+    	
+    	double centerToControlPointAzimuth = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+    															FXHomeWindow.homeController.controlDirectionPoint).calcAzimuth();
+    	double centerToNextPointAzimuth = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+    													measuredPillarData.getBaseLineDirectionPoint().getAsPoint()).calcAzimuth();
+    	double mainLineAngle = centerToNextPointAzimuth - centerToControlPointAzimuth;
+    	if(	0 > mainLineAngle ) {
+    		mainLineAngle += 2 * Math.PI;
+    	}
+    	String info = FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected() ? 
+				"Az oszlop karja szögfelezőben.\n" : 
+				"Az oszlop karja NINCS szögfelezőben.\n";
+		
+    	if( mainLineAngle > 0 && mainLineAngle < Math.PI &&
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
+    		info +=  "BAL oldali törésszög, Υ= "  + 
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(mainLineAngle - inputAngleValue);
+    				
+    	}
+    	else if( mainLineAngle > Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
+    		info += "JOBB oldali törésszög, Υ= "  + 
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI  - mainLineAngle - inputAngleValue);
+    	}
+    	else if( mainLineAngle > 0 && mainLineAngle < Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
+    		info += "BAL oldali törésszög, Υ= " +
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+    	}
+    	else if( mainLineAngle > Math.PI && 
+    			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected()) {
+    		info += "JOBB oldali törésszög, ΔΥ= " +
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue);	
+    }
+	
+    	return info;
+	}
+    
+    public String getDistanceBetweenCenterAndControlPoint() {
+		if( FXHomeWindow.homeController.controlDirectionPoint == null ) {
+			return "";
+		}
+		AzimuthAndDistance controlPointData = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+												FXHomeWindow.homeController.controlDirectionPoint);
+		return  "\n" + measuredPillarData.getPillarCenterPoint().getPointID() + ". és " +
+						FXHomeWindow.homeController.controlDirectionPoint.getPointID() + ". oszlopok távolsága: " + 
+				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m";
+	}
+    
 }

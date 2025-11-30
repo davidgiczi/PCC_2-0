@@ -43,7 +43,7 @@ public class HomeController {
 	private List<String> pillarIdList;
 	WeightBaseDisplayer weightBaseDisplayer;
 	PlateBaseDisplayer plateBaseDisplayer;
-	SteakoutControllWindow steakoutControlWindow;
+	public SteakoutControllWindow steakoutControlWindow;
 	public PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	public PillarCoordsForPlateBase plateBaseCoordsCalculator;
 	public SteakoutControl steakoutControl;
@@ -51,7 +51,7 @@ public class HomeController {
 	PlateBaseController plateBaseController;
 	SteakoutController steakoutController;
 	public MeasuredPillarDataController measuredPillarDataController;
-	CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
+	public CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
 	WeightBaseFXDisplayer weightBaseFXDisplayer;
 	PlateBaseFXDisplayer plateBaseFXDisplayer;
 	
@@ -365,28 +365,20 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 	}
 	
 	if( controlDirectionPointInputWindow.baseType == BaseType.PLATE_BASE ) {
-		try {
+		
 			centerPillarPoint = new Point(plateBaseController.centerID, plateBaseController.centerX, plateBaseController.centerY);
 			nextPillarPoint = new Point(plateBaseController.directionID, plateBaseController.directionX, plateBaseController.directionY);
 			inputAngleValue = Math.toRadians(plateBaseController.rotationAngle + 
 					plateBaseController.rotationMin / 60.0 + plateBaseController.rotationSec / 3600.0);
-		}
-		catch (NumberFormatException e) {
-			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
-			return false;
-		}
+		
 	}
 	else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE) {
-		try {
+		
 			centerPillarPoint = new Point(weightBaseController.centerID, weightBaseController.centerX, weightBaseController.centerY);
 			nextPillarPoint = new Point(weightBaseController.directionID, weightBaseController.directionX, weightBaseController.directionY);
 			inputAngleValue = Math.toRadians(weightBaseController.rotationAngle + 
 					weightBaseController.rotationMin / 60.0 + weightBaseController.rotationSec / 3600.0);
-		}
-		catch (NumberFormatException e) {
-			getInfoMessage("Hibás bemeneti adatok", "Minden üres adatmező kitöltése és szám értékek megadása szükséges.");
-			return false;
-		}
+		
 	}
 	this.controlDirectionPoint = new Point(prePillarId, pillarData.get(0), pillarData.get(1));
 	controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
@@ -566,7 +558,7 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 		return Math.toRadians(angle + min / 60.0 + sec / 3600.0);
 	}
 	
-	private String convertAngleMinSecFormat(double radianAngle){
+	public String convertAngleMinSecFormat(double radianAngle){
 		double angleData = Math.toDegrees(radianAngle);
         int angle = (int) angleData;
         int min = (int) ((angleData - angle) * 60);
@@ -575,6 +567,7 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
                 + (9 < Math.abs(min) ? Math.abs(min) : "0" + Math.abs(min)) + "' "
                 + (9 < Math.abs(sec) ? Math.abs(sec) : "0" + Math.abs(sec)) + "\"";
     }
+		
 }
 
 

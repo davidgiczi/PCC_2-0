@@ -970,39 +970,35 @@ public class PillarBaseDisplayer {
     }
     
     private void addDirectionInformation() {
-    	Text directionInfo = new Text(measuredPillarDataController.getPillarBaseDirectionDifference());
+    	Text pillarBaseTwisting;
+    	Double pillarBaseTwistingByControlPoint = measuredPillarDataController.getPillarBaseTwistingByControlPoint();
+    	if( pillarBaseTwistingByControlPoint == null ) {
+    		pillarBaseTwisting = new Text("Alap elcsavarodás: e= " + measuredPillarDataController.measuredPillarData
+    				.getAngleMinSecFormat(measuredPillarDataController.measuredPillarData.getPillarBaseTwisting()));
+    	}
+    	else {
+    		pillarBaseTwisting = new Text("Alap elcsavarodás: e= " + measuredPillarDataController.measuredPillarData
+    				.getAngleMinSecFormat(pillarBaseTwistingByControlPoint));
+    	}
+    	pillarBaseTwisting.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
+        pillarBaseTwisting.yProperty().bind(pane.heightProperty().divide(10).multiply(5));
+        pillarBaseTwisting.setFont(boldFont);
+    	Text directionInfo = new Text(measuredPillarDataController.getPillarBaseDirectionDifference() );
         directionInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
         directionInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
         directionInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(3));
         Text errorMarginText = new Text(directionInfo.getText().isEmpty() ? "" : "|2°|");
         errorMarginText.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
-        errorMarginText.yProperty().bind(pane.heightProperty().divide(10).multiply(3.7));
+        errorMarginText.yProperty().bind(pane.heightProperty().divide(10).multiply(5));
         errorMarginText.setFont(boldFont);
-        errorMarginText.setFill(Math.abs(getPillarBaseTwisting()) > 2 ? Color.RED : Color.GREEN);
-        pane.getChildren().addAll(directionInfo, errorMarginText);
-    }
-    
-    private double getPillarBaseTwisting() {
-    	try {
-            AzimuthAndDistance mainLineData =
-                    new AzimuthAndDistance(new Point("teoCenter",
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".")), 
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."))),
-                            new Point("direction",
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));
-            AzimuthAndDistance differenceData =
-                    new AzimuthAndDistance(new Point("measuredCenter",
-             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(), 
-             measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()),
-                            new Point("direction",
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_X.getText().replace(",", ".")), 
-             Double.parseDouble(measuredPillarDataController.inputPillarDataWindow.directionPillarField_Y.getText().replace(",", "."))));   
-        return Math.toDegrees(mainLineData.calcAzimuth() - differenceData.calcAzimuth());
-    	}
-    	catch (NumberFormatException e) {
-			return Double.NaN;
-		}
+        if( pillarBaseTwistingByControlPoint == null ) {
+        	errorMarginText.setFill(Math.abs(
+        			measuredPillarDataController.measuredPillarData.getPillarBaseTwisting()) > 2 ? Color.RED : Color.GREEN);
+        }
+        else {
+        	errorMarginText.setFill(Math.abs(pillarBaseTwistingByControlPoint) > 2 ? Color.RED : Color.GREEN);
+        }
+        pane.getChildren().addAll(directionInfo, errorMarginText, pillarBaseTwisting);
     }
     
     private void addSmallScaleDistanceInformation(){
@@ -1020,7 +1016,9 @@ public class PillarBaseDisplayer {
         Text distanceInfo =
                 new Text(centerPoint.getPointID() + ". és "
                         + directionPoint.getPointID() + ". oszlopok távolsága: " +
-                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m");
+                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m" +
+                        measuredPillarDataController.getDistanceBetweenCenterAndControlPoint() + "\n" +
+                        measuredPillarDataController.getInfoByControlPoint());
         distanceInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
         distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
         distanceInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(9));

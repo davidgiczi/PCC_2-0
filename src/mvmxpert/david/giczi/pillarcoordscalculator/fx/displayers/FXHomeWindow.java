@@ -50,11 +50,12 @@ public class FXHomeWindow extends Application {
 						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 				homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 				}
-				
+				setVisibleWindows(true);
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {
 					System.exit(0);
 				}
+				setVisibleWindows(false);
 				event.consume();
 			};
 		});
@@ -90,12 +91,13 @@ public class FXHomeWindow extends Application {
 						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 					homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 					}
-				
+				setVisibleWindows(true);
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {
 					System.exit(0);
 				}
-				
+				setVisibleWindows(false);
+				event.consume();
 			}
 		});
 		projectProcess.getItems().addAll(openProject, createProject, new SeparatorMenuItem(), closeProject); 
@@ -160,4 +162,22 @@ public class FXHomeWindow extends Application {
 		pane.getChildren().add(view);
 	}
 	
+	private void setVisibleWindows(boolean isVisible) {
+	
+		if( homeController.weightBaseInputWindow != null ) {
+			homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(isVisible);
+		}
+		if( homeController.plateBaseInputWindow != null ) {
+			homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(isVisible);
+		}
+		if( homeController.calculateDistanceBetweenPillarLegsWindow != null ) {
+			homeController.calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(isVisible);
+		}
+		if( homeController.steakoutControlWindow != null ) {
+			homeController.steakoutControlWindow.steakoutControlFrame.setVisible(isVisible);
+		}
+		if( homeController.controlDirectionPointInputWindow != null ) {
+			homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(isVisible);
+		}
+	}
 }

@@ -5,6 +5,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
+import mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers.FXHomeWindow;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.AvePoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
@@ -73,6 +74,7 @@ public class PLRFileProcess {
 		if ( selectedFile != null ) {
 			FOLDER_PATH = selectedFile.getParent();
 			PROJECT_FILE_NAME = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
+			HomeController.PROJECT_NAME = selectedFile.getName();
 		}
 		
 		return getPillarBaseProjectFileData();
@@ -314,6 +316,16 @@ public class PLRFileProcess {
 					writer.write(topPoint.toString());
 					writer.newLine();
 				}
+			}
+			if( FXHomeWindow.homeController.controlDirectionPoint != null ) {
+				writer.write("ControlPoint");
+				writer.newLine();
+				writer.write(FXHomeWindow.homeController.controlDirectionPoint.getPointID());
+				writer.newLine();
+				writer.write(String.valueOf(FXHomeWindow.homeController.controlDirectionPoint.getX_coord()));
+				writer.newLine();
+				writer.write(String.valueOf(FXHomeWindow.homeController.controlDirectionPoint.getY_coord()));
+				writer.newLine();
 			}
 			if( measuredPillarDataController.measuredPillarData.isRightRotationAngle() ) {
 				writer.write("0");

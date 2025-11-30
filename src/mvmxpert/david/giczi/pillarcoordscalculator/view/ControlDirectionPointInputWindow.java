@@ -47,7 +47,7 @@ public class ControlDirectionPointInputWindow {
 		inputFrameForDirectionControl.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		inputFrameForDirectionControl.setSize(400, 300);
 		inputFrameForDirectionControl.setLocationRelativeTo(null);
-		inputFrameForDirectionControl.setLocationRelativeTo(null);
+		inputFrameForDirectionControl.isAlwaysOnTop();
 		inputFrameForDirectionControl.setLayout(new FlowLayout());
 		setControlPointData();
 		addButtons();
