@@ -56,7 +56,7 @@ public class InputPillarDataWindow {
         }});
         pane = new AnchorPane();
         pane.setOnMouseClicked(mouseEvent -> {
-            if( mouseEvent.getButton() == MouseButton.SECONDARY ){
+            if( mouseEvent.getButton() == MouseButton.MIDDLE ){
                 measuredPillarDataController.fxHomeWindow.homeStage.hide();
                 if( measuredPillarDataController
                         .getConfirmationAlert("Bemeneti adatok cseréje",
@@ -67,6 +67,9 @@ public class InputPillarDataWindow {
                 }
                 measuredPillarDataController.inputPillarDataWindow.processButton.setText("Tallóz");
                 MeasuredPillarDataController.IS_OPENING_PCC_OR_PLR_FILE_PROCESS = false;
+            }
+            else if( mouseEvent.getButton() == MouseButton.SECONDARY ) {
+            	FXHomeWindow.homeController.getControlDirectionPointInputWindow();
             }
         });
         vBox = new VBox();

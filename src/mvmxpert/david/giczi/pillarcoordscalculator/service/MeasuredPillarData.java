@@ -142,8 +142,7 @@ public class MeasuredPillarData {
 	}
 
     public void addIDsForPillarLegs() {
-        radRotation = Math.toRadians(angleRotation + minRotation / 60.0 + secRotation / 3600.0);
-
+    	radRotation = Math.toRadians(angleRotation + minRotation / 60.0 + secRotation / 3600.0);	
         Point center = new Point("center", getPillarBaseCenterPoint().getX_coord(),
                 getPillarBaseCenterPoint().getY_coord());
         Point direction = new Point("direction", baseLineDirectionPoint.getX_coord(),

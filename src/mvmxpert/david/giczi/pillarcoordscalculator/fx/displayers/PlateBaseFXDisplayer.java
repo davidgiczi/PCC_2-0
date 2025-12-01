@@ -330,11 +330,17 @@ public class PlateBaseFXDisplayer {
 
     private void addCircleForPoint(){
     	pointID = 0;
+    	Point controlDirectionPoint = getTransformControlDirectionPoint();
         for (Point point: transformedPillarBasePoints) {
             Circle circle = new Circle();
             circle.setRadius(5);
-            AzimuthAndDistance lineData = new AzimuthAndDistance(
-					transformedPillarBasePoints.get(0), point);
+            AzimuthAndDistance lineData;
+             if(transformedPillarBasePoints.indexOf(point) == 10 && controlDirectionPoint != null) {
+            	 lineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0), controlDirectionPoint);
+            }
+             else {
+            	 lineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0), point);
+             }
 			PolarPoint slavePoint = new PolarPoint(transformedPillarBasePoints.get(0), 
 					80 * MILLIMETER, lineData.calcAzimuth(), "directionPoint");
             if( transformedPillarBasePoints.indexOf(point) == 9 || transformedPillarBasePoints.indexOf(point) == 10 ){
@@ -522,11 +528,11 @@ public class PlateBaseFXDisplayer {
             setText(DIRECTION_POINT.getPointID(), slavePoint.calcPolarPoint(), Color.BLUE, 16);
         }
         else {
-        	AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
-                    transformedPillarBasePoints.get(9));
+        	AzimuthAndDistance forwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0), 
+        			transformedPillarBasePoints.get(9));
             PolarPoint slavePoint1 = new PolarPoint(transformedPillarBasePoints.get(0),
-                    80 * MILLIMETER, backwardLineData.calcAzimuth(),
-                    "backwardDirection");
+                    80 * MILLIMETER, forwardLineData.calcAzimuth(),
+                    "forwardDirection");
             setText(DIRECTION_POINT.getPointID(),
                     slavePoint1.calcPolarPoint(), Color.BLUE, 16);
             int mainPillarID;
@@ -538,11 +544,12 @@ public class PlateBaseFXDisplayer {
                 mainPillarID = 0;
                 directionPillarID = 1;
             }
-            AzimuthAndDistance forwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
-                    transformedPillarBasePoints.get(10));
+            Point controlDirectionPoint = getTransformControlDirectionPoint();
+            AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
+            controlDirectionPoint == null ? transformedPillarBasePoints.get(10) : controlDirectionPoint);
             PolarPoint slavePoint2 = new PolarPoint(transformedPillarBasePoints.get(0),
-                    80 * MILLIMETER, forwardLineData.calcAzimuth(),
-                    "forwardDirection");
+                    80 * MILLIMETER, backwardLineData.calcAzimuth(),
+                    "backwardDirection");
             if (directionPillarID > mainPillarID) {
                 setText(String.valueOf(mainPillarID - 1),
                         slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
@@ -773,6 +780,7 @@ public class PlateBaseFXDisplayer {
     
 
     private void addPreviousAndNextPillarDirections(){
+    	
         if( PILLAR_BASE_POINTS.size() == 9 ){
             AzimuthAndDistance mainLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
                     transformedPillarBasePoints.get(6));
@@ -804,8 +812,9 @@ public class PlateBaseFXDisplayer {
             pane.getChildren().add(forwardDirection);
             return;
         }
+        Point directionPoint = getTransformControlDirectionPoint();
         AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
-                transformedPillarBasePoints.get(10));
+           directionPoint == null ? transformedPillarBasePoints.get(10) : directionPoint);
         PolarPoint slavePoint1 = new PolarPoint(transformedPillarBasePoints.get(0),
                         80 * MILLIMETER, backwardLineData.calcAzimuth(),
                         "backwardDirection");
@@ -841,6 +850,17 @@ public class PlateBaseFXDisplayer {
         pane.getChildren().addAll(previousPillarDirection, nextPillarDirection);
     }
 
+   private Point getTransformControlDirectionPoint() {
+	   if( homeController.controlDirectionPoint == null ) {
+		   return null;
+	   }
+	   return new Point(homeController.controlDirectionPoint.getPointID(),
+               Math.round((homeController.controlDirectionPoint.getX_coord() - 
+            		   PILLAR_BASE_POINTS.get(0).getX_coord()) * 1000.0) * MILLIMETER / SCALE,
+               Math.round((homeController.controlDirectionPoint.getY_coord() - 
+            		   PILLAR_BASE_POINTS.get(0).getY_coord()) * 1000.0) * MILLIMETER / SCALE);
+   }
+    
     private void addArrow(Point startPoint, Point endPoint){
         AzimuthAndDistance baseLineData = new AzimuthAndDistance(startPoint, endPoint);
         PolarPoint slavePoint1 = new PolarPoint(startPoint, 5 * MILLIMETER,

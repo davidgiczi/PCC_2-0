@@ -38,6 +38,7 @@ import java.util.List;
 
 public class PillarBaseDisplayer {
     private final AnchorPane pane = new AnchorPane();
+    public Stage stage;
     public MeasuredPillarDataController measuredPillarDataController;
     private List<MeasPoint> transformedPillarBasePoints;
     private ComboBox<String> scaleComboBox;
@@ -49,7 +50,7 @@ public class PillarBaseDisplayer {
     public PillarBaseDisplayer(MeasuredPillarDataController measuredPillarDataController){
         this.measuredPillarDataController = measuredPillarDataController;
         SCALE = 100;
-        Stage stage = new Stage();
+        stage = new Stage();
         stage.initOwner(measuredPillarDataController.fxHomeWindow.homeStage);
         stage.setOnCloseRequest(windowEvent -> {
             measuredPillarDataController.fxHomeWindow.homeStage.show();
@@ -326,6 +327,19 @@ public class PillarBaseDisplayer {
                     pillarBasePoint.getZ_coord(), PointType.ALAP);
         transformedPillarBasePoints.add(point);
         }
+    }
+    
+    private Point getTransformControlDirectionPoint() {
+ 	   if(FXHomeWindow.homeController.controlDirectionPoint == null ) {
+ 		   return null;
+ 	   }
+ 	   return new Point(FXHomeWindow.homeController.controlDirectionPoint.getPointID(),
+                Math.round((FXHomeWindow.homeController.controlDirectionPoint.getX_coord() - 
+                		measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord()) 
+                		* 1000.0) * MILLIMETER / SCALE,
+                Math.round((FXHomeWindow.homeController.controlDirectionPoint.getY_coord() - 
+                		measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()) 
+                		* 1000.0) * MILLIMETER / SCALE);
     }
 
     private void addPillarBase(){
@@ -893,22 +907,25 @@ public class PillarBaseDisplayer {
     	if( 50 > SCALE ) {
     		return;
     	}
+    	
+    	Point controlDirectionPoint = getTransformControlDirectionPoint();
         Point pillarCenterPoint =  new Point("pillarCenterPoint", 0.0, 0.0);
-        Point directionPoint = new Point("transformedDirectionPoint",
+        Point directionPoint =  controlDirectionPoint == null ? new Point("transformedDirectionPoint",
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getX_coord() -
                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord()),
                 (measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getY_coord() -
-                        measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord()));
+                        measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord())) :
+                        	controlDirectionPoint;
        AzimuthAndDistance baseLineData = new AzimuthAndDistance(pillarCenterPoint, directionPoint);
        double rotation = measuredPillarDataController.measuredPillarData.isRightRotationAngle() ?
      		  measuredPillarDataController.measuredPillarData.radRotation : 
     			   - measuredPillarDataController.measuredPillarData.radRotation;
+      
        PolarPoint startPoint = new PolarPoint(pillarCenterPoint, 3 * MILLIMETER,
-                baseLineData.calcAzimuth() + rotation, "prevPoint");
-
+       controlDirectionPoint == null ? baseLineData.calcAzimuth() + rotation : baseLineData.calcAzimuth(), "prevPoint");
        PolarPoint endPoint = new PolarPoint(startPoint.calcPolarPoint(),
                 7000 * MILLIMETER / SCALE,
-                baseLineData.calcAzimuth() + rotation, "backwardDirection");
+        controlDirectionPoint == null ? baseLineData.calcAzimuth() + rotation : baseLineData.calcAzimuth(), "backwardDirection");
 
         Line backwardDirection = new Line();
         backwardDirection.setStrokeWidth(2);

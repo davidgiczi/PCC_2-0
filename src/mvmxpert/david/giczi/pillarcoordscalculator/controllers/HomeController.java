@@ -41,8 +41,8 @@ public class HomeController {
 	private Double inputAngleValue;
 	private Double complAngleValue;
 	private List<String> pillarIdList;
-	WeightBaseDisplayer weightBaseDisplayer;
-	PlateBaseDisplayer plateBaseDisplayer;
+	public WeightBaseDisplayer weightBaseDisplayer;
+	public PlateBaseDisplayer plateBaseDisplayer;
 	public SteakoutControllWindow steakoutControlWindow;
 	public PillarCoordsForWeightBase weightBaseCoordsCalculator;
 	public PillarCoordsForPlateBase plateBaseCoordsCalculator;
@@ -52,8 +52,8 @@ public class HomeController {
 	SteakoutController steakoutController;
 	public MeasuredPillarDataController measuredPillarDataController;
 	public CalculateDistanceBetweenPillarLegsWindow calculateDistanceBetweenPillarLegsWindow;
-	WeightBaseFXDisplayer weightBaseFXDisplayer;
-	PlateBaseFXDisplayer plateBaseFXDisplayer;
+	public WeightBaseFXDisplayer weightBaseFXDisplayer;
+	public PlateBaseFXDisplayer plateBaseFXDisplayer;
 	
 	public HomeController() {
 		this.fileProcess = new PCCFileProcess(this);
@@ -74,6 +74,10 @@ public class HomeController {
 		plateBaseController = null;
 		steakoutController = null;
 		controlDirectionPoint = null;
+		if( controlDirectionPointInputWindow != null ) {
+        	controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(false);
+        	controlDirectionPointInputWindow = null;
+        }
 	}
 	
 	public void getWeightBaseInputWindow() {

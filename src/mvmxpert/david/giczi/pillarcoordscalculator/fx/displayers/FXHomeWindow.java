@@ -50,12 +50,13 @@ public class FXHomeWindow extends Application {
 						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 				homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 				}
-				setVisibleWindows(true);
+				homeStage.hide();
+				setVisibleWindows();
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {
 					System.exit(0);
 				}
-				setVisibleWindows(false);
+				homeStage.show();
 				event.consume();
 			};
 		});
@@ -91,12 +92,13 @@ public class FXHomeWindow extends Application {
 						homeController.measuredPillarDataController.measurmentDataDisplayer.getPane().isVisible() ) {
 					homeController.measuredPillarDataController.measurmentDataDisplayer.stage.getOnCloseRequest().handle(null);
 					}
-				setVisibleWindows(true);
+				homeStage.hide();
+				setVisibleWindows();
 				if( homeController.getYesNoMessage("Program bezárása", 
 						"Biztos, hogy kilépsz a programból?") == 0 ) {
 					System.exit(0);
 				}
-				setVisibleWindows(false);
+				homeStage.show();
 				event.consume();
 			}
 		});
@@ -162,22 +164,51 @@ public class FXHomeWindow extends Application {
 		pane.getChildren().add(view);
 	}
 	
-	private void setVisibleWindows(boolean isVisible) {
+	private void setVisibleWindows() {
 	
-		if( homeController.weightBaseInputWindow != null ) {
-			homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(isVisible);
+		if( homeController.weightBaseInputWindow != null && 
+				!homeController.weightBaseInputWindow.inputFrameForWeightBase.isVisible()) {
+			homeController.weightBaseInputWindow.inputFrameForWeightBase.setVisible(true);
 		}
-		if( homeController.plateBaseInputWindow != null ) {
-			homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(isVisible);
+		if( homeController.plateBaseInputWindow != null && 
+				!homeController.plateBaseInputWindow.inputFrameForPlateBase.isVisible()) {
+			homeController.plateBaseInputWindow.inputFrameForPlateBase.setVisible(true);
 		}
-		if( homeController.calculateDistanceBetweenPillarLegsWindow != null ) {
-			homeController.calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(isVisible);
+		if( homeController.calculateDistanceBetweenPillarLegsWindow != null  && 
+				!homeController.calculateDistanceBetweenPillarLegsWindow.inputFrame.isVisible()) {
+			homeController.calculateDistanceBetweenPillarLegsWindow.inputFrame.setVisible(true);
 		}
-		if( homeController.steakoutControlWindow != null ) {
-			homeController.steakoutControlWindow.steakoutControlFrame.setVisible(isVisible);
+		if( homeController.steakoutControlWindow != null  && 
+				!homeController.steakoutControlWindow.steakoutControlFrame.isVisible()) {
+			homeController.steakoutControlWindow.steakoutControlFrame.setVisible(true);
 		}
-		if( homeController.controlDirectionPointInputWindow != null ) {
-			homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(isVisible);
+		if( homeController.controlDirectionPointInputWindow != null &&
+				!homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.isVisible()) {
+			homeController.controlDirectionPointInputWindow.inputFrameForDirectionControl.setVisible(true);
 		}
+		if( homeController.measuredPillarDataController.inputPillarDataWindow != null  && 
+				!homeController.measuredPillarDataController.inputPillarDataWindow.stage.isShowing() ) {
+			homeController.measuredPillarDataController.inputPillarDataWindow.stage.show();
+		}
+		if( homeController.measuredPillarDataController.intersectionInputDataWindow != null  && 
+				!homeController.measuredPillarDataController.intersectionInputDataWindow.stage.isShowing() ) {
+			homeController.measuredPillarDataController.intersectionInputDataWindow.stage.show();
+		}
+		if( homeController.weightBaseFXDisplayer != null && !WeightBaseFXDisplayer.stage.isShowing() ) {
+			WeightBaseFXDisplayer.stage.show();
+		}
+		if( homeController.plateBaseFXDisplayer != null && !PlateBaseFXDisplayer.stage.isShowing() ) {
+			PlateBaseFXDisplayer.stage.show();
+		}
+		if( homeController.measuredPillarDataController.pillarBaseDisplayer != null && 
+				!homeController.measuredPillarDataController.pillarBaseDisplayer.stage.isShowing() ) {
+			homeController.measuredPillarDataController.pillarBaseDisplayer.stage.show();
+		}
+		if( homeController.measuredPillarDataController.pillarBaseDifferenceDisplayer != null && 
+				!homeController.measuredPillarDataController.pillarBaseDifferenceDisplayer.stage.isShowing() ) {
+			homeController.measuredPillarDataController.pillarBaseDifferenceDisplayer.stage.show();
+		}
+			
 	}
 }
+

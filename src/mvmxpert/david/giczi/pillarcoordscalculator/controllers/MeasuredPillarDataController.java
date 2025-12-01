@@ -53,7 +53,7 @@ public class MeasuredPillarDataController {
     public static boolean IS_RUNNING_PROCESS_OK;
     public static boolean IS_OPENING_PCC_OR_PLR_FILE_PROCESS;
     public static boolean IS_OPENING_INS_FILE_PROCESS;
-    private Double complAngleValue;
+    public Double complAngleValue;
     
     public boolean isCreatedInputPillarDataWindow() {
 		return isCreatedInputPillarDataWindow;
@@ -2000,23 +2000,23 @@ public class MeasuredPillarDataController {
     	if( mainLineAngle > 0 && mainLineAngle < Math.PI &&
     			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
     		info +=  "BAL oldali törésszög, Υ= "  + 
-    				FXHomeWindow.homeController.convertAngleMinSecFormat(mainLineAngle - inputAngleValue);
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(mainLineAngle);
     				
     	}
     	else if( mainLineAngle > Math.PI && 
     			FXHomeWindow.homeController.controlDirectionPointInputWindow.yesRadioButton.isSelected() ) {
     		info += "JOBB oldali törésszög, Υ= "  + 
-    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI  - mainLineAngle - inputAngleValue);
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI  - mainLineAngle);
     	}
     	else if( mainLineAngle > 0 && mainLineAngle < Math.PI && 
     			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected() ) {
     		info += "BAL oldali törésszög, Υ= " +
-    				FXHomeWindow.homeController.convertAngleMinSecFormat(mainLineAngle - 0.5 * inputAngleValue - complAngleValue);
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(0.5 * mainLineAngle + complAngleValue);
     	}
     	else if( mainLineAngle > Math.PI && 
     			FXHomeWindow.homeController.controlDirectionPointInputWindow.noRadioButton.isSelected()) {
-    		info += "JOBB oldali törésszög, ΔΥ= " +
-    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI - mainLineAngle + 0.5 * inputAngleValue + complAngleValue);	
+    		info += "JOBB oldali törésszög, Υ= " +
+    				FXHomeWindow.homeController.convertAngleMinSecFormat(2 * Math.PI - 0.5 * mainLineAngle - complAngleValue);	
     }
 	
     	return info;
