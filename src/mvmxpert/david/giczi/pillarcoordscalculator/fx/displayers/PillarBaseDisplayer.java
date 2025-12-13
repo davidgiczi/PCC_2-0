@@ -58,6 +58,7 @@ public class PillarBaseDisplayer {
             measuredPillarDataController.setCreatedInputPillarDataWindow(true);
             measuredPillarDataController.fileProcess.setPccData(null);
         	measuredPillarDataController.fileProcess.setPillarBaseMeasData(null);
+        	measuredPillarDataController.pillarBaseDisplayer = null;
         });
         pane.setStyle("-fx-background-color: white");
         pane.setOnMouseClicked(mouseEvent -> {

@@ -93,6 +93,7 @@ public class PlateBaseFXDisplayer {
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  
 				homeController.steakoutControl.getControlledCoords() : null);
 		stage = new Stage();
+		stage.setOnCloseRequest(e -> homeController.plateBaseFXDisplayer = null);
 		SCALE = 200;
         pane.setStyle("-fx-background-color: white");
         getContent();   

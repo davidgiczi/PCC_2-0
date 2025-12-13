@@ -54,9 +54,10 @@ public class PillarBaseDifferenceDisplayer {
         SCALE = 10;
         stage = new Stage();
         stage.initOwner(measuredPillarDataController.fxHomeWindow.homeStage);
-        stage.setOnCloseRequest(windowEvent ->
-        measuredPillarDataController.pillarBaseDisplayer.setDataToClipboard()
-                );
+        stage.setOnCloseRequest(windowEvent ->{
+        measuredPillarDataController.pillarBaseDisplayer.setDataToClipboard();
+        measuredPillarDataController.pillarBaseDifferenceDisplayer = null;
+        });
         pane.setStyle("-fx-background-color: white");
         addContent();
         ScrollPane scrollPane = getScrollPane(pane);

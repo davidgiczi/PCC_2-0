@@ -88,6 +88,7 @@ public class MeasurmentDataDisplayer {
 	        	}
 	        		
 	        	}
+	        	measuredPillarDataController.measurmentDataDisplayer = null;
 	        });
 	        pane.setStyle("-fx-background-color: white");
 	        ScrollPane scrollPane = getScrollPane(pane);

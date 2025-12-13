@@ -92,9 +92,10 @@ public class WeightBaseFXDisplayer {
 		setStkPillarBasePoints(homeController.steakoutControl != null ?  
 				homeController.steakoutControl.getControlledCoords() : null);
 		stage = new Stage();
+		stage.setOnCloseRequest(e -> homeController.weightBaseFXDisplayer = null);
 		SCALE = 200;
         pane.setStyle("-fx-background-color: white");
-        getContent();   
+        getContent();
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
