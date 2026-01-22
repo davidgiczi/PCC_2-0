@@ -525,8 +525,8 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
 			return "";
 		}
 		AzimuthAndDistance controlPointData = new AzimuthAndDistance(centerPillarPoint, controlDirectionPoint);
-		return  "\n" + pillarIdList.get(1) + ". és " + pillarIdList.get(0) + ". oszlopok távolsága: " + 
-				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m";
+		return  pillarIdList.get(0) + ". és " + pillarIdList.get(1) + ". oszlopok távolsága: " + 
+				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m\n";
 	}
 
 	public String getTitleForControlledAngle() {

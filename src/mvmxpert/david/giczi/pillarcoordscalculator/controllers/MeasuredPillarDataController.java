@@ -2028,9 +2028,9 @@ public class MeasuredPillarDataController {
 		}
 		AzimuthAndDistance controlPointData = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
 												FXHomeWindow.homeController.controlDirectionPoint);
-		return  "\n" + measuredPillarData.getPillarCenterPoint().getPointID() + ". és " +
-						FXHomeWindow.homeController.controlDirectionPoint.getPointID() + ". oszlopok távolsága: " + 
-				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m";
+		return  FXHomeWindow.homeController.controlDirectionPoint.getPointID() + ". és " +
+				measuredPillarData.getPillarCenterPoint().getPointID() + ". oszlopok távolsága: " + 
+				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m\n";
 	}
     
 }

@@ -1067,10 +1067,9 @@ public class WeightBaseFXDisplayer {
         AzimuthAndDistance baseLineData =
                 new AzimuthAndDistance(PILLAR_BASE_POINTS.get(0), DIRECTION_POINT);
         Text distanceInfo =
-                new Text(PILLAR_BASE_POINTS.get(0).getPointID() + ". és "
-                        + DIRECTION_POINT.getPointID() + ". oszlopok távolsága: " +
-                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m" +
-                        homeController.getDistanceBetweenCenterAndControlPoint());
+                new Text( homeController.getDistanceBetweenCenterAndControlPoint() + 
+                		PILLAR_BASE_POINTS.get(0).getPointID() + ". és " + DIRECTION_POINT.getPointID() + ". oszlopok távolsága: " +
+                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m");
         distanceInfo.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
         distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(3));
         distanceInfo.yProperty().bind(pane.heightProperty().divide(10).multiply(8));

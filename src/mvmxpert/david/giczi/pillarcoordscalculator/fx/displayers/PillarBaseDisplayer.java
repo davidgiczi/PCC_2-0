@@ -1032,10 +1032,9 @@ public class PillarBaseDisplayer {
         AzimuthAndDistance baseLineData =
                 new AzimuthAndDistance(centerPoint, directionPoint);
         Text distanceInfo =
-                new Text(centerPoint.getPointID() + ". és "
-                        + directionPoint.getPointID() + ". oszlopok távolsága: " +
-                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m" +
-                        measuredPillarDataController.getDistanceBetweenCenterAndControlPoint() + "\n" +
+                new Text( measuredPillarDataController.getDistanceBetweenCenterAndControlPoint() +
+                		centerPoint.getPointID() + ". és " + directionPoint.getPointID() + ". oszlopok távolsága: " +
+                        String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m\n" +
                         measuredPillarDataController.getInfoByControlPoint());
         distanceInfo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 16));
         distanceInfo.xProperty().bind(pane.widthProperty().divide(10).multiply(1));
