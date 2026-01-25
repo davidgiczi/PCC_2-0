@@ -708,7 +708,7 @@ public class PillarBaseDisplayer {
                     "\tX=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarBasePoints().get(i).getY_coord()).replace(",", ".") +
-                    "\tH=" + String.format("%.3fm",
+                    "\tM=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarBasePoints().get(i).getZ_coord()).replace(",", "."));
             Tooltip.install(circle, tooltip);
@@ -734,7 +734,7 @@ public class PillarBaseDisplayer {
                         "\tX=" + String.format("%.3fm",
                         measuredPillarDataController.measuredPillarData.
                                 getPillarBaseCenterPoint().getY_coord()).replace(",", ".") +
-                        "\th=" + String.format("%.3fm",
+                        "\tM=" + String.format("%.3fm",
                         measuredPillarDataController.measuredPillarData.
                                 getPillarBaseCenterPoint().getZ_coord()).replace(",", "."));
         Tooltip.install(center, tooltip);

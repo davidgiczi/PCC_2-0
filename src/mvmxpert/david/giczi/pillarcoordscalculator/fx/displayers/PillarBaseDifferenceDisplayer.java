@@ -262,7 +262,7 @@ public class PillarBaseDifferenceDisplayer {
         center.setCursor(Cursor.HAND);
         Circle topCenter = new Circle();
         topCenter.setRadius(5);
-        topCenter.setStroke(Color.BLUE);
+        topCenter.setStroke(Color.RED);
         topCenter.setStrokeWidth(2);
         topCenter.setFill(Color.TRANSPARENT);
         topCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(2).add(topCenterPoint.getX_coord()));
@@ -839,9 +839,9 @@ public class PillarBaseDifferenceDisplayer {
     	int scale = (int) (10 * Math.floor( 10 * topDistance / 3 ));
     	scale = 10 > scale ? 10 : scale;
     	List<MeasPoint> contourPointList = getPillarTopContourPoints(scale);
+    	addBaseCenterPoint();
     	switch ( contourPointList.size() ) {
 		case 2:
-			drawDiameter(contourPointList);
 			addCircleForTopPoint(contourPointList);
 			break;
 		case 3:
@@ -850,7 +850,6 @@ public class PillarBaseDifferenceDisplayer {
 			break;
 		case 4:
 			drawPillarTop(contourPointList);
-			drawDiameters(contourPointList);
 			addCircleForTopPoint(contourPointList);
 		}
     	
@@ -860,91 +859,6 @@ public class PillarBaseDifferenceDisplayer {
     	}
     	
     }
-    
-    private void drawDiameter(List<MeasPoint> contourPointList) {
-    		Line diameter = new Line();
-    		diameter.setStroke(Color.BLUE);
-    		diameter.getStrokeDashArray().addAll(10d);
-    		diameter.setStrokeWidth(2);
-    		diameter.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                     .add(contourPointList.get(0).getX_coord()));
-    		diameter.startYProperty().bind(pane.heightProperty().divide(2)
-                     .subtract(contourPointList.get(0).getY_coord()));
-    		diameter.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                     .add(contourPointList.get(1).getX_coord()));
-            diameter.endYProperty().bind(pane.heightProperty().divide(2)
-                     .subtract(contourPointList.get(1).getY_coord()));
-            String diameterText = "d1= " + String.format("%.2fm",
-                    new AzimuthAndDistance(new Point("1",
-                            measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getX_coord(),
-                            measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getY_coord()),
-                            new Point("2",
-                                    measuredPillarDataController
-                                            .measuredPillarData.getPillarTopPoints().get(1).getX_coord(),
-                                    measuredPillarDataController
-                                            .measuredPillarData.getPillarTopPoints().get(1).getY_coord())
-                    ).calcDistance()).replace(",", ".");
-        
-            diameter.setCursor(Cursor.CLOSED_HAND);
-            Tooltip distanceTip = new Tooltip(diameterText);
-            Tooltip.install(diameter, distanceTip);
-            pane.getChildren().add(diameter);
-    }
-    
-    private void drawDiameters(List<MeasPoint> contourPointList) {
-		Line diameter1 = new Line();
-		diameter1.setStroke(Color.BLUE);
-		diameter1.getStrokeDashArray().addAll(10d);
-		diameter1.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                 .add(contourPointList.get(0).getX_coord()));
-		diameter1.startYProperty().bind(pane.heightProperty().divide(2)
-                 .subtract(contourPointList.get(0).getY_coord()));
-		diameter1.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                 .add(contourPointList.get(2).getX_coord()));
-        diameter1.endYProperty().bind(pane.heightProperty().divide(2)
-                 .subtract(contourPointList.get(2).getY_coord()));
-        String diameter1Text = "d1= " + String.format("%.2fm",
-                new AzimuthAndDistance(new Point("1",
-                        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getX_coord(),
-                        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(0).getY_coord()),
-                        new Point("2",
-                                measuredPillarDataController
-                                        .measuredPillarData.getPillarTopPoints().get(2).getX_coord(),
-                                measuredPillarDataController
-                                        .measuredPillarData.getPillarTopPoints().get(2).getY_coord())
-                ).calcDistance()).replace(",", ".");
-    
-        diameter1.setCursor(Cursor.CLOSED_HAND);
-        Tooltip diameter1Tip = new Tooltip(diameter1Text);
-        Tooltip.install(diameter1, diameter1Tip);
-        Line diameter2 = new Line();
-		diameter2.setStroke(Color.BLUE);
-		diameter2.getStrokeDashArray().addAll(10d);
-		diameter2.startXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                 .add(contourPointList.get(1).getX_coord()));
-		diameter2.startYProperty().bind(pane.heightProperty().divide(2)
-                 .subtract(contourPointList.get(1).getY_coord()));
-		diameter2.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
-                 .add(contourPointList.get(3).getX_coord()));
-        diameter2.endYProperty().bind(pane.heightProperty().divide(2)
-                 .subtract(contourPointList.get(3).getY_coord()));
-        String diameter2Text = "d2= " + String.format("%.2fm",
-                new AzimuthAndDistance(new Point("1",
-                        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(1).getX_coord(),
-                        measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(1).getY_coord()),
-                        new Point("2",
-                                measuredPillarDataController
-                                        .measuredPillarData.getPillarTopPoints().get(3).getX_coord(),
-                                measuredPillarDataController
-                                        .measuredPillarData.getPillarTopPoints().get(3).getY_coord())
-                ).calcDistance()).replace(",", ".");
-    
-        diameter2.setCursor(Cursor.CLOSED_HAND);
-        Tooltip diameter2Tip = new Tooltip(diameter2Text);
-        Tooltip.install(diameter2, diameter2Tip);
-        pane.getChildren().addAll(diameter1, diameter2);
-}
-    
     
     private void drawPillarTopBy3Side(List<MeasPoint> contourPointList) {
     	for(int i = 0; i < contourPointList.size(); i++) {
@@ -963,16 +877,7 @@ public class PillarBaseDifferenceDisplayer {
                            .add(contourPointList.get(0).getX_coord()));
             	   line.endYProperty().bind(pane.heightProperty().divide(2)
                            .subtract(contourPointList.get(0).getY_coord()));
-                   distance = "d1= " +  String.format("%.2fm",
-                           new AzimuthAndDistance(new Point("1",
-                                   measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(i).getX_coord(),
-                                   measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(i).getY_coord()),
-                                   new Point("2",
-                                           measuredPillarDataController
-                                                   .measuredPillarData.getPillarTopPoints().get(0).getX_coord(),
-                                           measuredPillarDataController
-                                                   .measuredPillarData.getPillarTopPoints().get(0).getY_coord())
-                           ).calcDistance()).replace(",", ".");
+                   distance = "";
                }
                else {
                    line.endXProperty().bind(pane.widthProperty().divide(10).multiply(5)
@@ -1074,21 +979,102 @@ public class PillarBaseDifferenceDisplayer {
             circle.centerYProperty().bind(pane.heightProperty().divide(2)
                     .subtract(contourPoints.get(i).getY_coord()));
             Tooltip tooltip = new Tooltip(
-                    "\"" +measuredPillarDataController.
-                            measuredPillarData.getPillarTopPoints().get(i).getPointID() + "\tY=" +
+                    		measuredPillarDataController.
+                            measuredPillarData.getPillarTopPoints().get(i).getPointID() + "\t\tY=" +
                     String.format("%.3fm",
                             measuredPillarDataController.measuredPillarData.
                                     getPillarTopPoints().get(i).getX_coord()).replace(",", ".") +
                     "\tX=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarTopPoints().get(i).getY_coord()).replace(",", ".") +
-                    "\tH=" + String.format("%.3fm",
+                    "\tM=" + String.format("%.3fm",
                     measuredPillarDataController.measuredPillarData.
                             getPillarTopPoints().get(i).getZ_coord()).replace(",", "."));
             Tooltip.install(circle, tooltip);
             circle.setCursor(Cursor.HAND);
             pane.getChildren().add(circle);
         }
+    	addTopCenterPoint();
+    	addDistanceBetweenPillarTopCenterPointAndTopPoint(contourPoints);
     }
-      
+    
+    private void addTopCenterPoint() {
+    	Circle topCenterPoint = new Circle();
+    	topCenterPoint.setRadius(5);
+        topCenterPoint.setStroke(Color.RED);
+        topCenterPoint.setStrokeWidth(2);
+        topCenterPoint.setFill(Color.TRANSPARENT);
+        topCenterPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5));
+        topCenterPoint.centerYProperty().bind(pane.heightProperty().divide(2));
+        Tooltip tooltip = new Tooltip(
+                 		measuredPillarDataController.
+                        measuredPillarData.getPillarTopCenterPoint().getPointID() + "\tY=" +
+                String.format("%.3fm",
+                        measuredPillarDataController.measuredPillarData.
+                                getPillarTopCenterPoint().getX_coord()).replace(",", ".") +
+                "\tX=" + String.format("%.3fm",
+                measuredPillarDataController.measuredPillarData.
+                        getPillarTopCenterPoint().getY_coord()).replace(",", ".") +
+                "\tM=" + String.format("%.3fm",
+                measuredPillarDataController.measuredPillarData.
+                        getPillarTopCenterPoint().getZ_coord()).replace(",", "."));
+        Tooltip.install(topCenterPoint, tooltip);
+        topCenterPoint.setCursor(Cursor.HAND);
+        pane.getChildren().add(topCenterPoint);
+    }
+    
+    private void addBaseCenterPoint() {
+    	   Circle baseCenterPoint = new Circle();
+           baseCenterPoint.setRadius(5);
+           baseCenterPoint.setStroke(Color.MAGENTA);
+           baseCenterPoint.setStrokeWidth(2);
+           baseCenterPoint.setFill(Color.TRANSPARENT);
+           double X = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getX_coord();
+           double Y = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getY_coord();
+           baseCenterPoint.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5)
+        		   .add(Math.round((measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord() - X) * 1000.0) * MILLIMETER / SCALE));
+           baseCenterPoint.centerYProperty().bind(pane.heightProperty().divide(2)
+        		   .subtract(Math.round((measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord() - Y) * 1000.0) * MILLIMETER / SCALE));
+           Tooltip centerTooltip = new Tooltip(
+        		   "BaseCenter"
+                   +    "\tY=" + String.format("%.3fm",
+                   measuredPillarDataController.measuredPillarData.
+                           getPillarBaseCenterPoint().getX_coord()).replace(",", ".") +
+                   "\tX=" + String.format("%.3fm",
+                   measuredPillarDataController.measuredPillarData.
+                           getPillarBaseCenterPoint().getY_coord()).replace(",", ".") +
+                   "\th=" + String.format("%.3fm",
+                   measuredPillarDataController.measuredPillarData.
+                           getPillarBaseCenterPoint().getZ_coord()).replace(",", "."));
+           Tooltip.install(baseCenterPoint, centerTooltip);
+           baseCenterPoint.setCursor(Cursor.HAND);
+           pane.getChildren().add(baseCenterPoint);
+    }
+    
+    private void addDistanceBetweenPillarTopCenterPointAndTopPoint(List<MeasPoint> contourPoints) {
+    	
+    	for (MeasPoint contourPoint : contourPoints) {
+			Line distanceLine = new Line();
+			distanceLine.setStroke(Color.BLUE);
+			distanceLine.getStrokeDashArray().addAll(10d);
+			distanceLine.startXProperty().bind(pane.widthProperty().divide(10).multiply(5));
+			distanceLine.startYProperty().bind(pane.heightProperty().divide(2));
+			distanceLine.endXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(contourPoint.getX_coord()));
+			distanceLine.endYProperty().bind(pane.heightProperty().divide(2).subtract(contourPoint.getY_coord()));
+			Point topCenterPoint = new Point(measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getPointID(), 
+					measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getX_coord(),
+					measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getY_coord());
+			Point topPoint = new Point(
+					measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(contourPoints.indexOf(contourPoint)).getPointID(), 
+					measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(contourPoints.indexOf(contourPoint)).getX_coord(),
+					measuredPillarDataController.measuredPillarData.getPillarTopPoints().get(contourPoints.indexOf(contourPoint)).getY_coord());
+			String distanceValue = String.format("%.2fm", new AzimuthAndDistance(topCenterPoint, topPoint).calcDistance()).replace(",", ".");
+			Tooltip tooltip = new Tooltip("r=" + distanceValue);
+			Tooltip.install(distanceLine, tooltip);
+	        distanceLine.setCursor(Cursor.HAND);
+			pane.getChildren().add(distanceLine);
+		}
+    	
+    	
+    }
 }
