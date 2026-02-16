@@ -466,8 +466,14 @@ public class PLRFileProcess {
 	
 	public String saveMeasurmentReportRowData(List<RowData> standingPointDataStore) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
-		String fileName = MEAS_FILE_NAME.substring(0, MEAS_FILE_NAME.indexOf(".")) + "_" 
-		+ df.format(new Date(System.currentTimeMillis())) + ".txt";
+		String fileName = "MeasurmentData_";
+		if( MEAS_FILE_NAME == null ) {
+			fileName += df.format(new Date(System.currentTimeMillis())) + ".txt";
+		}
+		else {
+			fileName = MEAS_FILE_NAME.substring(0, MEAS_FILE_NAME.indexOf(".")) + "_" 
+					+ df.format(new Date(System.currentTimeMillis())) + ".txt";	
+		}
 		File file = new File(FOLDER_PATH + "\\" + fileName);
 		
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))){

@@ -171,7 +171,7 @@ public class PillarBaseDifferenceDisplayer {
     	return errorMarginText;
     }
     
-    private Text getErrorMarginTextForPerpendicularLine() {
+    private Text getErrorMarginTextForPerpendicularLine() { 
     	DecimalFormat df = new DecimalFormat("0.0");
     	double heightOfPillar = measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord();
