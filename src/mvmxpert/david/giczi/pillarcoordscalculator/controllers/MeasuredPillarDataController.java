@@ -837,7 +837,7 @@ public class MeasuredPillarDataController {
     try {
         standingAPointElevationSec  = InputDataValidator
                 .isValidMinSecValue(intersectionInputDataWindow
-                        .standingAPointElevationMinField.getText());
+                        .standingAPointElevationSecField.getText());
     }
     catch (NumberFormatException e){
         getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögmásodperc érték",
@@ -1346,7 +1346,7 @@ public class MeasuredPillarDataController {
          try {
              standingAPointElevationSec  = InputDataValidator
                      .isValidMinSecValue(intersectionInputDataWindow
-                             .standingAPointElevationMinField.getText());
+                             .standingAPointElevationSecField.getText());
          }
          catch (NumberFormatException e){
              getInfoAlert("Nem megfelelő az 1. állásponton mért magassági szögmásodperc érték",
@@ -1460,7 +1460,7 @@ public class MeasuredPillarDataController {
          try {
              standingBPointElevationSec  = InputDataValidator
                      .isValidMinSecValue(intersectionInputDataWindow
-                             .standingBPointElevationMinField.getText());
+                             .standingBPointElevationSecField.getText());
          }
          catch (NumberFormatException e){
              getInfoAlert("Nem megfelelő a 2. állásponton mért magassági szögmásodperc érték",

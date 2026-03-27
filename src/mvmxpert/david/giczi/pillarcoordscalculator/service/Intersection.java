@@ -60,6 +60,7 @@ public class Intersection {
                 elevationSecA / 3600.0);
         double elevationB = Math.toRadians(elevationAngleB + elevationMinuteB / 60.0 +
                 elevationSecB / 3600.0);
+  
         AzimuthAndDistance azimuthAB =
                 new AzimuthAndDistance(
                         new Point("A",
@@ -87,7 +88,7 @@ public class Intersection {
 
     double distanceA = azimuthAB.calcDistance() * Math.sin( beta ) /  Math.sin( alfa + beta );
     double distanceB = azimuthAB.calcDistance() * Math.sin( alfa ) /  Math.sin( alfa + beta );
-
+  
     PolarPoint polarPointA =
             new PolarPoint(
                     new Point("A", standingPointA.getX_coord(),
