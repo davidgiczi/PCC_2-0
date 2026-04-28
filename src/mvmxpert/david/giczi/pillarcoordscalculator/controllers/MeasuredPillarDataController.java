@@ -1785,8 +1785,10 @@ public class MeasuredPillarDataController {
     	if( IS_OPENING_INS_FILE_PROCESS ) {
     		return;
     	}
-    	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("130KV") && 
-    			!crossedPointId.contains("400KV") && !crossedPointId.contains("VASUT") &&
+    	else if( !crossedPointId.contains("20KV") && !crossedPointId.contains("22KV") &&
+    			!crossedPointId.contains("120KV") && !crossedPointId.contains("130KV") &&
+    			!crossedPointId.contains("220KV") && !crossedPointId.contains("400KV") && 
+    			!crossedPointId.contains("VASUT") &&
     			!crossedPointId.contains("VEDO") && !crossedPointId.contains("OPWG")) {
     		return;
     	}
