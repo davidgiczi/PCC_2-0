@@ -536,31 +536,15 @@ public class PlateBaseFXDisplayer {
                     "forwardDirection");
             setText(DIRECTION_POINT.getPointID(),
                     slavePoint1.calcPolarPoint(), Color.BLUE, 16);
-            int mainPillarID;
-            int directionPillarID;
-            try {
-                mainPillarID = Integer.parseInt(PILLAR_BASE_POINTS.get(0).getPointID());
-                directionPillarID = Integer.parseInt(DIRECTION_POINT.getPointID());
-            } catch (NumberFormatException n) {
-                mainPillarID = 0;
-                directionPillarID = 1;
-            }
             Point controlDirectionPoint = getTransformControlDirectionPoint();
             AzimuthAndDistance backwardLineData = new AzimuthAndDistance(transformedPillarBasePoints.get(0),
             controlDirectionPoint == null ? transformedPillarBasePoints.get(10) : controlDirectionPoint);
             PolarPoint slavePoint2 = new PolarPoint(transformedPillarBasePoints.get(0),
                     80 * MILLIMETER, backwardLineData.calcAzimuth(),
                     "backwardDirection");
-            if (directionPillarID > mainPillarID) {
-                setText(String.valueOf(mainPillarID - 1),
+            setText(homeController.getControlDirectionIdAsText(
+                		PILLAR_BASE_POINTS.get(0).getPointID(), DIRECTION_POINT.getPointID()),
                         slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
-            } else if (directionPillarID < mainPillarID) {
-                setText(String.valueOf(mainPillarID + 1),
-                		slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
-            } else {
-                setText(DIRECTION_POINT.getPointID(),
-                		slavePoint2.calcPolarPoint(), Color.MAGENTA, 16);
-            }
         }
     }
 

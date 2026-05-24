@@ -143,11 +143,7 @@ public class PillarBaseDifferenceDisplayer {
         pane.getChildren().addAll(pillarHeightText, frontDiffXText, frontDiffYText,
                 pillarHeight, frontDiffX, frontDiffY, getErrorMarginTextForMainLine(), getErrorMarginTextForPerpendicularLine());
         
-        copyText((measuredPillarDataController.fileProcess.pccData == null ? 
-        		measuredPillarDataController.pillarBaseProjectFileData == null ?
-				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
-				measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
-				measuredPillarDataController.fileProcess.pccData.get(1))+ "." + "\t" +
+        copyText(measuredPillarDataController.pillarBaseDisplayer.getCenterPillarIdAsText() + "." + "\t" +
                 String.format("%.2f",
                                 (measuredPillarDataController.measuredPillarData.getPillarTopCenterPoint().getZ_coord() -
                                         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getZ_coord()))
@@ -247,8 +243,7 @@ public class PillarBaseDifferenceDisplayer {
         center.setFill(Color.TRANSPARENT);
         center.centerXProperty().bind(pane.widthProperty().divide(10).multiply(2));
         center.centerYProperty().bind(pane.heightProperty().divide(2));
-        Tooltip centerTooltip = new Tooltip(measuredPillarDataController.measuredPillarData
-                .getPillarBaseCenterPoint().getPointID()
+        Tooltip centerTooltip = new Tooltip("BaseCenter"
                 +    "\tY=" + String.format("%.3fm",
                 measuredPillarDataController.measuredPillarData.
                         getPillarBaseCenterPoint().getX_coord()).replace(",", ".") +
@@ -267,8 +262,7 @@ public class PillarBaseDifferenceDisplayer {
         topCenter.setFill(Color.TRANSPARENT);
         topCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(2).add(topCenterPoint.getX_coord()));
         topCenter.centerYProperty().bind(pane.heightProperty().divide(2).subtract(topCenterPoint.getY_coord()));
-        Tooltip topCenterTooltip = new Tooltip(measuredPillarDataController.measuredPillarData
-                .getPillarTopCenterPoint().getPointID()
+        Tooltip topCenterTooltip = new Tooltip("TopCenter"
                 +    "\tY=" + String.format("%.3fm",
                 measuredPillarDataController.measuredPillarData.
                         getPillarTopCenterPoint().getX_coord()).replace(",", ".") +
@@ -322,7 +316,7 @@ public class PillarBaseDifferenceDisplayer {
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
         pane.getChildren().add(forwardDirection);
         addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-        setText(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID(),
+        setText(measuredPillarDataController.pillarBaseDisplayer.getDirectionPillarIdAsText(),
                 endPoint.calcPolarPoint(), Color.RED, 16);
     }
 
@@ -366,12 +360,9 @@ public class PillarBaseDifferenceDisplayer {
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
         pane.getChildren().add(backwardDirection);
         addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-        int centerID = Integer
-                .parseInt(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID());
-        int directionID = Integer
-                .parseInt(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID());
-        setText(centerID < directionID ? String.valueOf((centerID - 1)) :
-                        String.valueOf((centerID + 1)),
+        setText(FXHomeWindow.homeController.getControlDirectionIdAsText(
+        		measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getPointID(), 
+        		measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID()),
                 endPoint.calcPolarPoint(), Color.MAGENTA, 16);
     }
 

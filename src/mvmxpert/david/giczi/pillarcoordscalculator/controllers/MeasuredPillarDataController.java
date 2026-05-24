@@ -2024,15 +2024,5 @@ public class MeasuredPillarDataController {
     	return info;
 	}
     
-    public String getDistanceBetweenCenterAndControlPoint() {
-		if( FXHomeWindow.homeController.controlDirectionPoint == null ) {
-			return "";
-		}
-		AzimuthAndDistance controlPointData = new AzimuthAndDistance(measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
-												FXHomeWindow.homeController.controlDirectionPoint);
-		return  FXHomeWindow.homeController.controlDirectionPoint.getPointID() + ". és " +
-				measuredPillarData.getPillarCenterPoint().getPointID() + ". oszlopok távolsága: " + 
-				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m\n";
-	}
     
 }

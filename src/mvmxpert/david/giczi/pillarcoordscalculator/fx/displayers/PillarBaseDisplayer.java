@@ -79,7 +79,7 @@ public class PillarBaseDisplayer {
                 }
 
             }
-        });
+        }); 
         addContent();
         ScrollPane scrollPane = getScrollPane(pane);
         Scene scene = new Scene(scrollPane);
@@ -127,12 +127,25 @@ public class PillarBaseDisplayer {
         pane.getChildren().add(northSign);
     }
 
+    
+    public String getCenterPillarIdAsText() {
+    	return measuredPillarDataController.fileProcess.pccData == null ? 
+					measuredPillarDataController.pillarBaseProjectFileData == null ?
+					measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
+					measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
+					measuredPillarDataController.fileProcess.pccData.get(1);
+    }
+    
+   public String getDirectionPillarIdAsText() {
+	   return measuredPillarDataController.fileProcess.pccData == null ? 
+				measuredPillarDataController.pillarBaseProjectFileData == null ?
+				measuredPillarDataController.inputPillarDataWindow.directionPillarIDField.getText().trim() :	
+				measuredPillarDataController.pillarBaseProjectFileData.get(3) : 
+				measuredPillarDataController.fileProcess.pccData.get(4);
+   }
+    
     private void addCenterPillarData(){
-      Text idText = new Text(measuredPillarDataController.fileProcess.pccData == null ? 
-      						measuredPillarDataController.pillarBaseProjectFileData == null ?
-      						measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
-      						measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
-      						measuredPillarDataController.fileProcess.pccData.get(1));
+      Text idText = new Text(getCenterPillarIdAsText());
         idText.xProperty().bind(pane.widthProperty().divide(22).multiply(5));
         idText.setY(10 * MILLIMETER);
         idText.setFont(boldFont);
@@ -293,11 +306,7 @@ public class PillarBaseDisplayer {
     	String deltaX = String.format("%+3.1f", 100 * getXDifferenceOnMainLine()).replace(",", ".");
     	String deltaY = String.format("%+3.1f", 100 * getYDifferenceOnMainLine()).replace(",", ".");
         
-        copyText((measuredPillarDataController.fileProcess.pccData == null ? 
-        		measuredPillarDataController.pillarBaseProjectFileData == null ?
-				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
-				measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
-				measuredPillarDataController.fileProcess.pccData.get(1)) + "." + "\t" +
+        copyText(getCenterPillarIdAsText() + "." + "\t" +
                 String.format("%10.3f", measuredPillarDataController
                         .measuredPillarData.getPillarCenterPoint()
                         .getX_coord()).replace(",", ".") + "\t" +
@@ -433,8 +442,7 @@ public class PillarBaseDisplayer {
       measuredCenter.setFill(Color.TRANSPARENT);
       measuredCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5).add(transformedCenter.getX_coord()));
       measuredCenter.centerYProperty().bind(pane.heightProperty().divide(2).subtract(transformedCenter.getY_coord()));
-      Tooltip tooltip = new Tooltip(measuredPillarDataController.measuredPillarData
-              .getPillarBaseCenterPoint().getPointID() +  
+      Tooltip tooltip = new Tooltip(getCenterPillarIdAsText() +  
               "\tY=" + String.format("%.3fm",  X).replace(",", ".") +
               "\tX=" + String.format("%.3fm",  Y).replace(",", "."));
       Tooltip.install(measuredCenter, tooltip);
@@ -450,8 +458,7 @@ public class PillarBaseDisplayer {
     teoCenter.setFill(Color.TRANSPARENT);
     teoCenter.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5));
     teoCenter.centerYProperty().bind(pane.heightProperty().divide(2));
-    Tooltip tooltip = new Tooltip(measuredPillarDataController.measuredPillarData
-            .getPillarBaseCenterPoint().getPointID() +   
+    Tooltip tooltip = new Tooltip(getCenterPillarIdAsText() +   
     "\tY=" + measuredPillarDataController.inputPillarDataWindow.centerPillarField_X.getText().replace(",", ".") +
     "\t\tX=" + measuredPillarDataController.inputPillarDataWindow.centerPillarField_Y.getText().replace(",", "."));
     Tooltip.install(teoCenter, tooltip);
@@ -596,8 +603,7 @@ public class PillarBaseDisplayer {
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
         pane.getChildren().add(forwardDirection);
         addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-        setText(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID(),
-                endPoint.calcPolarPoint(), Color.RED, 16);
+        setText(getDirectionPillarIdAsText(), endPoint.calcPolarPoint(), Color.RED, 16);
     }
    
     private void addBackwardDirection() {
@@ -613,7 +619,6 @@ public class PillarBaseDisplayer {
        			   - measuredPillarDataController.measuredPillarData.radRotation;
          PolarPoint startPoint = new PolarPoint(pillarCenterPoint, 3 * MILLIMETER,
                  baseLineData.calcAzimuth() + rotation,"prevPoint");
-         
          PolarPoint endPoint = new PolarPoint(startPoint.calcPolarPoint(),
                  (1000 * Math.abs(getXDifferenceOnMainLine()) + 30) * MILLIMETER / SCALE,
                  baseLineData.calcAzimuth() + rotation,
@@ -639,13 +644,10 @@ public class PillarBaseDisplayer {
                          .subtract(endPoint.calcPolarPoint().getY_coord()));
          pane.getChildren().add(backwardDirection);
          addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-         int centerID = Integer
-                 .parseInt(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID());
-         int directionID = Integer
-                 .parseInt(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID());
-         setText(centerID < directionID ? String.valueOf((centerID - 1)) :
-                         String.valueOf((centerID + 1)),
-                 endPoint.calcPolarPoint(), Color.MAGENTA, 16);
+         setText(FXHomeWindow.homeController.getControlDirectionIdAsText(
+        		 measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getPointID(), 
+                 measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID()), 
+        	 endPoint.calcPolarPoint(), Color.MAGENTA, 16);
     }
     
     
@@ -726,8 +728,7 @@ public class PillarBaseDisplayer {
         center.setFill(Color.TRANSPARENT);
         center.centerXProperty().bind(pane.widthProperty().divide(10).multiply(5));
         center.centerYProperty().bind(pane.heightProperty().divide(2));
-        Tooltip tooltip = new Tooltip(measuredPillarDataController.measuredPillarData
-                .getPillarBaseCenterPoint().getPointID()
+        Tooltip tooltip = new Tooltip(getCenterPillarIdAsText()
             +    "\tY=" + String.format("%.3fm",
                         measuredPillarDataController.measuredPillarData.
                                 getPillarBaseCenterPoint().getX_coord()).replace(",", ".") +
@@ -903,8 +904,7 @@ public class PillarBaseDisplayer {
                             .subtract(endPoint.calcPolarPoint().getY_coord()));
             pane.getChildren().add(forwardDirection);
             addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-            setText(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID(),
-                    endPoint.calcPolarPoint(), Color.RED, 16);
+            setText(getDirectionPillarIdAsText(), endPoint.calcPolarPoint(), Color.RED, 16);
     }
 
     private void addPreviousPillarDirection(){
@@ -951,12 +951,10 @@ public class PillarBaseDisplayer {
                         .subtract(endPoint.calcPolarPoint().getY_coord()));
         pane.getChildren().add(backwardDirection);
         addArrow(endPoint.calcPolarPoint(), startPoint.calcPolarPoint());
-        int centerID = Integer
-                .parseInt(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID());
-        int directionID = Integer
-                .parseInt(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID());
-        setText(centerID < directionID ? String.valueOf((centerID - 1)) :  String.valueOf((centerID + 1)),
-                endPoint.calcPolarPoint(), Color.MAGENTA, 16);
+        setText(FXHomeWindow.homeController.getControlDirectionIdAsText(
+        		measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getPointID(), 
+        		measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID()), 
+    			endPoint.calcPolarPoint(), Color.MAGENTA, 16);
     }
 
     private void addArrow(Point startPoint, Point endPoint){
@@ -1022,20 +1020,33 @@ public class PillarBaseDisplayer {
         pane.getChildren().addAll(directionInfo, errorMarginText, pillarBaseTwisting);
     }
     
+    
+    private String getDistanceBetweenCenterAndControlPoint() {
+		if( FXHomeWindow.homeController.controlDirectionPoint == null ) {
+			return "";
+		}
+		AzimuthAndDistance controlPointData = new AzimuthAndDistance(
+				measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getAsPoint(), 
+												FXHomeWindow.homeController.controlDirectionPoint);
+		return  FXHomeWindow.homeController.controlDirectionPoint.getPointID() + ". és " +
+				getCenterPillarIdAsText() + ". oszlopok távolsága: " + 
+				String.format("%8.3f" , controlPointData.calcDistance()).replace(",", ".") + "m\n";
+	}
+    
     private void addSmallScaleDistanceInformation(){
     	if( 50 > SCALE ) {
     		return;
     	}
-        Point centerPoint = new Point(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID(),
+        Point centerPoint = new Point(getCenterPillarIdAsText(),
         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(),
         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord());
-        Point directionPoint = new Point(measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getPointID(),
+        Point directionPoint = new Point(getDirectionPillarIdAsText(),
                 measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getX_coord(),
                 measuredPillarDataController.measuredPillarData.getBaseLineDirectionPoint().getY_coord());
         AzimuthAndDistance baseLineData =
                 new AzimuthAndDistance(centerPoint, directionPoint);
         Text distanceInfo =
-                new Text( measuredPillarDataController.getDistanceBetweenCenterAndControlPoint() +
+                new Text(getDistanceBetweenCenterAndControlPoint() +
                 		centerPoint.getPointID() + ". és " + directionPoint.getPointID() + ". oszlopok távolsága: " +
                         String.format("%8.3f" , baseLineData.calcDistance()).replace(",", ".") + "m\n" +
                         measuredPillarDataController.getInfoByControlPoint());
@@ -1124,7 +1135,7 @@ public class PillarBaseDisplayer {
     }
 
     private void addLargeScaleDistanceInformation(){
-        Point centerPoint = new Point(measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getPointID(),
+        Point centerPoint = new Point(getCenterPillarIdAsText(),
         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getX_coord(),
         measuredPillarDataController.measuredPillarData.getPillarBaseCenterPoint().getY_coord());
         Point directionPoint = centerPoint;

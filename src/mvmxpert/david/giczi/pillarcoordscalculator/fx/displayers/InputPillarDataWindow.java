@@ -343,7 +343,7 @@ public class InputPillarDataWindow {
             catch(NumberFormatException n) {
             	
             }
-            measuredPillarDataController.measuredPillarData.setRightRotationAngle( rotationDirectionData == 0 ? true : false );
+            measuredPillarDataController.measuredPillarData.setRightRotationAngle( rotationDirectionData == 0 );
             rotationText.setText("A nyomvonal által bezárt" + 
                     (rotationDirectionData == 0 ? " jobb " : " bal ") + "oldali szög");
         }

@@ -572,6 +572,25 @@ else if( controlDirectionPointInputWindow.baseType == BaseType.WEIGHT_BASE ) {
                 + (9 < Math.abs(sec) ? Math.abs(sec) : "0" + Math.abs(sec)) + "\"";
     }
 		
+	public String getControlDirectionIdAsText(String centerPointId, String directionPointId) {
+		
+		if( controlDirectionPoint != null ) {
+			return controlDirectionPoint.getPointID();
+		}
+		int centerId;
+		int directionId;
+		try {
+			
+			centerId = Integer.parseInt(centerPointId);
+			directionId = Integer.parseInt(directionPointId);
+			
+		}
+		catch (NumberFormatException e) {
+			return "-1";
+		}
+		
+		return directionId > centerId ? String.valueOf(centerId - 1) : String.valueOf(centerId + 1);
+	}
 }
 
 
