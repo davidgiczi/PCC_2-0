@@ -535,10 +535,10 @@ public class WeightBaseInputWindow {
 	}
 	
 	private void setControlDirectionPoint() {
-		if( weightBaseController.homeController.controlDirectionPointInputWindow == null ) {
-			weightBaseController.homeController.getControlDirectionPointInputWindow();
-			weightBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.WEIGHT_BASE);
-		}
+		
+		weightBaseController.homeController.getControlDirectionPointInputWindow();
+		weightBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.WEIGHT_BASE);
+		
 		weightBaseController.homeController.controlDirectionPointInputWindow.directionControlPointIdField
 		.setText(centerIdField.getText());
 		weightBaseController.homeController.controlDirectionPointInputWindow.x_directionControlPointField

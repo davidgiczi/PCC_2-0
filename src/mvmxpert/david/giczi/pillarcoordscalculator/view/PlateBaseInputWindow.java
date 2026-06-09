@@ -527,10 +527,10 @@ public class PlateBaseInputWindow {
 	}
 	
 	private void setControlDirectionPoint() {
-		if( plateBaseController.homeController.controlDirectionPointInputWindow == null ) {
-			plateBaseController.homeController.getControlDirectionPointInputWindow();
-			plateBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.PLATE_BASE);
-		}
+		
+		plateBaseController.homeController.getControlDirectionPointInputWindow();
+		plateBaseController.homeController.controlDirectionPointInputWindow.setBaseType(BaseType.PLATE_BASE);
+		
 		plateBaseController.homeController.controlDirectionPointInputWindow.directionControlPointIdField
 		.setText(centerIdField.getText());
 		plateBaseController.homeController.controlDirectionPointInputWindow.x_directionControlPointField

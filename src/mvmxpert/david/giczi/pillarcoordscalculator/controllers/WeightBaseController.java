@@ -133,8 +133,10 @@ public class WeightBaseController implements Controller {
 	
 	@Override
 	public String createNewProject() {
-		String projectName = 
-				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", JOptionPane.DEFAULT_OPTION);
+		String projectName = (String)
+				JOptionPane.showInputDialog(null, "Add meg a projekt nevét:", "A projekt nevének megadása", 
+						JOptionPane.DEFAULT_OPTION, null, null,
+						HomeController.PROJECT_NAME == null ? "" : HomeController.PROJECT_NAME);
 		if( projectName != null && InputDataValidator.isValidProjectName(projectName) ) {
 			homeController.fileProcess.setFolder();
 			if( PCCFileProcess.FOLDER_PATH != null ) {
