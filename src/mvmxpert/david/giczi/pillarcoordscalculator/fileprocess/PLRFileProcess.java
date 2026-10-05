@@ -276,9 +276,12 @@ public class PLRFileProcess {
 	public void savePillarProjectData(){
 		File file = new File(FOLDER_PATH + "\\" + PROJECT_FILE_NAME + ".plr");
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))){
-			writer.write(pccData == null ? measuredPillarDataController.pillarBaseProjectFileData == null ?
+			writer.write(pccData == null || pccData.isEmpty() ? 
+					measuredPillarDataController.pillarBaseProjectFileData == null || 
+					measuredPillarDataController.pillarBaseProjectFileData.isEmpty() ?
 				measuredPillarDataController.inputPillarDataWindow.centerPillarIDField.getText().trim() :	
-					measuredPillarDataController.pillarBaseProjectFileData.get(0) : pccData.get(1));
+					measuredPillarDataController.pillarBaseProjectFileData.get(0) : 
+						pccData.get(1));
 			writer.newLine();
 			writer.write(String.valueOf(
 					measuredPillarDataController.measuredPillarData.getPillarCenterPoint().getX_coord()));
