@@ -641,7 +641,6 @@ public class MeasuredPillarDataController {
          }
          intersectionInputDataWindow.stage.hide();
          new IntersectionDisplayer(this);		
-    	
     }
     
     private boolean isValidInputDataForElevationMeasureOnly() {

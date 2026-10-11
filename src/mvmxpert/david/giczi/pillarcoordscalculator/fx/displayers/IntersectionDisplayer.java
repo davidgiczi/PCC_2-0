@@ -47,6 +47,7 @@ public class IntersectionDisplayer {
         stage.setOnCloseRequest(windowEvent -> {
         	MeasuredPillarDataController.IS_OPENING_INS_FILE_PROCESS = false;
         	measuredPillarDataController.crossedWirePointList.clear();
+        	measuredPillarDataController.intersection = null;
             measuredPillarDataController.fxHomeWindow.homeStage.show();
         });
         pane.setStyle("-fx-background-color: white");
