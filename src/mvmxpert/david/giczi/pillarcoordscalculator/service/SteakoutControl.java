@@ -75,52 +75,52 @@ public class SteakoutControl {
 					
 				if(baseType == BaseType.WEIGHT_BASE) {		
 					
-					if( data[0].endsWith("_1")) {
+					if( data[0].contains("_1")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setForwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_2")) {
+					else if( data[0].contains("_2")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setRightDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_3")) {
+					else if( data[0].contains("_3")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setBackwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_4")) {
+					else if( data[0].contains("_4")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setLeftDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_5")) {
+					else if( data[0].contains("_5")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setForwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_6")) {
+					else if( data[0].contains("_6")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setRightDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_7")) {
+					else if( data[0].contains("_7")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setBackwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_8")) {
+					else if( data[0].contains("_8")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setLeftDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_25")) {
+					else if( data[0].contains("_25")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setForwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_26")) {
+					else if( data[0].contains("_26")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setBackwardDistance(calcDistanceForWeightBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForWeightBase(steakoutedPoint));
@@ -129,32 +129,32 @@ public class SteakoutControl {
 				else if(baseType == BaseType.PLATE_BASE) {
 					
 					
-					if( data[0].endsWith("_5") ) {
+					if( data[0].contains("_5") ) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setLeftDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_6")) {
+					else if( data[0].contains("_6")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setForwardDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));	
 					}
-					else if( data[0].endsWith("_7")) {
+					else if( data[0].contains("_7")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setRightDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_8")) {
+					else if( data[0].contains("_8")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setBackwardDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
 					}
-					else if( data[0].endsWith("_9")) {
+					else if( data[0].contains("_9")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setForwardDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
 					}	
-					else if( data[0].endsWith("_10")) {
+					else if( data[0].contains("_10")) {
 						Point steakoutedPoint = new Point(data[0], Double.parseDouble(data[1]), Double.parseDouble(data[2]));
 						steakouted.setBackwardDistance(calcDistanceForPlateBase(steakoutedPoint));
 						steakouted.setAngle(calcAngleForPlateBase(steakoutedPoint));
