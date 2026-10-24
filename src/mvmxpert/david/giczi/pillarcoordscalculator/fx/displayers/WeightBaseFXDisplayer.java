@@ -121,6 +121,26 @@ public class WeightBaseFXDisplayer {
         stage.show();
 	}
 	
+	private void modifyText(Text text) {
+		
+		text.setCursor(Cursor.HAND);
+		
+		text.setOnMouseClicked(e ->{
+		
+		if( e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2 ) {
+			
+			String inputText = 
+        			JOptionPane.showInputDialog(null, "Add meg az új feliratot:", 
+        					"Felirat módosítása", JOptionPane.DEFAULT_OPTION);
+        	if( inputText == null || inputText.trim().isEmpty() ) {
+        		return;
+        	}
+        	text.setText(inputText.trim());
+		}
+	}	
+				);	
+	}
+	
 	private void displayPillarBaseMetaData() {
 		
 		for( int i = 1; i < transformedPillarBasePoints.size(); i++) {
@@ -155,6 +175,7 @@ public class WeightBaseFXDisplayer {
 			holeSideLengthText.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
 	        holeSideLengthText.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
 	        holeSideLengthText.yProperty().bind(pane.heightProperty().divide(10).multiply(8));
+	        modifyText(holeSideLengthText);
 	        pane.getChildren().addAll(scaleText, holeSideLengthText);
 		}
 		else {
@@ -163,6 +184,7 @@ public class WeightBaseFXDisplayer {
 			holeSideLengthText.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
 		    holeSideLengthText.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
 		    holeSideLengthText.yProperty().bind(pane.heightProperty().divide(10).multiply(9));
+		    modifyText(holeSideLengthText);
 		    pane.getChildren().addAll(scaleText, holeSideLengthText);
 		}
 		String hrFootSizeText = String.format("%.3f",  new AzimuthAndDistance(PILLAR_BASE_POINTS.get(9), 
@@ -176,6 +198,7 @@ public class WeightBaseFXDisplayer {
 			footSize.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
 		    footSize.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
 		    footSize.yProperty().bind(pane.heightProperty().divide(10).multiply(8.5));
+		    modifyText(footSize);
 		    pane.getChildren().add(footSize);
 		}
 		else {
@@ -184,6 +207,7 @@ public class WeightBaseFXDisplayer {
 			footSize.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, 16));
 		    footSize.xProperty().bind(pane.widthProperty().divide(10).multiply(6));
 		    footSize.yProperty().bind(pane.heightProperty().divide(10).multiply(8.5));
+		    modifyText(footSize);
 		    pane.getChildren().add(footSize);
 		}
 }
@@ -1141,7 +1165,8 @@ public class WeightBaseFXDisplayer {
                         .subtract(8 * MILLIMETER).subtract(0.5 * MILLIMETER));
         pane.getChildren().addAll(distanceInfo, controlPointInfo, unit, distanceUnit, leftEndLine, rightEndLine);
     }
-
+    
+   
     private void setText(String textData, Point startPoint, Color color, int size){
         Text text = new Text(textData);
         text.setFont(Font.font("Book-Antique", FontWeight.BOLD, FontPosture.REGULAR, size));
