@@ -516,7 +516,7 @@ public class MeasuredPillarData {
             }
         });
     }
-
+ 
     public double getXDifferenceOnMainLine(){
         AzimuthAndDistance mainLineData =
                 new AzimuthAndDistance(new Point("baseCenter",

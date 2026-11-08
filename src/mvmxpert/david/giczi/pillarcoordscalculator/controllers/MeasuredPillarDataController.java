@@ -15,6 +15,7 @@ import mvmxpert.david.giczi.pillarcoordscalculator.service.InputDataValidator;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Intersection;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasPoint;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.MeasuredPillarData;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Orientation;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.RowData;
 import mvmxpert.david.giczi.pillarcoordscalculator.service.TheoreticalPointData;
@@ -47,6 +48,7 @@ public class MeasuredPillarDataController {
     public List<String> pillarBaseProjectFileData;
     public List<String> measurmentData;
     public Intersection intersection;
+    public Orientation orientation;
     public List<MeasPoint> crossedWirePointList;
     private boolean isCreatedInputPillarDataWindow;
     public static boolean ELEVATION_MEAS_ONLY;
@@ -2023,5 +2025,30 @@ public class MeasuredPillarDataController {
     	return info;
 	}
     
-    
+    public void calcOrientation(List<String> inputData) {
+    	measurmentDataDisplayer.getDisplayerData();
+    	List<RowData> orientationPointDataList = new ArrayList<>();
+    	for (RowData rowData : measurmentDataDisplayer.getStandingPointDataStore()) {
+    		
+    		if( !rowData.getStandingPointName().isEmpty() && rowData.getStandingPointName().equals(inputData.get(0)) ) {
+	
+				for( RowData measData : rowData.getMeasuredPointDataStore() ) {
+					
+					for(int i = 1; i < inputData.size(); i++ ) {
+					
+					if( !measData.getMeasuredPointName().isEmpty() && measData.getMeasuredPointName().equals(inputData.get(i)) ) {
+						orientationPointDataList.add(measData);
+					}
+				}
+			}
+		}
+    }
+    	
+    	try {
+    		this.orientation = new Orientation(orientationPointDataList, true);
+    	}
+    	catch (NumberFormatException e) {
+    		FXHomeWindow.homeController.getInfoMessage("Adat beolvasási hiba", "Tájékozás adatai nem olvashatók.");
+    	}
+   }
 }

@@ -1,5 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -128,6 +130,10 @@ public class FXHomeWindow extends Application {
 		});
 		MenuItem calcPillarBaseCenter = new MenuItem("OH középpont számítása");
 		calcPillarBaseCenter.setOnAction( c ->{homeController.measuredPillarDataController.calcPillarCenterPoints();});
+		MenuItem orientation = new MenuItem("Tájékozás");
+		orientation.setOnAction(e -> {
+			homeController.measuredPillarDataController.calcOrientation(Arrays.asList("ST_0016", "4001", "4002", "4003"));
+		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{
 			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
@@ -149,7 +155,8 @@ public class FXHomeWindow extends Application {
 		MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
 		});
 		pillarProject.getItems().addAll(openPillarProject, createPillarProject, 
-				new SeparatorMenuItem(), calcPillarBaseCenter, new SeparatorMenuItem(), openIntersection, createIntersection);
+				new SeparatorMenuItem(), calcPillarBaseCenter, new SeparatorMenuItem(), openIntersection, createIntersection,
+				new SeparatorMenuItem(), orientation);
 		menuBar.getMenus().addAll(projectProcess, setBaseData, controlSteakoutedPoint, pillarProject);
 		VBox vBox = new VBox(menuBar);
 		vBox.setPrefWidth(550);
