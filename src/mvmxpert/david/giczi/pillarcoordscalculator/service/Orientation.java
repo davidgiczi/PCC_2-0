@@ -58,10 +58,9 @@ public class Orientation {
 			 orientationPointList.add(new Point(orientationData[5], 
 				Double.parseDouble(orientationData[7]), Double.parseDouble(orientationData[8])));
 			 String[] directionData = orientationData[10].split("-"); 
-			 directionValueList.add(Math.toRadians(Integer.parseInt(directionData[0]) + 
-					 Integer.parseInt(directionData[1]) / 60.0 +
-					 Integer.parseInt(directionData[2]) / 3600.0));
-		}	
+			 directionValueList.add(Math.toRadians(Double.parseDouble(directionData[0]) + 
+					Double.parseDouble(directionData[1]) / 60.0 + Double.parseDouble(directionData[2]) / 3600.0));
+		}
 	}
 	
 	private void calcAzimuthAndDistance(){
@@ -113,8 +112,8 @@ public class Orientation {
 	public static String convertDataForAngleMinSecFormat(double inputData) {
 		inputData = Math.toDegrees(inputData);
 		int angle = Math.abs((int)(inputData));
-		int min = Math.abs((int) Math.round((inputData - angle) * 60));
-		int sec = Math.abs((int) Math.round((inputData - angle) * 3600 - min * 60));
+		int min = Math.abs((int) ((inputData - angle) * 60));
+		int sec = Math.abs((int) Math.round((inputData - angle) * 3600 - (min * 60)));
 		String minValue = 10 > min ? "0" + min : String.valueOf(min);
 		String secValue = 10 > sec ? "0" + sec : String.valueOf(sec);
 		return 0 > inputData ? "-" + angle + "-" + minValue + "-" + secValue :

@@ -132,7 +132,7 @@ public class FXHomeWindow extends Application {
 		calcPillarBaseCenter.setOnAction( c ->{homeController.measuredPillarDataController.calcPillarCenterPoints();});
 		MenuItem orientation = new MenuItem("Tájékozás");
 		orientation.setOnAction(e -> {
-			homeController.measuredPillarDataController.calcOrientation(Arrays.asList("ST_0016", "4001", "4002", "4003"));
+			homeController.measuredPillarDataController.calcOrientation(Arrays.asList("ST_0017", "4001", "4002", "4003"));
 		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{
