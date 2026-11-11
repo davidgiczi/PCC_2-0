@@ -2045,7 +2045,7 @@ public class MeasuredPillarDataController {
     }
     	
     	try {
-    		this.orientation = new Orientation(orientationPointDataList, true);
+    		this.orientation = new Orientation(orientationPointDataList, false);
     	}
     	catch (NumberFormatException e) {
     		FXHomeWindow.homeController.getInfoMessage("Adat beolvasási hiba", "Tájékozás adatai nem olvashatók.");

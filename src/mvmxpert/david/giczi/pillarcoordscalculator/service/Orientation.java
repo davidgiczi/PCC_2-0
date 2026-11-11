@@ -13,6 +13,10 @@ public class Orientation {
 	private List<AzimuthAndDistance> azimuthAndDistanceList;
 	public static List<OrientationData> ORIENTATION_RESULT_DATA;
 	
+	
+	public Orientation() {
+	}
+	
 	public Orientation(List<RowData> orientationDataList, boolean byDistance) { 
 		if( orientationDataList.isEmpty() ) {
 			throw new NumberFormatException();
@@ -21,10 +25,6 @@ public class Orientation {
 		calcAzimuthAndDistance();
 		ORIENTATION_RESULT_DATA = new ArrayList<>();
 		calcAverageOrientationAngleValue(byDistance);
-		for (OrientationData resultData : ORIENTATION_RESULT_DATA) {
-			System.out.println(resultData);
-		}
-		System.out.println("Zk:" + aveOrientation);
 	}
 	
 	public Point getStandingPoint() {
@@ -111,9 +111,9 @@ public class Orientation {
 		
 	public static String convertDataForAngleMinSecFormat(double inputData) {
 		inputData = Math.toDegrees(inputData);
-		int angle = Math.abs((int)(inputData));
-		int min = Math.abs((int) ((inputData - angle) * 60));
-		int sec = Math.abs((int) Math.round((inputData - angle) * 3600 - (min * 60)));
+		int angle = Math.abs((int)(Math.abs(inputData)));
+		int min = Math.abs((int) ((Math.abs(inputData) - angle) * 60));
+		int sec = Math.abs((int) Math.round((Math.abs(inputData) - angle) * 3600 - (min * 60)));
 		String minValue = 10 > min ? "0" + min : String.valueOf(min);
 		String secValue = 10 > sec ? "0" + sec : String.valueOf(sec);
 		return 0 > inputData ? "-" + angle + "-" + minValue + "-" + secValue :
