@@ -1,6 +1,7 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
@@ -15,8 +16,11 @@ public class OrientationDataRow extends HBox{
 	public TextField directionAngelValue;
 	public TextField orientationAngelValue;
 	public TextField orientedDirectionValue;
+	public CheckBox useData;
+	private final static int WIDTH = 85;
+	private final static int HEIGHT = 30;
 	
-	public OrientationDataRow() {
+	public OrientationDataRow(boolean isHeader) {
 		this.directionPointId = new TextField();
 		this.directionPointY = new TextField();
 		this.directionPointX = new TextField();
@@ -25,36 +29,47 @@ public class OrientationDataRow extends HBox{
 		this.directionAngelValue = new TextField();
 		this.orientationAngelValue = new TextField();
 		this.orientedDirectionValue = new TextField();
-		setTextFieldStyle();
+		this.useData = new CheckBox();
+		setTextFieldStyle(isHeader);
 		this.getChildren().addAll(directionPointId, directionPointY, 
 				directionPointX, azimuthAngelValue, distanceValue, 
 				directionAngelValue, orientationAngelValue, orientedDirectionValue);
+		if( isHeader ) {
+			return;
+		}
+		this.getChildren().add(useData);
 	}
 	
-	private void setTextFieldStyle() {
-		directionPointId.setPrefWidth(95);
-    	directionPointId.setPrefHeight(30);
+	private void setTextFieldStyle(boolean isHeader) {
+		directionPointId.setPrefWidth(WIDTH);
+    	directionPointId.setPrefHeight(HEIGHT);
     	directionPointId.setAlignment(Pos.CENTER);
-    	directionPointX.setPrefWidth(95);
-    	directionPointX.setPrefHeight(30);
+    	directionPointX.setPrefWidth(WIDTH);
+    	directionPointX.setPrefHeight(HEIGHT);
     	directionPointX.setAlignment(Pos.CENTER);
-    	directionPointY.setPrefWidth(95);
-    	directionPointY.setPrefHeight(30);
+    	directionPointY.setPrefWidth(WIDTH);
+    	directionPointY.setPrefHeight(HEIGHT);
     	directionPointY.setAlignment(Pos.CENTER);
-    	azimuthAngelValue.setPrefWidth(95);
-    	azimuthAngelValue.setPrefHeight(30);
+    	azimuthAngelValue.setPrefWidth(WIDTH);
+    	azimuthAngelValue.setPrefHeight(HEIGHT);
     	azimuthAngelValue.setAlignment(Pos.CENTER);
-    	distanceValue.setPrefWidth(95);
-    	distanceValue.setPrefHeight(30);
+    	distanceValue.setPrefWidth(WIDTH);
+    	distanceValue.setPrefHeight(HEIGHT);
     	distanceValue.setAlignment(Pos.CENTER);
-    	directionAngelValue.setPrefWidth(95);
-    	directionAngelValue.setPrefHeight(30);
+    	directionAngelValue.setPrefWidth(WIDTH);
+    	directionAngelValue.setPrefHeight(HEIGHT);
     	directionAngelValue.setAlignment(Pos.CENTER);
-    	orientationAngelValue.setPrefWidth(95);
-    	orientationAngelValue.setPrefHeight(30);
+    	orientationAngelValue.setPrefWidth(WIDTH);
+    	orientationAngelValue.setPrefHeight(HEIGHT);
     	orientationAngelValue.setAlignment(Pos.CENTER);
-    	orientedDirectionValue.setPrefWidth(95);
-    	orientedDirectionValue.setPrefHeight(30);
+    	orientedDirectionValue.setPrefWidth(WIDTH);
+    	orientedDirectionValue.setPrefHeight(HEIGHT);
     	orientedDirectionValue.setAlignment(Pos.CENTER);
-	}
+    	if( isHeader ) {
+    		return;
+    	}
+    	useData.setTranslateX(10);
+    	useData.setTranslateY(10);
+    	
+}
 }

@@ -49,9 +49,9 @@ public class OrientationDisplayer {
         Scene scene = new Scene(scrollPane);
         stage.setTitle("Tájékozás");
         stage.getIcons().add(new Image("/img/MVM.jpg"));
-//        stage.setX(100);
-//        stage.setY(100);
-        stage.setWidth(930);
+        stage.setX(100);
+        stage.setY(100);
+        stage.setWidth(850);
         stage.setHeight(500);
         stage.setResizable(false);
         stage.setMaximized(false);
@@ -76,12 +76,12 @@ public class OrientationDisplayer {
     
     private void addDataTable() {
     	addHeader();
-    	
+    	addDataRow(10);
     }
     
     private void addHeader() {
-    	OrientationDataRow header = new OrientationDataRow();
-    	header.setLayoutX(80);
+    	OrientationDataRow header = new OrientationDataRow(true);
+    	header.setLayoutX(60);
     	header.setLayoutY(50);
     	header.directionPointId.setFont(smallFont);
     	header.directionPointId.setEditable(false);
@@ -117,16 +117,31 @@ public class OrientationDisplayer {
     	pane.getChildren().add(header);
     }
     
+    private void addDataRow(int pcs) {
+    	
+    	int layoutX = 60;
+    	int layoutY = 80;
+    	
+    	for (int i = 0; i < pcs; i++) {
+			OrientationDataRow dataRow = new OrientationDataRow(false);
+			dataRow.setLayoutX(layoutX);
+			dataRow.setLayoutY(layoutY);
+			layoutY += 30;
+			pane.getChildren().add(dataRow);
+		}
+    	
+    }
+    
     private void addStandingPointData() {
     	
     	HBox standingPointBox = new HBox();
-    	standingPointBox.setLayoutX(80);
+    	standingPointBox.setLayoutX(60);
     	standingPointBox.setLayoutY(10);
     	
     	TextField standingPointId = new TextField();
 
     	standingPointId.setPromptText("Álláspont Psz.");
-    	standingPointId.setPrefWidth(95);
+    	standingPointId.setPrefWidth(85);
     	standingPointId.setPrefHeight(30);
     	standingPointId.setStyle("-fx-alignment: CENTER;");
     	standingPointId.setStyle("-fx-text-fill: red;");
@@ -136,7 +151,7 @@ public class OrientationDisplayer {
     	TextField standingPointY = new TextField();
 
     	standingPointY.setPromptText("Y");
-    	standingPointY.setPrefWidth(95);
+    	standingPointY.setPrefWidth(85);
     	standingPointY.setPrefHeight(30);
     	standingPointY.setStyle("-fx-alignment: CENTER;");
     	standingPointY.setStyle("-fx-text-fill: red;");
@@ -146,7 +161,7 @@ public class OrientationDisplayer {
     	TextField standingPointX = new TextField();
 
     	standingPointX.setPromptText("X");
-    	standingPointX.setPrefWidth(95);
+    	standingPointX.setPrefWidth(85);
     	standingPointX.setPrefHeight(30);
     	standingPointX.setStyle("-fx-alignment: CENTER;");
     	standingPointX.setStyle("-fx-text-fill: red;");
