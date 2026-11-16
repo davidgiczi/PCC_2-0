@@ -1,9 +1,12 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class OrientationDataRow extends HBox{
 
@@ -17,7 +20,7 @@ public class OrientationDataRow extends HBox{
 	public TextField orientationAngelValue;
 	public TextField orientedDirectionValue;
 	public CheckBox useData;
-	private final static int WIDTH = 85;
+	private final static int WIDTH = 90;
 	private final static int HEIGHT = 30;
 	
 	public OrientationDataRow(boolean isHeader) {
@@ -30,7 +33,7 @@ public class OrientationDataRow extends HBox{
 		this.orientationAngelValue = new TextField();
 		this.orientedDirectionValue = new TextField();
 		this.useData = new CheckBox();
-		setTextFieldStyle(isHeader);
+		setTextFieldStyle();
 		this.getChildren().addAll(directionPointId, directionPointY, 
 				directionPointX, azimuthAngelValue, distanceValue, 
 				directionAngelValue, orientationAngelValue, orientedDirectionValue);
@@ -40,10 +43,11 @@ public class OrientationDataRow extends HBox{
 		this.getChildren().add(useData);
 	}
 	
-	private void setTextFieldStyle(boolean isHeader) {
+	private void setTextFieldStyle() {
 		directionPointId.setPrefWidth(WIDTH);
     	directionPointId.setPrefHeight(HEIGHT);
     	directionPointId.setAlignment(Pos.CENTER);
+    	directionPointId.setCursor(Cursor.HAND);
     	directionPointX.setPrefWidth(WIDTH);
     	directionPointX.setPrefHeight(HEIGHT);
     	directionPointX.setAlignment(Pos.CENTER);
@@ -65,11 +69,8 @@ public class OrientationDataRow extends HBox{
     	orientedDirectionValue.setPrefWidth(WIDTH);
     	orientedDirectionValue.setPrefHeight(HEIGHT);
     	orientedDirectionValue.setAlignment(Pos.CENTER);
-    	if( isHeader ) {
-    		return;
-    	}
     	useData.setTranslateX(10);
     	useData.setTranslateY(10);
-    	
+    	useData.setCursor(Cursor.HAND);
 }
 }

@@ -3,19 +3,12 @@ package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
 import java.util.Arrays;
 import java.util.List;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -23,8 +16,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.Orientation;
-import mvmxpert.david.giczi.pillarcoordscalculator.service.OrientationData;
 
 public class OrientationDisplayer {
 
@@ -34,7 +25,9 @@ public class OrientationDisplayer {
     private final Font bigFont = Font.font("Arial", FontWeight.BOLD, 14);
     private final Font smallFont = Font.font("Arial", FontWeight.BOLD, 12);
     private static final List<String> HEADER = 
-    		Arrays.asList("Irányzott Psz.", "Y", "X", "Irányszög", "Távolság", "Irányérték", "Táj.szög", "Táj.irányérték");
+    		Arrays.asList("Táj.pont psz.", "Y", "X", "Irányszög", "Távolság", "Irányérték", "Táj.szög", "Táj.irányért.");
+    private static int LAYOUT_X = 20;
+    private static int LAYOUT_Y = 60;
     
     
     public OrientationDisplayer(MeasuredPillarDataController measuredPillarDataController){
@@ -49,10 +42,10 @@ public class OrientationDisplayer {
         Scene scene = new Scene(scrollPane);
         stage.setTitle("Tájékozás");
         stage.getIcons().add(new Image("/img/MVM.jpg"));
-        stage.setX(100);
+        stage.setX(0);
         stage.setY(100);
-        stage.setWidth(850);
-        stage.setHeight(500);
+        stage.setWidth(800);
+        stage.setHeight(465);
         stage.setResizable(false);
         stage.setMaximized(false);
         stage.setScene(scene);
@@ -71,7 +64,7 @@ public class OrientationDisplayer {
     private void addContent() {
     	addStandingPointData();
     	addDataTable();
-    	addButton();
+    	addButtonHBox();
     }
     
     private void addDataTable() {
@@ -81,8 +74,8 @@ public class OrientationDisplayer {
     
     private void addHeader() {
     	OrientationDataRow header = new OrientationDataRow(true);
-    	header.setLayoutX(60);
-    	header.setLayoutY(50);
+    	header.setLayoutX(LAYOUT_X);
+    	header.setLayoutY(LAYOUT_Y - 10);
     	header.directionPointId.setFont(smallFont);
     	header.directionPointId.setEditable(false);
     	header.directionPointId.setText(HEADER.get(0));
@@ -119,12 +112,11 @@ public class OrientationDisplayer {
     
     private void addDataRow(int pcs) {
     	
-    	int layoutX = 60;
     	int layoutY = 80;
     	
     	for (int i = 0; i < pcs; i++) {
 			OrientationDataRow dataRow = new OrientationDataRow(false);
-			dataRow.setLayoutX(layoutX);
+			dataRow.setLayoutX(LAYOUT_X);
 			dataRow.setLayoutY(layoutY);
 			layoutY += 30;
 			pane.getChildren().add(dataRow);
@@ -134,15 +126,18 @@ public class OrientationDisplayer {
     
     private void addStandingPointData() {
     	
+    	int width = 90;
+    	int height = 30;
+    	
     	HBox standingPointBox = new HBox();
-    	standingPointBox.setLayoutX(60);
+    	standingPointBox.setLayoutX(LAYOUT_X);
     	standingPointBox.setLayoutY(10);
     	
     	TextField standingPointId = new TextField();
 
     	standingPointId.setPromptText("Álláspont Psz.");
-    	standingPointId.setPrefWidth(85);
-    	standingPointId.setPrefHeight(30);
+    	standingPointId.setPrefWidth(width);
+    	standingPointId.setPrefHeight(height);
     	standingPointId.setStyle("-fx-alignment: CENTER;");
     	standingPointId.setStyle("-fx-text-fill: red;");
     	standingPointId.setAlignment(Pos.CENTER);
@@ -151,8 +146,8 @@ public class OrientationDisplayer {
     	TextField standingPointY = new TextField();
 
     	standingPointY.setPromptText("Y");
-    	standingPointY.setPrefWidth(85);
-    	standingPointY.setPrefHeight(30);
+    	standingPointY.setPrefWidth(width);
+    	standingPointY.setPrefHeight(height);
     	standingPointY.setStyle("-fx-alignment: CENTER;");
     	standingPointY.setStyle("-fx-text-fill: red;");
     	standingPointY.setAlignment(Pos.CENTER);
@@ -161,8 +156,8 @@ public class OrientationDisplayer {
     	TextField standingPointX = new TextField();
 
     	standingPointX.setPromptText("X");
-    	standingPointX.setPrefWidth(85);
-    	standingPointX.setPrefHeight(30);
+    	standingPointX.setPrefWidth(width);
+    	standingPointX.setPrefHeight(height);
     	standingPointX.setStyle("-fx-alignment: CENTER;");
     	standingPointX.setStyle("-fx-text-fill: red;");
     	standingPointX.setAlignment(Pos.CENTER);
@@ -173,25 +168,35 @@ public class OrientationDisplayer {
     }
     
     
-    private void addButton() {
-    	HBox bottomButtonBox = new HBox(80);
-
-    	Button loadButton = new Button("Beolvas");
-    	Button counterButton = new Button("Számol");
-  
-    	loadButton.setFont(bigFont);
-    	counterButton.setFont(bigFont);
-    	loadButton.setCursor(Cursor.HAND);
-    	counterButton.setCursor(Cursor.HAND);
+    private void addButtonHBox() {
     	
-    	bottomButtonBox.setAlignment(Pos.CENTER);
-    	bottomButtonBox.setLayoutY(410);
-    	AnchorPane.setLeftAnchor(bottomButtonBox, 100.0);
-    	AnchorPane.setRightAnchor(bottomButtonBox, 100.0);
-
-    	bottomButtonBox.getChildren().addAll(
-    	    loadButton, counterButton);
-    	pane.getChildren().add(bottomButtonBox);
+    	HBox rightButtonBox = new HBox(15);
+    	rightButtonBox.setLayoutY(390);
+    	rightButtonBox.setLayoutX(480);
+    	
+    	Button calcButton = new Button("Számol");
+    	calcButton.setFont(bigFont);
+    	calcButton.setPrefHeight(30);
+    	calcButton.setCursor(Cursor.HAND);
+    	
+    	TextField mediumOrientationData = new TextField();
+    	mediumOrientationData.setEditable(true);
+    	mediumOrientationData.setPromptText("Zk");
+    	mediumOrientationData.setPrefWidth(90);
+    	mediumOrientationData.setPrefHeight(30);
+    	mediumOrientationData.setAlignment(Pos.CENTER);
+    	mediumOrientationData.setStyle("-fx-text-fill: blue;");
+    	mediumOrientationData.setFont(smallFont);
+  
+    	Button loadButton = new Button("Beolvas");
+    	loadButton.setPrefHeight(30);
+    	loadButton.setFont(bigFont);
+    	loadButton.setLayoutX(210);
+    	loadButton.setLayoutY(390);
+    	loadButton.setCursor(Cursor.HAND);
+    	
+    	rightButtonBox.getChildren().addAll(calcButton, mediumOrientationData);
+    	pane.getChildren().addAll(loadButton, rightButtonBox);
     }
     
 }
