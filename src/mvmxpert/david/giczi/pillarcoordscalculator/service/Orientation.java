@@ -13,10 +13,6 @@ public class Orientation {
 	private List<AzimuthAndDistance> azimuthAndDistanceList;
 	public static List<OrientationData> ORIENTATION_RESULT_DATA;
 	
-	
-	public Orientation() {
-	}
-	
 	public Orientation(List<RowData> orientationDataList, boolean byDistance) { 
 		if( orientationDataList.isEmpty() ) {
 			throw new NumberFormatException();

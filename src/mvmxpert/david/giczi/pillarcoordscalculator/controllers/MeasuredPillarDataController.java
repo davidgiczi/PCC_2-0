@@ -2030,13 +2030,13 @@ public class MeasuredPillarDataController {
     	List<RowData> orientationPointDataList = new ArrayList<>();
     	for (RowData rowData : measurmentDataDisplayer.getStandingPointDataStore()) {
     		
-    		if( !rowData.getStandingPointName().isEmpty() && rowData.getStandingPointName().equals(inputData.get(0)) ) {
+    		if( !rowData.getStandingPointName().isEmpty() && rowData.getStandingPointName().equalsIgnoreCase(inputData.get(0)) ) {
 	
 				for( RowData measData : rowData.getMeasuredPointDataStore() ) {
 					
 					for(int i = 1; i < inputData.size(); i++ ) {
 					
-					if( !measData.getMeasuredPointName().isEmpty() && measData.getMeasuredPointName().equals(inputData.get(i)) ) {
+					if( !measData.getMeasuredPointName().isEmpty() && measData.getMeasuredPointName().equalsIgnoreCase(inputData.get(i)) ) {
 						orientationPointDataList.add(measData);
 					}
 				}

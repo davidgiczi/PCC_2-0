@@ -1,6 +1,5 @@
 package mvmxpert.david.giczi.pillarcoordscalculator.fx.displayers;
 
-import java.util.Arrays;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -19,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.HomeController;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
+import mvmxpert.david.giczi.pillarcoordscalculator.utils.Location;
 
 public class FXHomeWindow extends Application {
 
@@ -131,16 +131,17 @@ public class FXHomeWindow extends Application {
 		MenuItem calcPillarBaseCenter = new MenuItem("OH középpont számítása");
 		calcPillarBaseCenter.setOnAction( c ->{homeController.measuredPillarDataController.calcPillarCenterPoints();});
 		MenuItem orientation = new MenuItem("Tájékozás");
+		orientation.setDisable(true);
 		orientation.setOnAction(e -> {
-//			homeController.measuredPillarDataController.calcOrientation(Arrays.asList("ST_0016", "4001", "4002", "4003", 
-//					"129A", "129B", "129C", "129D"));
-			new OrientationDisplayer(homeController.measuredPillarDataController);
+			new OrientationDisplayer(homeController.measuredPillarDataController, Location.CENTRUM);
 		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");
 		openMeasurment.setOnAction(e ->{ 
 			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = false;
 			homeController.measuredPillarDataController.openMeasurmentFXDisplayer();
 			homeController.measuredPillarDataController.openIntersectionInputDataWindow();
+			orientation.setDisable(false);
+			homeStage.hide();
 			if( homeController.measuredPillarDataController.measurmentDataDisplayer == null ) {
 			homeController.measuredPillarDataController.intersectionInputDataWindow.calcButton.setText("Feldolgoz");
 			MeasuredPillarDataController.IS_RUNNING_PROCESS_OK = true;
