@@ -11,7 +11,7 @@ public class Orientation {
 	private List<Point> orientationPointList;
 	private List<Double> directionValueList;
 	private List<AzimuthAndDistance> azimuthAndDistanceList;
-	public static List<OrientationData> ORIENTATION_RESULT_DATA;
+	public List<OrientationData> orientationResultData;
 	
 	public Orientation(List<RowData> orientationDataList, boolean byDistance) { 
 		if( orientationDataList.isEmpty() ) {
@@ -19,7 +19,7 @@ public class Orientation {
 		}
 		setOrientationData(orientationDataList);
 		calcAzimuthAndDistance();
-		ORIENTATION_RESULT_DATA = new ArrayList<>();
+		orientationResultData = new ArrayList<>();
 		calcAverageOrientationAngleValue(byDistance);
 	}
 	
@@ -90,7 +90,7 @@ public class Orientation {
 			resultData.setDistanceValue(azimuthAndDistanceList.get(i).calcDistance());
 			resultData.setOrientationAngelValue(convertDataForAngleMinSecFormat(orientationValue));
 			resultData.setDirectionAngelValue(convertDataForAngleMinSecFormat(directionValueList.get(i)));
-			ORIENTATION_RESULT_DATA.add(resultData);
+			orientationResultData.add(resultData);
 		}
 		double aveOrientation;
 		if( byDistance ) {
@@ -100,7 +100,7 @@ public class Orientation {
 			aveOrientation = sumOrientation / azimuthAndDistanceList.size();
 		}
 		this.aveOrientation = convertDataForAngleMinSecFormat(aveOrientation);
-		for (OrientationData orientationData : ORIENTATION_RESULT_DATA) {
+		for (OrientationData orientationData : orientationResultData) {
 			orientationData.setOrientedDirectionValue(aveOrientation);
 		}
 	}

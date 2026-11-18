@@ -71,43 +71,5 @@ public class OrientationDataRow extends HBox{
     	useData.setTranslateY(10);
     	useData.setCursor(Cursor.HAND);
     	useData.setSelected(true);
-    	useData.setOnAction( e ->{
-    		if( useData.isSelected() ) {
-    			directionPointId.setStyle(
-    				    "-fx-control-inner-background: white;" +
-    				    	    "-fx-text-fill: red;"
-    				    	);
-    			directionPointY.setStyle("-fx-control-inner-background: white;");
-    			directionPointX.setStyle("-fx-control-inner-background: white;");
-    			azimuthAngelValue.setStyle("-fx-control-inner-background: white;");
-    			distanceValue.setStyle("-fx-control-inner-background: white;");
-    			directionAngelValue.setStyle("-fx-control-inner-background: white;");
-    			orientationAngelValue.setStyle(
-    				    "-fx-control-inner-background: white;" +
-    				    	    "-fx-text-fill: blue;"
-    				    	);
-    			orientedDirectionValue.setStyle(
-    				    "-fx-control-inner-background: white;" +
-    				    	    "-fx-text-fill: #00CF00;"
-    				    	);
-    		}
-    		else {
-    			directionPointId.setStyle(
-    				    "-fx-control-inner-background: #F2F2F2;" +
-    				    	    "-fx-text-fill: red;"
-    				    	);
-    			directionPointY.setStyle("-fx-control-inner-background: #F2F2F2;");
-    			directionPointX.setStyle("-fx-control-inner-background: #F2F2F2;");
-    			azimuthAngelValue.setStyle("-fx-control-inner-background: #F2F2F2;");
-    			distanceValue.setStyle("-fx-control-inner-background: #F2F2F2;");
-    			directionAngelValue.setStyle("-fx-control-inner-background: #F2F2F2;");
-    			orientationAngelValue.setStyle(
-    				    "-fx-control-inner-background: #F2F2F2;" +
-    				    	    "-fx-text-fill: blue;");
-    			orientedDirectionValue.setStyle(
-    				    "-fx-control-inner-background: #F2F2F2;" +
-    				    	    "-fx-text-fill: #00CF00;");
-    		}
-    	});
 }
 }

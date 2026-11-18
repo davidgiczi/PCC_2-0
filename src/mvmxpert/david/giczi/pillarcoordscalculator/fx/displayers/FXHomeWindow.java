@@ -133,6 +133,7 @@ public class FXHomeWindow extends Application {
 		MenuItem orientation = new MenuItem("Tájékozás");
 		orientation.setDisable(true);
 		orientation.setOnAction(e -> {
+			this.homeStage.hide();
 			new OrientationDisplayer(homeController.measuredPillarDataController, Location.CENTRUM);
 		});
 		MenuItem openMeasurment = new MenuItem("Mérési jegyzőkönyv megnyitása");

@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import mvmxpert.david.giczi.pillarcoordscalculator.controllers.MeasuredPillarDataController;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.OrientationData;
+import mvmxpert.david.giczi.pillarcoordscalculator.service.Point;
 import mvmxpert.david.giczi.pillarcoordscalculator.utils.Location;
 
 public class OrientationDisplayer {
@@ -25,7 +27,9 @@ public class OrientationDisplayer {
 	
 	private TextField standingPointId;
 	private TextField standingPointY;
-	private TextField standingPointX; 
+	private TextField standingPointX;
+	private TextField mediumOrientationData;
+	private List<String> inputData;
 	private List<OrientationDataRow> dataRowList;
 	private final AnchorPane pane = new AnchorPane();
 	private final Stage stage;
@@ -144,12 +148,66 @@ public class OrientationDisplayer {
 			dataRow.orientedDirectionValue.setFont(dataFont);
 			dataRow.orientedDirectionValue.setStyle("-fx-text-fill: #00CF00;");
 			dataRow.orientationAngelValue.setStyle("-fx-text-fill: blue;");
+			dataRow.useData.setOnAction( e -> {
+				
+				if( dataRow.directionPointId.getText().isEmpty() ) {
+					return;
+				}
+				setShadowForRow(dataRow);
+				this.inputData = getOrientationInputData();
+				if(  this.inputData.size() < 2 ) {
+	    			return;
+	    		}
+				getYesNoMessageForOrientation();
+				refreshDisplayerData();
+			});
 			layoutY += 30;
 			pane.getChildren().add(dataRow);
 			dataRowList.add(dataRow);
 		}
     	
     }
+    
+    
+    private void setShadowForRow(OrientationDataRow dataRow) {
+    	if( dataRow.useData.isSelected() ) {
+			dataRow.directionPointId.setStyle(
+				    "-fx-control-inner-background: white;" +
+				    	    "-fx-text-fill: red;"
+				    	);
+			dataRow.directionPointY.setStyle("-fx-control-inner-background: white;");
+			dataRow.directionPointX.setStyle("-fx-control-inner-background: white;");
+			dataRow.azimuthAngelValue.setStyle("-fx-control-inner-background: white;");
+			dataRow.distanceValue.setStyle("-fx-control-inner-background: white;");
+			dataRow.directionAngelValue.setStyle("-fx-control-inner-background: white;");
+			dataRow.orientationAngelValue.setStyle(
+				    "-fx-control-inner-background: white;" +
+				    	    "-fx-text-fill: blue;"
+				    	);
+			dataRow.orientedDirectionValue.setStyle(
+				    "-fx-control-inner-background: white;" +
+				    	    "-fx-text-fill: #00CF00;"
+				    	);
+		}
+		else {
+			dataRow.directionPointId.setStyle(
+				    "-fx-control-inner-background: #F2F2F2;" +
+				    	    "-fx-text-fill: red;"
+				    	);
+			dataRow.directionPointY.setStyle("-fx-control-inner-background: #F2F2F2;");
+			dataRow.directionPointX.setStyle("-fx-control-inner-background: #F2F2F2;");
+			dataRow.azimuthAngelValue.setStyle("-fx-control-inner-background: #F2F2F2;");
+			dataRow.distanceValue.setStyle("-fx-control-inner-background: #F2F2F2;");
+			dataRow.directionAngelValue.setStyle("-fx-control-inner-background: #F2F2F2;");
+			dataRow.orientationAngelValue.setStyle(
+				    "-fx-control-inner-background: #F2F2F2;" +
+				    	    "-fx-text-fill: blue;");
+			dataRow.orientedDirectionValue.setStyle(
+				    "-fx-control-inner-background: #F2F2F2;" +
+				    	    "-fx-text-fill: #00CF00;");
+		}
+    }
+    
     
     private void addStandingPointData() {
     	
@@ -195,9 +253,9 @@ public class OrientationDisplayer {
     
     private void addButtonRow() {
     	
-    	HBox rightButtonBox = new HBox(15);
-    	rightButtonBox.setLayoutY(390);
-    	rightButtonBox.setLayoutX(480);
+    	HBox buttonBox = new HBox(145);
+    	buttonBox.setLayoutY(390);
+    	buttonBox.setLayoutX(350);
     	
     	Button calcButton = new Button("Számol");
     	calcButton.setFont(buttonFont);
@@ -205,19 +263,15 @@ public class OrientationDisplayer {
     	calcButton.setCursor(Cursor.HAND);
     	calcButton.setOnAction( c ->{
     		
-    		int option = FXHomeWindow.homeController.getYesNoMessage("Súlyegység választása", 
-					"Igen: p=t [km], Nem: p=1.");
-    		
-    		if( option == 0 ) {
-    			stage.setTitle("Tájékozás - [távolságfüggő]");
-			}
-    		else if( option == 1 )  {
-    			stage.setTitle("Tájékozás - [egységsúly]");
+    		this.inputData = getOrientationInputData();
+    		if(  inputData.size() < 2 ) {
+    			return;
     		}
-    		
+    		getYesNoMessageForOrientation();
+    		displayDataForOrientation();
     	});
     	
-    	TextField mediumOrientationData = new TextField();
+    	this.mediumOrientationData = new TextField();
     	mediumOrientationData.setEditable(false);
     	mediumOrientationData.setPromptText("Zk");
     	mediumOrientationData.setPrefWidth(90);
@@ -225,23 +279,24 @@ public class OrientationDisplayer {
     	mediumOrientationData.setAlignment(Pos.CENTER);
     	mediumOrientationData.setStyle("-fx-text-fill: blue;");
     	mediumOrientationData.setFont(buttonFont);
-  
-    	Button loadButton = new Button("Beolvas");
-    	loadButton.setPrefHeight(30);
-    	loadButton.setFont(buttonFont);
-    	loadButton.setLayoutX(210);
-    	loadButton.setLayoutY(390);
-    	loadButton.setCursor(Cursor.HAND);
-    	loadButton.setOnAction( e -> {
-    		List<String> inputData = getOrientationInputData();
-    		if(  inputData.size() < 2 ) {
-    			return;
-    		}
-    		measuredPillarDataController.calcOrientation(inputData);
-    		loadDataForOrientation();
-    	});
-    	rightButtonBox.getChildren().addAll(calcButton, mediumOrientationData);
-    	pane.getChildren().addAll(loadButton, rightButtonBox);
+ 
+    	buttonBox.getChildren().addAll(calcButton, mediumOrientationData);
+    	pane.getChildren().addAll(buttonBox);
+    }
+    
+    private void getYesNoMessageForOrientation() {
+    	int option = FXHomeWindow.homeController.getYesNoMessage("Súlyegység választása", 
+				"Igen: p=t [km], Nem: p=1.");
+		
+		if( option == 0 ) {
+			measuredPillarDataController.calcOrientation(inputData, true);
+			stage.setTitle("Tájékozás - [távolságfüggő]");
+			
+		}
+		else if( option == 1 )  {
+			measuredPillarDataController.calcOrientation(inputData, false);
+			stage.setTitle("Tájékozás - [egységsúly]");
+		}
     }
     
     private List<String> getOrientationInputData(){
@@ -254,7 +309,7 @@ public class OrientationDisplayer {
     	inputDataList.add(standingPointId);
     	for (OrientationDataRow dataRow : dataRowList) {
     		String directionPointId = dataRow.directionPointId.getText().trim();
-			if( directionPointId.isEmpty() ) {
+			if( directionPointId.isEmpty() || !dataRow.useData.isSelected()) {
 				continue;
 			}
 			inputDataList.add(directionPointId);
@@ -268,12 +323,50 @@ public class OrientationDisplayer {
     	return inputDataList;
     }
     
-    private void loadDataForOrientation() {
-    	if( measuredPillarDataController.orientation != null && 
-    			measuredPillarDataController.orientation.getStandingPoint() != null ) {
+    private void displayDataForOrientation() {
     		standingPointY.setText(String.valueOf(measuredPillarDataController.orientation.getStandingPoint().getX_coord()));
     		standingPointX.setText(String.valueOf(measuredPillarDataController.orientation.getStandingPoint().getY_coord()));
-    	}
+    		for (Point orientationPoint : measuredPillarDataController.orientation.getOrientationPointList()) {
+				dataRowList.get(measuredPillarDataController.orientation.getOrientationPointList().indexOf(orientationPoint))
+				.directionPointY.setText(String.valueOf(orientationPoint.getX_coord()));
+				dataRowList.get(measuredPillarDataController.orientation.getOrientationPointList().indexOf(orientationPoint))
+				.directionPointX.setText(String.valueOf(orientationPoint.getY_coord()));
+			}
+    		for (OrientationData orientationData : measuredPillarDataController.orientation.orientationResultData) {
+    			dataRowList.get(measuredPillarDataController.orientation.orientationResultData.indexOf(orientationData))
+    			.azimuthAngelValue.setText(orientationData.getAzimuthAngelValue());
+    			dataRowList.get(measuredPillarDataController.orientation.orientationResultData.indexOf(orientationData))
+    			.distanceValue.setText(orientationData.getDistanceValue());
+    			dataRowList.get(measuredPillarDataController.orientation.orientationResultData.indexOf(orientationData))
+    			.directionAngelValue.setText(orientationData.getDirectionAngelValue());
+    			dataRowList.get(measuredPillarDataController.orientation.orientationResultData.indexOf(orientationData))
+    			.orientationAngelValue.setText(orientationData.getOrientationAngelValue());
+    			dataRowList.get(measuredPillarDataController.orientation.orientationResultData.indexOf(orientationData))
+    			.orientedDirectionValue.setText(orientationData.getOrientedDirectionValue());
+		}	
+    		mediumOrientationData.setText(measuredPillarDataController.orientation.getAveOrientation());
+    }
+    
+    
+    private void refreshDisplayerData() {
+    	
+    	for (OrientationData orientationData : measuredPillarDataController.orientation.orientationResultData) {
+    		
+    		for (OrientationDataRow dataRow : dataRowList) {
+    			
+    			if( orientationData.getDirectionPointId().equals(dataRow.directionPointId.getText()) ) {
+    				dataRow.azimuthAngelValue.setText(orientationData.getAzimuthAngelValue());
+    				dataRow.distanceValue.setText(orientationData.getDistanceValue());
+    				dataRow.directionAngelValue.setText(orientationData.getDirectionAngelValue());
+    				dataRow.orientationAngelValue.setText(orientationData.getOrientationAngelValue());
+    				dataRow.orientedDirectionValue.setText(orientationData.getOrientedDirectionValue());
+    			}
+				
+		}
+    		
+	}	
+		mediumOrientationData.setText(measuredPillarDataController.orientation.getAveOrientation());
+    	
     }
     
 }

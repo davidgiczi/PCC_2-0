@@ -2025,7 +2025,7 @@ public class MeasuredPillarDataController {
     	return info;
 	}
     
-    public void calcOrientation(List<String> inputData) {
+    public void calcOrientation(List<String> inputData, boolean isOrientationByDistance) {
     	measurmentDataDisplayer.getDisplayerData();
     	List<RowData> orientationPointDataList = new ArrayList<>();
     	for (RowData rowData : measurmentDataDisplayer.getStandingPointDataStore()) {
@@ -2045,7 +2045,7 @@ public class MeasuredPillarDataController {
     }
     	
     	try {
-    		this.orientation = new Orientation(orientationPointDataList, false);
+    		this.orientation = new Orientation(orientationPointDataList, isOrientationByDistance);
     	}
     	catch (NumberFormatException e) {
     		FXHomeWindow.homeController.getInfoMessage("Adat beolvasási hiba", "Tájékozás adatai nem olvashatók.");
