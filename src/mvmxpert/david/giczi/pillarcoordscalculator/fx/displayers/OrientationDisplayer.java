@@ -29,6 +29,7 @@ public class OrientationDisplayer {
 	private TextField standingPointY;
 	private TextField standingPointX;
 	private TextField mediumOrientationData;
+	private boolean isOrientationByDistance;
 	private List<String> inputData;
 	private List<OrientationDataRow> dataRowList;
 	private final AnchorPane pane = new AnchorPane();
@@ -150,15 +151,12 @@ public class OrientationDisplayer {
 			dataRow.orientationAngelValue.setStyle("-fx-text-fill: blue;");
 			dataRow.useData.setOnAction( e -> {
 				
-				if( dataRow.directionPointId.getText().isEmpty() ) {
-					return;
-				}
-				setShadowForRow(dataRow);
 				this.inputData = getOrientationInputData();
+				setShadowForRow(dataRow);
 				if(  this.inputData.size() < 2 ) {
 	    			return;
-	    		}
-				getYesNoMessageForOrientation();
+				}
+				measuredPillarDataController.calcOrientation(inputData, isOrientationByDistance);
 				refreshDisplayerData();
 			});
 			layoutY += 30;
@@ -269,6 +267,9 @@ public class OrientationDisplayer {
     		}
     		getYesNoMessageForOrientation();
     		displayDataForOrientation();
+    		for (OrientationDataRow dataRow : dataRowList) {
+    			dataRow.useData.setDisable(false);
+    		} 
     	});
     	
     	this.mediumOrientationData = new TextField();
@@ -289,14 +290,15 @@ public class OrientationDisplayer {
 				"Igen: p=t [km], Nem: p=1.");
 		
 		if( option == 0 ) {
-			measuredPillarDataController.calcOrientation(inputData, true);
+			this.isOrientationByDistance = true;
 			stage.setTitle("Tájékozás - [távolságfüggő]");
 			
 		}
 		else if( option == 1 )  {
-			measuredPillarDataController.calcOrientation(inputData, false);
+			this.isOrientationByDistance = false;
 			stage.setTitle("Tájékozás - [egységsúly]");
 		}
+		measuredPillarDataController.calcOrientation(inputData, isOrientationByDistance);
     }
     
     private List<String> getOrientationInputData(){
@@ -309,14 +311,14 @@ public class OrientationDisplayer {
     	inputDataList.add(standingPointId);
     	for (OrientationDataRow dataRow : dataRowList) {
     		String directionPointId = dataRow.directionPointId.getText().trim();
-			if( directionPointId.isEmpty() || !dataRow.useData.isSelected()) {
+			if( directionPointId.isEmpty() || !dataRow.useData.isSelected() ) {
 				continue;
 			}
 			inputDataList.add(directionPointId);
 		}
     	
     	if( inputDataList.size() ==  1 ) {
-    		FXHomeWindow.homeController.getInfoMessage("Hiányzó tájékozó irány", "Tájékozó irányok számának megadása szükséges.");
+    		FXHomeWindow.homeController.getInfoMessage("Hiányzó tájékozó irány", "Tájékozó irány adatok megadása szükséges.");
     		return inputDataList;
     	}
     	

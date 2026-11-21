@@ -46,24 +46,31 @@ public class OrientationDataRow extends HBox{
     	directionPointId.setPrefHeight(HEIGHT);
     	directionPointId.setAlignment(Pos.CENTER);
     	directionPointId.setCursor(Cursor.HAND);
+    	directionPointX.setEditable(false);
     	directionPointX.setPrefWidth(WIDTH);
     	directionPointX.setPrefHeight(HEIGHT);
     	directionPointX.setAlignment(Pos.CENTER);
+    	directionPointY.setEditable(false);
     	directionPointY.setPrefWidth(WIDTH);
     	directionPointY.setPrefHeight(HEIGHT);
     	directionPointY.setAlignment(Pos.CENTER);
+    	azimuthAngelValue.setEditable(false);
     	azimuthAngelValue.setPrefWidth(WIDTH);
     	azimuthAngelValue.setPrefHeight(HEIGHT);
     	azimuthAngelValue.setAlignment(Pos.CENTER);
+    	distanceValue.setEditable(false);
     	distanceValue.setPrefWidth(WIDTH);
     	distanceValue.setPrefHeight(HEIGHT);
     	distanceValue.setAlignment(Pos.CENTER);
+    	directionAngelValue.setEditable(false);
     	directionAngelValue.setPrefWidth(WIDTH);
     	directionAngelValue.setPrefHeight(HEIGHT);
     	directionAngelValue.setAlignment(Pos.CENTER);
+    	orientationAngelValue.setEditable(false);
     	orientationAngelValue.setPrefWidth(WIDTH);
     	orientationAngelValue.setPrefHeight(HEIGHT);
     	orientationAngelValue.setAlignment(Pos.CENTER);
+    	orientedDirectionValue.setEditable(false);
     	orientedDirectionValue.setPrefWidth(WIDTH);
     	orientedDirectionValue.setPrefHeight(HEIGHT);
     	orientedDirectionValue.setAlignment(Pos.CENTER);
@@ -71,5 +78,6 @@ public class OrientationDataRow extends HBox{
     	useData.setTranslateY(10);
     	useData.setCursor(Cursor.HAND);
     	useData.setSelected(true);
+    	useData.setDisable(true);
 }
 }
